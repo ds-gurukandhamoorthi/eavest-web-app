@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="fr">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>EAVEST, Produits structurés et alternatifs</title>
+
+	<link rel="stylesheet" href="./plugins/language-selector.css" type="text/css" media="all"/>
+
+	<link rel="profile" href="http://gmpg.org/xfn/11"/>
+	<!--
+	<link rel="pingback" href="http://localhost:8080/eavest/xmlrpc.php"/>
+ 	-->
+
+	<link href="./favicon.ico" rel="icon" type="image/ico"/>
+	<link href="./favicon.ico" rel="shortcut icon" type="image/ico"/>
+	<link href="./ico/speed-dial.png" rel="apple-touch-icon" type="image/png"/>
+	<link href="./ico/speed-dial.png" rel="icon" type="image/png"/>
+	<link href="./ico/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" type="image/png"/>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css"/>
+	<link rel="alternate" hreflang="fr-FR" href="http://localhost:8080/"/>
+	<link rel="alternate" hreflang="en-US" href="http://localhost:8080/en/"/>
+
+	<!-- All in One SEO Pack 2.3.9.1 by Michael Torbert of Semper Fi Web Design[513,671] -->
+	<meta name="description" itemprop="description" content="Cabinet de conseil spécialisé en produits structurés et alternatifs - Paris +33 (1) 42 80 21 99" />
+
+	<link rel="canonical" href="http://localhost:8080/"/>
+	<!-- /all in one seo pack -->
+	<link rel="dns-prefetch" href="//fonts.googleapis.com"/>
+	<link rel="dns-prefetch" href="//s.w.org"/>
+	<link rel="alternate" type="application/rss+xml" title="Produits structurés et alternatifs » Flux" href="http://localhost:8080/feed/"/>
+	<link rel="stylesheet" id="jquery.prettyphoto-css" href="./plugins/prettyPhoto.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="video-lightbox-css" href="./plugins/wp-video-lightbox.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="popup-maker-site-css" href="./plugins/site.min.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="responsive-lightbox-swipebox-css" href="./plugins/swipebox.min.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="rs-plugin-settings-css" href="./plugins/settings.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="font-awesome-css" href="./plugins/font-awesome.min.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="wpml-cms-nav-css-css" href="./plugins/navigation.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="cms-navigation-style-base-css" href="./plugins/cms-navigation-base.css?ver=1.4.19" type="text/css" media="screen"/>
+	<link rel="stylesheet" id="cms-navigation-style-css" href="./plugins/cms-navigation.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" id="font-style-css" href="http://fonts.googleapis.com/css?family=Quicksand%3A400%2C300%2C700&amp;ver=1.0.0" type="text/css" media="all"/>
+	<link rel="stylesheet" id="reset-style-css" href="./css/normalize.min.css" type="text/css" media="all"/>
+	<link rel="stylesheet" id="custom-scrollbar-style-css" href="./css/jquery.mCustomScrollbar.css?ver=1.1.2" type="text/css" media="all"/>
+	<link rel="stylesheet" id="main-style-css" href="./style.css?550659124&amp;ver=1.0.1" type="text/css" media="all"/>
+	<link rel="stylesheet" id="js_composer_front-css" href="./plugins/js_composer.min.css" type="text/css" media="all"/>
+	<!--
+	<link rel="stylesheet" id="bsf-Defaults-css" href="http://localhost:8080/eavest/wp-content/uploads/smile_fonts/Defaults/Defaults.css?ver=4981e4046acc22e8957914bb859ac244" type="text/css" media="all" />
+	 -->
+	<link rel="stylesheet" id="ultimate-style-css" href="./plugins/style.min.css" type="text/css" media="all"/>
+	<!--
+	<link rel="https://api.w.org/" href="http://localhost:8080/wp-json/"/>
+	 -->
+	 <!--
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://localhost:8080/eavest/xmlrpc.php?rsd" />
+	 -->
+	<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="./includes/wlwmanifest.xml" />
+
+	<link rel="shortlink" href="http://localhost:8080/" />
+	<!--
+	<link rel="alternate" type="application/json+oembed" href="http://localhost:8080/wp-json/oembed/1.0/embed?url=http%3A%2F%2Feavest.com%2F"/>
+	<link rel="alternate" type="text/xml+oembed" href="http://localhost:8080/wp-json/oembed/1.0/embed?url=http%3A%2F%2Feavest.com%2F&amp;format=xml"/>
+	 -->
+</head>
+<body class="home page page-id-2990 page-template-default wpb-js-composer js-comp-ver-4.12 vc_responsive">
+	<!-- ********************************************** -->
+	<!-- 			TOP HEADER SECTION	 				-->
+	<!-- ********************************************** -->
+	<section class="top-header-absolute">
+		<!-- Disable React Component "top-header"
+		<div id="top-header"></div>
+		-->
+		<header class="main">
+			<div class="wrapper">
+				<h1>
+					<img src="img/eavest-logo.png" alt="Eavest" />
+				</h1>
+
+				<nav>
+					<ul id="menu-main-menu-francais0" class="nav-menu"><li id="menu-item-3015" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2990 current_page_item menu-item-3015"><a href="http://eavest.com/">MISSION</a></li>
+						<li id="menu-item-3043" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3043"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+						<li id="menu-item-3046" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3046"><a href="http://eavest.com/sur-mesure/">sur mesure</a></li>
+						<li id="menu-item-154" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-154"><a href="http://eavest.com/track-records/">Produits</a></li>
+						<li id="menu-item-8597" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-8597"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+						<li id="menu-item-3084" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3084"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+						<li id="menu-item-2932" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2932"><a href="mailto:contact@eavest.com">Contact</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="language-switcher">
+				<p sec:authorize="isAuthenticated()">
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Sign Out" />
+					</form>
+				</p>
+        <span class="global-linker">
+          <a href="http://localhost:8080/api">Log in</a>
+          <a href="https://twitter.com/EAVEST_" target="_blank"><i className="fa fa-twitter"></i></a>
+        </span>
+        <a href="http://localhost:8080/">fr</a> / <a href="http://localhost:8080/en/">en</a>
+      </div>
+
+		</header>
+
+
+
+		<div class="slider jquery" style="display: block;">
+				<div class="slider-container">
+
+				</div>
+		</div>
+	</section>
+	<!-- End of top header section -->
+	<!-- ********************************************** -->
+
+	<div class="slider">
+		<div class="wrapper">
+			<div class="author"></div>
+		</div>
+	</div>
+
+	<div class="content-main" role="main">
+		<div class="wrapper">
+			<div class="description">
+				<section class="video-demo">
+					<div class="home-video">
+						<!--
+						<a href=" https://vimeo.com/139675350?api=1" rel="wp-video-lightbox" title="">
+							<img src="&#10;./img/play-buton-large-black.png" alt="Eavest" />
+						</a>
+					-->
+					<a href=" https://vimeo.com/139675350?api=1" title="">
+						<img src="&#10;./img/play-buton-large-black.png" alt="Eavest" />
+					</a>
+					</div>
+				</section>
+
+				<section class="presentation">
+					<div class="vc_empty_space" style="height: 15px"><span class="vc_empty_space_inner"></span></div>
+					<div class="wpb_single_image wpb_content_element vc_align_center">
+
+							<figure class="wpb_wrapper vc_figure">
+									<div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/logo-eavest.jpg" alt="logo-eavest" title="logo-eavest" /></div>
+							</figure>
+					</div>
+
+					<div class="wpb_text_column wpb_content_element ">
+							<div class="wpb_wrapper">
+									<p style="text-align: center; font-size: 18px; font-weight: 100; line-height: 24px;">est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l’analyse de produits structurés et alternatifs à destination de clients professionnels européens.</p>
+
+							</div>
+					</div>
+
+					<div class="wpb_single_image wpb_content_element vc_align_center">
+
+							<figure class="wpb_wrapper vc_figure">
+									<div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/first-image-eavest-final.jpg" alt="first-image-eavest-final" title="first-image-eavest-final" /></div>
+							</figure>
+					</div>
+					<div class="vc_empty_space" style="height: 15px"><span class="vc_empty_space_inner"></span></div>
+
+					<div class="wpb_text_column wpb_content_element ">
+							<div class="wpb_wrapper">
+									<p style="text-align: center;">EAVEST est spécialisée dans l’analyse, la recherche et la conception de produits structurés sur-mesure sur toutes les classes d’actifs : actions, taux d’intérêt, matières premières, devises et fonds.</p>
+
+							</div>
+					</div>
+					<div class="vc_empty_space" style="height: 65px"><span class="vc_empty_space_inner"></span></div>
+				</section>
+
+				<section class="partners">
+					<div class="partners-column">
+						<div class="wpb_text_column wpb_content_element  white-text">
+							<div class="wpb_wrapper">
+								<h2 style="text-transform: uppercase;">nos partenaires</h2>
+
+							</div>
+						</div>
+
+						<div class="wpb_text_column wpb_content_element  white-text">
+								<div class="wpb_wrapper">
+										<p> <span style="font-weight: 600;">En collaboration avec plus de 15 banques d’investissement partenaires</span>, les stratégies sont pensées et conçues grâce à nos équipes d’ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
+
+								</div>
+						</div>
+					</div>
+					<div class="partners-column">
+						<div class="wpb_text_column wpb_content_element ">
+							<div class="wpb_wrapper">
+									<p></p>
+
+							</div>
+						</div>
+					</div>
+					<div>
+						<figure class="wpb_wrapper vc_figure">
+	    				<div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/partenaires-logo-eavest-final.jpg" alt="partenaires-logo-eavest-final" title="partenaires-logo-eavest-final" /></div>
+						</figure>
+					</div>
+				</section>
+
+
+				<section class="agreement">
+					<div class="vc_column-inner ">
+					    <div class="wpb_wrapper">
+					        <div class="wpb_text_column wpb_content_element ">
+					            <div class="wpb_wrapper">
+					                <h1 style="text-transform: uppercase;">Notre agrément</h1>
+
+					            </div>
+					        </div>
+					        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					        <div class="vc_row wpb_row vc_inner vc_row-fluid">
+					            <div class="wpb_column vc_column_container vc_col-sm-4">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_single_image wpb_content_element vc_align_center">
+
+					                            <figure class="wpb_wrapper vc_figure">
+					                                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/icone-agrement-eavest-final.png" alt="icone-agrement-eavest-final" title="icone-agrement-eavest-final" /></div>
+					                            </figure>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="wpb_column vc_column_container vc_col-sm-8">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p>Conseil En Investissement Financier (ANACOFI CIF n°497943639) indépendante de tout groupe bancaire, <strong>EAVEST conçoit des solutions d’investissement sur mesure à destination des banques privées</strong>, Family Offices et sociétés de gestion, dans le respect le plus strict des normes réglementaires.</p>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="vc_row wpb_row vc_inner vc_row-fluid">
+					            <div class="wpb_column vc_column_container vc_col-sm-4">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <h2 style="font-weight: 600; line-height: 26px;">EAVEST est une<br />
+					société<br />
+					réglementée.</h2>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 20px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="wpb_column vc_column_container vc_col-sm-4">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p><span style="font-size: 20px; line-height: 24px; font-weight: 100;">EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l’ANACOFI, association agréée par l’Autorité des Marchés Financiers (AMF).</span></p>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 20px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="wpb_column vc_column_container vc_col-sm-4">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p><span style="font-size: 20px; line-height: 30px; font-weight: 100;">EAVEST est également immatriculé à l’ORIAS.</span></p>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 20px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="wpb_raw_code wpb_content_element wpb_raw_html">
+					            <div class="wpb_wrapper">
+					                <div style="width: 65px;border-color: #000000;height: 1px;line-height: 1px;border-bottom-style: solid;border-bottom-width: 3px;margin-bottom: 1px;margin: 0 auto;border-color: #000000; float:left;  margin-left: 0px; "></div>
+
+					            </div>
+					        </div>
+					        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+
+					        <div class="wpb_text_column wpb_content_element ">
+					            <div class="wpb_wrapper">
+					                <p>Instauré par la loi sécurité financière n°2003-706 du 1er août 2003, le statut de Conseiller en Investissements Financiers (CIF) vise à renforcer la protection des investisseurs par un meilleur encadrement de cet acteur de la commercialisation des produits financiers.</p>
+					                <p>Tout CIF est ainsi soumis à un certain nombre d’obligations et d’interdictions, contrôlées par l’AMF.</p>
+
+					            </div>
+					        </div>
+
+					        <div class="wpb_single_image wpb_content_element vc_align_center">
+
+					            <figure class="wpb_wrapper vc_figure">
+					                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/logos-orias-amf-eavest.png" alt="logos-orias-amf-eavest" title="logos-orias-amf-eavest" /></div>
+					            </figure>
+					        </div>
+					        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					    </div>
+					</div>
+				</section>
+
+				<section class="values">
+					<div class="vc_column-inner ">
+					    <div class="wpb_wrapper">
+					        <div class="wpb_text_column wpb_content_element ">
+					            <div class="wpb_wrapper">
+					                <h1 style="text-transform: uppercase;">Nos Valeurs</h1>
+
+					            </div>
+					        </div>
+					        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					        <div class="vc_row wpb_row vc_inner vc_row-fluid">
+					            <div class="wpb_column vc_column_container vc_col-sm-6">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_single_image wpb_content_element vc_align_left">
+
+					                            <figure class="wpb_wrapper vc_figure">
+					                                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/independance.png" alt="independance" title="independance" /></div>
+					                            </figure>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <h2 style="font-weight: 600; line-height: 26px;">INDEPENDANCE</h2>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p>La création de EAVEST est partie d’un besoin exprimé par un nombre croissant de clients pour un conseil indépendant sur les produits structurés.</p>
+					                                <p><strong> Indépendant de tout groupe bancaire, EAVEST est détenu à 100% par son fondateur.</strong></p>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_raw_code wpb_content_element wpb_raw_html">
+					                            <div class="wpb_wrapper">
+					                                <div style="width: 65px;border-color: #000000;height: 1px;line-height: 1px;border-bottom-style: solid;border-bottom-width: 3px;margin-bottom: 1px;margin: 0 auto;border-color: #000000; float:left;  margin-left: 0px; "></div>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+
+					                        <div class="wpb_single_image wpb_content_element vc_align_left">
+
+					                            <figure class="wpb_wrapper vc_figure">
+					                                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/ouverture.png" alt="ouverture" title="ouverture" /></div>
+					                            </figure>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <h2 style="font-weight: 600; line-height: 26px;">OUVERTURE</h2>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p>EAVEST travaille en partenariat avec les plus grandes banques d’investissement mondiales pour donner les meilleures idées et les meilleurs produits à ses clients.</p>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_raw_code wpb_content_element wpb_raw_html responsive-eavest">
+					                            <div class="wpb_wrapper">
+					                                <div style="width: 65px;border-color: #000000;height: 1px;line-height: 1px;border-bottom-style: solid;border-bottom-width: 3px;margin-bottom: 1px;margin: 0 auto;border-color: #000000; float:left;  margin-left: 0px; "></div>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space  responsive-eavest" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					                    </div>
+					                </div>
+					            </div>
+					            <div class="wpb_column vc_column_container vc_col-sm-6">
+					                <div class="vc_column-inner ">
+					                    <div class="wpb_wrapper">
+					                        <div class="wpb_single_image wpb_content_element vc_align_left">
+
+					                            <figure class="wpb_wrapper vc_figure">
+					                                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/expertise.png" alt="expertise" title="expertise" /></div>
+					                            </figure>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <h2 style="font-weight: 600; line-height: 26px;">EXPERTISE</h2>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p>Une compétence de 18 ans en salle de marchés pour 4 établissements bancaires prestigieux sur les produits structurés au service de clients institutionnels gérants de fortune.</p>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_raw_code wpb_content_element wpb_raw_html">
+					                            <div class="wpb_wrapper">
+					                                <div style="width: 65px;border-color: #000000;height: 1px;line-height: 1px;border-bottom-style: solid;border-bottom-width: 3px;margin-bottom: 1px;margin: 0 auto;border-color: #000000; float:left;  margin-left: 0px; "></div>
+
+					                            </div>
+					                        </div>
+					                        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+
+					                        <div class="wpb_single_image wpb_content_element vc_align_left">
+
+					                            <figure class="wpb_wrapper vc_figure">
+					                                <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/proximite.png" alt="proximite" title="proximite" /></div>
+					                            </figure>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <h2 style="font-weight: 600; line-height: 26px;">PROXIMITE</h2>
+
+					                            </div>
+					                        </div>
+
+					                        <div class="wpb_text_column wpb_content_element ">
+					                            <div class="wpb_wrapper">
+					                                <p>EAVEST s’engage à assurer un service sur-mesure pour ses clients à travers des outils de suivi et de reporting.</p>
+					                                <p><strong>La disponibilité et la rapidité de réponse constituent également des engagements forts de la société.</strong></p>
+
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+					    </div>
+					</div>
+				</section>
+
+
+				<section class="founder">
+					<div class="vc_column-inner ">
+					    <div class="wpb_wrapper">
+					        <div class="wpb_text_column wpb_content_element  white-text">
+					            <div class="wpb_wrapper">
+					                <h2 style="text-transform: uppercase;">Le Fondateur</h2>
+
+					            </div>
+					        </div>
+
+					        <div class="wpb_text_column wpb_content_element  white-text">
+					            <div class="wpb_wrapper">
+					                <p><span style="font-size: 20px; font-weight: 100;">Franck Magne, fondateur et président de EAVEST.</span></p>
+
+					            </div>
+					        </div>
+
+					        <div class="wpb_text_column wpb_content_element  white-text">
+					            <div class="wpb_wrapper">
+					                <p>Après avoir débuté sa carrière chez J.P. Morgan en salle des marchés et en gestion privée à Paris et à Genève, il se positionne très vite comme expert dans la recherche et la conception de produits structurés et alternatifs sur toutes classes d’actifs au sein d’Exane, puis de Natixis.</p>
+					                <p>Son expérience l’amène à créer l’équipe produits structurés banques privées et Family Offices en France, Monaco, Luxembourg et Suisse pour la banque conduite par François Pérol. C’est en 2004 qu’il rejoint Credit Suisse, en tant que Responsable de l’équipe produits structurés banques privées et Family Offices en France, Monaco et Luxembourg.</p>
+					                <p>Convaincu qu’il peut avoir une approche singulière et indépendante dans la construction, le suivi et l’analyse des produits structurés et alternatifs, il crée EAVEST, un cabinet conseil alternatif mettant au coeur de sa mission la performance produits et la relation avec ses clients partenaires.</p>
+
+					            </div>
+					        </div>
+					    </div>
+					</div>
+				</section>
+
+				<section class="career">
+					<div class="wpb_wrapper">
+					    <div class="vc_empty_space" style="height: 32px"><span class="vc_empty_space_inner"></span></div>
+
+					    <div class="wpb_text_column wpb_content_element  vc_custom_1435846382782">
+					        <div class="wpb_wrapper">
+					            <p><span style="font-size: 24px; font-weight: 100;">Son parcours en détails :</span></p>
+
+					        </div>
+					    </div>
+
+					    <div class="wpb_single_image wpb_content_element vc_align_left">
+
+					        <figure class="wpb_wrapper vc_figure">
+					            <div class="vc_single_image-wrapper   vc_box_border_grey"><img class="vc_single_image-img " src="http://eavest.com/eavest/wp-content/uploads/underline.png" alt="underline" title="underline" /></div>
+					        </figure>
+					    </div>
+					    <div class="vc_empty_space" style="height: 15px"><span class="vc_empty_space_inner"></span></div>
+					    <div class="vc_row wpb_row vc_inner vc_row-fluid">
+					        <div class="wpb_column vc_column_container vc_col-sm-6">
+					            <div class="vc_column-inner ">
+					                <div class="wpb_wrapper">
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>Credit Suisse</strong>
+					                                <br /> Credit Suisse – Responsable Vente Produits Structurés pour le marché français des Conseillers en Gestion de Patrimoine</p>
+					                            <p>Juillet 2010 – Juillet 2013 Paris, France / Londres, Grande Bretagne</p>
+
+					                        </div>
+					                    </div>
+
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>Credit Suisse </strong>
+					                                <br /> Vente Produits Dérivés Cross Assets pour clients Banques Privées, Family Offices et Sociétés de Gestion en France, Monaco et Luxembourg</p>
+					                            <p>Avril 2008 – Juin 2010 Paris, France / Londres, Grande Bretagne</p>
+
+					                        </div>
+					                    </div>
+
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>Natixis</strong>
+					                                <br /> Responsable Vente Produits Structurés pour clients Banques Privées, Family Offices et Sociétés de Gestion en France, Monaco, Suisse et Luxembourg</p>
+					                            <p>Septembre 2004 – Mars 2008 Paris, France</p>
+
+					                        </div>
+					                    </div>
+					                    <div class="vc_empty_space" style="height: 0px"><span class="vc_empty_space_inner"></span></div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="wpb_column vc_column_container vc_col-sm-6">
+					            <div class="vc_column-inner ">
+					                <div class="wpb_wrapper">
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>Exane</strong>
+					                                <br /> Vente produits dérivés sur actions</p>
+					                            <p>Septembre 2001 / Août 2004 Paris, France</p>
+
+					                        </div>
+					                    </div>
+
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>J.P. Morgan </strong>
+					                                <br /> Banquier Privé</p>
+					                            <p>Septembre 1999 – Septembre 2001 Paris, France</p>
+
+					                        </div>
+					                    </div>
+
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>J.P. Morgan</strong>
+					                                <br /> Responsable du Middle-Office Private Banking pour l’Europe</p>
+					                            <p>Novembre 1998 – Aout 1999 Genève, Suisse</p>
+
+					                        </div>
+					                    </div>
+
+					                    <div class="wpb_text_column wpb_content_element ">
+					                        <div class="wpb_wrapper">
+					                            <p><strong>J.P. Morgan</strong>
+					                                <br /> Responsable du Middle-Office actions, Futures &amp; Options du bureau de Paris</p>
+					                            <p>Septembre 1996 – Octobre 1998 Paris, France</p>
+
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+				</section>
+
+
+			</div>
+
+		</div>
+	</div>
+	<div class="terms-page-wrapper">
+	    <div class="terms-page-window">
+	        <article>
+	            <div class="terms-content mCustomScrollbar _mCS_1">
+	                <div class="mCustomScrollBox mCS-light" id="mCSB_1" style="position:relative; height:100%; overflow:hidden; max-width:100%;">
+	                    <div class="mCSB_container mCS_touch mCS_no_scrollbar" style="position:relative; top:0;">
+	                        <h2><strong>Bienvenue sur le site de EAVEST</strong></h2>
+	                        <h3><strong>Ce site Internet est réservé à l’usage d’utilisateurs professionnels.</strong></h3>
+	                        <div class="trait"></div>
+	                        <h2><em><strong>Welcome to EAVEST</strong></em></h2>
+	                        <h3><em><strong>This website is intended for Investment Professionals only. No other person should enter this site or rely on the information contained within.</strong></em></h3>
+	                    </div>
+	                    <div class="mCSB_scrollTools" style="position: absolute; display: none;">
+	                        <div class="mCSB_draggerContainer">
+	                            <div class="mCSB_dragger" style="position: absolute; top: 0px;" oncontextmenu="return false;">
+	                                <div class="mCSB_dragger_bar" style="position:relative;"></div>
+	                            </div>
+	                            <div class="mCSB_draggerRail"></div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <footer class="terms">
+	                <a class="agree" href="http://localhost:8080/">Je reconnais être un professionnel de la finance : investisseur institutionnel, CGPI, Banque Privée, Société de Gestion et Family Office
+	                  <br /><em>I confirm I have read and agreed to the terms &amp; conditions and that I am an Investment Professional. </em></a>
+	                <a class="disagree" href="http://www.amf-france.org/">Je reconnais être un investisseur non professionnel
+	                  <br /><em>I am not an Investment Professional.</em></a>
+	            </footer>
+	        </article>
+	    </div>
+	</div>
+
+	<footer class="main">
+
+	    <small class="always-left">
+					Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers <br />enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF.			</small>
+
+	    <small class="always-right">
+				<a href="mailto:contact@eavest.com">contact@eavest.com</a> | <a href="">+33 (1) 42 80 21 99</a> | <a href="">+33 (6) 30 07 36 85</a><br /><br /><a href="http://eavest.com/mentions-legales/">Mentions légales</a>		</small>
+
+	    <div class="wrapper">
+	        <strong>EAVEST</strong> - <span style="text-transform:uppercase;">Produits Alternatifs et structurés</span> </div>
+	</footer>
+
+	<a href="http://eavest.com/" class="footer-arrow" style="bottom: 20px; display: inline;">
+		<img src="./img/bottom-arrow-top.png" alt="" />
+	</a>
+
+	<div class="scroll-back-to-top-wrapper show" >
+	    <span class="scroll-back-to-top-inner">
+						<i class="fa fa-2x fa-chevron-circle-up"></i>
+				</span>
+	</div>
+
+	<!-- ********************************************** -->
+	<!-- 				LOADING SCRIPTS	 				-->
+	<!-- ********************************************** -->
+	<script src="http://f.vimeocdn.com/js/froogaloop2.min.js"></script>
+	<!-- Google Analytics -->
+	<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+	<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	 <!--
+	<script type="text/javascript">
+		window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/eavest.com\/eavest\/wp-includes\/js\/wp-emoji-release.min.js?ver=4981e4046acc22e8957914bb859ac244"}};
+		!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+	</script>
+	<script src="http://localhost:8080/eavest/wp-includes/js/wp-emoji-release.min.js?ver=4981e4046acc22e8957914bb859ac244" type="text/javascript"></script>
+	 -->
+	<!--
+	<script>window.jQuery || document.write('<script src="js/libs/jquery-1.10.1.min.js"><\/script>')</script>
+	 -->
+
+	<script src="js/libs/jquery-1.10.1.min.js"></script>
+	<script src="js/extra.js"></script>
+	<script src="js/main.js"></script>
+
+  <script src="built/bundle.js"></script>
+
+	<script src="js/libs/jquery-1.10.1.min.js" ></script>
+	<script src="js/libs/jquery.autocomplete.js" ></script>
+	<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js" ></script>
+	<script src="js/libs/jquery.mCustomScrollbar.min.js" ></script>
+	<script src="plugins/js/jquery.prettyPhoto.min.js"></script>
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		var vlpp_vars = {"prettyPhoto_rel":"wp-video-lightbox","animation_speed":"normal","slideshow":"5000","autoplay_slideshow":"false","opacity":"0.80","show_title":"false","allow_resize":"true","allow_expand":"true","default_width":"960","default_height":"540","counter_separator_label":"\/","theme":"facebook","horizontal_padding":"20","hideflash":"false","wmode":"opaque","autoplay":"false","modal":"false","deeplinking":"false","overlay_gallery":"true","overlay_gallery_max":"30","keyboard_shortcuts":"true","ie6_fallback":"true"};
+		/* ]]> */
+	</script>
+	<script src="plugins/js/video-lightbox.js"></script>
+	<script src="plugins/js/jquery.swipebox.min.js"></script>
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		var rlArgs = {"script":"swipebox","selector":"lightbox","customEvents":"","activeGalleries":"1","animation":"1","hideCloseButtonOnMobile":"0","removeBarsOnMobile":"0","hideBars":"1","hideBarsDelay":"5000","videoMaxWidth":"1080","useSVG":"1","loopAtEnd":"0"};
+		/* ]]> */
+	</script>
+	<script src="plugins/js/front.js"></script>
+	<script src="plugins/js/jquery.themepunch.tools.min.js"></script>
+	<script src="plugins/js/jquery.themepunch.revolution.min.js"></script>
+	<script src="js/libs/modernizr-2.6.2.min.js"></script>
+</body>
+</html>

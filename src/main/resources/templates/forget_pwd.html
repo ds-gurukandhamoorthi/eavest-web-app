@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="fr">
+  <meta charset="UTF-8" />
+  <title>EAVEST, connexion</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css"/>
+
+  <link rel="stylesheet" id="font-awesome-css" href="./plugins/font-awesome.min.css" type="text/css" media="all"/>
+  <link rel="stylesheet" id="font-style-css" href="http://fonts.googleapis.com/css?family=Quicksand%3A400%2C300%2C700&amp;ver=1.0.0" type="text/css" media="all"/>
+  <link rel="stylesheet" id="main-style-css" href="css/login.css" type="text/css" media="all"/>
+</head>
+<body>
+  <section class="top-header-absolute">
+		<!-- Disable React Component "top-header"
+		<div id="top-header"></div>
+		-->
+		<header class="main">
+      <div class="left-block"></div>
+			<div class="wrapper">
+				<h1>
+					<img src="img/eavest-logo.png" alt="Eavest" />
+				</h1>
+			</div>
+			<div class="language-switcher">
+        <span class="global-linker">
+          <a href="http://localhost:8080/">Home</a>
+          <a href="https://twitter.com/EAVEST_" target="_blank"><i class="fa fa-twitter"></i></a>
+        </span>
+        <a href="http://localhost:8080/">fr</a> / <a href="http://localhost:8080/en/">en</a>
+      </div>
+
+		</header>
+
+
+
+		<div class="slider jquery" style="display: block;">
+				<div class="slider-container">
+
+				</div>
+		</div>
+	</section>
+
+
+  <section class="content-main" role="main">
+    <div class="login-area">
+      <h1>Mot de passe oublié</h1>
+      <p class="alert">Indiquez l'e-mail utilisé lors de la création de votre compte</p>
+      <div class="form-area">
+        <form name="form" th:action="@{/reinitPassword}" action="/reinitPassword" method="POST">
+		      <label for="uid">E-mail</label>
+        	<input id="uid" type="text" name="username" placeholder="E-mail (ex: foo@bar.com)" />
+
+          <input type="submit" id="pwd-submit" value="Valider" class="btn btn-primary" />
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="main">
+
+	    <small class="always-left">
+					Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers <br />enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF.			</small>
+
+	    <small class="always-right">
+				<a href="mailto:contact@eavest.com">contact@eavest.com</a> | <a href="">+33 (1) 42 80 21 99</a> | <a href="">+33 (6) 30 07 36 85</a><br /><br /><a href="http://eavest.com/mentions-legales/">Mentions légales</a>		</small>
+
+      <div class="wrapper">
+        <strong>EAVEST</strong> - <span style="text-transform:uppercase;">Produits Alternatifs et structurés</span>
+      </div>
+	</footer>
+</body>
+</html>

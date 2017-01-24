@@ -1,0 +1,49 @@
+{
+  "name": "eavest-web-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portail web de EAVEST",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:synDev1/eavest-web-app.git"
+  },
+  "keywords": [
+    "eavest",
+    "produits",
+    "strucur�s"
+  ],
+  "author": "SYNOVIA",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/synDev1/eavest-web-app/issues"
+  },
+  "homepage": "http://eavest.com",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "react": "^15.3.2",
+    "react-bootstrap": "^0.30.7",
+    "react-dom": "^15.3.2",
+    "rest": "^1.3.1",
+    "webpack": "^1.12.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "watch": "webpack --watch -d"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "ejs-loader": "^0.3.0",
+    "html-webpack-template": "^6.0.0",
+    "react-scripts": "0.8.4"
+  }
+}
