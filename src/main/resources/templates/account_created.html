@@ -14,7 +14,10 @@
 </head>
 <body>
   <section class="top-header-absolute">
-	<header class="main">
+		<!-- Disable React Component "top-header"
+		<div id="top-header"></div>
+		-->
+		<header class="main">
       <div class="left-block"></div>
 			<div class="wrapper">
 				<h1>
@@ -29,29 +32,30 @@
         <a href="http://localhost:8080/">fr</a> / <a href="http://localhost:8080/en/">en</a>
       </div>
 
-	</header>
+		</header>
 
 
 
-	<div class="slider jquery" style="display: block;">
-		<div class="slider-container">
+		<div class="slider jquery" style="display: block;">
+				<div class="slider-container">
+
+				</div>
 		</div>
-	</div>
-  </section>
+	</section>
 
 
   <section class="content-main" role="main">
     <div class="login-area">
-      <h1>Mot de passe oublié</h1>
-      <p class="alert">Indiquez l'e-mail utilisé lors de la création de votre compte</p>
-      <div class="form-area">
-        <form name="form" th:action="@{/forgotPassword}" th:object="${forgottenCredentialsUser}" action="/forgotPassword" method="POST">
-		      <label for="uid">E-mail</label>
-        	<input id="uid" type="email" name="uid" th:field="*{email}" placeholder="E-mail (ex: foo@bar.com)" />
-
-          <input type="submit" id="pwd-submit" value="Valider" class="btn btn-primary" />
-        </form>
-      </div>
+      <h1>Compte utilisateur créé</h1>
+      <p>Un email de vérification vous a été envoyé.<br />Veuillez cliquer sur le lien présent dans l'e-mail pour valider la création de votre compte.</p>
+      <p>
+	    <p th:text="'id: ' + ${prdUser.id}" />
+	    <p th:text="'first name: ' + ${prdUser.firstName}" />
+	    <p th:text="'last name: ' + ${prdUser.lastName}" />
+	    <p th:text="'e-mail address: ' + ${prdUser.email}" />
+	    <p th:text="'company: ' + ${prdUser.company}" />
+	    <p th:text="'password: ' + ${prdUser.password}" />
+      </p>
     </div>
   </section>
 

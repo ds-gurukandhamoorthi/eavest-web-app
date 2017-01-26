@@ -5,6 +5,9 @@ body {
     font-family: "Open Sans", Arial;
     font-size: 14px;
     line-height: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .main {
@@ -88,6 +91,7 @@ h1 {
 }
 .login-area {
   width: 500px;
+  padding-bottom: 40px;
 }
 .form-area {
     border-radius: 5px;
@@ -95,7 +99,7 @@ h1 {
     padding: 20px;
     text-transform: uppercase;
 }
-input[type=text], [type=password] {
+input[type=text], [type=password], [type=email] {
     width: 100%;
     padding: 12px 20px 6px 20px;
     margin: 0px 0 12px 0;
@@ -130,9 +134,7 @@ footer {
     color: #fffefe;
     font-size: 14px;
     line-height: 14px;
-    margin: 50px 0 0 0;
     padding: 23px 0 43px 0;
-    margin-top: 200px;
 }
 
 footer a {

@@ -3,10 +3,17 @@
  */
 package com.synovia.digital.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.synovia.digital.domain.PrdUser;
+import com.synovia.digital.repository.PrdUserRepository;
+import com.synovia.digital.service.MailClient;
 
 /**
  * This class defines TODO
@@ -17,35 +24,63 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SubscriptionController {
 
+	@Autowired
+	PrdUserRepository userRepo;
+
+	@Autowired
+	JavaMailSender mailSender;
+
 	private static final String VIEW_SUBSCRIBE = "subscribe";
 	private static final String VIEW_FORGET_PASSWORD = "forget_pwd";
 
-	@RequestMapping(value = "/subscribe", method = RequestMethod.GET)
-	public ModelAndView subscribe(ModelAndView modelAndView) {
-		System.out.println("SubscriptionController.subscribe()");
-		modelAndView.setViewName("subscribe");
-		return modelAndView;
+	@PostMapping(value = "/subscribe")
+	public String createAccountSubmit(@ModelAttribute PrdUser prdUser) {
+		System.out.println("SubscriptionController.createAccount() - POST");
+		userRepo.save(prdUser);
+		StringBuilder bodyMsg = new StringBuilder("Dear ");
+		bodyMsg.append(prdUser.getFirstName()).append(" ").append(prdUser.getLastName()).append("\n").append("\n");
+		bodyMsg.append(
+				"This message is auto-generated to confirm your inscription to EAVEST. Please click the link below")
+				.append("\n");
+		bodyMsg.append("http://localhost:8080/login").append("\n").append("\n");
+		bodyMsg.append("Best regards.");
+
+		MailClient mailClient = new MailClient(mailSender);
+		mailClient.prepareAndSend(prdUser.getEmail(), bodyMsg.toString());
+		return "account_created";
+
 	}
 
-	@RequestMapping(value = "/createAccount", method = RequestMethod.POST)
-	public ModelAndView createAccount(ModelAndView modelAndView) {
-		System.out.println("SubscriptionController.createAccount()");
-		modelAndView.setViewName(VIEW_SUBSCRIBE);
-		return modelAndView;
+	@GetMapping(value = "/subscribe")
+	public String createAccountForm(Model model) {
+		System.out.println("SubscriptionController.createAccount() - GET");
+		model.addAttribute("prdUser", new PrdUser());
+		return VIEW_SUBSCRIBE;
 
 	}
 
-	@RequestMapping(value = "/forgotPassword")
-	public String forgottenPassword() {
+	@GetMapping(value = "/forgotPassword")
+	public String forgottenPassword(Model model) {
 		System.out.println("SubscriptionController.forgottenPassword()");
-		return "forget_pwd";
+		model.addAttribute("forgottenCredentialsUser", new PrdUser());
+		return VIEW_FORGET_PASSWORD;
 	}
 
-	@RequestMapping(value = "/reinitPassword", method = RequestMethod.POST)
-	public ModelAndView reinitPassword(ModelAndView modelAndView) {
-		System.out.println("SubscriptionController.reinitPassword()");
-		modelAndView.setViewName("info_pwd_sent");
-		return modelAndView;
+	@PostMapping(value = "/forgotPassword")
+	public String reinitPassword(@ModelAttribute PrdUser forgottenCredentialsUser) {
+		System.out.println("SubscriptionController.forgotPassword(POST)");
+		// TODO Find prdUser by e-mail
+
+		// TODO Deal with the case the user is not known
+
+		StringBuilder bodyMsg = new StringBuilder("Dear User").append("\n").append("\n");
+		bodyMsg.append("Please click the link below to configure your password settings.").append("\n");
+		bodyMsg.append("http://localhost:8080/reinitPassword").append("\n").append("\n");
+		bodyMsg.append("Best regards.");
+
+		MailClient mailClient = new MailClient(mailSender);
+		mailClient.prepareAndSend(forgottenCredentialsUser.getEmail(), bodyMsg.toString());
+		return "info_pwd_sent";
 	}
 
 }

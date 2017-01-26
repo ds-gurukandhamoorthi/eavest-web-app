@@ -55,21 +55,21 @@
     <div class="login-area">
       <h1>Inscription</h1>
       <div class="form-area">
-        <form name="form" th:action="@{/createAccount}" action="/createAccount" method="POST">
-          <label for="lastName">Nom</label>
-          <input id="lastName" type="text" name="lastName" placeholder="DOE" />
+        <form name="form" th:action="@{/subscribe}" th:object="${prdUser}" action="/subscribe" method="POST">
+          <label for="lname">Nom</label>
+          <input id="lname" type="text" name="lname" th:field="*{lastName}" placeholder="DOE" />
 
-          <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" name="firstName" placeholder="John" />
+          <label for="fname">Prénom</label>
+          <input id="fname" type="text" name="fname" th:field="*{firstName}" placeholder="John" />
 
           <label for="company">Société</label>
-          <input id="company" type="text" name="company" placeholder="Bar" />
+          <input id="company" type="text" name="company" th:field="*{company}" placeholder="Bar" />
 
-          <label for="email">E-mail</label>
-          <input id="email" type="text" name="email" placeholder="john.doe@bar.com)" />
+          <label for="usremail">E-mail</label>
+          <input id="usremail" type="email" name="usremail" th:field="*{email}" placeholder="john.doe@bar.com)" />
 
-          <label for="password">Mot de passe</label>
-          <input id="password" type="password" name="password" placeholder="Mot de passe" />
+          <label for="pwrd">Mot de passe</label>
+          <input id="pwrd" type="password" name="pwrd" th:field="*{password}" placeholder="Mot de passe" />
 
           <label for="cpwrd">Confirmer le mot de passe</label>
           <input id="cpwrd" type="password" name="password" placeholder="Mot de passe" />
