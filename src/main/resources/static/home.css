@@ -1,0 +1,510 @@
+/*GENERAL*/
+
+body {
+    /*text-align: center;*/
+    background: #F2F2F2;
+    color: #020202;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 17px;
+    justify-content: space-between;
+}
+
+h1 {
+  font-size: 17px;
+  line-height: 11px;
+  font-weight: bolder;
+}
+
+h2 {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  padding-top: 33px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 15px;
+  line-height: 19px;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: center;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+
+.clear {
+  clear: both;
+}
+
+.float-right {
+  float: right;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0px;
+}
+
+.wrapper {
+  margin-top: 25px;
+}
+
+.min {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.block-content {
+  margin: 25px 0;
+}
+
+
+/*NAVBAR*/
+.language-switcher {
+	color: black;
+	cursor: pointer;
+	text-transform: uppercase;
+	text-decoration: none;
+	position: absolute;
+	right: 25px;
+	top: 25px;
+	font-size: 14px;
+	font-family: "Quicksand", Arial;
+	font-weight: bold;
+}
+
+.nav {
+  background-color: white;
+	text-align: center;
+	color: black;
+	text-transform: uppercase;
+	font-weight: bold;
+  font-size: 13px;
+}
+
+.navbar {
+	margin: 45px 0 15px 0;
+  font-weight: bold;
+}
+
+.nav a {
+	color: black;
+	text-decoration: none;
+	padding: 5px;
+  font-weight: bold;
+}
+
+.nav a:hover {
+	color: blue !important;
+	background-color: white !important;
+}
+
+#home a {
+  color: blue !important;
+}
+
+.logo {
+	padding-top: 30px;
+}
+
+/*SECTION PRODUCT*/
+
+.products {
+  background-color: #F2F2F2;
+}
+
+.products-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: black !important;
+}
+
+.basic-list {
+  background-color: white;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 15px;
+  height: 32px;
+}
+
+.eavest-list {
+  background-color: white;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 15px;
+  height: 32px;
+}
+
+.margin {
+  margin-left: 8px;
+  vertical-align: -webkit-baseline-middle;
+}
+
+/*MODAL */
+#myModal {
+  top:5%;
+  right:50%;
+  outline: none;
+}
+
+.modal-body {
+  background-color: #F2F2F2;
+  width: 725px;
+}
+
+.product-title-modal {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: black !important;
+  margin-bottom: 50px;
+}
+
+.eavest-list-modal {
+  background-color: white;
+  text-transform: uppercase;
+  margin-top: 15px;
+  height: 32px;
+  padding-left: 100px;
+}
+
+.basic-list-modal {
+  background-color: white;
+  text-transform: uppercase;
+  margin-top: 15px;
+  height: 32px;
+}
+
+/*modal produits à rappeler*/
+#myModal2 {
+    top:5%;
+    left:50%;
+    outline: none;
+}
+
+/*SEARCH-PRODUCT*/
+.bottom-feature {
+  padding: 27px 1px 41px 17px;
+  border-bottom: solid 2px black;
+}
+
+.black-block{
+  background-color: black;
+  color: white;
+  margin-bottom: 0;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.search {
+  background-color: white;
+  font-size: 12px;
+  text-transform: capitalize;
+  text-align: center;
+  padding: 40px 15px 27px 15px;
+}
+
+.search-bar {
+  border: solid 2px blue;
+  height: 35px;
+  margin-bottom: 15px;
+}
+
+.fa-search{
+  color: blue;
+  float: right;
+  margin-right: 9px;
+  margin-top: 3px;
+}
+
+.border-green {
+  border: solid 2px #30FD30;
+  color: blue;
+  height: 50px;
+  width: 50px;
+  margin-top: 20px;
+  padding-top: 15px;
+  font-size: 3rem;
+  font-weight: bolder;
+}
+
+.translate {
+  transform: translateX(-6px);
+}
+
+/*TABLEAU*/
+.table-bordered, thead, tr, th, td {
+  border: black solid 2px !important;
+}
+
+.first-row {
+  font-weight: normal;
+  width: 350px;
+}
+
+/*PRODUIT MOIS*/
+.white-block {
+  background-color: white;
+  text-align: center;
+  margin-right: 15px;
+}
+
+.white-block h1 {
+  padding-top: 10px;
+}
+
+.month-product {
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+/*SECTION PORTEFEUILLE*/
+
+.wallet-white-block {
+  background-color: white;
+  text-align: center;
+  margin-top: 25px;
+  margin-left: 15px;
+  padding: 48px;
+  width: 270px;
+}
+
+.wallet-black-block {
+  background-color: black;
+  color: white;
+  margin-top: 25px;
+  margin-left: 30px;
+  padding-bottom: 25px;
+}
+
+.wallet-button {
+  text-align: center !important;
+  text-transform: uppercase !important;
+  background-color: black !important;
+  border: solid 1px white;
+}
+
+.bottom-feature-2 {
+  padding: 26px 1px 37px 17px;
+  border-bottom: solid 2px black;
+  padding-top: 25px;
+}
+
+/*BLOG SECTION*/
+.margin-block {
+  margin: 40px 0;
+}
+
+.grey-block {
+  background-color: #E5E5E5;
+  padding: 25px;
+}
+
+.blue-feature {
+  width: 30px;
+  border-bottom: solid 1px blue;
+}
+
+.blue-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: blue;
+  transform: translateY(6px);
+}
+
+.white-block-blog {
+  background-color: white;
+  text-align: center;
+  margin-right: 15px;
+  margin-left: 15px;
+  height: 210px;
+  padding: 0;
+}
+
+.white-block-blog h2 {
+  padding-top: 0;
+}
+
+.figure-month {
+  text-align: left;
+  font-size: 7rem;
+  font-weight: bolder;
+  border-bottom: 1px solid #30FD30;
+}
+
+.white-block-blog p {
+  margin-top: 25px;
+}
+
+.grey-block-2 {
+  background-color: #E5E5E5;
+}
+
+/*SECTION OUR AGREEMENT*/
+
+.black-block-partner {
+  background-color: black;
+  color: white;
+  padding-bottom: 40px;
+  padding-top: 40px;
+  height: 240px;
+}
+
+.main-title {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  padding-top: 33px;
+  padding-bottom: 10px;
+}
+
+.grey-block-3 {
+  background-color: #E5E5E5;
+  padding: 25px;
+  margin-left: 35px;
+  width: 490px;
+}
+
+.grey-block-3 p {
+  font-weight: lighter;
+  width: 375px;
+}
+
+.white-block-partner {
+  background-color: white;
+  margin-left: 35px;
+  height: 210px;
+}
+
+#ok {
+  position: absolute;
+  top: 20px;
+  left: 430px;
+}
+
+/* SECTION OUR values*/
+
+.white-block-style {
+  background-color: white;
+  height: 210px;
+  margin-left: 15px;
+  margin-right: 35px;
+  padding-left: 15px;
+}
+
+.values {
+  padding-left: 15px;
+  padding-top: 20px;
+}
+
+
+/* SECTION METHODOLOGIE*/
+
+.our-methodologie {
+  margin-top: 20px;
+}
+
+.number {
+  font-size: 4rem;
+  margin: 15px;
+}
+
+.methodologie {
+  width: 150px;
+  margin: 5px;
+  margin-left: 25px;
+}
+
+.methodologie p {
+  margin-top: 15px;
+  font-size: 17px;
+}
+
+#methodo {
+  width: 580px;
+  height: 250px;
+}
+
+/*SECTION EQUIPE*/
+
+.grey-block-4 {
+  background-color: #E5E5E5;
+  margin-top: 35px;
+  margin-bottom: 90px;
+  padding: 15px 0 35px 32px;
+}
+
+.equipe {
+  margin-right: 35px;
+}
+
+.img-circle {
+  width: 100px;
+  height: 100px;
+}
+
+.img-more {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 65px;
+}
+
+.equipe-p {
+  margin-top: 10px;
+}
+
+/*FOOTER*/
+.footer-style {
+  background-color: black;
+  color: white;
+}
+
+.footer-style p {
+    margin: 21px;
+    padding: 5px;
+    height: 100%;
+    text-align: end;
+  }
+
+.immatriculation-p {
+  font-weight: lighter;
+}
+
+/*MEDIA QUERIES*/
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (max-width: 768px) {
+  .wallet-black-block {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  .grey-block-3 {
+    padding: 0;
+    margin: 0;
+    width: auto;
+  }
+  .white-block-partner {
+    margin-left: 0;
+  }
+  .white-block-style {
+    margin-right: 15px;
+  }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  .search-bar {
+    width: 100px !important;
+  }
+}
