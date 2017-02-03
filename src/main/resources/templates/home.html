@@ -11,11 +11,11 @@
 		<link href="./favicon.ico" rel="icon" type="image/ico" />
 
 		<!-- SOURCES -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
 
-	  <Link rel="stylesheet" type="text/css" href="css/home.css">
+	  <link rel="stylesheet" type="text/css" href="css/home.css" />
 
 
 		<!-- COMPATIBILITE IE8 -->
@@ -38,21 +38,34 @@
 			<header>
 				<div class="nav">
 					<div class="language-switcher">
+						<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login">Connexion</a>
 						<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
 						<a href="http://eavest.com/">fr</a>/
 						<a href="http://eavest.com/en/">en</a>
+						<div class="zone-transit">
+							<p sec:authorize="isAuthenticated()">
+								<form th:action="@{/logout}" method="post" >
+									<input type="submit" value="Sign Out" class="btn btn-default" />
+								</form>
+							</p>
+							<p sec:authorize="hasRole('ROLE_ADMIN')">
+								<form th:action="@{/admin/createProduct}" method="get">
+									<input type="submit" value="Back Office" class="btn btn-default" />
+								</form>
+							</p>
+						</div>
 					</div>
 					<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
 
 					<ul class="navbar list-inline list-unstyled">
-						<li id="home"><a href="#">Home</a></li>
-            <li><a href="#">Mission</a></li>
-						<li><a href="#">methodologie</a></li>
-						<li><a href="#">sur mesure</a></li>
-						<li><a href="#">produits</a></li>
-						<li><a href="#">le blog</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li><a href="#">contact</a></li>
+						<li id="menu-mission"><a href="/">MISSION</a></li>
+						<li id="menu-home"><a href="/home">Home</a></li>
+						<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+						<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur mesure</a></li>
+						<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
+						<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+						<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+						<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
 					</ul>
 
 					<!-- <div class="slider_jquery slider">
@@ -68,17 +81,17 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-6 col-md-6 wrapper">
-        <img src="img/bell.png" alt="bell">
+        <img src="img/bell.png" alt="bell"/>
         <h1 class="product-title">PRODUITS REMBOURSÉS<span class="min"> depuis 30 jours</span></h1>
 
         <ul class="list-unstyled">
           <li class="eavest-list"><span class="margin">resonance 1/FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
           </li>
           <li class="basic-list"><span class="margin">resonance 2/FR00196847</span></li>
           <li class="basic-list"><span class="margin">resonance 3/FR00196847</span></li>
           <li class="eavest-list"><span class="margin">resonance 4/FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
           </li>
           <li class="basic-list"><span class="margin">resonance 5/FR00196847</span></li>
         </ul>
@@ -90,34 +103,34 @@
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content text-center">
                 <div class="modal-body">
-                  <img src="img/bell.png" alt="bell">
+                  <img src="img/bell.png" alt="bell" />
 
                   <h1 class="product-title-modal">PRODUITS REMBOURSÉS<span class="min"> depuis 30 jours</span></h1>
 
                   <ul class="list-unstyled">
                     <li class="eavest-list-modal"><span class="margin">resonance 6/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                     <li class="basic-list-modal"><span class="margin">resonance 7/FR00196847</span></li>
                     <li class="basic-list-modal"><span class="margin">resonance 8/FR00196847</span></li>
                     <li class="eavest-list-modal"><span class="margin">resonance 9/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                     <li class="eavest-list-modal"><span class="margin">resonance 10/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                     <li class="basic-list-modal"><span class="margin">resonance 11/FR00196847</span></li>
                     <li class="basic-list-modal"><span class="margin">resonance 12/FR00196847</span></li>
                     <li class="eavest-list-modal"><span class="margin">resonance 13/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                     <li class="eavest-list-modal"><span class="margin">resonance 14/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                     <li class="basic-list-modal"><span class="margin">resonance 15/FR00196847</span></li>
                     <li class="basic-list-modal"><span class="margin">resonance 16/FR00196847</span></li>
                     <li class="eavest-list-modal"><span class="margin">resonance 17/FR00196847</span>
-                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                      <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                     </li>
                   </ul>
                   <div class="text-center">
@@ -134,13 +147,13 @@
 
       </div>
       <div class="col-sm-6 col-md-6 wrapper">
-        <img src="img/bell.png" alt="bell">
+        <img src="img/bell.png" alt="bell" />
         <h1 class="product-title"><b>PRODUITS A RAPPELER</b><span class="min"> dans les 30 jours</span></h1>
         <ul class="list-unstyled">
           <li class="basic-list"><span class="margin">resonance 9/FR00196847</span></li>
           <li class="basic-list"><span class="margin">resonance 8/FR00196847</span></li>
           <li class="eavest-list"><span class="margin">resonance 7/FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span></li>
+            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span></li>
           <li class="basic-list"><span class="margin">resonance 6/FR00196847</span></li>
           <li class="basic-list"><span class="margin">resonance 5/FR00196847</span></li>
         </ul>
@@ -153,13 +166,13 @@
                   <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content text-center">
                       <div class="modal-body">
-                        <img src="img/bell.png" alt="bell">
+                        <img src="img/bell.png" alt="bell" />
 
                         <h1 class="product-title-modal">PRODUITS A RAPPELER<span class="min"> dans 30 jours</span></h1>
 
                         <ul class="list-unstyled">
                           <li class="eavest-list-modal"><span class="margin">resonance 4/FR00196847</span>
-                            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo"></span>
+                            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
                           </li>
                           <li class="basic-list-modal"><span class="margin">resonance 3/FR00196847</span></li>
                           <li class="basic-list-modal"><span class="margin">resonance 2/FR00196847</span></li>
@@ -182,7 +195,7 @@
   <div class="container bottom-feature">
     <div class="row">
       <div class="col-sm-3 col-md-3">
-          <h2 class="black-block">cherchez un produit parmis nos</br> 200 références</h2>
+          <h2 class="black-block">cherchez un produit parmis nos<br /> 200 références</h2>
           <div class="search">
             <p>émetteur, code ISIN, nom du produit, sous-jacent</p>
             <input type="search" style="background-image:url(img/loupe.png);background-position:right;background-repeat:no-repeat;padding-left:18px;width:175px;" class="search-bar"></input>
@@ -227,7 +240,7 @@
               <td>-135%</td>
             </tr>
             <tr>
-              <td><img src="img/show-more.png" class="img-responsive" alt="voir-plus"></td>
+              <td><img src="img/show-more.png" class="img-responsive" alt="voir-plus" /></td>
               <td></td>
               <td></td>
               <td></td>
@@ -239,7 +252,7 @@
         <div class="white-block">
           <h2>LE PRODUIT DU MOIS</h2>
           <div class="month-product">
-            <img src="img/month-product.png" class="img-responsive" alt="produit-du-mois">
+            <img src="img/month-product.png" class="img-responsive" alt="produit-du-mois" />
           </div>
         </div>
       </div>
@@ -252,7 +265,7 @@
   <div class="container text-center bottom-feature-2">
     <div class="row">
       <div class="hidden-xs col-sm-2 col-md-3 wallet-white-block">
-        <img src="img/wallet.png" alt="portefeuille">
+        <img src="img/wallet.png" alt="portefeuille" />
       </div>
       <div class="col-sm-7 col-md-8 wallet-black-block">
         <h2>investisseurs, cgp, composez et suivez au quotidien votre portefeuille sur votre espace personnel</h2>
@@ -273,7 +286,7 @@
         <h4>étude UFF : que veulent les épargnants français ?</h4>
           <div class="row">
             <div class="col-md-3">
-              <img src="img/question-mark.png" alt="question">
+              <img src="img/question-mark.png" alt="question" />
             </div>
             <div class="col-md-6">
               <p>Article de Frédéric Lorenzini N3D - 18 octobre 2016 "En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...] "</p>
@@ -312,12 +325,12 @@
       <div class="col-sm-5 col-md-5 grey-block-3">
         <h4><b>Notre agrément</b></h4>
         <p>EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
-        <img id="ok" src="img/ok.png" alt="ok" class="hidden-xs">
+        <img id="ok" src="img/ok.png" alt="ok" class="hidden-xs" />
         <div class="row">
           <ul class="list-inline list-unstyled">
-            <li><img src="img/amf.png" alt="amf-logo" class="img-responsive"></li>
-            <li><img src="img/orias.png" alt="orias-logo" class="img-responsive"></li>
-            <li><img src="img/anacofi.png" alt="anacofi-logo" class="img-responsive"></li>
+            <li><img src="img/amf.png" alt="amf-logo" class="img-responsive" /></li>
+            <li><img src="img/orias.png" alt="orias-logo" class="img-responsive" /></li>
+            <li><img src="img/anacofi.png" alt="anacofi-logo" class="img-responsive" /></li>
           </ul>
         </div>
       </div>
@@ -339,19 +352,19 @@
           <ul class="list-inline list-unstyled">
             <li>
               <h4>indépendance</h4>
-              <img src="img/independance-min.png" alt="independance">
+              <img src="img/independance-min.png" alt="independance" />
             </li>
             <li>
               <h4>expertise</h4>
-              <img src="img/expertise-min.png" alt="expertise">
+              <img src="img/expertise-min.png" alt="expertise" />
             </li>
             <li>
               <h4>ouverture</h4>
-              <img src="img/ouverture-min.png" alt="ouverture">
+              <img src="img/ouverture-min.png" alt="ouverture" />
             </li>
             <li>
               <h4>proximité</h4>
-              <img src="img/proximite-min.png" alt="proximité">
+              <img src="img/proximite-min.png" alt="proximité" />
             </li>
           </ul>
         </div>
@@ -363,17 +376,17 @@
             <li class="methodologie">
               <span class="number">1</span>
               <p>L'élaboration d'investissement sur mesure </p>
-              <img src="img/elaboration.png" alt="methodologie-1">
+              <img src="img/elaboration.png" alt="methodologie-1" />
             </li>
             <li class="methodologie">
               <span class="number">2</span>
-              <p>Une aide à la décision</p><br>
-              <img src="img/aide.png" alt="aide">
+              <p>Une aide à la décision</p><br />
+              <img src="img/aide.png" alt="aide" />
             </li>
             <li class="methodologie">
               <span class="number">3</span>
-              <p>Le suivi exclusif d'EAVEST</p><br>
-              <img src="img/suivi.png" alt="suivi">
+              <p>Le suivi exclusif d'EAVEST</p><br />
+              <img src="img/suivi.png" alt="suivi" />
             </li>
           </ul>
         </div>
@@ -389,17 +402,17 @@
     <div>
       <h4><b>L'équipe</b></h4>
       <ul class="list-inline list-unstyled">
-        <li class="equipe"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive">
-        <span class="equipe-p">Franck Magne <br>Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive">
-        <span class="equipe-p">Franck Magne <br>Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive">
-        <span class="equipe-p">Franck Magne <br>Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive">
-        <span class="equipe-p">Franck Magne <br>Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive">
-        <span class="equipe-p">Franck Magne <br>Président Fondateur</span></li>
-        <li class="equipe hidden-xs hidden-sm"><img src="img/more2.png" alt="voir-plus" class="img-more img-responsive"></li>
+        <li class="equipe"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
+        <li class="equipe"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
+        <li class="equipe"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
+        <li class="equipe"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
+        <li class="equipe"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
+        <li class="equipe hidden-xs hidden-sm"><img src="img/more2.png" alt="voir-plus" class="img-more img-responsive" /></li>
       </ul>
     </div>
   </div>

@@ -3,6 +3,10 @@
  */
 package com.synovia.digital.web;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
@@ -10,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.synovia.digital.domain.EavAccount;
 import com.synovia.digital.domain.PrdUser;
+import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.repository.PrdUserRepository;
 import com.synovia.digital.service.MailClient;
 
@@ -28,17 +35,31 @@ public class SubscriptionController {
 	PrdUserRepository userRepo;
 
 	@Autowired
+	EavAccountRepository accountRepo;
+
+	@Autowired
 	JavaMailSender mailSender;
 
 	private static final String VIEW_SUBSCRIBE = "subscribe";
-	private static final String VIEW_FORGET_PASSWORD = "forget_pwd";
+	private static final String VIEW_FORGET_PASSWORD = "forget-pwd";
 
 	@PostMapping(value = "/subscribe")
-	public String createAccountSubmit(@ModelAttribute PrdUser prdUser) {
-		System.out.println("SubscriptionController.createAccount() - POST");
-		userRepo.save(prdUser);
+	public String createAccountSubmit(@ModelAttribute EavAccount account) {
+		System.out.println("SubscriptionController.createAccountSubmit() - POST");
+		// Assign roles as ROLE_USER (considering this way of creating an account as the way of creating users only, no admin) 
+		account.setRoles(new String[] { "ROLE_USER" });
+		// Enable the account. May be disabled by admin later
+		account.setEnabled(true);
+
+		accountRepo.save(account);
+
+		// Create the corresponding user entity linked to this account
+		PrdUser user = new PrdUser(account);
+		userRepo.save(user);
+
+		// TODO Move next code into a service or whatever
 		StringBuilder bodyMsg = new StringBuilder("Dear ");
-		bodyMsg.append(prdUser.getFirstName()).append(" ").append(prdUser.getLastName()).append("\n").append("\n");
+		bodyMsg.append(account.getFirstName()).append(" ").append(account.getLastName()).append("\n").append("\n");
 		bodyMsg.append(
 				"This message is auto-generated to confirm your inscription to EAVEST. Please click the link below")
 				.append("\n");
@@ -46,15 +67,15 @@ public class SubscriptionController {
 		bodyMsg.append("Best regards.");
 
 		MailClient mailClient = new MailClient(mailSender);
-		mailClient.prepareAndSend(prdUser.getEmail(), bodyMsg.toString());
+		mailClient.prepareAndSendConfirmEmail(account.getEmail(), bodyMsg.toString());
 		return "account_created";
 
 	}
 
 	@GetMapping(value = "/subscribe")
 	public String createAccountForm(Model model) {
-		System.out.println("SubscriptionController.createAccount() - GET");
-		model.addAttribute("prdUser", new PrdUser());
+		System.out.println("SubscriptionController.createAccountForm() - GET");
+		model.addAttribute("eavAccount", new EavAccount());
 		return VIEW_SUBSCRIBE;
 
 	}
@@ -62,25 +83,56 @@ public class SubscriptionController {
 	@GetMapping(value = "/forgotPassword")
 	public String forgottenPassword(Model model) {
 		System.out.println("SubscriptionController.forgottenPassword()");
-		model.addAttribute("forgottenCredentialsUser", new PrdUser());
+		model.addAttribute("forgottenCredentialsUser", new EavAccount());
 		return VIEW_FORGET_PASSWORD;
 	}
 
 	@PostMapping(value = "/forgotPassword")
-	public String reinitPassword(@ModelAttribute PrdUser forgottenCredentialsUser) {
+	public String reinitPassword(@ModelAttribute EavAccount forgottenCredentialsUser, Model model) {
 		System.out.println("SubscriptionController.forgotPassword(POST)");
-		// TODO Find prdUser by e-mail
+		model.addAttribute("forgottenCredentialsUser", new EavAccount());
+		// Find existing account by e-mail
+		EavAccount account = accountRepo.findByEmail(forgottenCredentialsUser.getEmail());
 
-		// TODO Deal with the case the user is not known
+		if (account != null) {
+			// Assign a new secured token
+			String secureToken = UUID.randomUUID().toString();
+			account.setResetPasswordToken(secureToken);
 
-		StringBuilder bodyMsg = new StringBuilder("Dear User").append("\n").append("\n");
-		bodyMsg.append("Please click the link below to configure your password settings.").append("\n");
-		bodyMsg.append("http://localhost:8080/reinitPassword").append("\n").append("\n");
-		bodyMsg.append("Best regards.");
+			// Give the token one hour expiration delay
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new java.util.Date());
+			calendar.add(Calendar.HOUR_OF_DAY, 1);
+			Date expirationDate = new Date(calendar.getTimeInMillis());
 
-		MailClient mailClient = new MailClient(mailSender);
-		mailClient.prepareAndSend(forgottenCredentialsUser.getEmail(), bodyMsg.toString());
-		return "info_pwd_sent";
+			account.setResetPasswordExpires(expirationDate);
+
+			// Commit eavAccount in database
+			accountRepo.save(account);
+
+			// Send an email to the user
+			StringBuilder bodyMsg = new StringBuilder("Dear User").append("\n").append("\n");
+			bodyMsg.append("Please click the link below to configure your password settings.").append("\n");
+			bodyMsg.append(ServletUriComponentsBuilder.fromCurrentContextPath().path("/reinitPassword")
+					.queryParam("_key", secureToken).build().toUriString()).append("\n").append("\n");
+			bodyMsg.append(
+					"If you did not request this, please ignore this email and your password will remain unchanged.\n\n");
+			bodyMsg.append("Best regards.");
+
+			MailClient mailClient = new MailClient(mailSender);
+			mailClient.prepareAndSendResetPassword(forgottenCredentialsUser.getEmail(), bodyMsg.toString());
+
+			// Send attribute to the front-end
+			String responseMessage = "Un mail été envoyé à votre adresse mail";
+			model.addAttribute("responseMessage", responseMessage);
+
+			return "info-pwd-sent";
+		}
+		// Deal with the case the user is not known
+		String responseMessage = "Adresse mail inconnue. Ce compte n'existe pas";
+		model.addAttribute("invalidMailMessage", responseMessage);
+
+		return VIEW_FORGET_PASSWORD;
 	}
 
 }

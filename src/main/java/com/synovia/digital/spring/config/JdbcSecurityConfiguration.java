@@ -33,18 +33,11 @@ public class JdbcSecurityConfiguration extends GlobalAuthenticationConfigurerAda
 	@Bean
 	public UserDetailsService userDetailsService(JdbcTemplate jdbcTemplate) {
 		System.out.println("JdbcSecurityConfiguration.userDetailsService()");
-		RowMapper<User> userRowMapper = (ResultSet rs, int i) -> new User(rs.getString("ACCOUNT_NAME"),
+		RowMapper<User> userRowMapper = (ResultSet rs, int i) -> new User(rs.getString("E_MAIL"),
 				rs.getString("PASSWORD"), rs.getBoolean("ENABLED"), rs.getBoolean("ENABLED"), rs.getBoolean("ENABLED"),
 				rs.getBoolean("ENABLED"), AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
 
-		RowMapper<User> prdUserRowMapper = (ResultSet rs, int i) -> new User(rs.getString("E_MAIL"),
-				rs.getString("PASSWORD"), true, true, true, true,
-				AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
-
-		//		return username -> jdbcTemplate.queryForObject("SELECT * from test.ACCOUNT where ACCOUNT_NAME = ?",
-		//				userRowMapper, username);
-
-		return username -> jdbcTemplate.queryForObject("SELECT * from test.PRD_USER where E_MAIL = ?", prdUserRowMapper,
+		return username -> jdbcTemplate.queryForObject("SELECT * from test.EAV_ACCOUNT where E_MAIL = ?", userRowMapper,
 				username);
 	}
 

@@ -1,5 +1,8 @@
 package com.synovia.digital.domain;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -10,8 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-//@Table(name="prd_sousjacent", schema="eav")
 @Table(name = "prd_sousjacent", schema = "test")
 @Entity
 public class PrdSousJacent extends AbstractBean {
@@ -22,11 +25,8 @@ public class PrdSousJacent extends AbstractBean {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "ISIN", nullable = false, unique = true)
-	private String isin;
-
 	@Column(name = "CURRENCY_ISO", length = 3)
-	private String currency;
+	private String currency = "EUR";
 
 	@Column(name = "LABEL")
 	private String label;
@@ -35,10 +35,13 @@ public class PrdSousJacent extends AbstractBean {
 	private Double value;
 
 	@Column(name = "DATE")
-	private Date date;
+	private Date date = new Date();
 
 	@OneToMany(mappedBy = "idPrdSousJacent")
 	private Set<PrdProduct> prdProducts;
+
+	@Transient
+	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	// --------------------- CONSTRUCTOR(S) ---------------------
 
@@ -46,10 +49,15 @@ public class PrdSousJacent extends AbstractBean {
 
 	}
 
-	public PrdSousJacent(String isinCode, String label, String currency) {
-		this.isin = isinCode;
+	public PrdSousJacent(String label, Double value) {
 		this.label = label;
-		this.currency = currency;
+		this.value = value;
+	}
+
+	public PrdSousJacent(String label, Double value, String date) throws ParseException {
+		this.label = label;
+		this.value = value;
+		this.date = format.parse(date);
 	}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
@@ -60,14 +68,6 @@ public class PrdSousJacent extends AbstractBean {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getIsin() {
-		return this.isin;
-	}
-
-	public void setIsin(String isin) {
-		this.isin = isin;
 	}
 
 	public String getCurrency() {

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -28,10 +29,13 @@ public class PrdProduct extends AbstractBean {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "LABEL")
+	@Column(name = "ISIN", nullable = false, unique = true)
+	private String isin;
+
+	@Column(name = "LABEL", nullable = false)
 	private String label;
 
-	@Column(name = "DUE_DATE")
+	@Column(name = "DUE_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dueDate;
 
@@ -48,7 +52,7 @@ public class PrdProduct extends AbstractBean {
 	private PrdRule idPrdRule;
 
 	@OneToMany(mappedBy = "idPrdProduct")
-	private Set<PrdWatchingDate> watchingDates;
+	private Set<PrdObservationDate> observationDates;
 
 	@OneToMany(mappedBy = "idPrdProduct")
 	private Set<PrdEarlierRepaymentDate> earlyRepaymentDates;
@@ -68,10 +72,11 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "NOMINAL")
 	private Double nominalValue;
 
-	@Column(name = "CAPITAL_GUARANTEED")
+	@Column(name = "CAPITAL_GUARANTEED", nullable = false)
 	private Boolean capitalGuaranteed;
 
 	@Column(name = "START_PRICE")
+	/** Translation of "prix d'emission" */
 	private Double startPrice;
 
 	@Column(name = "DELIVER")
@@ -79,6 +84,12 @@ public class PrdProduct extends AbstractBean {
 
 	@Column(name = "GUARANTOR")
 	private String guarantor;
+
+	@Column(name = "IS_STOPPED")
+	private Boolean isStopped = false;
+
+	@ManyToMany(mappedBy = "products")
+	private Set<PrdUser> prdUsers;
 
 	@Transient
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -204,12 +215,12 @@ public class PrdProduct extends AbstractBean {
 		this.idPrdRule = idPrdRule;
 	}
 
-	public Set<PrdWatchingDate> getWatchingDates() {
-		return watchingDates;
+	public Set<PrdObservationDate> getWatchingDates() {
+		return observationDates;
 	}
 
-	public void setWatchingDates(Set<PrdWatchingDate> watchingDates) {
-		this.watchingDates = watchingDates;
+	public void setWatchingDates(Set<PrdObservationDate> watchingDates) {
+		this.observationDates = watchingDates;
 	}
 
 	public Set<PrdEarlierRepaymentDate> getEarlyRepaymentDates() {
@@ -298,5 +309,37 @@ public class PrdProduct extends AbstractBean {
 
 	public void setNominalValue(Double nominalValue) {
 		this.nominalValue = nominalValue;
+	}
+
+	public String getIsin() {
+		return this.isin;
+	}
+
+	public void setIsin(String isin) {
+		this.isin = isin;
+	}
+
+	public Set<PrdObservationDate> getObservationDates() {
+		return this.observationDates;
+	}
+
+	public void setObservationDates(Set<PrdObservationDate> observationDates) {
+		this.observationDates = observationDates;
+	}
+
+	public Boolean getIsStopped() {
+		return this.isStopped;
+	}
+
+	public void setIsStopped(Boolean isStopped) {
+		this.isStopped = isStopped;
+	}
+
+	public Set<PrdUser> getPrdUsers() {
+		return this.prdUsers;
+	}
+
+	public void setPrdUsers(Set<PrdUser> prdUsers) {
+		this.prdUsers = prdUsers;
 	}
 }

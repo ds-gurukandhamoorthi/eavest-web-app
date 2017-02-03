@@ -19,6 +19,7 @@ public class HomeController {
 
 	private static final String VIEW_INDEX = "index";
 	private static final String LOGIN_INDEX = "login";
+	private static final String HOME_VIEW = "home";
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -40,4 +41,10 @@ public class HomeController {
 		return modelAndView;
 	}
 
+	@RequestMapping(value = "/home")
+	public ModelAndView home(ModelAndView modelAndView) {
+		System.out.println("HomeController.home()");
+		modelAndView.setViewName(HOME_VIEW);
+		return modelAndView;
+	}
 }

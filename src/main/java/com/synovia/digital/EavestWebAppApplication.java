@@ -5,8 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.synovia.digital.domain.PrdUser;
-import com.synovia.digital.repository.PrdUserRepository;
+import com.synovia.digital.domain.EavAccount;
+import com.synovia.digital.domain.PrdCurrency;
+import com.synovia.digital.repository.EavAccountRepository;
+import com.synovia.digital.repository.PrdCurrencyRepository;
 
 @SpringBootApplication
 public class EavestWebAppApplication {
@@ -38,9 +40,12 @@ public class EavestWebAppApplication {
 	//	}
 
 	@Bean
-	InitializingBean saveData(PrdUserRepository repo) {
+	InitializingBean saveData(EavAccountRepository repo, PrdCurrencyRepository currencyRepo) {
 		return () -> {
-			repo.save(new PrdUser("Couriol", "Teddy", "tco@mailinator.com", "Synovia", "tco"));
+			repo.save(new EavAccount("admin@mailinator.com", "admin", "Couriol", "Teddy", "ROLE_ADMIN", "ROLE_USER"));
+			currencyRepo.save(new PrdCurrency("EUR", "Euro"));
+			currencyRepo.save(new PrdCurrency("DOL", "Dollars"));
+			currencyRepo.save(new PrdCurrency("PND", "Pounds"));
 		};
 	}
 }

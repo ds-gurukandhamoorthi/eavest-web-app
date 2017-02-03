@@ -3,11 +3,17 @@
  */
 package com.synovia.digital.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,41 +23,34 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "prd_user", schema = "test")
 public class PrdUser {
+	// ------------------------------ FIELDS ------------------------------
 	@Id
 	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@Column(name = "LAST_NAME")
-	private String lastName;
-	@Column(name = "FIRST_NAME")
-	private String firstName;
-	@Column(name = "E_MAIL")
-	private String email;
-	@Column(name = "COMPANY")
-	private String company;
-	@Column(name = "PASSWORD")
-	private String password;
+
+	@OneToOne(optional = false)
+	@JoinColumn(name = "ID_ACCOUNT", unique = true, nullable = false, updatable = false)
+	private EavAccount account;
+
+	@ManyToMany()
+	@JoinTable(name = "PRD_USER_PRODUCTS",
+			joinColumns = @JoinColumn(name = "ID_PRD_USER", referencedColumnName = "ID"),
+			inverseJoinColumns = @JoinColumn(name = "ID_PRD_PRODUCT", referencedColumnName = "ID"))
+	private Set<PrdProduct> products;
+
+	// ------------------------------ CONSTRUCTORS ------------------------------
 
 	public PrdUser() {
+
 	}
 
-	/**
-	 * 
-	 * Constructs ... based on ...
-	 *
-	 * @param lastname
-	 * @param firstname
-	 * @param email
-	 * @param company
-	 * @param password
-	 */
-	public PrdUser(String lastname, String firstname, String email, String company, String password) {
-		this.lastName = lastname;
-		this.firstName = firstname;
-		this.email = email;
-		this.company = company;
-		this.password = password;
+	public PrdUser(EavAccount account) {
+		System.out.println("PrdUser.PrdUser()");
+		this.account = account;
 	}
+
+	// ------------------------------ GETTERS/SETTERS ------------------------------
 
 	public Long getId() {
 		return this.id;
@@ -61,44 +60,20 @@ public class PrdUser {
 		this.id = id;
 	}
 
-	public String getLastName() {
-		return this.lastName;
+	public EavAccount getAccount() {
+		return this.account;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setAccount(EavAccount account) {
+		this.account = account;
 	}
 
-	public String getFirstName() {
-		return this.firstName;
+	public Set<PrdProduct> getProducts() {
+		return this.products;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getCompany() {
-		return this.company;
-	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setProducts(Set<PrdProduct> products) {
+		this.products = products;
 	}
 
 }

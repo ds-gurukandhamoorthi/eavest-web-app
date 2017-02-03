@@ -1,0 +1,131 @@
+body {
+    text-align: center;
+    background: whitesmoke;
+    color: #020202;
+    font-family: "Open Sans", Arial;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.main a {text-decoration: none;}
+
+.main .wrapper {
+    flex: 1;
+}
+.left-block, .language-switcher {
+    padding: 25px 25px 0 0;
+    font-size: 14px;
+    font-family: "Quicksand", Arial;
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    width: 150px;
+}
+.language-switcher a:hover{text-decoration: underline}
+
+ul#menu-main-menu-francais0 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    line-height: 13px;
+    text-transform: uppercase;
+    /* display: table-row; */
+    text-align: center;
+    /* text-decoration: none; */
+}
+
+li#menu-item-1 {display: inline-block;text-align: center;padding: 0 17px;/* text-decoration: none; */}
+
+li#menu-item-2 {
+    display: inline-block;
+    text-align: center;
+    padding: 0 17px;
+    /* text-decoration: none; */
+}
+
+.nav-menu a, a:visited {color: #020202}
+
+.nav-menu a:hover, a:focus{
+  color: #0F45FF;
+}
+
+h1 {
+    margin: 0 0 55px 0;
+    padding-top: 40px;
+}
+
+section.top-header-absolute {/* z-index: 200; *//* position: fixed; *//* width: 100%; *//* padding-right: 20px; */}
+
+span .global-linker {
+    padding-right: 5px;
+}
+
+.slider .jquery {
+    padding: 29px 0;
+    background-color: black;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32px;
+    text-transform: uppercase;
+    margin: .67em 0;
+}
+
+.content-main {
+	display: flex;
+  justify-content: center;
+}
+.login-area {
+  width: 500px;
+  padding-bottom: 40px;
+}
+.product-form {
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 20px;
+    text-transform: uppercase;
+}
+input[type=text], [type=password], [type=email], [type=number], [type=date], [type=button] {
+    width: 100%;
+    padding: 12px 20px 6px 20px;
+    margin: 0px 0 12px 0;
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid #888;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border-color: #222222;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ffffff;
+    text-transform: uppercase;
+}
+
+#create-ss-jacent {
+	top: 25px;
+	left: 15px;
+}
+
+nav {
+    font-weight: bold;
+    /* color: black; */
+    /* cursor: pointer; */
+    /* text-decoration: none; */
+}

@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MailClient {
+	private static final String MAIL_FROM = "synovia.digital@gmail.com";
+	private static final String MAIL_SUBJECT_PREFIX = "EAVEST - ";
+	private static final String MAIL_SUBJECT_RESET_PWD = MAIL_SUBJECT_PREFIX + "Reset your password";
+	private static final String MAIL_SUBJECT_CONFIRM_MAIL = MAIL_SUBJECT_PREFIX + "Confirm your email address";
+
 	private JavaMailSender mailSender;
 
 	@Autowired
@@ -26,11 +31,15 @@ public class MailClient {
 	}
 
 	public void prepareAndSend(String recipient, String message) {
+		prepareAndSend(MAIL_FROM, recipient, "Sample mail subject", message);
+	}
+
+	public void prepareAndSend(String from, String recipient, String subject, String message) {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-			messageHelper.setFrom("teddy.couriol@gmail.com");
+			messageHelper.setFrom(from);
 			messageHelper.setTo(recipient);
-			messageHelper.setSubject("Sample mail subject");
+			messageHelper.setSubject(subject);
 			messageHelper.setText(message);
 		};
 		try {
@@ -40,6 +49,30 @@ public class MailClient {
 			e.printStackTrace();
 			throw e;
 		}
+
 	}
 
+	/**
+	 * Prepares and sends a mail for the reset password process.
+	 * 
+	 * @param recipient
+	 *            The mail receiver.
+	 * @param message
+	 *            The message to send.
+	 */
+	public void prepareAndSendResetPassword(String recipient, String message) {
+		prepareAndSend(MAIL_FROM, recipient, MAIL_SUBJECT_RESET_PWD, message);
+	}
+
+	/**
+	 * Prepares and sends a mail for the confirm email process.
+	 * 
+	 * @param recipient
+	 *            The mail receiver.
+	 * @param message
+	 *            The message to send.
+	 */
+	public void prepareAndSendConfirmEmail(String recipient, String message) {
+		prepareAndSend(MAIL_FROM, recipient, MAIL_SUBJECT_CONFIRM_MAIL, message);
+	}
 }

@@ -18,9 +18,11 @@ public class PrdRule extends AbstractBean {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	/** The protection barrier [%] */
 	@Column(name = "PROTECTION_BARRIER")
 	private Double protectionBarrier;
 
+	/** The coupon barrier [%] */
 	@Column(name = "COUPON_BARRIER")
 	private Double couponBarrier;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head lang="fr">
   <meta charset="UTF-8" />
   <title>EAVEST, connexion</title>
@@ -23,17 +23,10 @@
 				<h1>
 					<img src="img/eavest-logo.png" alt="Eavest" />
 				</h1>
-
-				<nav>
-					<ul id="menu-main-menu-francais0" class="nav-menu">
-            <li id="menu-item-3015" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-2990 current_page_item menu-item-3015"><a href="/login">Se connecter</a></li>
-						<li id="menu-item-3043" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3043"><a href="http://localhost:8080/subscribe">S'inscrire</a></li>
-					</ul>
-				</nav>
 			</div>
 			<div class="language-switcher">
         <span class="global-linker">
-          <a href="/home">Home</a>
+          <a href="http://localhost:8080/home">Home</a>
           <a href="https://twitter.com/EAVEST_" target="_blank"><i class="fa fa-twitter"></i></a>
         </span>
         <a href="http://localhost:8080/">fr</a> / <a href="http://localhost:8080/en/">en</a>
@@ -53,28 +46,8 @@
 
   <section class="content-main" role="main">
     <div class="login-area">
-      <p th:if="${param.logout}" class="alert">Vous avez été déconnecté</p>
-      <p th:if="${param.error}" class="alert alert-error">Une erreur s'est produite, veuillez réessayer</p>
-      <h1>Se connecter à son compte EAVEST</h1>
-      <div class="form-area">
-        <form name="loginForm" th:action="@{/login}" action="/home" method="POST">
-		      <label for="uid">ID</label>
-        	<input id="uid" type="text" name="username" placeholder="E-mail (ex: foo@bar.com)" />
-
-		      <label for="pwd">MdP</label>
-        	<input id="pwd" type="password" name="password" placeholder="Mot de passe" />
-
-          <input type="submit" id="login" value="Login" class="btn btn-primary" />
-        </form>
-      </div>
-      <div>
-	      <div class="subscribe">
-	      	<a href="/subscribe">Créer mon compte</a>
-		    </div>
-		    <div class="forgot-pwd">
-	        <a href="/forgotPassword">Mot de passe oublié</a>
-	      </div>
-      </div>
+      <h1>Mot de passe envoyé</h1>
+      <p>Un email de réinitialisation de votre mot de passe vous a été envoyé.<br />Veuillez cliquer sur le lien présent dans l'e-mail pour procéder à la réinitialisation.</p>
     </div>
   </section>
 

@@ -108,7 +108,11 @@ h4 {
 	background-color: white !important;
 }
 
-#home a {
+.zone-transit {
+  display: flex;
+}
+
+#menu-home a {
   color: blue !important;
 }
 
