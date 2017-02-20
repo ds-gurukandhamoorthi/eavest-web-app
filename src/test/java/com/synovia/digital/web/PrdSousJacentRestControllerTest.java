@@ -27,7 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.synovia.digital.domain.PrdSousJacent;
+import com.synovia.digital.dto.PrdSousjacentDto;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 
 /**
@@ -71,10 +72,10 @@ public class PrdSousJacentRestControllerTest {
 
 		this.repo.deleteAllInBatch();
 
-		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-1", 100000.)));
-		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-2", 200000., "01/01/2017")));
-		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-3", 300000., "01/12/2016")));
-		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-4", 400000., "01/11/2016")));
+		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-1")));
+		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-2")));
+		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-3")));
+		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-4")));
 	}
 
 	protected String json(Object o) throws IOException {
@@ -90,17 +91,48 @@ public class PrdSousJacentRestControllerTest {
 	 */
 	@Test
 	public void testCreatePrdSousJacent() throws Exception {
-		// Test : Add a 2-params PrdSousJacent
-		String prdSousJacentJson = json(new PrdSousJacent("CREATED-SS-JCT", 120.));
+		// Test : Add a 1-param PrdSousJacent
+		PrdSousjacentDto dto = new PrdSousjacentDto();
+		dto.setLabel("CREATED-SS-JCT");
+		String prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
 				.andExpect(status().isCreated());
 
-		// Test : Add a 2-params PrdSousJacent
-		prdSousJacentJson = json(new PrdSousJacent("CREATED-SS-JCT", 120., "01/12/2016"));
+		int expectedSize = 5;
+		Assert.assertEquals(expectedSize, repo.findAll().size());
+
+		// Test : Add a 1-param PrdSousJacent
+		dto = new PrdSousjacentDto();
+		dto.setLabel("SS-JCT");
+		prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
 				.andExpect(status().isCreated());
+
+		expectedSize += 1;
+		Assert.assertEquals(expectedSize, repo.findAll().size());
+
+		// Test : Add a 1-param PrdSousJacent
+		dto = new PrdSousjacentDto();
+		dto.setLabel("created-ss-jct");
+		prdSousJacentJson = json(dto);
+
+		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
+				.andExpect(status().isCreated());
+
+		expectedSize += 1;
+		Assert.assertEquals(expectedSize, repo.findAll().size());
+
+		// Test : Add an existing label PrdSousJacent
+		dto = new PrdSousjacentDto();
+		dto.setLabel("created-ss-jct");
+		prdSousJacentJson = json(dto);
+
+		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
+				.andExpect(status().isBadRequest());
+
+		Assert.assertEquals(expectedSize, repo.findAll().size());
 	}
 
 	/**
@@ -109,12 +141,13 @@ public class PrdSousJacentRestControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testCreatePrdSousJacent_defaultConstructor() throws Exception {
-		// Test : Add a 2-params PrdSousJacent
-		String prdSousJacentJson = json(new PrdSousJacent());
+	public void testCreatePrdSousJacent_IncompleteEntry() throws Exception {
+		// Test : Add an incomplete entry
+		PrdSousjacentDto dto = new PrdSousjacentDto();
+		String prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
-				.andExpect(status().isCreated());
+				.andExpect(status().isBadRequest());
 
 	}
 }

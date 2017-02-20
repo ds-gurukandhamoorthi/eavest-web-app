@@ -17,9 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HomeController {
 
-	private static final String VIEW_INDEX = "index";
-	private static final String LOGIN_INDEX = "login";
-	private static final String HOME_VIEW = "home";
+	public static final String VIEW_INDEX = "index";
+	public static final String VIEW_LOGIN = "login";
+	public static final String VIEW_HOME = "home";
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -37,14 +37,14 @@ public class HomeController {
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView modelAndView) {
 		System.out.println("HomeController.login()");
-		modelAndView.setViewName(LOGIN_INDEX);
+		modelAndView.setViewName(VIEW_LOGIN);
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/home")
 	public ModelAndView home(ModelAndView modelAndView) {
 		System.out.println("HomeController.home()");
-		modelAndView.setViewName(HOME_VIEW);
+		modelAndView.setViewName(VIEW_HOME);
 		return modelAndView;
 	}
 }

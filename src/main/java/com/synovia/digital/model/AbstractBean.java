@@ -1,4 +1,4 @@
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import java.util.Date;
 
@@ -9,6 +9,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @MappedSuperclass
@@ -16,16 +18,18 @@ public abstract class AbstractBean {
 	// ------------------------------ FIELDS ------------------------------
 
 	@Column(name = "CREATED_AT", updatable = false)
-	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 
 	@Column(name = "CREATED_BY", updatable = false)
 	private Long createdBy;
 
 	@Column(name = "UPDATED_AT")
-	@Temporal(TemporalType.TIMESTAMP)
 	@DateTimeFormat(style = "M-")
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedAt;
 
 	@Column(name = "UPDATED_BY")

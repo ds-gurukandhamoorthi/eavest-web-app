@@ -1,4 +1,4 @@
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -39,17 +39,17 @@ public class PrdProduct extends AbstractBean {
 	@Temporal(TemporalType.DATE)
 	private Date dueDate;
 
-	@Column(name = "CREATION_DATE")
+	@Column(name = "LAUNCH_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
-	private Date creationDate;
+	private Date launchDate;
 
 	@JoinColumn(name = "ID_PRD_SOUSJACENT", referencedColumnName = "ID", nullable = false)
 	@ManyToOne
-	private PrdSousJacent idPrdSousJacent;
+	private PrdSousJacent prdSousJacent;
 
 	@JoinColumn(name = "ID_PRD_RULE", referencedColumnName = "ID")
 	@OneToOne()
-	private PrdRule idPrdRule;
+	private PrdRule prdRule;
 
 	@OneToMany(mappedBy = "idPrdProduct")
 	private Set<PrdObservationDate> observationDates;
@@ -61,9 +61,11 @@ public class PrdProduct extends AbstractBean {
 	private Set<PrdCouponDate> couponPaymentDates;
 
 	@Column(name = "SUBSCRIBE_START_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date subscriptionStartDate;
 
 	@Column(name = "SUBSCRIBE_END_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date subscriptionEndDate;
 
 	@Column(name = "COUPON", precision = 2)
@@ -72,7 +74,7 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "NOMINAL")
 	private Double nominalValue;
 
-	@Column(name = "CAPITAL_GUARANTEED", nullable = false)
+	@Column(name = "CAPITAL_GUARANTEED")
 	private Boolean capitalGuaranteed;
 
 	@Column(name = "START_PRICE")
@@ -85,11 +87,29 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "GUARANTOR")
 	private String guarantor;
 
-	@Column(name = "IS_STOPPED")
-	private Boolean isStopped = false;
+	/** The Status of this entity. Is updated in post-update method. */
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "ID_PRD_STATUS", referencedColumnName = "ID")
+	private PrdStatus status;
 
 	@ManyToMany(mappedBy = "products")
 	private Set<PrdUser> prdUsers;
+
+	@Column(name = "END_DATE")
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+
+	@Column(name = "IS_EAVEST")
+	private Boolean isEavest = false;
+
+	@Column(name = "BEST_SELLER")
+	private Boolean isBestSeller = false;
+
+	@Column(name = "PATH")
+	private String path;
+
+	@Column(name = "STRIKE")
+	private Double strike;
 
 	@Transient
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -98,7 +118,6 @@ public class PrdProduct extends AbstractBean {
 	}
 
 	/**
-	 * 
 	 * @param label
 	 * @param dueDate
 	 * @param dateOfCreation
@@ -118,9 +137,9 @@ public class PrdProduct extends AbstractBean {
 			String deliver, String guarantor, Double startPrice) {
 		this.label = label;
 		this.dueDate = dueDate;
-		this.creationDate = dateOfCreation;
-		this.idPrdSousJacent = idSousJacent;
-		this.idPrdRule = idRule;
+		this.launchDate = dateOfCreation;
+		this.prdSousJacent = idSousJacent;
+		this.prdRule = idRule;
 		this.subscriptionEndDate = subscriptionEnd;
 		this.subscriptionStartDate = subscriptionStart;
 		this.couponValue = coupon;
@@ -132,7 +151,6 @@ public class PrdProduct extends AbstractBean {
 	}
 
 	/**
-	 * 
 	 * @param label
 	 * @param dueDate
 	 * @param dateOfCreation
@@ -154,7 +172,7 @@ public class PrdProduct extends AbstractBean {
 		this(label, (Date) null, (Date) null, idSousJacent, idRule, (Date) null, (Date) null, coupon, nominalValue,
 				isGuaranteed, deliver, guarantor, startPrice);
 		this.dueDate = format.parse(dueDate);
-		this.creationDate = format.parse(dateOfCreation);
+		this.launchDate = format.parse(dateOfCreation);
 		this.subscriptionEndDate = format.parse(subscriptionEnd);
 		this.subscriptionStartDate = format.parse(subscriptionStart);
 	}
@@ -187,32 +205,32 @@ public class PrdProduct extends AbstractBean {
 		this.dueDate = dueDate;
 	}
 
-	public Date getCreationDate() {
-		return creationDate;
+	public Date getLaunchDate() {
+		return launchDate;
 	}
 
-	public String getCreationDateAsString() {
-		return format.format(creationDate);
+	public String getLaunchDateAsString() {
+		return format.format(launchDate);
 	}
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+	public void setLaunchDate(Date creationDate) {
+		this.launchDate = creationDate;
 	}
 
-	public PrdSousJacent getIdPrdSousJacent() {
-		return idPrdSousJacent;
+	public PrdSousJacent getPrdSousJacent() {
+		return prdSousJacent;
 	}
 
-	public void setIdPrdSousJacent(PrdSousJacent idPrdSousJacent) {
-		this.idPrdSousJacent = idPrdSousJacent;
+	public void setPrdSousJacent(PrdSousJacent idPrdSousJacent) {
+		this.prdSousJacent = idPrdSousJacent;
 	}
 
-	public PrdRule getIdPrdRule() {
-		return idPrdRule;
+	public PrdRule getPrdRule() {
+		return prdRule;
 	}
 
-	public void setIdPrdRule(PrdRule idPrdRule) {
-		this.idPrdRule = idPrdRule;
+	public void setPrdRule(PrdRule idPrdRule) {
+		this.prdRule = idPrdRule;
 	}
 
 	public Set<PrdObservationDate> getWatchingDates() {
@@ -327,19 +345,59 @@ public class PrdProduct extends AbstractBean {
 		this.observationDates = observationDates;
 	}
 
-	public Boolean getIsStopped() {
-		return this.isStopped;
-	}
-
-	public void setIsStopped(Boolean isStopped) {
-		this.isStopped = isStopped;
-	}
-
 	public Set<PrdUser> getPrdUsers() {
 		return this.prdUsers;
 	}
 
 	public void setPrdUsers(Set<PrdUser> prdUsers) {
 		this.prdUsers = prdUsers;
+	}
+
+	public PrdStatus getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(PrdStatus status) {
+		this.status = status;
+	}
+
+	public Date getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getPath() {
+		return this.path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public Double getStrike() {
+		return this.strike;
+	}
+
+	public void setStrike(Double strike) {
+		this.strike = strike;
+	}
+
+	public Boolean getIsEavest() {
+		return this.isEavest;
+	}
+
+	public void setIsEavest(Boolean isEavest) {
+		this.isEavest = isEavest;
+	}
+
+	public Boolean getIsBestSeller() {
+		return this.isBestSeller;
+	}
+
+	public void setIsBestSeller(Boolean isBestSeller) {
+		this.isBestSeller = isBestSeller;
 	}
 }

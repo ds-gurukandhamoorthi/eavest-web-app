@@ -57,7 +57,7 @@
       <p th:if="${param.error}" class="alert alert-error">Une erreur s'est produite, veuillez réessayer</p>
       <h1>Se connecter à son compte EAVEST</h1>
       <div class="form-area">
-        <form name="loginForm" th:action="@{/login}" action="/home" method="POST">
+        <form name="loginForm" th:action="@{/login}" action="http://localhost:8080/home" method="POST">
 		      <label for="uid">ID</label>
         	<input id="uid" type="text" name="username" placeholder="E-mail (ex: foo@bar.com)" />
 

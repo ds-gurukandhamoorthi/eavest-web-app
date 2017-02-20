@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

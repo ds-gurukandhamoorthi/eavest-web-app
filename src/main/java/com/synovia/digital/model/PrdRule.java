@@ -1,4 +1,4 @@
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//@Table(name="prd_rule", schema="eav")
 @Table(name = "prd_rule", schema = "test")
 @Entity
 public class PrdRule extends AbstractBean {

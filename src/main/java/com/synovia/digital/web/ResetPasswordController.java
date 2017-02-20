@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.synovia.digital.domain.EavAccount;
+import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.repository.EavAccountRepository;
 
 /**

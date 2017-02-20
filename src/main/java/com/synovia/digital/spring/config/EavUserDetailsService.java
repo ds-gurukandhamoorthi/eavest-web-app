@@ -3,6 +3,9 @@
  */
 package com.synovia.digital.spring.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.synovia.digital.domain.EavAccount;
+import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavRole;
 import com.synovia.digital.repository.EavAccountRepository;
 
 /**
@@ -43,8 +47,12 @@ public class EavUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		System.out.println("EavUserDetailsService.loadUserByUsername()");
 		EavAccount account = repo.findByEmail(username);
+		Set<String> accountRoles = new HashSet<>();
+		for (EavRole r : account.getEavRoles()) {
+			accountRoles.add(r.getLabel());
+		}
 		UserDetails details = new User(account.getEmail(), account.getPassword(), account.getEnabled(), true, true,
-				true, AuthorityUtils.createAuthorityList(account.getRoles()));
+				true, AuthorityUtils.createAuthorityList(accountRoles.toArray(new String[0])));
 		return details;
 	}
 

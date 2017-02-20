@@ -5,7 +5,7 @@ package com.synovia.digital.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import com.synovia.digital.domain.PrdUser;
+import com.synovia.digital.model.PrdUser;
 
 /**
  * This class defines TODO

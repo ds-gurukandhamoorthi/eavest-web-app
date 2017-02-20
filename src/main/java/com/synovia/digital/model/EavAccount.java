@@ -1,15 +1,20 @@
 /**
  * 
  */
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -55,8 +60,12 @@ public class EavAccount extends AbstractBean {
 	@Column(name = "ENABLED")
 	private Boolean enabled = true;
 
-	@Column(name = "ROLES")
-	private String[] roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "EAV_ACCOUNT_ROLE",
+			schema = "test",
+			joinColumns = @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID"),
+			inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "ID"))
+	private Set<EavRole> eavRoles;
 
 	// ---- Personal information fields ----
 	@Column(name = "LAST_NAME", nullable = false)
@@ -99,22 +108,32 @@ public class EavAccount extends AbstractBean {
 
 	/**
 	 * 
-	 * TODO Constructs an EAV account based on an email as an identifier, a password, a
-	 * last name and first name.
+	 * Constructs an EAV account based on an email as an identifier, a password, a last
+	 * name and first name.
 	 *
 	 * @param mail
 	 * @param password
 	 * @param lastName
 	 * @param firstName
 	 */
-	public EavAccount(String mail, String password, String lastName, String firstName, String... roles) {
-		System.out.println("EavAccount.EavAccount(mail, password, lastName, firstName, roles): " + mail + ", "
-				+ password + ", " + lastName + ", " + firstName + ", " + roles);
+	public EavAccount(String mail, String password, String lastName, String firstName) {
+		System.out.println("EavAccount.EavAccount(mail, password, lastName, firstName): " + mail + ", " + password
+				+ ", " + lastName + ", " + firstName);
 		this.email = mail;
 		this.setPassword(password);
 		this.setLastName(lastName);
 		this.firstName = firstName;
-		this.roles = roles;
+
+	}
+
+	public EavAccount(String mail, String password, String lastName, String firstName, Set<EavRole> eavRoles) {
+		System.out.println("EavAccount.EavAccount(mail, password, lastName, firstName, roles): " + mail + ", "
+				+ password + ", " + lastName + ", " + firstName + ", " + eavRoles.toString());
+		this.email = mail;
+		this.setPassword(password);
+		this.setLastName(lastName);
+		this.firstName = firstName;
+		this.eavRoles = eavRoles;
 
 	}
 
@@ -234,14 +253,6 @@ public class EavAccount extends AbstractBean {
 		this.prdUser = prdUser;
 	}
 
-	public String[] getRoles() {
-		return this.roles;
-	}
-
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
-
 	public String getResetPasswordToken() {
 		return this.resetPasswordToken;
 	}
@@ -256,5 +267,13 @@ public class EavAccount extends AbstractBean {
 
 	public void setResetPasswordExpires(Date resetPasswordExpires) {
 		this.resetPasswordExpires = resetPasswordExpires;
+	}
+
+	public Set<EavRole> getEavRoles() {
+		return this.eavRoles;
+	}
+
+	public void setEavRoles(Set<EavRole> eavRoles) {
+		this.eavRoles = eavRoles;
 	}
 }

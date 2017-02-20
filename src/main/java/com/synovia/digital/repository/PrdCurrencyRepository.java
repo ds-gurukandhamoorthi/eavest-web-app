@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.synovia.digital.domain.PrdCurrency;
+import com.synovia.digital.model.PrdCurrency;
 
 /**
  * This class defines TODO

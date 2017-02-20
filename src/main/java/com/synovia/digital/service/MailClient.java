@@ -22,6 +22,7 @@ public class MailClient {
 	private static final String MAIL_SUBJECT_PREFIX = "EAVEST - ";
 	private static final String MAIL_SUBJECT_RESET_PWD = MAIL_SUBJECT_PREFIX + "Reset your password";
 	private static final String MAIL_SUBJECT_CONFIRM_MAIL = MAIL_SUBJECT_PREFIX + "Confirm your email address";
+	private static final String MAIL_SUBJECT_ACCOUNT_INFO = MAIL_SUBJECT_PREFIX + "Account info";
 
 	private JavaMailSender mailSender;
 
@@ -35,10 +36,15 @@ public class MailClient {
 	}
 
 	public void prepareAndSend(String from, String recipient, String subject, String message) {
+		this.prepareAndSend(from, new String[] { recipient }, subject, message);
+
+	}
+
+	public void prepareAndSend(String from, String[] recipients, String subject, String message) {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			messageHelper.setFrom(from);
-			messageHelper.setTo(recipient);
+			messageHelper.setTo(recipients);
 			messageHelper.setSubject(subject);
 			messageHelper.setText(message);
 		};
@@ -74,5 +80,19 @@ public class MailClient {
 	 */
 	public void prepareAndSendConfirmEmail(String recipient, String message) {
 		prepareAndSend(MAIL_FROM, recipient, MAIL_SUBJECT_CONFIRM_MAIL, message);
+	}
+
+	/**
+	 * Prepares and sends a mail to inform administrator(s) of something concerning an
+	 * account.
+	 * 
+	 * @param recipients
+	 *            The mail receivers.
+	 * @param message
+	 *            The message to send.
+	 */
+	public void prepareAndSendInfo(String[] recipients, String message) {
+		prepareAndSend(MAIL_FROM, recipients, MAIL_SUBJECT_ACCOUNT_INFO, message);
+
 	}
 }

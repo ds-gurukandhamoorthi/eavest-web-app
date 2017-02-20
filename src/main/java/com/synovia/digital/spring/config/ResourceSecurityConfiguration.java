@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.synovia.digital.domain.EavAccount;
+import com.synovia.digital.model.EavAccount;
 
 /**
  * This class defines TODO
@@ -31,8 +31,9 @@ public class ResourceSecurityConfiguration extends WebSecurityConfigurerAdapter 
 		//		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/api/**").authenticated().and().formLogin()
 		//				.loginPage("/login").permitAll().and().logout().permitAll();
 
-		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/api/eavAccounts/{\\d+}/**").authenticated()
-				.and().formLogin().loginPage("/login").permitAll().and().logout().permitAll();
+		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/api/eavAccounts/{\\d+}/**").authenticated().and().formLogin().loginPage("/login")
+				.permitAll().and().logout().permitAll();
 	}
 
 	@Override

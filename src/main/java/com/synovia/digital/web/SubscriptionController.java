@@ -4,23 +4,27 @@
 package com.synovia.digital.web;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.synovia.digital.domain.EavAccount;
-import com.synovia.digital.domain.PrdUser;
+import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavRole;
+import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.EavAccountRepository;
+import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdUserRepository;
-import com.synovia.digital.service.MailClient;
+import com.synovia.digital.service.SubscriptionService;
 
 /**
  * This class defines TODO
@@ -38,7 +42,13 @@ public class SubscriptionController {
 	EavAccountRepository accountRepo;
 
 	@Autowired
-	JavaMailSender mailSender;
+	SubscriptionService subscriptionService;
+
+	@Autowired
+	EavRoleRepository roleRepo;
+
+	//	@Autowired
+	//	EavAccountRoleRepository accountRoleRepo;
 
 	private static final String VIEW_SUBSCRIBE = "subscribe";
 	private static final String VIEW_FORGET_PASSWORD = "forget-pwd";
@@ -47,7 +57,9 @@ public class SubscriptionController {
 	public String createAccountSubmit(@ModelAttribute EavAccount account) {
 		System.out.println("SubscriptionController.createAccountSubmit() - POST");
 		// Assign roles as ROLE_USER (considering this way of creating an account as the way of creating users only, no admin) 
-		account.setRoles(new String[] { "ROLE_USER" });
+		Set<EavRole> roles = new HashSet<>();
+		roles.add(roleRepo.findByLabel("ROLE_USER"));
+		account.setEavRoles(roles);
 		// Enable the account. May be disabled by admin later
 		account.setEnabled(true);
 
@@ -57,17 +69,18 @@ public class SubscriptionController {
 		PrdUser user = new PrdUser(account);
 		userRepo.save(user);
 
-		// TODO Move next code into a service or whatever
-		StringBuilder bodyMsg = new StringBuilder("Dear ");
-		bodyMsg.append(account.getFirstName()).append(" ").append(account.getLastName()).append("\n").append("\n");
-		bodyMsg.append(
-				"This message is auto-generated to confirm your inscription to EAVEST. Please click the link below")
-				.append("\n");
-		bodyMsg.append("http://localhost:8080/login").append("\n").append("\n");
-		bodyMsg.append("Best regards.");
+		// Send a e-mail to the new user
+		subscriptionService.sendMailVerifyAccount(account.getEmail(), account);
 
-		MailClient mailClient = new MailClient(mailSender);
-		mailClient.prepareAndSendConfirmEmail(account.getEmail(), bodyMsg.toString());
+		// Inform administrators
+		//		List<EavAccount> admins = accountRoleRepo.findIdEavAccountByIdEavRole(1); // TODO Remove magic number.
+		Set<EavAccount> admins = roleRepo.findByLabel("ROLE_ADMIN").getAccounts();
+		List<String> adminMails = new ArrayList<>();
+		for (EavAccount admin : admins) {
+			adminMails.add(admin.getEmail());
+		}
+		subscriptionService.sendMailAccountCreated(adminMails.toArray(new String[0]), account);
+
 		return "account_created";
 
 	}
@@ -111,16 +124,7 @@ public class SubscriptionController {
 			accountRepo.save(account);
 
 			// Send an email to the user
-			StringBuilder bodyMsg = new StringBuilder("Dear User").append("\n").append("\n");
-			bodyMsg.append("Please click the link below to configure your password settings.").append("\n");
-			bodyMsg.append(ServletUriComponentsBuilder.fromCurrentContextPath().path("/reinitPassword")
-					.queryParam("_key", secureToken).build().toUriString()).append("\n").append("\n");
-			bodyMsg.append(
-					"If you did not request this, please ignore this email and your password will remain unchanged.\n\n");
-			bodyMsg.append("Best regards.");
-
-			MailClient mailClient = new MailClient(mailSender);
-			mailClient.prepareAndSendResetPassword(forgottenCredentialsUser.getEmail(), bodyMsg.toString());
+			subscriptionService.sendMailResetPassword(forgottenCredentialsUser.getEmail(), secureToken);
 
 			// Send attribute to the front-end
 			String responseMessage = "Un mail été envoyé à votre adresse mail";

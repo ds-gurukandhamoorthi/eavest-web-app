@@ -1,4 +1,4 @@
-package com.synovia.digital.domain;
+package com.synovia.digital.model;
 
 import java.text.DateFormat;
 import java.text.ParseException;

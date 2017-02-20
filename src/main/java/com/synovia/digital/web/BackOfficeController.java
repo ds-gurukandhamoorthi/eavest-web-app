@@ -4,19 +4,17 @@
 package com.synovia.digital.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.synovia.digital.domain.PrdProduct;
-import com.synovia.digital.domain.PrdSousJacent;
-import com.synovia.digital.repository.PrdProductRepository;
-import com.synovia.digital.repository.PrdSousJacentRepository;
+import com.synovia.digital.dto.PrdProductDto;
+import com.synovia.digital.dto.PrdSousjacentDto;
+import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.service.PrdSousJacentService;
 
 /**
  * This class defines TODO
@@ -28,41 +26,57 @@ import com.synovia.digital.repository.PrdSousJacentRepository;
 @RequestMapping(value = "/admin")
 public class BackOfficeController {
 
-	@Autowired
-	protected PrdProductRepository repo;
+	public static String VIEW_CREATE_PRODUCT = "create-product";
+	public static String VIEW_CREATE_SSJACENT = "create-ssjacent";
+	public static String VIEW_BACK_OFFICE = "back-office";
 
 	@Autowired
-	protected PrdSousJacentRepository ssjacentRepo;
+	protected PrdSousJacentService sousJacentService;
+
+	@RequestMapping()
+	public String showBackOffice() {
+		return VIEW_BACK_OFFICE;
+	}
 
 	@GetMapping(value = "/createProduct")
 	public String createProductForm(Model model) {
 		System.out.println("BackOfficeController.createProductForm()");
-		model.addAttribute("product", new PrdProduct());
-		model.addAttribute("ssjacent", new PrdSousJacent());
-		return "create-product";
+		model.addAttribute("product", new PrdProductDto());
+		model.addAttribute("ssjacent", new PrdSousjacentDto());
+		return VIEW_CREATE_PRODUCT;
 	}
 
 	@PostMapping(value = "/createProduct")
-	public String createProduct(@ModelAttribute PrdProduct product, @ModelAttribute PrdSousJacent ssJacent,
+	public String addProduct(@ModelAttribute PrdProductDto product, @ModelAttribute PrdSousjacentDto ssJacent,
 			Model model) {
-		System.out.println("BackOfficeController.createProduct()");
+		System.out.println("BackOfficeController.addProduct()");
 		model.addAttribute("product", product);
 		model.addAttribute("ssjacent", ssJacent);
 
-		product.setIdPrdSousJacent(ssJacent);
-		ssJacent.getPrdProducts().add(product);
+		// TODO
+		sousJacentService.add(sousJacentDto);
 
 		repo.save(product);
 
 		return "create-product";
 	}
 
-	@RequestMapping(value = "/createSsjacent", method = RequestMethod.POST)
-	public ResponseEntity<?> createSousJacent(@ModelAttribute PrdSousJacent ssJacent, Model model) {
+	@GetMapping(value = "/createSsjacent")
+	public String showCreateSousJacent(Model model) {
+		System.out.println("BackOfficeController.showCreateSousJacent()");
+		model.addAttribute("ssjacent", new PrdSousJacent());
+		//		ssjacentRepo.save(ssJacent);
+		return VIEW_CREATE_SSJACENT;
+
+	}
+
+	@PostMapping(value = "/createSsjacent")
+	public String createSousJacent(@ModelAttribute PrdSousJacent ssJacent, Model model) {
 		System.out.println("BackOfficeController.createSousJacent()");
 		model.addAttribute("ssjacent", ssJacent);
-		ssjacentRepo.save(ssJacent);
 
-		return null;
+		ssjacentRepo.save(ssJacent);
+		return VIEW_CREATE_SSJACENT;
 	}
+
 }

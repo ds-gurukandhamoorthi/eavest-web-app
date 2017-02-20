@@ -1,14 +1,19 @@
 package com.synovia.digital;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.synovia.digital.domain.EavAccount;
-import com.synovia.digital.domain.PrdCurrency;
+import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavRole;
+import com.synovia.digital.model.PrdStatus;
 import com.synovia.digital.repository.EavAccountRepository;
-import com.synovia.digital.repository.PrdCurrencyRepository;
+import com.synovia.digital.repository.EavRoleRepository;
+import com.synovia.digital.repository.PrdStatusRepository;
 
 @SpringBootApplication
 public class EavestWebAppApplication {
@@ -40,12 +45,32 @@ public class EavestWebAppApplication {
 	//	}
 
 	@Bean
-	InitializingBean saveData(EavAccountRepository repo, PrdCurrencyRepository currencyRepo) {
+	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo,
+			EavRoleRepository roleRepo) {
 		return () -> {
-			repo.save(new EavAccount("admin@mailinator.com", "admin", "Couriol", "Teddy", "ROLE_ADMIN", "ROLE_USER"));
-			currencyRepo.save(new PrdCurrency("EUR", "Euro"));
-			currencyRepo.save(new PrdCurrency("DOL", "Dollars"));
-			currencyRepo.save(new PrdCurrency("PND", "Pounds"));
+			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
+			roleRepo.save(admin);
+			roleRepo.save(new EavRole(2, "ROLE_USER", "EAVEST User"));
+			roleRepo.save(new EavRole(3, "ROLE_TESTER", "Development tester"));
+
+			EavRole adminRole = roleRepo.findByLabel("ROLE_ADMIN");
+			EavRole userRole = roleRepo.findByLabel("ROLE_USER");
+			EavRole testerRole = roleRepo.findByLabel("ROLE_TESTER");
+			Set<EavRole> eavRoles = new HashSet<>();
+			eavRoles.add(adminRole);
+			eavRoles.add(userRole);
+			eavRoles.add(testerRole);
+			repo.save(new EavAccount("adm@mailinator.com", "admin", "Couriol", "Teddy", eavRoles));
+			Set<EavRole> eavRolesAdmin = new HashSet<>();
+			eavRolesAdmin.add(adminRole);
+			repo.save(new EavAccount("eavadm@mailinator.com", "eav", "Marlot", "Pascal", eavRolesAdmin));
+
+			prdStatusRepo.save(new PrdStatus(1, "IDLE", "Initial state"));
+			prdStatusRepo.save(new PrdStatus(2, "SUBSCRIBABLE", "Users can subscribe to the product"));
+			prdStatusRepo.save(new PrdStatus(3, "STARTED", "The product evolution has started"));
+			prdStatusRepo.save(new PrdStatus(4, "STOPPED", "The product evolution has ended"));
+			prdStatusRepo
+					.save(new PrdStatus(5, "CLOSED", "The product is stopped, no action can be done on the product"));
 		};
 	}
 }
