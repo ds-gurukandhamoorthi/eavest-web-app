@@ -15,4 +15,5 @@ import com.synovia.digital.model.PrdStatus;
  */
 public interface PrdStatusRepository extends CrudRepository<PrdStatus, Integer> {
 
+	public PrdStatus findByCode(String code);
 }

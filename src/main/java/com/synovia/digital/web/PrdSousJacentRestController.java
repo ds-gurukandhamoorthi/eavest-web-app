@@ -5,6 +5,8 @@ package com.synovia.digital.web;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +39,7 @@ public class PrdSousJacentRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> add(@RequestBody PrdSousjacentDto inputDto) {
+	public ResponseEntity<?> add(@RequestBody @Valid PrdSousjacentDto inputDto) {
 		System.out.println("PrdSousJacentRestController.add()");
 		ResponseEntity<?> response = null;
 		try {

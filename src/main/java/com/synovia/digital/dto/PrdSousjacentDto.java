@@ -23,7 +23,7 @@ public class PrdSousjacentDto {
 
 	/** The label of the underlying asset. */
 	@NotBlank
-	@Size(max = 24)
+	@Size(max = 50)
 	private String label;
 
 	/**

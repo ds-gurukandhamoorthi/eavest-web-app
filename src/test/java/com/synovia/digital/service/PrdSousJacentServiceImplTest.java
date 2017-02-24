@@ -5,11 +5,14 @@ package com.synovia.digital.service;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -26,7 +29,6 @@ import org.springframework.util.Assert;
 
 import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
-import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavException;
 import com.synovia.digital.model.PrdSousJacent;
@@ -101,16 +103,27 @@ public class PrdSousJacentServiceImplTest {
 		PrdSousjacentDto sousJacentDto = new PrdSousjacentDto();
 
 		try {
-			sousJacentService.add(sousJacentDto);
-			fail("Should have thrown an exception.");
+			ArgumentCaptor<PrdSousJacent> captor = ArgumentCaptor.forClass(PrdSousJacent.class);
 
-		} catch (EavException e) {
-			org.junit.Assert.assertTrue(e instanceof EavConstraintViolationEntry);
+			sousJacentService.add(sousJacentDto);
+
+			verify(repositoryMock, times(1)).findByLabel(null);
+			verify(repositoryMock, times(1)).save(captor.capture());
+			verifyNoMoreInteractions(repositoryMock);
+
+			PrdSousJacent result = captor.getValue();
+			assertNotNull(result);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not have throw an exception");
 
 		}
 
 		try {
-			sousJacentService.add(null);
+			PrdSousJacent result = sousJacentService.add(null);
+			verifyZeroInteractions(repositoryMock);
+			assertNull(result);
 
 		} catch (Exception e) {
 			e.printStackTrace();

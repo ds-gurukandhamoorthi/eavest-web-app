@@ -6,14 +6,14 @@ package com.synovia.digital.dto;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.synovia.digital.dto.utils.DtoDateFormat;
-import com.synovia.digital.model.PrdSousJacent;
 
 /**
  * This class defines TODO
@@ -29,51 +29,55 @@ public class PrdProductDto {
 	 * The identification number of the product (International Securities Identification
 	 * Number)
 	 */
-	@NotEmpty
+	@NotBlank
 	private String isin;
 
 	/** The label of the product */
-	@NotEmpty
+	@NotBlank
 	private String label;
 
-	/** The date of the end of the product [dd/MM/yyyy] */
-	@NotBlank
-	private Date dueDate;
-
-	/** The date of the beginning of the product [dd/MM/yyyy] */
-	private Date launchDate;
-
-	/** The id of the underlying asset of the product */
-	//	@NotNull
-	//	private Long idSousJacent;
-
-	/** The id of the underlying asset of the product */
+	/** The date of the end of the product [yyyy-MM-dd] */
 	@NotNull
-	private PrdSousJacent prdSousJacent;
+	private String dueDate;
 
-	/** The id of the rule of how works the product. */
-	private Long idRule;
+	/** The date of the beginning of the product [yyyy-MM-dd] */
+	@NotNull
+	private String launchDate;
 
-	/** The date from which it is possible to subscribe to the product. [dd/MM/yyyy] */
-	private Date subscriptionStartDate;
+	/** The underlying asset of the product */
+	private Long idPrdSousJacent;
+
+	/** The list of observation dates referred by their id. */
+	private String[] observationDates;
+
+	/** */
+	private String[] earlyRepaymentDates;
+
+	private String[] couponPaymentDates;
+
+	/** The date from which it is possible to subscribe to the product. [yyyy-MM-dd] */
+	private String subscriptionStartDate;
 
 	/**
 	 * The date from which it is no more possible to subscribe to the product.
-	 * [dd/MM/yyyy]
+	 * [yyyy-MM-dd]
 	 */
-	private Date subscriptionEndDate;
+	private String subscriptionEndDate;
 
 	/** The value of the coupon [%] */
+	@Min(value = 0)
+	@Max(value = 100)
 	private Double couponValue;
 
 	/** The nominal value of the product [EUR] */
 	private Double nominalValue;
 
 	/** A flag that indicates whether the capital is guaranteed. */
-	@NotNull
 	private Boolean capitalGuaranteed;
 
-	/** The price at the beginning of the life of the product. */
+	/** The price at the beginning of the life of the product [%]. */
+	@Min(value = 0)
+	@Max(value = 100)
 	private Double startPrice;
 
 	/** The company that delivers the product. */
@@ -82,8 +86,11 @@ public class PrdProductDto {
 	/** The company that guarantees the product. */
 	private String guarantor;
 
-	/** The effective end date of the product. */
-	private Date endDate;
+	/** The product status code. */
+	private String statusCode;
+
+	/** The effective end date of the product. [yyyy-MM-dd] */
+	private String endDate;
 
 	/** The flag to determine whether the product is an EAVEST product. */
 	private Boolean isEavest;
@@ -93,6 +100,22 @@ public class PrdProductDto {
 
 	/** The path to documents associated to the product. */
 	private String path;
+
+	/** The strike of the product [-] */
+	private Double strike;
+
+	/** The frequency of the observation dates. */
+	private String observationFrequency;
+
+	/** The protection barrier [%] */
+	@Min(value = 0)
+	@Max(value = 100)
+	private Double protectionBarrier;
+
+	/** The coupon barrier [%] */
+	@Min(value = 0)
+	@Max(value = 100)
+	private Double couponBarrier;
 
 	public PrdProductDto() {
 
@@ -114,52 +137,52 @@ public class PrdProductDto {
 		this.label = label;
 	}
 
-	public Date getDueDate() {
+	public String getDueDate() {
 		return this.dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public Date getDueDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(this.dueDate);
+	}
+
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 
-	public void setDueDate(String dueDate) throws ParseException {
-		this.dueDate = DtoDateFormat.getFormat().parse(dueDate);
-	}
-
-	public Date getLaunchDate() {
+	public String getLaunchDate() {
 		return this.launchDate;
 	}
 
-	public void setLaunchDate(Date creationDate) {
+	public Date getLaunchDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(this.launchDate);
+	}
+
+	public void setLaunchDate(String creationDate) {
 		this.launchDate = creationDate;
 	}
 
-	public void setLaunchDate(String creationDate) throws ParseException {
-		this.launchDate = DtoDateFormat.getFormat().parse(creationDate);
-	}
-
-	public Date getSubscriptionStartDate() {
+	public String getSubscriptionStartDate() {
 		return this.subscriptionStartDate;
 	}
 
-	public void setSubscriptionStartDate(Date subscriptionStartDate) {
+	public Date getSubscriptionStartDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(this.subscriptionStartDate);
+	}
+
+	public void setSubscriptionStartDate(String subscriptionStartDate) {
 		this.subscriptionStartDate = subscriptionStartDate;
 	}
 
-	public void setSubscriptionStartDate(String subscriptionStartDate) throws ParseException {
-		this.subscriptionStartDate = DtoDateFormat.getFormat().parse(subscriptionStartDate);
-	}
-
-	public Date getSubscriptionEndDate() {
+	public String getSubscriptionEndDate() {
 		return this.subscriptionEndDate;
 	}
 
-	public void setSubscriptionEndDate(Date subscriptionEndDate) {
-		this.subscriptionEndDate = subscriptionEndDate;
+	public Date getSubscriptionEndDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(this.subscriptionEndDate);
 	}
 
-	public void setSubscriptionEndDate(String subscriptionEndDate) throws ParseException {
-		this.subscriptionEndDate = DtoDateFormat.getFormat().parse(subscriptionEndDate);
+	public void setSubscriptionEndDate(String subscriptionEndDate) {
+		this.subscriptionEndDate = subscriptionEndDate;
 	}
 
 	public Double getCouponValue() {
@@ -210,16 +233,16 @@ public class PrdProductDto {
 		this.guarantor = guarantor;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return this.endDate;
 	}
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public Date getEndDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(this.endDate);
 	}
 
-	public void setEndDate(String endDate) throws ParseException {
-		this.endDate = DtoDateFormat.getFormat().parse(endDate);
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getPath() {
@@ -251,14 +274,6 @@ public class PrdProductDto {
 	//		this.idSousJacent = idSousJacent;
 	//	}
 
-	public Long getIdRule() {
-		return this.idRule;
-	}
-
-	public void setIdRule(Long idRule) {
-		this.idRule = idRule;
-	}
-
 	public Boolean getIsEavest() {
 		return this.isEavest;
 	}
@@ -275,11 +290,76 @@ public class PrdProductDto {
 		this.isBestSeller = isBestSeller;
 	}
 
-	public PrdSousJacent getPrdSousJacent() {
-		return this.prdSousJacent;
+	public Double getStrike() {
+		return this.strike;
 	}
 
-	public void setPrdSousJacent(PrdSousJacent prdSousJacent) {
-		this.prdSousJacent = prdSousJacent;
+	public void setStrike(Double strike) {
+		this.strike = strike;
 	}
+
+	public String getObservationFrequency() {
+		return this.observationFrequency;
+	}
+
+	public void setObservationFrequency(String observationFrequency) {
+		this.observationFrequency = observationFrequency;
+	}
+
+	public Double getProtectionBarrier() {
+		return this.protectionBarrier;
+	}
+
+	public void setProtectionBarrier(Double protectionBarrier) {
+		this.protectionBarrier = protectionBarrier;
+	}
+
+	public Double getCouponBarrier() {
+		return this.couponBarrier;
+	}
+
+	public void setCouponBarrier(Double couponBarrier) {
+		this.couponBarrier = couponBarrier;
+	}
+
+	public Long getIdPrdSousJacent() {
+		return this.idPrdSousJacent;
+	}
+
+	public void setIdPrdSousJacent(Long idPrdSousJacent) {
+		this.idPrdSousJacent = idPrdSousJacent;
+	}
+
+	public String getStatusCode() {
+		return this.statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public String[] getObservationDates() {
+		return this.observationDates;
+	}
+
+	public void setObservationDates(String[] observationDates) {
+		this.observationDates = observationDates;
+	}
+
+	public String[] getEarlyRepaymentDates() {
+		return this.earlyRepaymentDates;
+	}
+
+	public void setEarlyRepaymentDates(String[] earlyRepaymentDates) {
+		this.earlyRepaymentDates = earlyRepaymentDates;
+	}
+
+	public String[] getCouponPaymentDates() {
+		return this.couponPaymentDates;
+	}
+
+	public void setCouponPaymentDates(String[] couponPaymentDates) {
+		this.couponPaymentDates = couponPaymentDates;
+	}
+
 }

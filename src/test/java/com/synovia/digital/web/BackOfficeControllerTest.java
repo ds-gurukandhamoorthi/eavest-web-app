@@ -3,15 +3,16 @@
  */
 package com.synovia.digital.web;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.fail;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +31,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.synovia.digital.model.PrdProduct;
-import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.TestUtil;
+import com.synovia.digital.dto.PrdProductDto;
+import com.synovia.digital.dto.PrdSousjacentDto;
+import com.synovia.digital.model.ModelTest;
 
 /**
  * This class defines TODO
@@ -52,6 +55,7 @@ public class BackOfficeControllerTest {
 
 	@Before
 	public void setUp() {
+
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
 				.apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
@@ -76,7 +80,7 @@ public class BackOfficeControllerTest {
 
 	/**
 	 * Test method for
-	 * {@link com.synovia.digital.web.BackOfficeController#createProductForm(org.springframework.ui.Model)}.
+	 * {@link com.synovia.digital.web.BackOfficeController#showCreateProduct(org.springframework.ui.Model)}.
 	 */
 	@Test
 	public void testShowCreateProductForm() {
@@ -85,7 +89,8 @@ public class BackOfficeControllerTest {
 			// TEST : Expects a returned status OK, the view "create-product.html", model attributes "product" and "ssjacent" exists.
 			mockMvc.perform(MockMvcRequestBuilders.get("/admin/createProduct")).andExpect(status().isOk())
 					.andExpect(MockMvcResultMatchers.view().name(expectedViewName))
-					.andExpect(model().attributeExists("product", "ssjacent"));
+					.andExpect(model().attributeExists(BackOfficeController.ATTR_PRODUCT_DTO,
+							BackOfficeController.ATTR_SOUS_JACENT_LIST, BackOfficeController.ATTR_PRODUCT_LIST));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Should not have thrown an exception.");
@@ -94,7 +99,7 @@ public class BackOfficeControllerTest {
 
 	/**
 	 * Test method for
-	 * {@link com.synovia.digital.web.BackOfficeController#createProductForm(org.springframework.ui.Model)}.
+	 * {@link com.synovia.digital.web.BackOfficeController#showCreateProduct(org.springframework.ui.Model)}.
 	 */
 	@Test
 	@WithAnonymousUser()
@@ -113,18 +118,83 @@ public class BackOfficeControllerTest {
 	 * {@link com.synovia.digital.web.BackOfficeController#addProduct(com.synovia.digital.model.PrdProduct, com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testCreateProduct() {
-		Map<String, Object> sessionAttrs = new HashMap<>();
-		sessionAttrs.put("product", new PrdProduct());
-		sessionAttrs.put("ssjacent", new PrdSousJacent());
-		try {
-			// TEST : TODO Expects a returned status OK, the view "create-product.html", model attributes "product" and "ssjacent" exists.
-			mockMvc.perform(post("/admin/createProduct").requestAttr("product", new PrdProduct())
-					.requestAttr("ssjacent", new PrdSousJacent())).andExpect(status().isOk());
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Should not have thrown an exception.");
-		}
+	public void testCreateProduct() throws Exception {
+		Long id = 1000001L;
+		String isin = "AB12345678";
+		String label = "Produit de test";
+		String launchDate = "2014-03-12";
+		String dueDate = "2022-03-12";
+
+		// Add a new entry
+		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.PRODUCT_PARAM_ID, id.toString()).param(ModelTest.PRODUCT_PARAM_ISIN, isin)
+				.param(ModelTest.PRODUCT_PARAM_LABEL, label).param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate)
+				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
+				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
+				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_PRODUCT))
+				.andExpect(model().attributeExists(BackOfficeController.ATTR_PRODUCT_DTO,
+						BackOfficeController.ATTR_SOUS_JACENT_LIST, BackOfficeController.ATTR_PRODUCT_LIST))
+				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Product entry [AB12345678] has been successfully created!")));
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.web.BackOfficeController#addProduct(com.synovia.digital.model.PrdProduct, com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testCreateProduct_DuplicateEntry() throws Exception {
+		Long id = 1000001L;
+		String isin = "FR12345678";
+		String label = "Produit de test";
+		String launchDate = "2014-03-12";
+		String dueDate = "2022-03-12";
+
+		// Add a new entry
+		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.PRODUCT_PARAM_ID, id.toString()).param(ModelTest.PRODUCT_PARAM_ISIN, isin)
+				.param(ModelTest.PRODUCT_PARAM_LABEL, label).param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate)
+				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
+				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
+				.andExpect(status().isOk());
+
+		// Add a new entry
+		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.PRODUCT_PARAM_ID, id.toString()).param(ModelTest.PRODUCT_PARAM_ISIN, isin)
+				.param(ModelTest.PRODUCT_PARAM_LABEL, label).param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate)
+				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
+				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
+				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_PRODUCT))
+				.andExpect(model().attribute(BackOfficeController.ATTR_PRODUCT_DTO, is(notNullValue())))
+				.andExpect(model().attribute(BackOfficeController.ATTR_SOUS_JACENT_LIST, is(notNullValue())))
+				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Product entry [FR12345678] already exists!")));
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.web.BackOfficeController#addProduct(com.synovia.digital.model.PrdProduct, com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testCreateProduct_InvalidEntry() throws Exception {
+		Long id = 1000001L;
+		String isin = "AB12345";
+		String launchDate = "12/03/2014";
+		String dueDate = "12/03/2022";
+
+		// Add a new entry
+		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.PRODUCT_PARAM_ID, id.toString()).param(ModelTest.PRODUCT_PARAM_ISIN, isin)
+				.param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate).param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
+				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
+				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_PRODUCT))
+				.andExpect(model().attribute(BackOfficeController.ATTR_PRODUCT_DTO, is(notNullValue())))
+				.andExpect(model().attribute(BackOfficeController.ATTR_SOUS_JACENT_LIST, is(notNullValue())))
+				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Product entry is incomplete!")));
+
 	}
 
 	/**
@@ -139,7 +209,7 @@ public class BackOfficeControllerTest {
 			// TEST : Expects a returned status OK, the view "create-product.html", model attributes "product" and "ssjacent" exists.
 			mockMvc.perform(MockMvcRequestBuilders.get("/admin/createSsjacent")).andExpect(status().isOk())
 					.andExpect(MockMvcResultMatchers.view().name(expectedViewName))
-					.andExpect(model().attributeExists("ssjacent"));
+					.andExpect(model().attributeExists(BackOfficeController.ATTR_SOUS_JACENT_DTO));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("Should not have thrown an exception.");
@@ -152,16 +222,24 @@ public class BackOfficeControllerTest {
 	 * {@link com.synovia.digital.web.BackOfficeController#addSousJacent(com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testCreateSousJacent_EmptyParams() {
-		try {
-			// TEST : No parameters are sent to the controller ("ssjacent" is empty)
-			mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.ALL).sessionAttr("ssJacent",
-					new PrdSousJacent())).andExpect(status().isOk())
-					.andExpect(view().name(BackOfficeController.VIEW_CREATE_SSJACENT));
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Should not have thrown an exception.");
-		}
+	public void testCreateSousJacent() throws Exception {
+		Long id = 1000001L;
+		String label = "NEW-SJCT-EXAMPLE";
+
+		// Expected values
+		String expectedRedirectViewPath = TestUtil
+				.createRedirectViewPath(BackOfficeController.REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
+
+		// Add a new entry
+		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, label).param(ModelTest.SOUS_JACENT_PARAM_ID, id.toString())
+				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()).with(csrf()))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name(expectedRedirectViewPath))
+				.andExpect(flash().attribute(BackOfficeController.ATTR_SOUS_JACENT_DTO, is(notNullValue())))
+				.andExpect(flash().attribute(BackOfficeController.ATTR_SOUS_JACENT_LIST, is(notNullValue())))
+				.andExpect(flash().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Underlying asset entry [NEW-SJCT-EXAMPLE] was successfully created!")));
+
 	}
 
 	/**
@@ -169,16 +247,50 @@ public class BackOfficeControllerTest {
 	 * {@link com.synovia.digital.web.BackOfficeController#addSousJacent(com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
 	 */
 	@Test
-	public void testCreateSousJacent() {
-		try {
-			mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_JSON)
-					.param("label", "SJCT-EXAMPLE").param("value", "1000").requestAttr("ssjacent", new PrdSousJacent()))
-					.andExpect(status().isOk());
+	public void testCreateSousJacent_DuplicateEntry() throws Exception {
+		// Add a new entry
+		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, "SJCT-EXAMPLE")
+				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()).with(csrf()))
+				.andExpect(status().is3xxRedirection());
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail("Should not have thrown an exception.");
-		}
+		// Duplicate the entry (identified by its label)
+		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, "SJCT-EXAMPLE")
+				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()).with(csrf()))
+				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_SSJACENT))
+				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Underlying asset entry [SJCT-EXAMPLE] already exists!")));
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.web.BackOfficeController#addSousJacent(com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testCreateSousJacent_InvalidEntry() throws Exception {
+		// Add a new entry
+		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, (String) null)
+				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()).with(csrf()))
+				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_SSJACENT))
+				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						is("Underlying asset entry is incomplete!")));
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.web.BackOfficeController#addSousJacent(com.synovia.digital.model.PrdSousJacent, org.springframework.ui.Model)}.
+	 */
+	@Test
+	public void testCreateSousJacent_WithoutCSRFToken() throws Exception {
+		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, "SJCT-EXAMPLE")
+				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()))
+				.andExpect(status().isForbidden());
+
 	}
 
 }

@@ -45,20 +45,6 @@
 	</section>
 	<section class="content-main" role="main">
 	    <div class="main-area">
-	      <h1>Créer un sous-jacent</h1>
-	      <p th:text="${responseMessage}"/>
-	      <div class="main-form">
-          <form name="ss-jacent-form" th:action="@{/admin/createSsjacent}" th:object="${ssjacent}" method="POST">
-            <label for="lbl">Label</label>
-            <input id="lbl" type="text" name="lbl" th:field="*{label}" required="required"/>
-
-            <input type="submit" value="Créer sous-jacent" class="btn btn-primary" />
-          </form>
-
-	      </div>
-	    </div>
-	    
-	    <div class="main-area">
 	      <h1>Liste des sous-jacents</h1>
 	      <div class="main-table">
 			<table>
@@ -69,10 +55,10 @@
 				  <th th:text="#{i18n.code.ssjct.update.date}">Date de mise à jour</th>
 				</tr>
 				<tr th:each="ssjct : ${ssjacents}">
-				  <td th:text="${ssjct.id}">Id du sous-jacent</td>
-				  <td th:text="${ssjct.label}">Label du sous-jacent</td>
-				  <td th:text="${ssjct.createdAt}">Créé le</td>
-				  <td th:text="${ssjct.updatedAt}">Mis à jour le</td>
+				  <td th:text="${ssjct.id}">Id du sous-jacent</th>
+				  <td th:text="${ssjct.label}">Label du sous-jacent</th>
+				  <td th:datetime="${ssjct.createdAt}">Id du sous-jacent</th>
+				  <td th:datetime="${ssjct.updatedAt}">Label du sous-jacent</th>
 				</tr>
 			</table>
 	      </div>

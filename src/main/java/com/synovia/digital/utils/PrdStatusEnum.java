@@ -11,6 +11,6 @@ package com.synovia.digital.utils;
  */
 public enum PrdStatusEnum {
 
-	IDLE, STARTED, ENDED, CLOSED;
+	IDLE, SUBSCRIBABLE, STARTED, STOPPED, CLOSED;
 
 }

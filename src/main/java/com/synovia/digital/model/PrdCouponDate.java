@@ -1,20 +1,18 @@
 package com.synovia.digital.model;
 
-import java.text.ParseException;
+import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Table(name = "prd_coupon_payment_dates", schema = "test")
-@Entity
+@Embeddable
 public class PrdCouponDate extends AbstractPrdProductDate {
 
 	public PrdCouponDate() {
 		super();
 	}
 
-	public PrdCouponDate(Integer seqNb, String date) throws ParseException {
-		super(seqNb, date);
+	public PrdCouponDate(Date date) {
+		super(date);
 	}
 
 }

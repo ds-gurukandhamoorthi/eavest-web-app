@@ -4,6 +4,7 @@
 package com.synovia.digital.service;
 
 import com.synovia.digital.dto.PrdProductDto;
+import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdProduct;
 
@@ -17,5 +18,7 @@ public interface PrdProductService {
 
 	public PrdProduct findById(Long id) throws EavEntryNotFoundException;
 
-	public PrdProduct add(PrdProductDto dto);
+	public Iterable<PrdProduct> findAll();
+
+	public PrdProduct add(PrdProductDto dto) throws EavDuplicateEntryException;
 }

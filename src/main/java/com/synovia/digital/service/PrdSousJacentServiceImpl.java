@@ -6,11 +6,6 @@ package com.synovia.digital.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +37,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 
 	protected final PrdSousJacentValueService sousJacentValueService;
 
-	protected static Validator dtoValidator;
-
 	/**
 	 * TODO Constructs ... based on ...
 	 *
@@ -52,7 +45,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	public PrdSousJacentServiceImpl(PrdSousJacentRepository repo, PrdSousJacentValueService sousJacentValueService) {
 		this.repo = repo;
 		this.sousJacentValueService = sousJacentValueService;
-		this.dtoValidator = Validation.buildDefaultValidatorFactory().getValidator();
 	}
 
 	/*
@@ -68,9 +60,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		if (sousJacentDto == null)
 			return null;
 
-		// Validate the entry
-		validateEntry(sousJacentDto);
-
 		// Search for an existing entry with the same label.
 		PrdSousJacent duplicate = repo.findByLabel(sousJacentDto.getLabel());
 		if (duplicate != null)
@@ -82,13 +71,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 
 		// Save the object to add.
 		return repo.save(toAdd);
-
-	}
-
-	private void validateEntry(PrdSousjacentDto entry) throws EavConstraintViolationEntry {
-		Set<ConstraintViolation<Object>> constraintViolations = dtoValidator.validate(entry);
-		if (!constraintViolations.isEmpty())
-			throw new EavConstraintViolationEntry(PrdSousjacentDto.class.getTypeName(), constraintViolations);
 
 	}
 
@@ -208,8 +190,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 			throws EavEntryNotFoundException, EavConstraintViolationEntry {
 		if (updatedSousJacentDto == null)
 			return null;
-		// Validate entry.
-		validateEntry(updatedSousJacentDto);
 		// Find the corresponding entity.
 		PrdSousJacent entity = repo.findOne(updatedSousJacentDto.getId());
 
@@ -236,6 +216,9 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	private void updateFromDto(PrdSousJacent entity, PrdSousjacentDto dto) {
 		if (dto.getLabel() != null) {
 			entity.setLabel(dto.getLabel());
+		}
+		if (dto.getId() != null) {
+			entity.setId(dto.getId());
 		}
 
 	}

@@ -6,4 +6,5 @@ import com.synovia.digital.model.PrdProduct;
 
 public interface PrdProductRepository extends PagingAndSortingRepository<PrdProduct, Long> {
 
+	public PrdProduct findByIsin(String isin);
 }

@@ -64,8 +64,6 @@ h1 {
     padding-top: 40px;
 }
 
-section.top-header-absolute {/* z-index: 200; *//* position: fixed; *//* width: 100%; *//* padding-right: 20px; */}
-
 span .global-linker {
     padding-right: 5px;
 }
@@ -86,6 +84,8 @@ h1 {
 .content-main {
 	display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 .main-area {
   width: 500px;

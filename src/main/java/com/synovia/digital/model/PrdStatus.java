@@ -34,7 +34,7 @@ public class PrdStatus {
 	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@OneToMany(mappedBy = "status")
+	@OneToMany(mappedBy = "prdStatus")
 	private Collection<PrdProduct> prdProducts;
 
 	/**

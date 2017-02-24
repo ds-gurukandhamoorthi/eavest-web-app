@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,29 +35,28 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "LABEL", nullable = false)
 	private String label;
 
-	@Column(name = "DUE_DATE", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date dueDate;
-
 	@Column(name = "LAUNCH_DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date launchDate;
 
-	@JoinColumn(name = "ID_PRD_SOUSJACENT", referencedColumnName = "ID", nullable = false)
+	@Column(name = "DUE_DATE", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date dueDate;
+
+	@JoinColumn(name = "ID_PRD_SOUSJACENT", referencedColumnName = "ID")
 	@ManyToOne
 	private PrdSousJacent prdSousJacent;
 
-	@JoinColumn(name = "ID_PRD_RULE", referencedColumnName = "ID")
-	@OneToOne()
+	@Embedded
 	private PrdRule prdRule;
 
-	@OneToMany(mappedBy = "idPrdProduct")
+	@Embedded
 	private Set<PrdObservationDate> observationDates;
 
-	@OneToMany(mappedBy = "idPrdProduct")
+	@Embedded
 	private Set<PrdEarlierRepaymentDate> earlyRepaymentDates;
 
-	@OneToMany(mappedBy = "idPrdProduct")
+	@Embedded
 	private Set<PrdCouponDate> couponPaymentDates;
 
 	@Column(name = "SUBSCRIBE_START_DATE")
@@ -88,9 +87,9 @@ public class PrdProduct extends AbstractBean {
 	private String guarantor;
 
 	/** The Status of this entity. Is updated in post-update method. */
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "ID_PRD_STATUS", referencedColumnName = "ID")
-	private PrdStatus status;
+	private PrdStatus prdStatus;
 
 	@ManyToMany(mappedBy = "products")
 	private Set<PrdUser> prdUsers;
@@ -111,10 +110,17 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "STRIKE")
 	private Double strike;
 
+	@Column(name = "OBSERVATION_FREQUENCY")
+	private String observationFrequency;
+
 	@Transient
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	public PrdProduct() {
+		this.prdRule = new PrdRule();
+		this.observationDates = new HashSet<>();
+		this.earlyRepaymentDates = new HashSet<>();
+		this.couponPaymentDates = new HashSet<>();
 	}
 
 	/**
@@ -135,6 +141,7 @@ public class PrdProduct extends AbstractBean {
 	public PrdProduct(String label, Date dueDate, Date dateOfCreation, PrdSousJacent idSousJacent, PrdRule idRule,
 			Date subscriptionStart, Date subscriptionEnd, Double coupon, Double nominalValue, Boolean isGuaranteed,
 			String deliver, String guarantor, Double startPrice) {
+		this();
 		this.label = label;
 		this.dueDate = dueDate;
 		this.launchDate = dateOfCreation;
@@ -205,6 +212,12 @@ public class PrdProduct extends AbstractBean {
 		this.dueDate = dueDate;
 	}
 
+	public void setDueDateAsString(String dueDate) throws ParseException {
+		if (dueDate != null) {
+			this.dueDate = format.parse(dueDate);
+		}
+	}
+
 	public Date getLaunchDate() {
 		return launchDate;
 	}
@@ -215,6 +228,12 @@ public class PrdProduct extends AbstractBean {
 
 	public void setLaunchDate(Date creationDate) {
 		this.launchDate = creationDate;
+	}
+
+	public void setLaunchDateAsString(String creationDate) throws ParseException {
+		if (creationDate != null) {
+			this.launchDate = format.parse(creationDate);
+		}
 	}
 
 	public PrdSousJacent getPrdSousJacent() {
@@ -269,6 +288,10 @@ public class PrdProduct extends AbstractBean {
 		this.subscriptionStartDate = subscriptionStartDate;
 	}
 
+	public void setSubscriptionStartDateAsString(String subscriptionStartDate) throws ParseException {
+		this.subscriptionStartDate = format.parse(subscriptionStartDate);
+	}
+
 	public Date getSubscriptionEndDate() {
 		return subscriptionEndDate;
 	}
@@ -279,6 +302,11 @@ public class PrdProduct extends AbstractBean {
 
 	public void setSubscriptionEndDate(Date subscriptionEndDate) {
 		this.subscriptionEndDate = subscriptionEndDate;
+	}
+
+	public void setSubscriptionEndDateAsString(String subscriptionEndDate) throws ParseException {
+		this.subscriptionEndDate = format.parse(subscriptionEndDate);
+
 	}
 
 	public Double getCouponValue() {
@@ -353,20 +381,20 @@ public class PrdProduct extends AbstractBean {
 		this.prdUsers = prdUsers;
 	}
 
-	public PrdStatus getStatus() {
-		return this.status;
-	}
-
-	public void setStatus(PrdStatus status) {
-		this.status = status;
-	}
-
 	public Date getEndDate() {
 		return this.endDate;
 	}
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getEndDateAsString() {
+		return format.format(endDate);
+	}
+
+	public void setEndDateAsString(String endDate) throws ParseException {
+		this.endDate = format.parse(endDate);
 	}
 
 	public String getPath() {
@@ -400,4 +428,23 @@ public class PrdProduct extends AbstractBean {
 	public void setIsBestSeller(Boolean isBestSeller) {
 		this.isBestSeller = isBestSeller;
 	}
+
+	public String getObservationFrequency() {
+		return this.observationFrequency;
+	}
+
+	public void setObservationFrequency(String observationFrequency) {
+		this.observationFrequency = observationFrequency;
+	}
+
+	public PrdStatus getPrdStatus() {
+		return this.prdStatus;
+	}
+
+	public void setPrdStatus(PrdStatus prdStatus) {
+		this.prdStatus = prdStatus;
+	}
+
+	// -------------------------- OTHER METHODS --------------------------
+
 }
