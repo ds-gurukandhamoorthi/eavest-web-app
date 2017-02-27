@@ -5,7 +5,6 @@ package com.synovia.digital.service;
 
 import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
-import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdSousJacentValue;
 
 /**
@@ -16,7 +15,7 @@ import com.synovia.digital.model.PrdSousJacentValue;
  */
 public interface PrdSousJacentValueService {
 
-	public PrdSousJacentValue create(PrdSousJacent sousJacent, PrdSousJacentValueDto valueDto);
+	public PrdSousJacentValue create(PrdSousJacentValueDto valueDto);
 
 	public void delete(PrdSousJacentValue model);
 

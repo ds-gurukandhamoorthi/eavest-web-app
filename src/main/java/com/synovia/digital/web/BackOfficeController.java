@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +25,7 @@ import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
+import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.service.PrdProductService;
@@ -43,11 +45,13 @@ public class BackOfficeController {
 	public static final String VIEW_CREATE_PRODUCT = "create-product";
 	public static final String VIEW_CREATE_SSJACENT = "create-ssjacent";
 	public static final String VIEW_BACK_OFFICE = "back-office";
+	public static final String VIEW_ADD_PRODUCT_DATE = "product-date";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
 	protected static final String REQUEST_MAPPING_CREATE_SSJACENT_VIEW = "/admin/createSsjacent";
 	protected static final String REQUEST_MAPPING_CREATE_PRODUCT_VIEW = "/admin/createProduct";
+	protected static final String REQUEST_MAPPING_ADD_PRODUCT_DATES = "/admin/products/{id}/addDate";
 
 	protected static final String FLASH_MESSAGE_KEY_FEEDBACK = "feedbackMessage";
 	protected static final String ATTR_MESSAGE_FEEDBACK = "responseMessage";
@@ -88,6 +92,7 @@ public class BackOfficeController {
 		List<PrdSousJacent> sousJacentList = sousJacentService.findAll();
 		model.addAttribute(ATTR_SOUS_JACENT_LIST, sousJacentList);
 		model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+		String view = VIEW_CREATE_PRODUCT;
 		if (result.hasErrors()) {
 			// Deal with entry errors
 			LOGGER.error("The input entry violates constraints.");
@@ -102,9 +107,12 @@ public class BackOfficeController {
 				LOGGER.debug("The input entry was added.");
 
 				// TODO i18n
-				model.addAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Product entry [").append(added.getIsin())
-						.append("] has been successfully created!").toString());
-				model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Product entry [")
+						.append(added.getIsin()).append("] has been successfully created!").toString());
+				attributes.addFlashAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+				attributes.addAttribute(PARAMETER_PRODUCT_ID, added.getId());
+				// Redirect the view
+				view = createRedirectViewPath(REQUEST_MAPPING_ADD_PRODUCT_DATES);
 
 			} catch (EavDuplicateEntryException e) {
 				LOGGER.debug("The input entry to create already exists.");
@@ -117,7 +125,22 @@ public class BackOfficeController {
 			}
 		}
 
-		return VIEW_CREATE_PRODUCT;
+		return view;
+	}
+
+	@GetMapping(value = "/products/{id}/addDate")
+	public String showAddProductDate(@PathVariable("id") Long id, Model model) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+		PrdProduct product;
+		try {
+			product = productService.findById(id);
+			model.addAttribute("product", product);
+
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.error("Product not found");
+			view = "error";
+		}
+		return view;
 	}
 
 	@GetMapping(value = "/createSsjacent")

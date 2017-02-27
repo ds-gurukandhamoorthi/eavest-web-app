@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.springframework.util.Assert;
 
 import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
+import com.synovia.digital.dto.utils.DtoDateFormat;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavException;
 import com.synovia.digital.model.PrdSousJacent;
@@ -57,7 +59,8 @@ public class PrdSousJacentServiceImplTest {
 		repositoryMock = mock(PrdSousJacentRepository.class);
 		sjvRepoMock = mock(PrdSousJacentValueRepository.class);
 
-		PrdSousJacentValueServiceImpl sousJacentValueService = new PrdSousJacentValueServiceImpl(sjvRepoMock);
+		PrdSousJacentValueServiceImpl sousJacentValueService = new PrdSousJacentValueServiceImpl(sjvRepoMock,
+				repositoryMock);
 		sousJacentService = new PrdSousJacentServiceImpl(repositoryMock, sousJacentValueService);
 	}
 
@@ -135,9 +138,11 @@ public class PrdSousJacentServiceImplTest {
 	/**
 	 * Test method for
 	 * {@link com.synovia.digital.service.PrdSousJacentServiceImpl#addValue(java.lang.Long, java.util.Date, java.lang.Double)}.
+	 * 
+	 * @throws ParseException
 	 */
 	@Test
-	public void testAddValueLongDateDouble() {
+	public void testAddValueLongDateDouble() throws ParseException {
 		Long idSousJacent = 5L;
 		PrdSousJacent sousJacent = new PrdSousJacent();
 		sousJacent.setLabel("SS-JCT-TEST");
@@ -146,19 +151,21 @@ public class PrdSousJacentServiceImplTest {
 		when(repositoryMock.findOne(idSousJacent)).thenReturn(sousJacent);
 
 		// Test the add of time-value
-		Date date = new Date();
+		String dateAsString = "2017-02-24";
+		Date date = DtoDateFormat.getFormat().parse(dateAsString);
 		Double value = new Double(4123.45);
 
 		try {
-			PrdSousJacent updated = sousJacentService.addValue(sousJacent.getId(), date, value);
+			PrdSousJacent updated = sousJacentService.addValue(sousJacent.getId(), dateAsString, value);
 
 			ArgumentCaptor<PrdSousJacentValue> prdSousJacentValueArgument = ArgumentCaptor
 					.forClass(PrdSousJacentValue.class);
 			verify(sjvRepoMock, times(1)).save(prdSousJacentValueArgument.capture());
+			verifyNoMoreInteractions(sjvRepoMock);
 			PrdSousJacentValue values = prdSousJacentValueArgument.getValue();
 
 			verify(repositoryMock, times(1)).findOne(idSousJacent);
-			verifyNoMoreInteractions(repositoryMock);
+			//			verifyNoMoreInteractions(repositoryMock);
 
 			assertEquals(idSousJacent, updated.getId());
 			Assert.notEmpty(updated.getPrdSousJacentValues());
@@ -173,9 +180,11 @@ public class PrdSousJacentServiceImplTest {
 	/**
 	 * Test method for
 	 * {@link com.synovia.digital.service.PrdSousJacentServiceImpl#addValue(java.lang.Long, java.util.Date, java.lang.Double)}.
+	 * 
+	 * @throws ParseException
 	 */
 	@Test(expected = EavEntryNotFoundException.class)
-	public void testAddValue_ShouldThrowException() throws EavEntryNotFoundException {
+	public void testAddValue_ShouldThrowException() throws EavEntryNotFoundException, ParseException {
 		Long idSousJacent = 5L;
 		PrdSousJacent sousJacent = new PrdSousJacent();
 		sousJacent.setLabel("SS-JCT-TEST");
@@ -184,10 +193,10 @@ public class PrdSousJacentServiceImplTest {
 		when(repositoryMock.findOne(idSousJacent)).thenReturn(null);
 
 		// Test the add of time-value
-		Date date = new Date();
+		String dateAsString = "2017-02-24";
 		Double value = new Double(4123.45);
 
-		sousJacentService.addValue(sousJacent.getId(), date, value);
+		sousJacentService.addValue(sousJacent.getId(), dateAsString, value);
 
 		verify(repositoryMock, times(1)).findOne(idSousJacent);
 		verifyNoMoreInteractions(repositoryMock);
@@ -207,13 +216,13 @@ public class PrdSousJacentServiceImplTest {
 		when(repositoryMock.findOne(idSousJacent)).thenReturn(sousJacent);
 
 		// Test the add of time-values
-		Map<Date, Double> valuesToAdd = new HashMap<>();
+		Map<String, Double> valuesToAdd = new HashMap<>();
 		Date date1 = new Date(10L);
 		Double value1 = new Double(4123.45);
 		Date date2 = new Date();
 		Double value2 = new Double(723.45);
-		valuesToAdd.put(date1, value1);
-		valuesToAdd.put(date2, value2);
+		valuesToAdd.put(DtoDateFormat.getFormat().format(date1), value1);
+		valuesToAdd.put(DtoDateFormat.getFormat().format(date2), value2);
 
 		try {
 			PrdSousJacent updated = sousJacentService.addValues(sousJacent.getId(), valuesToAdd);
@@ -222,8 +231,8 @@ public class PrdSousJacentServiceImplTest {
 					.forClass(PrdSousJacentValue.class);
 			verify(sjvRepoMock, times(2)).save(prdSousJacentValueArgument.capture());
 
-			verify(repositoryMock, times(1)).findOne(idSousJacent);
-			verifyNoMoreInteractions(repositoryMock);
+			verify(repositoryMock, times(2)).findOne(idSousJacent);
+			//			verifyNoMoreInteractions(repositoryMock);
 
 			assertEquals(idSousJacent, updated.getId());
 			Assert.notEmpty(updated.getPrdSousJacentValues());
@@ -235,8 +244,8 @@ public class PrdSousJacentServiceImplTest {
 		}
 	}
 
-	@Test(expected = EavEntryNotFoundException.class)
-	public void testAddValues_ShouldThrowException() throws EavException {
+	@Test
+	public void testAddValues_NoValuesToAdd() throws EavException {
 		Long idSousJacent = 5L;
 		PrdSousJacent sousJacent = new PrdSousJacent();
 		sousJacent.setLabel("SS-JCT-TEST");
@@ -244,12 +253,26 @@ public class PrdSousJacentServiceImplTest {
 
 		when(repositoryMock.findOne(idSousJacent)).thenReturn(null);
 
-		Map<Date, Double> valuesToAdd = new HashMap<>();
+		Map<String, Double> valuesToAdd = new HashMap<>();
 
 		sousJacentService.addValues(sousJacent.getId(), valuesToAdd);
 
+		verifyZeroInteractions(repositoryMock);
+	}
+
+	@Test(expected = EavEntryNotFoundException.class)
+	public void testAddValues_ShouldThrowException() throws EavException {
+		Long idSousJacent = 5L;
+
+		when(repositoryMock.findOne(idSousJacent)).thenReturn(null);
+
+		Map<String, Double> valuesToAdd = new HashMap<>();
+		valuesToAdd.put("2012-06-25", 0d);
+
+		sousJacentService.addValues(idSousJacent, valuesToAdd);
+
 		verify(repositoryMock, times(1)).findOne(idSousJacent);
-		verifyNoMoreInteractions(repositoryMock);
+		verifyZeroInteractions(repositoryMock);
 	}
 
 	/**
@@ -534,7 +557,7 @@ public class PrdSousJacentServiceImplTest {
 		Long idSousJacent = 5L;
 		String label = "SS-JCT-TEST";
 		PrdSousJacentValueDto sousjacentValueDto = new PrdSousJacentValueDto();
-		Date date = new Date();
+		String date = "2016-12-04";
 		Double value = new Double(4123.45);
 		sousjacentValueDto.setDate(date);
 		sousjacentValueDto.setValue(value);
@@ -548,7 +571,7 @@ public class PrdSousJacentServiceImplTest {
 
 		// Test the add of time-value
 		try {
-			PrdSousJacent updated = sousJacentService.addValue(sousjacentValueDto);
+			PrdSousJacent updated = sousJacentService.addValue(idSousJacent, sousjacentValueDto);
 
 			ArgumentCaptor<PrdSousJacentValue> prdSousJacentValueArgument = ArgumentCaptor
 					.forClass(PrdSousJacentValue.class);
@@ -556,11 +579,11 @@ public class PrdSousJacentServiceImplTest {
 			PrdSousJacentValue values = prdSousJacentValueArgument.getValue();
 
 			verify(repositoryMock, times(1)).findOne(idSousJacent);
-			verifyNoMoreInteractions(repositoryMock);
+			//			verifyNoMoreInteractions(repositoryMock);
 
 			assertEquals(idSousJacent, updated.getId());
 			Assert.notEmpty(updated.getPrdSousJacentValues());
-			assertEquals(date, values.getDate());
+			assertEquals(DtoDateFormat.getFormat().parse(date), values.getDate());
 			assertEquals(value, values.getValue());
 
 		} catch (Exception e) {

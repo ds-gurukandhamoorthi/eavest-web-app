@@ -3,7 +3,6 @@
  */
 package com.synovia.digital.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +24,11 @@ public interface PrdSousJacentService {
 	public PrdSousJacent add(PrdSousjacentDto sousJacentDto)
 			throws EavDuplicateEntryException, EavConstraintViolationEntry;
 
-	public PrdSousJacent addValue(Long idSousJacent, Date date, Double value) throws EavEntryNotFoundException;
+	public PrdSousJacent addValue(Long idSousJacent, String date, Double value) throws EavEntryNotFoundException;
 
-	public PrdSousJacent addValue(PrdSousJacentValueDto valueDto) throws EavEntryNotFoundException;
+	public PrdSousJacent addValue(Long idSousJacent, PrdSousJacentValueDto valueDto) throws EavEntryNotFoundException;
 
-	public PrdSousJacent addValues(Long idSousJacent, Map<Date, Double> values) throws EavEntryNotFoundException;
+	public PrdSousJacent addValues(Long idSousJacent, Map<String, Double> values) throws EavEntryNotFoundException;
 
 	public PrdSousJacent removeValue(Long idSousJacent, Long idSousJacentValue) throws EavEntryNotFoundException;
 

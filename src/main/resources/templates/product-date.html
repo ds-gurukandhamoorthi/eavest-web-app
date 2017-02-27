@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="fr">
+  	<meta charset="UTF-8" />
+	<title>EAVEST Back-Office - create product</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="/css/admin/back-office.css" type="text/css" media="all"/>
+</head>
+<body>
+	<section class="top-header-absolute">
+		<header class="main">
+      		<div class="left-block"></div>
+			<div class="wrapper">
+				<h1>
+					<img src="../img/eavest-logo.png" alt="Eavest" />
+				</h1>
+
+				<nav class="nav-menu">
+					<ul id="menu-main-menu-francais0" class="nav-menu">
+            <li id="menu-item-0" class="menu-item"><a href="http://localhost:8080/admin/">Home B-O</a></li>
+						<li id="menu-item-1" class="menu-item"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
+            <li id="menu-item-2" class="menu-item"><a href="http://localhost:8080/admin/createProduct">Produits</a></li>
+						<li id="menu-item-3" class="menu-item"><a href="#">Autre chose</a></li>
+					</ul>
+				</nav>
+			</div>
+			<div class="language-switcher">
+		        <span class="global-linker">
+	    	      	<a href="/home">Home</a>
+		        </span>
+		    </div>
+
+		</header>
+
+		<div class="slider jquery" style="display: block;">
+			<div class="slider-container"></div>
+		</div>
+	</section>
+	<section class="content-main" role="main">
+    <div class="main-area">
+      <h1><span th:text="#{add.dates}">Ajouter les dates du produits</span> <span th:text="${product.isin}"></span></h1>
+      <div>
+        <h2>Dates d'observation</h2>
+        <p th:text="${responseMessageObs}"/>
+        <div class="row clearfix">
+          <div class="col-md-12 column">
+            <table class="table table-bordered table-hover" id="tab_logic">
+              <thead>
+              	<tr >
+              		<th class="text-center">
+              			#
+              		</th>
+              		<th class="text-center">
+              			Date
+              		</th>
+              	</tr>
+              </thead>
+      				<tbody>
+      					<tr id='addr0'>
+      						<td>
+      						1
+      						</td>
+      						<td>
+      						<input type="text" name='name0'  placeholder='Date' class="form-control"/>
+      						</td>
+      					</tr>
+                          <tr id='addr1'></tr>
+      				</tbody>
+      			</table>
+      		</div>
+      	</div>
+      	<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+      </div>
+      <div>
+        <h2>Dates de paiement anticipé</h2>
+        <p th:text="${responseMessageRefund}"/>
+      </div>
+      <div>
+        <h2>Dates de remboursement de coupon</h2>
+        <p th:text="${responseMessageCoupon}"/>
+        <form name="form" th:action="@{/admin/createProduct}" th:object="${product}" action="/admin/createProduct" method="POST">
+          <label for="isin">Isin</label>
+          <input id="isin" type="text" name="isin" th:field="*{isin}" required="required"/>
+
+
+          <input type="submit" value="Créer produit" class="btn btn-primary" />
+        </form>
+      </div>
+    </div>
+
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      var i=1;
+      $("#add_row").click(function(){
+        $('#addr'+i).html("<td>"+ (i+1) +"</td>"+'<td><input type="text" name="name'+ i + '" placeholder="Date" class="form-control input-md"/></td>');
+
+        $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+        i++;
+      });
+      $("#delete_row").click(function(){
+        if(i>1){
+          $("#addr"+(i-1)).html('');
+          i--;
+        }
+      });
+
+    });
+  </script>
+</body>
+</html>

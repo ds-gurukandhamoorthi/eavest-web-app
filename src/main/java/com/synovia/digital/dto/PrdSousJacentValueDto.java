@@ -17,13 +17,15 @@ import com.synovia.digital.dto.utils.DtoDateFormat;
  * @since 14 févr. 2017
  */
 public class PrdSousJacentValueDto {
+	private Long id;
+
 	/** The id of the underlying asset that contains this value. */
 	@NotNull
 	private Long idPrdSousJacent;
 
-	/** The date of the value [dd/MM/yyyy] */
+	/** The date of the value [yyyy-MM-dd] */
 	@NotNull
-	private Date date;
+	private String date;
 
 	/** The value [EUR] */
 	@NotNull
@@ -41,16 +43,16 @@ public class PrdSousJacentValueDto {
 		this.idPrdSousJacent = idPrdSousJacent;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return this.date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public Date getDateObject() throws ParseException {
+		return DtoDateFormat.getFormat().parse(date);
 	}
 
-	public void setDate(String date) throws ParseException {
-		this.date = DtoDateFormat.getFormat().parse(date);
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public Double getValue() {
@@ -59,6 +61,14 @@ public class PrdSousJacentValueDto {
 
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

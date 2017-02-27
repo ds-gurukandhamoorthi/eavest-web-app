@@ -36,11 +36,11 @@ import com.synovia.digital.utils.PrdStatusEnum;
 @Service
 public class PrdProductServiceImpl implements PrdProductService {
 
-	protected PrdProductRepository repo;
+	protected final PrdProductRepository repo;
 
-	protected PrdSousJacentRepository sousJacentRepo;
+	protected final PrdSousJacentRepository sousJacentRepo;
 
-	protected PrdStatusRepository statusRepo;
+	protected final PrdStatusRepository statusRepo;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
 

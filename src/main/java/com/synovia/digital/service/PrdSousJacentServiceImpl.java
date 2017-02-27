@@ -3,7 +3,6 @@
  */
 package com.synovia.digital.service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +46,13 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		this.sousJacentValueService = sousJacentValueService;
 	}
 
+	private PrdSousJacent convertToEntity(PrdSousjacentDto dto) {
+		PrdSousJacent entity = new PrdSousJacent();
+		entity.setId(dto.getId() != null ? dto.getId() : null);
+		entity.setLabel(dto.getLabel() != null ? dto.getLabel() : null);
+		return entity;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,8 +72,7 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 			throw new EavDuplicateEntryException(PrdSousJacent.class.getTypeName());
 
 		// Create the PrdSousJacent object.
-		PrdSousJacent toAdd = new PrdSousJacent();
-		updateFromDto(toAdd, sousJacentDto);
+		PrdSousJacent toAdd = convertToEntity(sousJacentDto);
 
 		// Save the object to add.
 		return repo.save(toAdd);
@@ -81,24 +86,16 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 * java.util.Date, java.lang.Double)
 	 */
 	@Override
-	public PrdSousJacent addValue(Long idSousJacent, Date date, Double value) throws EavEntryNotFoundException {
+	public PrdSousJacent addValue(Long idSousJacent, String date, Double value) throws EavEntryNotFoundException {
 		LOGGER.debug("Updating an existing entry (add value) with information: {}", idSousJacent);
 		LOGGER.debug("Add: {}", date, value);
-		// Find the underlying asset.
-		PrdSousJacent sousjacent = repo.findOne(idSousJacent);
-
-		if (sousjacent == null)
-			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
-
 		// Create underlying asset value.
 		PrdSousJacentValueDto valueDto = new PrdSousJacentValueDto();
+		valueDto.setIdPrdSousJacent(idSousJacent);
 		valueDto.setDate(date);
 		valueDto.setValue(value);
 		// Add the created value.
-		PrdSousJacentValue valueToAdd = sousJacentValueService.create(sousjacent, valueDto);
-		sousjacent.getPrdSousJacentValues().add(valueToAdd);
-
-		return sousjacent;
+		return addValue(idSousJacent, valueDto);
 
 	}
 
@@ -109,29 +106,15 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 * java.util.Map)
 	 */
 	@Override
-	public PrdSousJacent addValues(Long idSousJacent, Map<Date, Double> values) throws EavEntryNotFoundException {
+	public PrdSousJacent addValues(Long idSousJacent, Map<String, Double> values) throws EavEntryNotFoundException {
 		LOGGER.debug("Updating an existing entry (add values) with information: {}", idSousJacent);
 		LOGGER.debug("Add: {}", values);
-		// Find the underlying asset.
-		PrdSousJacent sousjacent = repo.findOne(idSousJacent);
-
-		if (sousjacent == null)
-			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
-
-		for (Date date : values.keySet()) {
-			Double value = values.get(date);
-			// Create underlying asset value.
-			PrdSousJacentValueDto valueDto = new PrdSousJacentValueDto();
-			valueDto.setDate(date);
-			valueDto.setValue(value);
-			// Add the created value.
-			PrdSousJacentValue valueToAdd = sousJacentValueService.create(sousjacent, valueDto);
-			sousjacent.getPrdSousJacentValues().add(valueToAdd);
-
+		PrdSousJacent toUpdate = null;
+		for (String date : values.keySet()) {
+			toUpdate = addValue(idSousJacent, date, values.get(date));
 		}
 
-		return sousjacent;
-
+		return toUpdate;
 	}
 
 	/*
@@ -217,10 +200,6 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		if (dto.getLabel() != null) {
 			entity.setLabel(dto.getLabel());
 		}
-		if (dto.getId() != null) {
-			entity.setId(dto.getId());
-		}
-
 	}
 
 	/*
@@ -256,16 +235,16 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 * PrdSousJacentValueDto)
 	 */
 	@Override
-	public PrdSousJacent addValue(PrdSousJacentValueDto valueDto) throws EavEntryNotFoundException {
+	public PrdSousJacent addValue(Long idSousJacent, PrdSousJacentValueDto valueDto) throws EavEntryNotFoundException {
 		// Find the PrdSousJacent from input value.
-		PrdSousJacent toUpdate = repo.findOne(valueDto.getIdPrdSousJacent());
+		PrdSousJacent toUpdate = repo.findOne(idSousJacent);
 
 		// If not found, throws an exception.
 		if (toUpdate == null)
 			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
 
 		// Create the PrdSousJacentValue object.
-		PrdSousJacentValue sousJacentValue = sousJacentValueService.create(toUpdate, valueDto);
+		PrdSousJacentValue sousJacentValue = sousJacentValueService.create(valueDto);
 
 		// Add the value.
 		toUpdate.getPrdSousJacentValues().add(sousJacentValue);
