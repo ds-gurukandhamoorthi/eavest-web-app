@@ -14,7 +14,6 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
-
 	  <link rel="stylesheet" type="text/css" href="css/home.css" />
 
 
@@ -33,71 +32,68 @@
 
 <!-- NAVBAR -->
 
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+		<div class="nav">
+			<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
+			<div class="language-switcher">
+				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters">Connexion</a>
+				<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+				<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 
-<div class="container-fluid top-header col-lg-12">
-			<header>
-				<div class="nav">
-					<div class="language-switcher">
-						<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login">Connexion</a>
-						<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/">fr</a>/
-						<a href="http://eavest.com/en/">en</a>
-						<div class="zone-transit">
-							<p sec:authorize="isAuthenticated()">
-								<form th:action="@{/logout}" method="post" >
-									<input type="submit" value="Sign Out" class="btn btn-default" />
-								</form>
-							</p>
-							<p sec:authorize="hasRole('ROLE_ADMIN')">
-								<form th:action="@{/admin}" method="get">
-									<input type="submit" value="Back Office" class="btn btn-default" />
-								</form>
-							</p>
-						</div>
-					</div>
-					<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
-
-					<ul class="navbar list-inline list-unstyled">
-						<li id="menu-mission"><a href="/">MISSION</a></li>
-						<li id="menu-home"><a href="http://localhost:8080/home">Home</a></li>
-						<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
-						<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur mesure</a></li>
-						<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
-						<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
-						<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
-						<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
-					</ul>
-
-					<!-- <div class="slider_jquery slider">
-							<div class="slider-container">
-							</div>
-					</div> -->
+				<div class="zone-transit">
+					<p sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" method="post" >
+							<input type="submit" value="Sign Out" class="btn btn-default" />
+						</form>
+					</p>
+					<p sec:authorize="hasRole('ROLE_ADMIN')">
+						<form th:action="@{/admin}" method="get">
+							<input type="submit" value="Back Office" class="btn btn-default" />
+						</form>
+					</p>
 				</div>
-			</header>
-</div>
+			</div>
+
+
+			<ul class="navbar list-inline list-unstyled">
+				<li id="menu-home"><a href="/home">Home</a></li>
+				<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+				<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
+				<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
+				<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+				<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+				<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
+			</ul>
+			<div class="slider_jquery slider">
+				<div class="slider-container"></div>
+			</div>
+  </div>
+</nav>
+
 
 <!-- SECTION PRODUCTS -->
 <section class="products">
   <div class="container">
     <div class="row">
       <div class="col-sm-6 col-md-6 wrapper">
-        <img src="img/bell.png" alt="bell"/>
-        <h1 class="product-title">PRODUITS REMBOURSÉS<span class="min"> depuis 30 jours</span></h1>
+        <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
+        <h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
 
-        <ul class="list-unstyled">
-          <li class="eavest-list"><span class="margin">resonance 1/FR00196847</span>
+        <ul class="list-unstyled product-content">
+          <li class="eavest-list"><span class="margin grey-letters">resonance 1 / FR00196847</span>
             <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
           </li>
-          <li class="basic-list"><span class="margin">resonance 2/FR00196847</span></li>
-          <li class="basic-list"><span class="margin">resonance 3/FR00196847</span></li>
-          <li class="eavest-list"><span class="margin">resonance 4/FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
+          <li class="basic-list"><span class="margin grey-letters">resonance 2 / FR00196847</span></li>
+          <li class="basic-list"><span class="margin grey-letters">resonance 3 / FR00196847</span></li>
+          <li class="eavest-list"><span class="margin grey-letters">resonance 4 / FR00196847</span>
+            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
           </li>
-          <li class="basic-list"><span class="margin">resonance 5/FR00196847</span></li>
+          <li class="basic-list"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
         </ul>
 
 <!-- modal produits remboursés-->
-        <div class="text-center">
+        <!-- <div class="text-center">
           <input type="image" name="more" src="img/show-more.png" data-toggle="modal" data-target=".modal-refund-product"></input>
           <div class="modal fade modal-refund-product" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal">
             <div class="modal-dialog modal-lg" role="document">
@@ -142,25 +138,25 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
   <!-- End modal -->
 
       </div>
-      <div class="col-sm-6 col-md-6 wrapper">
-        <img src="img/bell.png" alt="bell" />
-        <h1 class="product-title"><b>PRODUITS A RAPPELER</b><span class="min"> dans les 30 jours</span></h1>
-        <ul class="list-unstyled">
-          <li class="basic-list"><span class="margin">resonance 9/FR00196847</span></li>
-          <li class="basic-list"><span class="margin">resonance 8/FR00196847</span></li>
-          <li class="eavest-list"><span class="margin">resonance 7/FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span></li>
-          <li class="basic-list"><span class="margin">resonance 6/FR00196847</span></li>
-          <li class="basic-list"><span class="margin">resonance 5/FR00196847</span></li>
+      <div class="col-sm-6 col-md-6 wrapper padding-left">
+        <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
+        <h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
+        <ul class="list-unstyled product-content">
+          <li class="basic-list"><span class="margin grey-letters">resonance 9 / FR00196847</span></li>
+          <li class="basic-list"><span class="margin grey-letters">resonance 8 / FR00196847</span></li>
+          <li class="eavest-list"><span class="margin grey-letters">resonance 7 / FR00196847</span>
+            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span></li>
+          <li class="basic-list"><span class="margin grey-letters">resonance 6 / FR00196847</span></li>
+          <li class="basic-list"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
         </ul>
       </div>
 
   <!-- modal produits à rappeler -->
-              <div class="text-center">
+              <!-- <div class="text-center">
                 <input type="image" name="more" src="img/show-more.png" data-toggle="modal" data-target=".modal-callback-product"></input>
                 <div class="modal fade modal-callback-product" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="myModal2">
                   <div class="modal-dialog modal-lg" role="document">
@@ -186,157 +182,179 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
     <!-- End modal produits à rappeler-->
 
-
+		<!-- end row products -->
     </div>
+	<!-- end div container (products) -->
   </div>
-  <div class="container bottom-feature">
+  <div class="container">
     <div class="row">
       <div class="col-sm-3 col-md-3">
-          <h2 class="black-block">cherchez un produit parmis nos<br /> 200 références</h2>
+          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> 2000 références</h2>
+
           <div class="search">
-            <p>émetteur, code ISIN, nom du produit, sous-jacent</p>
-            <input type="search" style="background-image:url(img/loupe.png);background-position:right;background-repeat:no-repeat;padding-left:18px;width:175px;" class="search-bar"></input>
+            <p class="grey-letters">Émetteur, Code ISIN,</p>
+						<p class="grey-letters">Nom du produit, Sous-jacent</p>
+						<div class="search-bar">
+							<span>
+								<input type="search"></input>
+								<i class="fa fa-2x fa-search" aria-hidden="true"></i>
+							</span>
+						</div>
           </div>
           <div class="clear"></div>
       </div>
-      <div class="col-sm-6 col-md-6 numbers">
+      <div class="col-sm-6 col-md-6">
         <div>
-          <ul class="list-inline list-unstyled ">
-            <li class="border-green">10</li>
-            <li class="border-green" id="translate">16</li>
+          <ul class="list-inline list-unstyled numbers ">
+            <li class="square-1">10</li>
+            <li class="square-2" id="translate">16</li>
           </ul>
         </div>
-        <h1>PERF REVIEW</h1>
+        <h1 class="perf-review">PERF REVIEW</h1>
 <!-- TABLEAU -->
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th class="first-row">Indices boursiers</th>
-              <th class="col-sm-1 col-md-1">31.10.15</th>
-              <th class="col-sm-1 col-md-1">10.16</th>
-              <th class="col-sm-1 col-md-1">1 an glissant</th>
+              <th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
+              <th class="col-sm-1 col-md-1 special-width">31.10.15</th>
+              <th class="col-sm-1 col-md-1 special-width">10.16</th>
+              <th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Cac 40</td>
-              <td>4509,26</td>
-              <td>1,37%</td>
-              <td>-7,93%</td>
+              <td class="left-align">Cac 40</td>
+              <td class="grey-letters">4509,26</td>
+              <td class="grey-letters">1,37%</td>
+              <td class="grey-letters">-7,93%</td>
             </tr>
             <tr>
-              <td>Produit de Katalina</td>
-              <td>3055,25</td>
-              <td>1,77%</td>
-              <td>-10,62%</td>
+              <td class="left-align">Produit de Katalina</td>
+              <td class="grey-letters">3055,25</td>
+              <td class="grey-letters">1,77%</td>
+              <td class="grey-letters">-10,62%</td>
             </tr>
             <tr>
-              <td>Produit de Teddy</td>
-              <td>1864,51</td>
-              <td>3,10%</td>
-              <td>-135%</td>
+              <td class="left-align">Produit de Teddy</td>
+              <td class="grey-letters">1864,51</td>
+              <td class="grey-letters">3,10%</td>
+              <td class="grey-letters">-135%</td>
             </tr>
-            <tr>
-              <td><img src="img/show-more.png" class="img-responsive" alt="voir-plus" /></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td><img src="img/show-more.png" class="img-responsive" alt="voir-plus" /></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tfoot>
         </table>
       </div>
       <div class="col-sm-3 col-md-3">
         <div class="white-block">
           <h2>LE PRODUIT DU MOIS</h2>
           <div class="month-product">
-            <img src="img/month-product.png" class="img-responsive" alt="produit-du-mois" />
+            <img src="img/month-product.jpg" class="img-responsive img-product" alt="produit-du-mois" />
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<div class="container">
+	<div class="col-md-12 black-line"></div>
+</div>
 
 <!-- SECTION PORTEFEUILLE -->
 <section>
-  <div class="container text-center bottom-feature-2">
-    <div class="row">
-      <div class="hidden-xs col-sm-2 col-md-3 wallet-white-block">
-        <img src="img/wallet.png" alt="portefeuille" />
-      </div>
-      <div class="col-sm-7 col-md-8 wallet-black-block">
-        <h2>investisseurs, cgp, composez et suivez au quotidien votre portefeuille sur votre espace personnel</h2>
-        <button type="button" class="btn btn-secondary wallet-button">créer mon portefeuille</button>
-      </div>
+  <div class="container text-center wrap">
+		<div class="row">
+    <div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
+      <img src="img/wallet.png" alt="portefeuille" />
     </div>
-  </div>
+    <div class="col-sm-9 col-md-9 wallet-black-block">
+      <h2>investisseurs, cgp, composez et suivez au quotidien
+			<span>votre portefeuille sur votre espace personnel</span>
+		</h2>
+      <button type="button" class="btn btn-secondary wallet-button">créer mon portefeuille</button>
+    </div>
+		</div>
+	</div>
 </section>
+<div class="container">
+	<div class="col-md-12 black-line"></div>
+</div>
+
 <!-- SECTION BLOG -->
-<section>
-  <div class="container bottom-feature-2">
-    <div class="row margin-block">
-      <div class="col-md-5 grey-block">
-        <ul class="list-inline list-unstyled">
-          <li class="blue-feature"></li>
-          <li class="blue-title">Mardi 18 octobre 2016</li>
-        </ul>
-        <h4>étude UFF : que veulent les épargnants français ?</h4>
-          <div class="row">
-            <div class="col-md-3">
-              <img src="img/question-mark.png" alt="question" />
-            </div>
-            <div class="col-md-6">
-              <p>Article de Frédéric Lorenzini N3D - 18 octobre 2016 "En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...] "</p>
-            </div>
-          </div>
-      </div>
-      <div class="col-md-2 white-block-blog">
-        <div class="figure-margin">
-          <h2>chiffre du mois</h2>
-          <span class="figure-month">18%</span>
-          <p>des produits structurés blablabla</p>
-        </div>
-      </div>
-      <div class="col-md-4 grey-block-2">
-        <ul class="list-inline list-unstyled">
-          <li class="blue-feature"></li>
-          <li class="blue-title">Mardi 18 octobre 2016</li>
-        </ul>
-        <h4>étude UFF : que veulent les épargnants français ?</h4>
-        <p>Article de Frédéric Lorenzini N3D - 18 octobre 2016 "En ce qui concerne la "compréhension des produits" [...] "</p>
-      </div>
-    </div>
-  </div>
+
+<div class="container">
+	<div class="row blog">
+		<div class="col-md-6 grey-block">
+			<ul class="list-inline list-unstyled blog-width">
+				<li class="blue-feature-1"></li>
+				<li class="blue-title">Mardi 18 octobre 2016</li>
+				<li><h3 class="p1-width">étude UFF : que veulent les épargnants français ?</h3></li>
+			</ul>
+			<div class="row">
+				<div class="col-sm-4 col-md-2 blog-img">
+					<img src="img/question-mark.png" alt="question" />
+				</div>
+				<div class="col-md-8 article">
+					<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span> "En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...] "</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2 col-md-2 white-block-blog">
+			<div class="figure-margin">
+				<h2 class="padding-bottom">chiffre du mois</h2>
+				<span class="figure-month">18%</span>
+				<span class="green-line"></span>
+				<p class="grey-letters">des produits structurés blablabla</p>
+			</div>
+		</div>
+		<div class="col-sm-3 col-sm-3 col-md-3 grey-block-2">
+			<ul class="list-inline list-unstyled">
+				<li class="blue-feature-2"></li>
+				<li class="blue-title">Mardi 18 octobre 2016</li>
+				<h3 class="p2-width">étude UFF :<span> que veulent les épargnants français ?</span></h3>
+				<p class="grey-letters">Article de Frédéric Lorenzini N3D - 18 octobre 2016<span>"En ce qui concerne la "compréhension des produits" [...] "</span></p>
+			</ul>
+		</div>
+	</div>
+</div>
 </section>
+<div class="container">
+<div class="col-md-12 black-line"></div>
+</div>
 
 <!-- SECTION OUR AGREEMENT -->
-<section class="our-agreement">
-  <div class="container">
+<section>
+  <div class="container agreement-block">
     <div class="row margin-block">
-      <div class="col-sm-3 col-md-3 black-block-partner">
-        <p>
-          <span class="main-title">eavest</span>
-          est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.
+      <div class="col-sm-4 col-md-3 black-block-partner">
+        <p class="grey-letters-light">
+          <span class="main-title">eavest </span>est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.
         </p>
       </div>
-      <div class="col-sm-5 col-md-5 grey-block-3">
+      <div class="col-sm-5 col-md-6 grey-block-3">
         <h4><b>Notre agrément</b></h4>
-        <p>EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
-        <img id="ok" src="img/ok.png" alt="ok" class="hidden-xs" />
+        <p class="grey-letters">EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
+        <img id="ok" src="img/ok.png" alt="ok" class="hidden-xs hidden-sm" />
         <div class="row">
           <ul class="list-inline list-unstyled">
-            <li><img src="img/amf.png" alt="amf-logo" class="img-responsive" /></li>
-            <li><img src="img/orias.png" alt="orias-logo" class="img-responsive" /></li>
-            <li><img src="img/anacofi.png" alt="anacofi-logo" class="img-responsive" /></li>
+            <li><img src="img/amf.png" alt="amf-logo" class="img-agreement img-responsive" /></li>
+            <li><img src="img/orias.png" alt="orias-logo" class="img-agreement img-responsive" /></li>
+            <li><img src="img/anacofi.png" alt="anacofi-logo" class="img-agreement img-responsive" /></li>
           </ul>
         </div>
       </div>
-      <div class="col-sm-3 col-md-3 white-block-partner">
+      <div class="col-md-2 white-block-partner">
         <h4><b>Partenaires</b></h4>
-        <p>En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
+        <p class="grey-letters">En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
       </div>
     </div>
   </div>
@@ -346,122 +364,111 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-sm-5 col-md-5 white-block-style">
+      <div class="col-sm-3 col-md-4 white-block-style">
         <h4><b>Nos valeurs</b></h4>
         <div class="row values">
-          <ul class="list-inline list-unstyled">
+          <ul class="list-inline list-unstyled grey-letters">
             <li>
               <h4>indépendance</h4>
-              <img src="img/independance-min.png" alt="independance" />
+              <img src="img/independance.png" alt="independance" class="value-img1" />
             </li>
             <li>
               <h4>expertise</h4>
-              <img src="img/expertise-min.png" alt="expertise" />
+              <img src="img/expertise.png" alt="expertise" class="value-img2" />
             </li>
             <li>
               <h4>ouverture</h4>
-              <img src="img/ouverture-min.png" alt="ouverture" />
+              <img src="img/ouverture.png" alt="ouverture" class="value-img3"/>
             </li>
             <li>
-              <h4>proximité</h4>
-              <img src="img/proximite-min.png" alt="proximité" />
+              <h4 id="proximity">proximité</h4>
+              <img src="img/proximite.png" alt="proximité" class="value-img4"/>
             </li>
           </ul>
         </div>
       </div>
-      <div class="col-sm-5 col-md-5 white-block-style" id="methodo">
+      <div class="col-sm-7 col-md-6 white-block-style-2" id="methodo">
         <h4><b>Notre méthodologie</b></h4>
         <div class="row our-methodologie">
-          <ul class="list-inline list-unstyled">
-            <li class="methodologie">
-              <span class="number">1</span>
-              <p>L'élaboration d'investissement sur mesure </p>
-              <img src="img/elaboration.png" alt="methodologie-1" />
-            </li>
-            <li class="methodologie">
-              <span class="number">2</span>
-              <p>Une aide à la décision</p><br />
-              <img src="img/aide.png" alt="aide" />
-            </li>
-            <li class="methodologie">
-              <span class="number">3</span>
-              <p>Le suivi exclusif d'EAVEST</p><br />
-              <img src="img/suivi.png" alt="suivi" />
-            </li>
-          </ul>
-        </div>
+					<div class="col-xs-3 col-md-3 methodologie">
+						<span class="number">1</span>
+						<p class="grey-letters">L'élaboration d'investissement sur mesure </p>
+						<img src="img/elaboration.png" alt="methodologie-1" class="methodo-img1" />
+					</div>
+					<div class="col-xs-3 col-md-3 methodologie">
+						<span class="number">2</span>
+						<p class="grey-letters p-width-2">Une aide <span>à la décision</span></p>
+						<br>
+						<img src="img/aide.png" alt="aide" class="methodo-img2" />
+					</div>
+					<div class="col-xs-3 col-md-3 methodologie">
+						<span class="number">3</span>
+						<p class="grey-letters p-width-3">Le suivi exclusif EAVEST</p>
+						</br>
+						<img src="img/suivi.png" alt="suivi" class="methodo-img3" />
+					</div>
+				</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- SECTION EQUIPE -->
+<!-- SECTION team -->
 <div class="container">
   <div class="col-sm-12 col-md-12 grey-block-4">
     <div>
-      <h4><b>L'équipe</b></h4>
+      <h3><b>L'équipe</b></h3>
       <ul class="list-inline list-unstyled">
-        <li class="equipe"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
-        <li class="equipe"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="equipe-p">Franck Magne <br />Président Fondateur</span></li>
-        <li class="equipe hidden-xs hidden-sm"><img src="img/more2.png" alt="voir-plus" class="img-more img-responsive" /></li>
+        <li class="team"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+        <li class="team"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+        <li class="team"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+        <li class="team"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+        <li class="team"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
+        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
       </ul>
     </div>
   </div>
 </div>
 
-
-
-
 <!-- FOOTER -->
 <footer>
   <div class="container-fluid">
-    <div class="footer-style navbar fixed-bottom">
-      <div class="col-sm-6 col-md-6">
-        <div class="row">
-          <div class="col-sm-3 col-sm-offset-1 col-lg-3 col-md-offset-1 col-md-2">
-            <p><b>contact@eavest.com</b></p>
-          </div>
-          <div class="col-sm-4 col-lg-4 col-md-4">
-            <p><b>+00(1)42 80 21 00</b></p>
-          </div>
-          <div class="col-sm-4 col-lg-4 col-md-4">
-          <p><b>Mentions légales</b></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-offset-2 col-sm-4 col-lg-offset-2 col-lg-4 col-md-offset-3 col-md-3">
-        <p class="immatriculation-p">Immatriculé à l'Orias n°14001795 (www.orias.fr) Conseiller en investissements Financiers enregistrés sous le n°E003753. Membre de l'ANACOFI - Association agréée par l'AMF</p>
-      </div>
+    <div class="footer-main navbar fixed-bottom">
+			<small class="always-left col-sm-12 col-md-6">
+				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span>
+				<span><a href="">+33 (1) 42 80 21 99</a></span>
+				<span><a href="http://eavest.com/mentions-legales/">mentions légales</a></span>
+			</small>
+			<small class="always-right col-sm-12 col-md-5">
+				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></br>Conseiller en Investissements Financiers </br>enregistré sous le n° E003753,</br>Membre de l’ANACOFI - Association agréée par l’AMF
+			</small>
     </div>
   </div>
 </footer>
+
+<a href="http://eavest.com/" class="footer-arrow">
+	<img src="http://eavest.com/eavest/wp-content/themes/eavest/img/bottom-arrow-top.png" alt="" />
+</a>
+<div class="scroll-back-to-top-wrapper">
+	<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
+</div>
 
 
 		<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
 		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-
+				<script src="js/script.js"></script>
 				<script src="js/libs/jquery-1.10.1.min.js"></script>
 				<script src="js/extra.js"></script>
-				<script src="js/main.js"></script>
 				<script src="js/libs/jquery-1.10.1.min.js" ></script>
 				<script src="js/libs/jquery.autocomplete.js" ></script>
 				<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js" ></script>
 				<script src="js/libs/jquery.mCustomScrollbar.min.js" ></script>
-
-
-
 	</body>
-
-
 </html>
