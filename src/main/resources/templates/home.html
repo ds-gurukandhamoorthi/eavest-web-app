@@ -38,6 +38,7 @@
 			<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
 			<div class="language-switcher">
 				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters">Connexion</a>
+				<a href="#" th:text="${authUserName}">Nom de l'utilisateur</a>
 				<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
 				<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 
