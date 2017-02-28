@@ -21,7 +21,6 @@ public class PrdProductDateDto {
 	private Long id;
 	@NotNull
 	private String date;
-	@NotNull
 	private Long idPrdProduct;
 
 	public PrdProductDateDto() {

@@ -43,75 +43,119 @@
 	<section class="content-main" role="main">
     <div class="main-area">
       <h1><span th:text="#{add.dates}">Ajouter les dates du produits</span> <span th:text="${product.isin}"></span></h1>
+      <p th:text="${responseMessage}"/>
       <div>
         <h2>Dates d'observation</h2>
-        <p th:text="${responseMessageObs}"/>
-        <div class="row clearfix">
-          <div class="col-md-12 column">
-            <table class="table table-bordered table-hover" id="tab_logic">
-              <thead>
-              	<tr >
-              		<th class="text-center">
-              			#
-              		</th>
-              		<th class="text-center">
-              			Date
-              		</th>
-              	</tr>
-              </thead>
-      				<tbody>
-      					<tr id='addr0'>
-      						<td>
-      						1
-      						</td>
-      						<td>
-      						<input type="text" name='name0'  placeholder='Date' class="form-control"/>
-      						</td>
-      					</tr>
-                          <tr id='addr1'></tr>
-      				</tbody>
-      			</table>
-      		</div>
-      	</div>
-      	<a id="add_row" class="btn btn-default pull-left">Add Row</a><a id='delete_row' class="pull-right btn btn-default">Delete Row</a>
+        <form action="#" th:object="${obsDate}" th:action="@{/admin/products/{id}/addObsDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='obsdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="observationDate : ${obsDates}">
+    				  <td th:text="${observationDate.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
       </div>
       <div>
         <h2>Dates de paiement anticipé</h2>
-        <p th:text="${responseMessageRefund}"/>
+        <form action="#" th:object="${earlyPayDate}" th:action="@{/admin/products/{id}/addEarlyRepaymentDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='erdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="payDate : ${earlyPayDates}">
+    				  <td th:text="${payDate.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
       </div>
       <div>
         <h2>Dates de remboursement de coupon</h2>
-        <p th:text="${responseMessageCoupon}"/>
-        <form name="form" th:action="@{/admin/createProduct}" th:object="${product}" action="/admin/createProduct" method="POST">
-          <label for="isin">Isin</label>
-          <input id="isin" type="text" name="isin" th:field="*{isin}" required="required"/>
-
-
-          <input type="submit" value="Créer produit" class="btn btn-primary" />
+        <form action="#" th:object="${couponDate}" th:action="@{/admin/products/{id}/addCouponDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='coupdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
         </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="coupon : ${couponDates}">
+    				  <td th:text="${coupon.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
       </div>
     </div>
 
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script>
-    $(document).ready(function(){
-      var i=1;
-      $("#add_row").click(function(){
-        $('#addr'+i).html("<td>"+ (i+1) +"</td>"+'<td><input type="text" name="name'+ i + '" placeholder="Date" class="form-control input-md"/></td>');
-
-        $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-        i++;
-      });
-      $("#delete_row").click(function(){
-        if(i>1){
-          $("#addr"+(i-1)).html('');
-          i--;
-        }
-      });
-
-    });
-  </script>
 </body>
 </html>

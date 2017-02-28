@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
@@ -28,6 +29,9 @@ import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.service.PrdCouponDateService;
+import com.synovia.digital.service.PrdEarlierRepaymentDateService;
+import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 
@@ -62,12 +66,27 @@ public class BackOfficeController {
 	protected static final String ATTR_PRODUCT_LIST = "products";
 	protected static final String ATTR_SOUS_JACENT_DTO = "ssjacent";
 	protected static final String ATTR_SOUS_JACENT_LIST = "ssjacents";
+	protected static final String ATTR_OBS_DATE_DTO = "obsDate";
+	protected static final String ATTR_OBS_DATE_LIST = "obsDates";
+	protected static final String ATTR_ER_DATE_DTO = "earlyPayDate";
+	protected static final String ATTR_ER_DATE_LIST = "earlyPayDates";
+	protected static final String ATTR_COUPON_DATE_DTO = "couponDate";
+	protected static final String ATTR_COUPON_DATE_LIST = "couponDates";
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
 
 	@Autowired
 	protected PrdProductService productService;
+
+	@Autowired
+	protected PrdObservationDateService obsDateService;
+
+	@Autowired
+	protected PrdEarlierRepaymentDateService earlyPayDateService;
+
+	@Autowired
+	protected PrdCouponDateService couponDateService;
 
 	@RequestMapping()
 	public String showBackOffice() {
@@ -131,6 +150,9 @@ public class BackOfficeController {
 	@GetMapping(value = "/products/{id}/addDate")
 	public String showAddProductDate(@PathVariable("id") Long id, Model model) {
 		String view = VIEW_ADD_PRODUCT_DATE;
+		model.addAttribute(ATTR_OBS_DATE_DTO, new PrdProductDateDto());
+		model.addAttribute(ATTR_ER_DATE_DTO, new PrdProductDateDto());
+		model.addAttribute(ATTR_COUPON_DATE_DTO, new PrdProductDateDto());
 		PrdProduct product;
 		try {
 			product = productService.findById(id);
@@ -140,6 +162,121 @@ public class BackOfficeController {
 			LOGGER.error("Product not found");
 			view = "error";
 		}
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/addObsDate")
+	public String addProductDate(@PathVariable("id") Long id,
+			@Valid @ModelAttribute(ATTR_OBS_DATE_DTO) PrdProductDateDto obsDateDto, BindingResult result,
+			RedirectAttributes attributes, Model model) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+		try {
+			PrdProduct product = productService.findById(id);
+
+			if (result.hasErrors()) {
+				model.addAttribute("product", product);
+				model.addAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Cannot add the date. An error occurs!");
+
+			} else {
+				obsDateDto.setIdPrdProduct(id);
+				obsDateService.add(obsDateDto);
+
+				LOGGER.debug("The input date was added.");
+
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("Input date has been added!").toString());
+				attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute("product", product);
+				// Redirect the view
+				view = createRedirectViewPath("/admin/products/{id}/addDate");
+
+			}
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.error("Product not found");
+			view = "error";
+		}
+
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/addCouponDate")
+	public String addCouponDate(@PathVariable("id") Long id,
+			@Valid @ModelAttribute(ATTR_COUPON_DATE_DTO) PrdProductDateDto couponDateDto, BindingResult result,
+			RedirectAttributes attributes, Model model) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+		try {
+			PrdProduct product = productService.findById(id);
+
+			if (result.hasErrors()) {
+				model.addAttribute("product", product);
+				model.addAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Cannot add the date. An error occurs!");
+
+			} else {
+				couponDateDto.setIdPrdProduct(id);
+				couponDateService.add(couponDateDto);
+				LOGGER.debug("The input date was added.");
+
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("Input date has been added!").toString());
+				attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute("product", product);
+				// Redirect the view
+				view = createRedirectViewPath("/admin/products/{id}/addDate");
+
+			}
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.error("Product not found");
+			view = "error";
+		}
+
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/addEarlyRepaymentDate")
+	public String addEarlyRepaymentDate(@PathVariable("id") Long id,
+			@Valid @ModelAttribute(ATTR_ER_DATE_DTO) PrdProductDateDto earlyPayDateDto, BindingResult result,
+			RedirectAttributes attributes, Model model) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+		try {
+			PrdProduct product = productService.findById(id);
+
+			if (result.hasErrors()) {
+				model.addAttribute("product", product);
+				model.addAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Cannot add the date. An error occurs!");
+
+			} else {
+				earlyPayDateDto.setIdPrdProduct(id);
+				earlyPayDateService.add(earlyPayDateDto);
+				LOGGER.debug("The input date was added.");
+
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("Input date has been added!").toString());
+				attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+				attributes.addFlashAttribute("product", product);
+				// Redirect the view
+				view = createRedirectViewPath("/admin/products/{id}/addDate");
+
+			}
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.error("Product not found");
+			view = "error";
+		}
+
 		return view;
 	}
 

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -86,6 +87,50 @@ public class PrdObservationDateServiceImplTest {
 	 * @throws Exception
 	 */
 	@Test
+	public void testAdd_ProductNull() throws Exception {
+		Long id = 34L;
+		String date = "2008-09-13";
+		PrdProductDateDto dto = new PrdProductDateDto(id, date, null);
+
+		PrdObservationDate added = service.add(dto);
+
+		verifyZeroInteractions(repoMock);
+
+		Assert.assertThat(added, is(nullValue()));
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.service.PrdObservationDateServiceImpl#add(com.synovia.digital.dto.PrdProductDateDto)}.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testAdd_DateNull() throws Exception {
+		Long id = 34L;
+		String date = null;
+		Long idPrdProduct = 765L;
+		PrdProductDateDto dto = new PrdProductDateDto(id, date, idPrdProduct);
+
+		PrdProduct product = new PrdProduct();
+		product.setId(idPrdProduct);
+
+		when(productServiceMock.findById(idPrdProduct)).thenReturn(product);
+
+		PrdObservationDate added = service.add(dto);
+
+		verifyZeroInteractions(repoMock);
+
+		Assert.assertThat(added, is(nullValue()));
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.service.PrdObservationDateServiceImpl#add(com.synovia.digital.dto.PrdProductDateDto)}.
+	 * 
+	 * @throws Exception
+	 */
+	@Test
 	public void testAdd_InvalidDateFormat() throws Exception {
 		Long id = 34L;
 		String date = "2008/09/13";
@@ -96,18 +141,12 @@ public class PrdObservationDateServiceImplTest {
 		product.setId(idPrdProduct);
 
 		when(productServiceMock.findById(idPrdProduct)).thenReturn(product);
-		ArgumentCaptor<PrdObservationDate> captor = ArgumentCaptor.forClass(PrdObservationDate.class);
 
-		service.add(dto);
+		PrdObservationDate added = service.add(dto);
 
-		verify(repoMock, times(1)).save(captor.capture());
-		verifyNoMoreInteractions(repoMock);
+		verifyZeroInteractions(repoMock);
 
-		PrdObservationDate added = captor.getValue();
-
-		Assert.assertThat(added.getId(), is(id));
-		Assert.assertThat(added.getDate(), is(nullValue()));
-		Assert.assertThat(added.getPrdProduct(), is(product));
+		Assert.assertThat(added, is(nullValue()));
 	}
 
 	/**

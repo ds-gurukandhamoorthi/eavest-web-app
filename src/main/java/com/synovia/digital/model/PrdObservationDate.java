@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "prd_observation_table", schema = "test")
+@Table(name = "prd_observation_date", schema = "test")
 public class PrdObservationDate extends AbstractPrdProductDate {
 
 	public PrdObservationDate() {

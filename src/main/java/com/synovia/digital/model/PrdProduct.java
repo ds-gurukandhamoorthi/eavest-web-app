@@ -55,10 +55,10 @@ public class PrdProduct extends AbstractBean {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdProduct")
 	private Set<PrdObservationDate> observationDates;
 
-	@Embedded
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdProduct")
 	private Set<PrdEarlierRepaymentDate> earlyRepaymentDates;
 
-	@Embedded
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdProduct")
 	private Set<PrdCouponDate> couponPaymentDates;
 
 	@Column(name = "SUBSCRIBE_START_DATE")
