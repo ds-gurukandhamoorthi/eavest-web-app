@@ -2,9 +2,11 @@ package com.synovia.digital.model;
 
 import java.util.Date;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Embeddable
+@Entity
+@Table(name = "prd_coupon_date", schema = "test")
 public class PrdCouponDate extends AbstractPrdProductDate {
 
 	public PrdCouponDate() {

@@ -26,7 +26,7 @@ public abstract class AbstractPrdProductDate extends AbstractBean {
 	@JoinColumn(name = "ID_PRD_PRODUCT", nullable = false)
 	private PrdProduct prdProduct;
 
-	@Column(name = "DATE")
+	@Column(name = "DATE", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date date;
 

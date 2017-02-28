@@ -3,6 +3,8 @@
  */
 package com.synovia.digital.service;
 
+import java.util.List;
+
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdObservationDate;
@@ -22,5 +24,7 @@ public interface PrdObservationDateService {
 	public PrdObservationDate findById(Long id);
 
 	public PrdObservationDate update(Long id, PrdProductDateDto dto) throws EavEntryNotFoundException;
+
+	public List<PrdObservationDate> findByIdPrdProduct(Long idPrdProduct);
 
 }
