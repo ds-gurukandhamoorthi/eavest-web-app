@@ -93,6 +93,11 @@ public class BackOfficeController {
 		return VIEW_BACK_OFFICE;
 	}
 
+	@GetMapping(value = "/accounts")
+	public String showEavAccounts(Model model) {
+		return VIEW_BACK_OFFICE;
+	}
+
 	@GetMapping(value = "/createProduct")
 	public String showCreateProduct(Model model) {
 		LOGGER.debug("Show view create product");
