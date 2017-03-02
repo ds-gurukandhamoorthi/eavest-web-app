@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="fr">
+  	<meta charset="UTF-8" />
+	<title>EAVEST Back-Office - create product</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="/css/admin/bo-product.css" type="text/css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css" />
+</head>
+<body>
+	<section class="top-header-absolute">
+		<header class="main">
+      		<div class="left-block"></div>
+			<div class="wrapper">
+				<h1>
+					<img src="../img/eavest-logo.png" alt="Eavest" />
+				</h1>
+
+        <nav class="nav-menu">
+          <ul class="navbar list-inline list-unstyled">
+            <li id="menu-bo-home"><a href="http://localhost:8080/admin/">Home B-O</a></li>
+						<li id="menu-bo-sousjacent"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
+            <li id="menu-bo-product"><a href="http://localhost:8080/admin/createProduct">Produits</a></li>
+            <li id="menu-bo-user"><a href="http://localhost:8080/admin/accounts">Comptes utilisateur</a></li>
+            <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Tests</a></li>
+						<li id="menu-bo-other"><a href="#">Autre chose</a></li>
+    			</ul>
+				</nav>
+			</div>
+			<div class="language-switcher">
+		        <span class="global-linker">
+	    	      	<a href="/home">Home</a>
+		        </span>
+		    </div>
+
+		</header>
+
+		<div class="slider jquery" style="display: block;">
+			<div class="slider-container"></div>
+		</div>
+	</section>
+	<section class="content-main" role="main">
+	    <div class="main-area">
+	      <h1>Créer un produit</h1>
+	      <p th:text="${responseMessage}"/>
+	      <div class="product-form">
+	        <form name="form" th:action="@{/admin/createProduct}" th:object="${product}" action="/admin/createProduct" method="POST">
+	          <label for="isin">Isin</label>
+	          <input id="isin" type="text" name="isin" th:field="*{isin}" required="required"/>
+
+	          <label for="label">Libellé</label>
+	          <input id="label" type="text" name="label" th:field="*{label}" />
+
+	          <label for="sous-jacent">Sous-jacent</label>
+	          <select th:field="*{idPrdSousJacent}">
+	          	<option th:each="ssjacent : ${ssjacents}"
+	          			th:value="${ssjacent.id}"
+	          			th:text="${ssjacent.label}">Underlying asset</option>
+	          </select>
+
+	          <label for="launch-date">Date d'émission</label>
+	          <input id="launch-date" type="date" name="launch-date" th:field="*{launchDate}" />
+
+	          <label for="due-date">Date d'échéance</label>
+	          <input id="due-date" type="date" name="due-date" th:field="*{dueDate}" />
+
+            <!--
+	          <label for="protect">Barrière de protection (%)</label>
+	          <input id="protect" type="number" name="protect" th:field="*{protectionBarrier}" />
+
+	          <label for="coupon">Barrière de coupon (%)</label>
+	          <input id="coupon" type="number" name="coupon" th:field="*{couponBarrier}" />
+
+	          <label for="coupon">Valeur de coupon (%)</label>
+	          <input id="coupon" type="number" name="coupon" th:field="*{couponValue}" />
+
+	          <label for="nominal">Valeur nominale</label>
+	          <input id="nominal" type="number" name="nominal" th:field="*{nominalValue}" />
+
+	          <label for="start-price">Prix d'emission (%)</label>
+	          <input id="start-price" type="number" name="start-price" th:field="*{startPrice}" />
+
+	          <label for="subscription-start">Date de début de souscription</label>
+	          <input id="subscription-start" type="date" name="subscription-start" th:field="*{subscriptionStartDate}" />
+
+	          <label for="subscription-end">Date de fin de souscription</label>
+	          <input id="subscription-end" type="date" name="subscription-end" th:field="*{subscriptionEndDate}" />
+
+	          <label for="deliver">Emetteur</label>
+	          <input id="deliver" type="text" name="deliver" th:field="*{deliver}" />
+
+	          <label for="guarantor">Garant</label>
+	          <input id="guarantor" type="text" name="guarantor" th:field="*{guarantor}" />
+          -->
+
+            <label for="cb-eavest">Produite EAVEST</label>
+	          <input id="cb-eavest" type="checkbox" name="cb-eavest" th:field="*{isEavest}" />
+
+            <label for="end-date">Date de fin</label>
+	          <input id="end-date" type="date" name="end-date" th:field="*{endDate}" />
+
+	          <input type="submit" value="Créer produit" class="btn btn-primary" />
+	        </form>
+
+	      </div>
+	    </div>
+
+	    <div class="main-area">
+	      <h1>Liste des produits</h1>
+	      <div class="main-table">
+			<table id="product-list" class="display" cellspacing="0">
+        <thead>
+  				<tr>
+  				  <th th:text="#{i18n.code.products.id}">Id</th>
+  				  <th th:text="#{i18n.code.products.isin}">ISIN</th>
+  				  <th th:text="#{i18n.code.products.label}">Label</th>
+  				  <th th:text="#{i18n.code.products.launch.date}">Date de création</th>
+  				  <th th:text="#{i18n.code.products.due.date}">Date de mise à jour</th>
+  				  <th th:text="#{i18n.code.products.eavest}">Produits Eavest</th>
+            <th th:text="#{i18n.code.products.end.date}">Date de fin</th>
+  				</tr>
+        </thead>
+        <tbody>
+  				<tr th:each="product : ${products}">
+  				  <td th:text="${product.id}">Id du produit</td>
+  				  <td th:text="${product.isin}">ISIN</td>
+  				  <td th:text="${product.label}">Label du sous-jacent</td>
+  				  <td th:text="${product.launchDate}"></td>
+  				  <td th:text="${product.dueDate}"></td>
+            <td th:text="${product.isEavest}">false</td>
+  				  <td th:text="${product.endDate}">dd/MM/yyyy</td>
+  				</tr>
+        </tbody>
+			</table>
+    </div>
+  </div>
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+  <script src="/js/admin/data-table-example.js"></script>
+</body>
+</html>
