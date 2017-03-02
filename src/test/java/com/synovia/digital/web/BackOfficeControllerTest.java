@@ -125,13 +125,17 @@ public class BackOfficeControllerTest {
 		String launchDate = "2014-03-12";
 		String dueDate = "2022-03-12";
 
+		// Expected values
+		String expectedRedirectViewPath = TestUtil
+				.createRedirectViewPath(BackOfficeController.REQUEST_MAPPING_ADD_PRODUCT_DATES);
+
 		// Add a new entry
 		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param(ModelTest.PRODUCT_PARAM_ID, id.toString()).param(ModelTest.PRODUCT_PARAM_ISIN, isin)
 				.param(ModelTest.PRODUCT_PARAM_LABEL, label).param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate)
 				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
 				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
-				.andExpect(status().isOk()).andExpect(view().name(BackOfficeController.VIEW_CREATE_PRODUCT))
+				.andExpect(status().is3xxRedirection()).andExpect(view().name(expectedRedirectViewPath))
 				.andExpect(model().attributeExists(BackOfficeController.ATTR_PRODUCT_DTO,
 						BackOfficeController.ATTR_SOUS_JACENT_LIST, BackOfficeController.ATTR_PRODUCT_LIST))
 				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
@@ -157,7 +161,7 @@ public class BackOfficeControllerTest {
 				.param(ModelTest.PRODUCT_PARAM_LABEL, label).param(ModelTest.PRODUCT_PARAM_LAUNCH_DATE, launchDate)
 				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
 				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
-				.andExpect(status().isOk());
+				.andExpect(status().is3xxRedirection());
 
 		// Add a new entry
 		mockMvc.perform(post("/admin/createProduct").contentType(MediaType.APPLICATION_FORM_URLENCODED)

@@ -3,6 +3,9 @@
  */
 package com.synovia.digital.web;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.service.EavAccountService;
+import com.synovia.digital.service.PrdProductService;
 
 /**
  * This class defines TODO
@@ -28,8 +32,15 @@ public class HomeController {
 	public static final String VIEW_LOGIN = "login";
 	public static final String VIEW_HOME = "home";
 
+	protected static final String ATTR_REFUND_PRODUCT_LIST = "refundProducts";
+
+	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
+
 	@Autowired
-	public EavAccountService accountService;
+	protected EavAccountService accountService;
+
+	@Autowired
+	protected PrdProductService productService;
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -61,6 +72,7 @@ public class HomeController {
 	public ModelAndView home(ModelAndView modelAndView) {
 		System.out.println("HomeController.home()");
 		modelAndView.setViewName(VIEW_HOME);
+		// Display user info
 		String authentifiedUsername = "";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = auth.getPrincipal();
@@ -72,7 +84,24 @@ public class HomeController {
 			authentifiedUsername = getIdentifiedName(account);
 		}
 		modelAndView.addObject("authUserName", authentifiedUsername);
+
+		// Display the list of refund products
+		int nbDays = NB_DAYS_REFUND_PRODUCT_LIST;
+		modelAndView.addObject(ATTR_REFUND_PRODUCT_LIST,
+				productService.listRefundProducts(getDateForRefundProducts(nbDays)));
+
 		return modelAndView;
+	}
+
+	/**
+	 * 
+	 * @param nbDays
+	 *            [day]
+	 * @return
+	 */
+	private Date getDateForRefundProducts(int nbDays) {
+		Date now = new Date();
+		return DateUtils.addDays(now, -nbDays);
 	}
 
 	private String getIdentifiedName(EavAccount account) {

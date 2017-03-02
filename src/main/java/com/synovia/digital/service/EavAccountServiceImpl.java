@@ -3,6 +3,8 @@
  */
 package com.synovia.digital.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,16 @@ public class EavAccountServiceImpl implements EavAccountService {
 	public EavAccount findByEmail(String username) {
 		// The user name here is the email
 		return repo.findByEmail(username);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.EavAccountService#findAll()
+	 */
+	@Override
+	public List<EavAccount> findAll() {
+		return repo.findAll();
 	}
 
 }

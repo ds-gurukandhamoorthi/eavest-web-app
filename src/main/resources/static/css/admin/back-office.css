@@ -16,7 +16,10 @@ body {
     margin-bottom: 40px;
 }
 
-.main a {text-decoration: none;}
+.main a {
+  text-decoration: none;
+  color: black;
+}
 
 .main .wrapper {
     flex: 1;
@@ -31,39 +34,13 @@ body {
     width: 150px;
 }
 .language-switcher a:hover{text-decoration: underline}
-/*
-ul#menu-main-menu-francais0 {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-    line-height: 13px;
-    text-transform: uppercase;
-    text-align: center;
-}
 
-li#menu-item-1 {display: inline-block;text-align: center;padding: 0 17px;}
-
-li#menu-item-2 {
-    display: inline-block;
-    text-align: center;
-    padding: 0 17px;
-}
-
-.nav-menu a, a:visited {color: #020202}
-
-.nav-menu a:hover, a:focus{
-  color: #0F45FF;
-}
-*/
-
-.nav {
-  /*background-color: white;*/
+.nav-menu {
 	text-align: center;
 	color: black;
 	text-transform: uppercase;
 	font-weight: bold;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .navbar {
@@ -75,10 +52,6 @@ li#menu-item-2 {
   margin-top: 0;
 }
 
-.nav a {
-  color: black;
-  font-size: 12px;
-}
 .navbar li {
 	text-decoration: none;
 	padding: 15px;
@@ -86,7 +59,6 @@ li#menu-item-2 {
 
 ul>li>a:hover {
 	color: blue !important;
-	background-color: white !important;
 }
 
 h1 {
@@ -152,8 +124,3 @@ input[type=submit] {
 	top: 25px;
 	left: 15px;
 }
-/*
-nav {
-    font-weight: bold;
-}
-*/

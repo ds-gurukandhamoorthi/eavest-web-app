@@ -3,6 +3,9 @@
  */
 package com.synovia.digital.service;
 
+import java.util.Date;
+import java.util.List;
+
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
@@ -21,4 +24,6 @@ public interface PrdProductService {
 	public Iterable<PrdProduct> findAll();
 
 	public PrdProduct add(PrdProductDto dto) throws EavDuplicateEntryException;
+
+	public List<PrdProduct> listRefundProducts(Date from);
 }

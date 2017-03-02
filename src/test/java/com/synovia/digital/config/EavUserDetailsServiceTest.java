@@ -7,7 +7,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.spring.config.EavUserDetailsService;
@@ -36,7 +35,7 @@ public class EavUserDetailsServiceTest {
 	 * Test method for
 	 * {@link com.synovia.digital.spring.config.EavUserDetailsService#loadUserByUsername(java.lang.String)}.
 	 */
-	@Test
+	//	@Test
 	public void testLoadUserByUsername() {
 		fail("Not yet implemented");
 	}

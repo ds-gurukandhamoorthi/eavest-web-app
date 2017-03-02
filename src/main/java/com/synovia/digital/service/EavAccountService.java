@@ -3,6 +3,8 @@
  */
 package com.synovia.digital.service;
 
+import java.util.List;
+
 import com.synovia.digital.model.EavAccount;
 
 /**
@@ -14,4 +16,6 @@ import com.synovia.digital.model.EavAccount;
 public interface EavAccountService {
 
 	public EavAccount findByEmail(String username);
+
+	public List<EavAccount> findAll();
 }

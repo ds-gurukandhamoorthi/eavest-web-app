@@ -29,6 +29,7 @@ import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.PrdCouponDateService;
 import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
@@ -46,10 +47,12 @@ import com.synovia.digital.service.PrdSousJacentService;
 public class BackOfficeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BackOfficeController.class);
 
-	public static final String VIEW_CREATE_PRODUCT = "create-product";
-	public static final String VIEW_CREATE_SSJACENT = "create-ssjacent";
+	public static final String VIEW_CREATE_PRODUCT = "bo-create-product";
+	public static final String VIEW_CREATE_SSJACENT = "bo-create-ssjacent";
 	public static final String VIEW_BACK_OFFICE = "back-office";
-	public static final String VIEW_ADD_PRODUCT_DATE = "product-date";
+	public static final String VIEW_ADD_PRODUCT_DATE = "bo-product-date";
+	public static final String VIEW_ACCOUNTS = "bo-accounts";
+	public static final String VIEW_TESTS_MENU = "bo-product-tests";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
@@ -72,6 +75,7 @@ public class BackOfficeController {
 	protected static final String ATTR_ER_DATE_LIST = "earlyPayDates";
 	protected static final String ATTR_COUPON_DATE_DTO = "couponDate";
 	protected static final String ATTR_COUPON_DATE_LIST = "couponDates";
+	protected static final String ATTR_ACCOUNT_LIST = "accounts";
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
@@ -88,6 +92,9 @@ public class BackOfficeController {
 	@Autowired
 	protected PrdCouponDateService couponDateService;
 
+	@Autowired
+	protected EavAccountService accountService;
+
 	@RequestMapping()
 	public String showBackOffice() {
 		return VIEW_BACK_OFFICE;
@@ -95,7 +102,17 @@ public class BackOfficeController {
 
 	@GetMapping(value = "/accounts")
 	public String showEavAccounts(Model model) {
-		return VIEW_BACK_OFFICE;
+		model.addAttribute(ATTR_ACCOUNT_LIST, accountService.findAll());
+		return VIEW_ACCOUNTS;
+	}
+
+	@GetMapping(value = "/tests")
+	public String showTestMenu(Model model) {
+		LOGGER.debug("Show menu tests");
+		model.addAttribute(ATTR_PRODUCT_DTO, new PrdProductDto());
+		model.addAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
+		model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+		return VIEW_TESTS_MENU;
 	}
 
 	@GetMapping(value = "/createProduct")
@@ -289,6 +306,7 @@ public class BackOfficeController {
 	public String showCreateSousJacent(Model model) {
 		System.out.println("BackOfficeController.showCreateSousJacent()");
 		model.addAttribute(ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto());
+		model.addAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
 		//		ssjacentRepo.save(ssJacent);
 		return VIEW_CREATE_SSJACENT;
 

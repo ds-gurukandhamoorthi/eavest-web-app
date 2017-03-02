@@ -1,10 +1,15 @@
 package com.synovia.digital.repository;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.synovia.digital.model.PrdProduct;
 
-public interface PrdProductRepository extends PagingAndSortingRepository<PrdProduct, Long> {
+public interface PrdProductRepository extends JpaRepository<PrdProduct, Long> {
 
 	public PrdProduct findByIsin(String isin);
+
+	public List<PrdProduct> findByEndDateAfter(Date from);
 }

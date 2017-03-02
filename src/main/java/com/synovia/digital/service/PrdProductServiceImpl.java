@@ -4,8 +4,10 @@
 package com.synovia.digital.service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -90,90 +92,14 @@ public class PrdProductServiceImpl implements PrdProductService {
 		// Create the PrdProduct object.
 		PrdProduct toAdd = convertToEntity(dto);
 
+		// TODO Apply basic rules from PrdProduct fields
+
 		// Save the object to add.
 		return repo.save(toAdd);
 	}
 
 	private void updateFromDto(PrdProduct entity, PrdProductDto dto) {
-		if (dto.getIsBestSeller() != null) {
-			entity.setIsBestSeller(dto.getIsBestSeller());
-		}
-		if (dto.getCapitalGuaranteed() != null) {
-			entity.setCapitalGuaranteed(dto.getCapitalGuaranteed());
-		}
-		if (dto.getCouponValue() != null) {
-			entity.setCouponValue(dto.getCouponValue());
-		}
-		if (dto.getDeliver() != null) {
-			entity.setDeliver(dto.getDeliver());
-		}
-		if (dto.getDueDate() != null) {
-			try {
-				entity.setDueDate(dto.getDueDateObject());
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-		}
-		if (dto.getIsEavest() != null) {
-			entity.setIsEavest(dto.getIsEavest());
-		}
-		if (dto.getEndDate() != null) {
-			try {
-				entity.setEndDate(dto.getEndDateObject());
-			} catch (ParseException e) {
-			}
-		}
-		if (dto.getGuarantor() != null) {
-			entity.setGuarantor(dto.getGuarantor());
-		}
-		if (dto.getIsin() != null) {
-			entity.setIsin(dto.getIsin());
-		}
-		if (dto.getLabel() != null) {
-			entity.setLabel(dto.getLabel());
-		}
-		if (dto.getLaunchDate() != null) {
-			try {
-				entity.setLaunchDate(dto.getLaunchDateObject());
-			} catch (ParseException e) {
-			}
-		}
-		if (dto.getNominalValue() != null) {
-			entity.setNominalValue(dto.getNominalValue());
-		}
-		if (dto.getPath() != null) {
-			entity.setPath(dto.getPath());
-		}
-		if (dto.getStartPrice() != null) {
-			entity.setStartPrice(dto.getStartPrice());
-		}
-		if (dto.getSubscriptionEndDate() != null) {
-			try {
-				entity.setSubscriptionEndDate(dto.getSubscriptionEndDateObject());
-			} catch (ParseException e) {
-			}
-		}
-		if (dto.getSubscriptionStartDate() != null) {
-			try {
-				entity.setSubscriptionStartDate(dto.getSubscriptionStartDateObject());
-			} catch (ParseException e) {
-			}
-		}
-		if (dto.getObservationFrequency() != null) {
-			entity.setObservationFrequency(dto.getObservationFrequency());
-		}
-		if (dto.getCouponBarrier() != null) {
-			entity.getPrdRule().setCouponBarrier(dto.getCouponBarrier());
-		}
-		if (dto.getProtectionBarrier() != null) {
-			entity.getPrdRule().setProtectionBarrier(dto.getProtectionBarrier());
-		}
-		if (dto.getIdPrdSousJacent() != null) {
-			entity.setPrdSousJacent(sousJacentRepo.findOne(dto.getIdPrdSousJacent()));
-		}
-		if (dto.getStrike() != null) {
-			entity.setStrike(dto.getStrike());
-		}
+		// TODO A status automatically sets the end date and vice versa
 	}
 
 	private PrdProduct convertToEntity(PrdProductDto dto) {
@@ -283,5 +209,16 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Override
 	public Iterable<PrdProduct> findAll() {
 		return repo.findAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#listRefundProducts(java.util.Date)
+	 */
+	@Override
+	public List<PrdProduct> listRefundProducts(Date from) {
+		return (from == null) ? new ArrayList<>() : repo.findByEndDateAfter(from);
 	}
 }
