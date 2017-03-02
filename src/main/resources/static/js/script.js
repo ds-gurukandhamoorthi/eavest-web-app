@@ -21,20 +21,24 @@ $(function() {
 
   // Stop the arrow before footer
   $(window).scroll(function() {
-  if ($(document).height() <= ($(window).height() + $(window).scrollTop()))
+    var height = $(window).height();
+    var footHeight = $('#footer').offset().top;
+
+if ($(document).height() <= ($(window).height() + $(window).scrollTop()))
+{
+  $('.footer-arrow').css({
+    position: 'fixed',
+    bottom: 140
+    });
+  } else
   {
-    $('.footer-arrow').css({
-      position: 'fixed',
-      bottom: 130
-      });
-    } else
-    {
-    $('.footer-arrow').css({
-      position: 'fixed',
-      bottom: 20
-      });
-    }
-  })
+  $('.footer-arrow').css({
+    position: 'fixed',
+    bottom: 20,
+    });
+  }
+})
+
   // scroll up on click arrow big
   $('.footer-arrow').click(function(){
   $('html, body').animate({scrollTop:0}, 'speed');
@@ -45,27 +49,48 @@ $(function() {
   });
 });
 
-// Mouse Over
-$(function() {
-  $('#more-1').hide();
-  $(".product-content-1").hover(function(){
-      $(this).css("opacity", 0.5);
-      $(this).css("background-color", "white");
-      $("#more-1").show();
-      }, function(){
-      $(this).css("opacity", 1);
-      $(this).css("background-color", "transparent");
-      $("#more-1").hide();
-  });
 
-  $('#more-2').hide();
-  $(".product-content-2").hover(function(){
-    $(this).css("opacity", 0.5);
-    $(this).css("background-color", "white");
-    $("#more-2").show();
-    }, function(){
-    $(this).css("opacity", 1);
-    $(this).css("background-color", "transparent");
-    $("#more-2").hide();
+// Mouse Over
+  $(function() {
+
+// block produits remboursés
+    $('#more-1').hide();
+    $('#more-2').hide();
+
+    $('.overlay-1').mouseover(function(){
+      $('.overlay-1').css({'background':'white', 'opacity':'0.6'});
+      $('.overlay-item').css({'background':'white', 'opacity':'0.6'});
+      $(this).fadeIn("slow");
+      $('#more-1').show();
+        $('#more-1').mouseover(function(){
+          $('.overlay-1').css({'background':'white', 'opacity':'0.6'});
+          $('.overlay-item').css({'background':'white', 'opacity':'0.6'});
+          $('#more-1').show();
+          $('#more-1').stop(true);
+        })
+    });
+    $('.overlay-1').mouseout(function(){
+      $('#more-1').hide();
+      $('.overlay-1').css({'background':'transparent','opacity':'1'});
+      $('.overlay-item').css({'background':'white','opacity':'1'});
+    });
+
+// block produits à rappeler
+  $('.overlay-2').mouseover(function(){
+    $('.overlay-2').css({'background':'white', 'opacity':'0.6'});
+    $('.overlay-item').css({'background':'white', 'opacity':'0.6'});
+    $(this).fadeIn("slow");
+    $('#more-2').show();
+      $('#more-2').mouseover(function(){
+        $('.overlay-2').css({'background':'white', 'opacity':'0.6'});
+        $('.overlay-item').css({'background':'white', 'opacity':'0.6'});
+        $('#more-2').show();
+        $('#more-2').stop(true);
+      })
+    });
+    $('.overlay-2').mouseout(function(){
+      $('#more-2').hide();
+      $('.overlay-2').css({'background':'transparent','opacity':'1'});
+      $('.overlay-item').css({'background':'white','opacity':'1'});
+    });
   });
-});

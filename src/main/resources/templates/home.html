@@ -38,7 +38,7 @@
 			<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
 			<div class="language-switcher">
 				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters">Connexion</a>
-				<a href="#" th:text="${authUserName}">Nom de l'utilisateur</a>
+				<a href="#" th:text="${authUserName}" class="italicized">Nom de l'utilisateur</a>
 				<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
 				<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 
@@ -82,11 +82,16 @@
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
 
-				<ul class="list-unstyled product-content-1" th:each="refund : ${refundProducts}">
-					<li th:if="${refundStat.count} le 5" class="basic-list"><span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${refund.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
-					</li>
-
+        <ul class="list-unstyled product-content-1 overlay-1">
+          <li class="eavest-list overlay-item"><span class="margin grey-letters">resonance 1 / FR00196847</span>
+            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" /></span>
+          </li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 2 / FR00196847</span></li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 3 / FR00196847</span></li>
+          <li class="eavest-list overlay-item"><span class="margin grey-letters">resonance 4 / FR00196847</span>
+            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
+          </li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
         </ul>
 				<a class="over">
 					<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
@@ -96,22 +101,14 @@
       <div class="col-sm-6 col-md-6 wrapper padding-left">
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
-				<ul class="list-unstyled product-content-2" th:each="tocall : ${tocallProducts}">
-					<li th:if="${tocall.count} le 5" class="basic-list"><span class="margin grey-letters" th:text="${tocall.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
-					</li>
-
-        </ul>
-				<!--
-        <ul class="list-unstyled product-content-2">
-          <li class="basic-list"><span class="margin grey-letters">resonance 9 / FR00196847</span></li>
-          <li class="basic-list"><span class="margin grey-letters">resonance 8 / FR00196847</span></li>
-          <li class="eavest-list"><span class="margin grey-letters">resonance 7 / FR00196847</span>
+        <ul class="list-unstyled product-content-2 overlay-2">
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 9 / FR00196847</span></li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 8 / FR00196847</span></li>
+          <li class="eavest-list overlay-item"><span class="margin grey-letters">resonance 7 / FR00196847</span>
             <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span></li>
-          <li class="basic-list"><span class="margin grey-letters">resonance 6 / FR00196847</span></li>
-          <li class="basic-list"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 6 / FR00196847</span></li>
+          <li class="basic-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
         </ul>
-			-->
 				<a class="over">
 					<span><img id="more-2" src="img/more-hover.png" alt="voir-plus" /></span>
 				</a>
@@ -123,7 +120,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3 col-md-3">
-          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span>2000</span> références</h2>
+          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> 2000 références</h2>
 
           <div class="search">
             <p class="grey-letters">Émetteur, Code ISIN,</p>
@@ -368,7 +365,7 @@
 </div>
 
 <!-- FOOTER -->
-<footer id ="wholeFooter">
+<footer id ="footer">
   <div class="container-fluid">
     <div class="footer-main navbar fixed-bottom">
 			<small class="always-left col-sm-12 col-md-6">
@@ -383,7 +380,7 @@
   </div>
 </footer>
 
-<a class="footer-arrow" id="arrow-position">
+<a class="footer-arrow" id="arrow-position" active>
 	<img src="img/bottom-arrow-top.png" />
 </a>
 <div id="scroll-back-to-top">
@@ -396,6 +393,7 @@
 		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 				<script src="js/script.js"></script>
+				<script src="js/libs/jquery-1.10.1.min.js"></script>
 				<script src="js/extra.js"></script>
 				<script src="js/libs/jquery-1.10.1.min.js" ></script>
 				<script src="js/libs/jquery.autocomplete.js" ></script>

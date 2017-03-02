@@ -147,13 +147,13 @@ h5 {
   font-size: 12px;
 }
 .navbar li {
-	text-decoration: none;
 	padding: 15px;
 }
 
 ul>li>a:hover {
 	color: blue !important;
 	background-color: white !important;
+  text-decoration: none !important;
 }
 
 #twitter {
@@ -237,13 +237,34 @@ input.btn.btn-default {
 /*hover*/
 
 #more-1, #more-2 {
-  display: inline-block;
-  background: transparent;
-  padding: 9px 25px;
+  display: block;
   position: absolute;
-  left: 36%;
+  left: 42%;
   top: 49%;
+  width: 100px;
+  height: 96px;
+  cursor: auto;
+  /*-webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;*/
 }
+
+#more-1:hover, #more-2:hover {
+  width: 100px;
+  height: 96px;
+  /*backface-visibility: hidden;*/
+}
+
+.overlay-1, .overlay-2 {
+  transition: all 0.4s ease;
+}
+
+
+/*.product-content-1 {
+  transition-property: background-color;
+  transition-duration: 6s;
+}*/
 
 /*end hover*/
 
@@ -757,6 +778,8 @@ table {
 .img-circle {
   width: 100px;
   height: 100px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 
 .img-more {
@@ -766,10 +789,6 @@ table {
   top: 65px;
 }
 
-.img-circle {
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
 
 /*FOOTER*/
 footer * {
@@ -814,6 +833,16 @@ footer * {
   position: fixed;
   right: 20px;
   bottom: 20px;
+}
+
+.footer-arrow-2 {
+  position: fixed;
+  right: 20px;
+  bottom: 140px;
+}
+
+a#arrow-position {
+    cursor: pointer;
 }
 
 #scroll-back-to-top {
@@ -996,7 +1025,7 @@ footer * {
       margin: 5px;
       margin-right: 34px;
       padding-right: 22px;
-      width: 23%;
+      /*width: 23%;*/
       display: inline-block;
     }
     .p-width-2 {
