@@ -5,11 +5,67 @@ body {
     padding-top: 250px;
     background: #F2F2F2;
     color: #020202;
-    font-family: 'Open Sans', Arial;
+    font-family: 'Open Sans', 'Quicksand', Arial, sans-serif;
     font-size: 14px;
     line-height: 17px;
     justify-content: space-between;
 }
+
+/*@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-Bold.otf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-BoldIta.otf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-Book.otf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-BookIta.otf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-Light.otf") format("truetype");
+    font-weight: lighter;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRnd-MedItal.otf") format("truetype");
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRounded-LightItalic.otf") format("truetype");
+    font-weight: lighter;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "GothamRnd";
+    src: url("font/GothamRounded-Medium.otf") format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}*/
 
 h1 {
   font-size: 17px;
@@ -114,7 +170,7 @@ h5 {
 	text-decoration: none;
 	position: absolute;
 	right: 25px;
-	top: 25px;
+	top: 23px;
 	font-size: 14px;
 	font-weight: bold;
   line-height: 3;
@@ -134,9 +190,19 @@ h5 {
 }
 
 .navbar {
-	margin: 40px 3px 0px 0;
   font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: white;
+  text-align: center;
+  margin-top: 15px;
+  padding-bottom: 20px;
 }
+
+.navbar a {
+  color: black;
+}
+
 
 .navbar-fixed-top {
   margin-top: 0;
@@ -162,6 +228,11 @@ ul>li>a:hover {
 
 .zone-transit {
   display: flex;
+  transform: translateX(48px);
+}
+
+#log {
+  transform: translateY(-10px);
 }
 
 #menu-home a {
@@ -169,7 +240,7 @@ ul>li>a:hover {
 }
 
 .logo {
-	padding-top: 22px;
+	padding-top: 15px;
 }
 
 input.btn.btn-default {
@@ -205,29 +276,29 @@ input.btn.btn-default {
   background-color: #F2F2F2;
 }
 
+#translate-p {
+  transition: translateY(-50px);
+}
+
 .products-title {
   font-weight: bold;
   color: black !important;
 }
 
-.basic-list {
+.prod-list {
   background-color: white;
   text-transform: uppercase;
   display: block;
   margin-top: 15px;
-  height: 32px;
-  padding-top: 2px;
-  font-size: 16px;
-}
-
-.eavest-list {
-  background-color: white;
-  text-transform: uppercase;
-  display: block;
-  margin-top: 17px;
   height: 31px;
   font-size: 16px;
+  padding-top: 2px;
 }
+
+img#eavest {
+    transform: translateY(-2px);
+}
+
 
 .margin {
   margin-left: 8px;
@@ -457,7 +528,7 @@ table {
 }
 
 .wrap {
-  padding: 15px 1px 10px 15px;
+  padding: 15px 1px 15px 15px;
 }
 
 .black-line {
@@ -473,7 +544,6 @@ table {
 
 .blog {
   margin-top: 15px;
-  margin-bottom: 15px;
 }
 
 .blog-width {
@@ -488,6 +558,7 @@ table {
   padding-left: 22px;
   margin-right: auto;
   right: 15px;
+  margin-bottom: 15px;
 }
 
 .blue-feature-1 {
@@ -522,7 +593,6 @@ table {
 }
 
 .p1-width {
-  width: 86%;
   padding-bottom: 10px;
 }
 
@@ -537,7 +607,7 @@ table {
 
 .article p {
   font-size: 12px;
-  margin-left: 40px;
+  text-align: justify;
 }
 
 .article p span {
@@ -591,7 +661,7 @@ table {
   font-size: 14px;
   background-color: #E5E5E5;
   padding-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 33px;
   padding-left: 22px;
   float: right;
   right: 15px;
@@ -599,7 +669,7 @@ table {
 
 /*SECTION OUR AGREEMENT*/
 .agreement-block {
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 }
 
 .black-block-partner {
@@ -626,7 +696,7 @@ table {
   background-color: #E5E5E5;
   margin-left: 22px;
   padding-left: 18px;
-  height: 237px;
+  height: 228px;
 }
 
 .grey-block-3 p {
@@ -833,13 +903,14 @@ footer * {
   position: fixed;
   right: 20px;
   bottom: 20px;
+  width: 50px;
 }
 
-.footer-arrow-2 {
+/*.footer-arrow-2 {
   position: fixed;
   right: 20px;
   bottom: 140px;
-}
+}*/
 
 a#arrow-position {
     cursor: pointer;
@@ -853,13 +924,35 @@ a#arrow-position {
 /*MEDIA QUERIES*/
 
 /*1- Small devices (landscape phones, 576px and up)*/
+@media(max-width:500px){
+  #eavest-logo {
+    transform: translateY(-14px);
+  }
+  .logo {
+    width: 150px;
+    transform: translateY(-16px);
+  }
+  .language-switcher {
+    margin-top: 0;
+    padding-top: 22px;
+    margin-right: 37px;
+  }
+  #log {
+    margin: 2px 3px;
+    padding: 0px 12px;
+  }
+  .navbar {
+    padding: 13px;
+  }
+  .auth {
+    margin-top: 10px;
+  }
+}
+
 @media(max-width:767px){
   .logo {
-    padding-top: 30px;
+    padding-top: 16px;
     margin-left: 20px;
-  }
-  .img-bell {
-    margin: auto;
   }
   .padding-left {
     padding-left: 15px;
@@ -949,7 +1042,7 @@ a#arrow-position {
 
   @media(min-width:768px) {
     .logo {
-      padding-top: 22px;
+      padding-top: 15px;
       margin-left: auto;
     }
     input[type=search] {
@@ -1016,7 +1109,7 @@ a#arrow-position {
       margin-top: 15px;
     }
     .agreement-block {
-     padding-bottom: 0;
+     padding-bottom: 15px;
     }
     .black-block-partner {
       padding-bottom: 7px;
@@ -1030,6 +1123,12 @@ a#arrow-position {
     }
     .p-width-2 {
       width: 116%;
+    }
+  }
+
+  @media(max-width:850px) {
+    .language-switcher {
+      font-size: 1rem;
     }
   }
 
