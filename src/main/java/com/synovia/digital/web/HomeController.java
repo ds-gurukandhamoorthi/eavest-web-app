@@ -4,6 +4,7 @@
 package com.synovia.digital.web;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.service.EavAccountService;
+import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 
 /**
@@ -33,6 +36,9 @@ public class HomeController {
 	public static final String VIEW_HOME = "home";
 
 	protected static final String ATTR_REFUND_PRODUCT_LIST = "refundProducts";
+	protected static final String ATTR_UPCOMING_PRODUCT_LIST = "tocallProducts";
+	protected static final String ATTR_NB_PRODUCTS = "nbProducts";
+	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
 
 	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
 
@@ -41,6 +47,9 @@ public class HomeController {
 
 	@Autowired
 	protected PrdProductService productService;
+
+	@Autowired
+	protected PrdObservationDateService obsDateService;
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -85,23 +94,27 @@ public class HomeController {
 		}
 		modelAndView.addObject("authUserName", authentifiedUsername);
 
+		// Retrieve the list of products
+		List<PrdProduct> allProducts = productService.findAll();
+
+		// Create a list of packed product names
+		List<String> packedNames = productService.getPackedNameList(allProducts);
+		modelAndView.addObject(ATTR_PRODUCT_NAME_LIST, packedNames);
+
+		// Display the number of existing products
+		int nbProducts = allProducts.size();
+		modelAndView.addObject(ATTR_NB_PRODUCTS, nbProducts);
+
 		// Display the list of refund products
 		int nbDays = NB_DAYS_REFUND_PRODUCT_LIST;
+		Date now = new Date();
 		modelAndView.addObject(ATTR_REFUND_PRODUCT_LIST,
-				productService.listRefundProducts(getDateForRefundProducts(nbDays)));
+				productService.listRefundProducts(DateUtils.addDays(now, -nbDays)));
+		// Display the list of upcoming products
+		modelAndView.addObject(ATTR_UPCOMING_PRODUCT_LIST,
+				productService.listUpcomingProducts(now, DateUtils.addDays(now, nbDays)));
 
 		return modelAndView;
-	}
-
-	/**
-	 * 
-	 * @param nbDays
-	 *            [day]
-	 * @return
-	 */
-	private Date getDateForRefundProducts(int nbDays) {
-		Date now = new Date();
-		return DateUtils.addDays(now, -nbDays);
 	}
 
 	private String getIdentifiedName(EavAccount account) {

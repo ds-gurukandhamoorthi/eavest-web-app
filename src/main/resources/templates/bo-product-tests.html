@@ -97,6 +97,9 @@
 	          <input id="guarantor" type="text" name="guarantor" th:field="*{guarantor}" />
           -->
 
+            <label for="deliver">Emetteur</label>
+            <input id="deliver" type="text" name="deliver" th:field="*{deliver}" />
+
             <label for="cb-eavest">Produite EAVEST</label>
 	          <input id="cb-eavest" type="checkbox" name="cb-eavest" th:field="*{isEavest}" />
 
@@ -118,6 +121,7 @@
   				  <th th:text="#{i18n.code.products.id}">Id</th>
   				  <th th:text="#{i18n.code.products.isin}">ISIN</th>
   				  <th th:text="#{i18n.code.products.label}">Label</th>
+            <th th:text="#{i18n.code.products.bank.name}">Emetteur</th>
   				  <th th:text="#{i18n.code.products.launch.date}">Date de création</th>
   				  <th th:text="#{i18n.code.products.due.date}">Date de mise à jour</th>
   				  <th th:text="#{i18n.code.products.eavest}">Produits Eavest</th>
@@ -129,6 +133,7 @@
   				  <td th:text="${product.id}">Id du produit</td>
   				  <td th:text="${product.isin}">ISIN</td>
   				  <td th:text="${product.label}">Label du sous-jacent</td>
+            <td th:text="${product.deliver}">Société Générale</td>
   				  <td th:text="${product.launchDate}"></td>
   				  <td th:text="${product.dueDate}"></td>
             <td th:text="${product.isEavest}">false</td>

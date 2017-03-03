@@ -191,6 +191,7 @@ public class BackOfficeController {
 	public String addProductDate(@PathVariable("id") Long id,
 			@Valid @ModelAttribute(ATTR_OBS_DATE_DTO) PrdProductDateDto obsDateDto, BindingResult result,
 			RedirectAttributes attributes, Model model) {
+		LOGGER.info(new StringBuilder("Call 'add date' for product id ").append(id).toString());
 		String view = VIEW_ADD_PRODUCT_DATE;
 		try {
 			PrdProduct product = productService.findById(id);

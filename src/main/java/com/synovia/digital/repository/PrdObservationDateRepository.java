@@ -3,9 +3,10 @@
  */
 package com.synovia.digital.repository;
 
+import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
@@ -16,7 +17,9 @@ import com.synovia.digital.model.PrdProduct;
  * @author TeddyCouriol
  * @since 25 févr. 2017
  */
-public interface PrdObservationDateRepository extends CrudRepository<PrdObservationDate, Long> {
+public interface PrdObservationDateRepository extends JpaRepository<PrdObservationDate, Long> {
 
 	public List<PrdObservationDate> findByPrdProduct(PrdProduct product);
+
+	public List<PrdObservationDate> findByDateBetween(Date from, Date until);
 }

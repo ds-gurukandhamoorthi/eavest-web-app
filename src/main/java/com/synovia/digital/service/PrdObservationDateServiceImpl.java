@@ -4,6 +4,8 @@
 package com.synovia.digital.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.repository.PrdObservationDateRepository;
 import com.synovia.digital.service.utils.PrdProductDateUtils;
+import com.synovia.digital.service.utils.UpcomingObservationDateComparator;
 
 /**
  * This class defines TODO
@@ -50,10 +53,15 @@ public class PrdObservationDateServiceImpl implements PrdObservationDateService 
 	 */
 	@Override
 	public PrdObservationDate add(PrdProductDateDto dto) throws EavEntryNotFoundException {
+		LOGGER.debug("Call add observation date for DTO {} ", dto.toString());
 		PrdObservationDate toAdd = (PrdObservationDate) PrdProductDateUtils.convertToEntity(new PrdObservationDate(),
 				dto, productService);
+		LOGGER.debug("Convert DTO into entity {} ", toAdd.toString());
 
-		return (!PrdProductDateUtils.isValid(toAdd)) ? null : repo.save(toAdd);
+		PrdObservationDate result = (!PrdProductDateUtils.isValid(toAdd)) ? null : repo.save(toAdd);
+		LOGGER.debug("Save entity {} ", result.toString());
+
+		return result;
 	}
 
 	/*
@@ -106,8 +114,7 @@ public class PrdObservationDateServiceImpl implements PrdObservationDateService 
 		try {
 			product = productService.findById(idPrdProduct);
 		} catch (EavEntryNotFoundException e) {
-			LOGGER.debug(new StringBuilder("No observation dates found for PrdProduct [").append(idPrdProduct)
-					.append("]").toString());
+			LOGGER.debug("No observation dates found for PrdProduct {}", idPrdProduct);
 		}
 		List<PrdObservationDate> found = new ArrayList<>();
 		if (product != null) {
@@ -115,5 +122,20 @@ public class PrdObservationDateServiceImpl implements PrdObservationDateService 
 		}
 
 		return found;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdObservationDateService#filterByDate(java.util.Date,
+	 * java.util.Date)
+	 */
+	@Override
+	public List<PrdObservationDate> filterByDate(Date from, Date until) {
+		List<PrdObservationDate> list = (from == null || until == null) ? new ArrayList<>()
+				: repo.findByDateBetween(from, until);
+		Collections.sort(list, new UpcomingObservationDateComparator());
+		return list;
 	}
 }
