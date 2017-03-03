@@ -5,6 +5,8 @@ package com.synovia.digital.service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +29,7 @@ import com.synovia.digital.model.PrdRule;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.service.utils.RefundProductComparator;
 import com.synovia.digital.utils.PrdStatusEnum;
 
 /**
@@ -43,6 +46,9 @@ public class PrdProductServiceImpl implements PrdProductService {
 	protected final PrdSousJacentRepository sousJacentRepo;
 
 	protected final PrdStatusRepository statusRepo;
+
+	@Autowired
+	protected PrdObservationDateService obsDateService;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
 
@@ -207,7 +213,7 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 * @see com.synovia.digital.service.PrdProductService#findAll()
 	 */
 	@Override
-	public Iterable<PrdProduct> findAll() {
+	public List<PrdProduct> findAll() {
 		return repo.findAll();
 	}
 
@@ -219,6 +225,69 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 */
 	@Override
 	public List<PrdProduct> listRefundProducts(Date from) {
-		return (from == null) ? new ArrayList<>() : repo.findByEndDateAfter(from);
+		List<PrdProduct> list = (from == null) ? new ArrayList<>() : repo.findByEndDateAfter(from);
+		Collections.sort(list, new RefundProductComparator());
+
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#listUpcomingProducts(java.util.Date)
+	 */
+	@Override
+	public List<PrdProduct> listUpcomingProducts(Date from, Date until) {
+		// Retrieve the list of a filter of observation dates
+		List<PrdObservationDate> obsDates = obsDateService.filterByDate(from, until);
+		List<PrdProduct> results = new ArrayList<>();
+		for (PrdObservationDate d : obsDates) {
+			results.add(d.getPrdProduct());
+		}
+		return results;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#generatePackedName(com.synovia.
+	 * digital.model.PrdProduct)
+	 */
+	@Override
+	public String generatePackedName(PrdProduct product) {
+		if (product == null)
+			return null;
+
+		return new StringBuilder(product.getDeliver()).append(", ").append(product.getIsin()).append(", ")
+				.append(product.getLabel()).append(", ").append(product.getPrdSousJacent().getLabel()).toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#generatePackedName(java.lang.Long)
+	 */
+	@Override
+	public String generatePackedName(Long id) {
+		return generatePackedName(repo.findOne(id));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#getPackedNameList(java.util.
+	 * Collection)
+	 */
+	@Override
+	public List<String> getPackedNameList(Collection<PrdProduct> products) {
+		List<String> l = new ArrayList<>();
+		for (PrdProduct p : products) {
+			String n;
+			l.add(n = generatePackedName(p));
+			System.out.println(n);
+		}
+		return l;
 	}
 }

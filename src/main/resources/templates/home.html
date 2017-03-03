@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 	  <link rel="stylesheet" type="text/css" href="css/home.css" />
 
 
@@ -99,18 +100,16 @@
 				<a class="over">
 					<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
 				</a>
-
       </div>
+
       <div class="col-sm-6 col-md-6 wrapper padding-left">
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
-        <ul class="list-unstyled product-content-2 overlay-2">
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 9 / FR00196847</span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 8 / FR00196847</span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 7 / FR00196847</span>
-            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest"/></span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 6 / FR00196847</span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
+				<ul class="list-unstyled product-content-2 overlay-2">
+					<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5" >
+						<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
+						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+					</li>
         </ul>
 				<a class="over">
 					<span><img id="more-2" src="img/more-hover.png" alt="voir-plus" /></span>
@@ -123,14 +122,16 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3 col-md-3">
-          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> 2000 références</h2>
+          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
 
           <div class="search">
             <p class="grey-letters">Émetteur, Code ISIN,</p>
 						<p class="grey-letters">Nom du produit, Sous-jacent</p>
 						<div class="search-bar">
 							<span>
-								<input type="search"></input>
+								<form>
+									<input type="search" id="find-product" autocomplete="off"/>
+								</form>
 								<i class="fa fa-2x fa-search" aria-hidden="true"></i>
 							</span>
 						</div>
@@ -395,12 +396,25 @@
 		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+			  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 				<script src="js/script.js"></script>
 				<script src="js/libs/jquery-1.10.1.min.js"></script>
 				<script src="js/extra.js"></script>
-				<script src="js/libs/jquery-1.10.1.min.js" ></script>
-				<script src="js/libs/jquery.autocomplete.js" ></script>
 				<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js" ></script>
 				<script src="js/libs/jquery.mCustomScrollbar.min.js" ></script>
+
+				<!-- Script for autocompleting the filter text box for searching products -->
+				<script th:inline="javascript">
+				/*<![CDATA[*/
+				$(document).ready(function(){
+					var productTags = [[${productNames}]];
+					/*console.log(productTags);*/
+					$('#find-product').autocomplete({
+						source: productTags
+					});
+				});
+				/*]]>*/
+				</script>
 	</body>
 </html>

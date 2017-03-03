@@ -60,4 +60,11 @@ public class PrdProductDateDto {
 	public void setIdPrdProduct(Long idPrdProduct) {
 		this.idPrdProduct = idPrdProduct;
 	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder("[").append("id:").append(this.id.toString()).append("; ").append("date:")
+				.append(this.date).append("; ").append("idPrdProduct:").append(this.idPrdProduct).append("]")
+				.toString();
+	}
 }

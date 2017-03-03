@@ -3,6 +3,7 @@
  */
 package com.synovia.digital.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.synovia.digital.dto.PrdProductDateDto;
@@ -27,4 +28,5 @@ public interface PrdObservationDateService {
 
 	public List<PrdObservationDate> findByIdPrdProduct(Long idPrdProduct);
 
+	public List<PrdObservationDate> filterByDate(Date from, Date until);
 }

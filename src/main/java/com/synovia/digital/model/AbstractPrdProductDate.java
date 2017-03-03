@@ -72,4 +72,10 @@ public abstract class AbstractPrdProductDate extends AbstractBean {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		return new StringBuilder("[").append("id:").append(id.toString()).append("; ").append("prdProduct:")
+				.append(prdProduct.toString()).append("; ").append("date:").append(date.toString()).append("; ")
+				.append("]").toString();
+	}
 }
