@@ -36,41 +36,44 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
 		<div class="nav">
-			<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
-			<div class="language-switcher">
-				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters">Connexion</a>
-				<a href="#" th:text="${authUserName}">Nom de l'utilisateur</a>
+			<div class="col-md-12" id="eavest-logo">
+				<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
+			</div>
+			<div class="language-switcher navbar-right">
+				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+				<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 				<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
 				<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 
 				<div class="zone-transit">
 					<p sec:authorize="isAuthenticated()">
 						<form th:action="@{/logout}" method="post" >
-							<input type="submit" value="Sign Out" class="btn btn-default" />
+							<input type="submit" value="Sign Out" class="btn btn-default" id="log" />
 						</form>
 					</p>
 					<p sec:authorize="hasRole('ROLE_ADMIN')">
 						<form th:action="@{/admin}" method="get">
-							<input type="submit" value="Back Office" class="btn btn-default" />
+							<input type="submit" value="Back Office" class="btn btn-default" id="log" />
 						</form>
 					</p>
 				</div>
 			</div>
+		  </div>
 
-
-			<ul class="navbar list-inline list-unstyled">
-				<li id="menu-home"><a href="/home">Home</a></li>
-				<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
-				<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
-				<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
-				<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
-				<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
-				<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
-			</ul>
-			<div class="slider_jquery slider">
-				<div class="slider-container"></div>
+			<div class="col-md-12 container-fluid navbar">
+				<ul class="navbar list-inline list-unstyled">
+					<li id="menu-home"><a href="/home">Home</a></li>
+					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
+					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
+				</ul>
+				<div class="slider_jquery slider">
+					<div class="slider-container"></div>
+				</div>
 			</div>
-  </div>
 	</div>
 </nav>
 
@@ -83,27 +86,30 @@
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
 
-				<ul class="list-unstyled product-content-1 overlay-1">
-					<li class="basic-list overlay-item" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
-						<span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${refund.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
-					</li>
-
+        <ul class="list-unstyled product-content-1 overlay-1">
+          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 1 / FR00196847</span>
+            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
+          </li>
+          <li class="prod-list overlay-item"><span class="margin grey-letters prod-list-p">resonance 2 / FR00196847</span></li>
+          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 3 / FR00196847</span></li>
+          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 4 / FR00196847</span>
+            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+          </li>
+          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
         </ul>
 				<a class="over">
 					<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
 				</a>
-
       </div>
+
       <div class="col-sm-6 col-md-6 wrapper padding-left">
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
 				<ul class="list-unstyled product-content-2 overlay-2">
-					<li class="basic-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5" >
+					<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5" >
 						<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" /></span>
+						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
 					</li>
-
         </ul>
 				<a class="over">
 					<span><img id="more-2" src="img/more-hover.png" alt="voir-plus" /></span>
@@ -180,7 +186,7 @@
 					</tfoot>
         </table>
       </div>
-      <div class="col-sm-3 col-md-3">
+      <div class="col-xs-5 col-md-3">
         <div class="white-block">
           <h2>LE PRODUIT DU MOIS</h2>
           <div class="month-product">
@@ -227,7 +233,7 @@
 				<li><h3 class="p1-width">étude UFF : que veulent les épargnants français ?</h3></li>
 			</ul>
 			<div class="row">
-				<div class="col-sm-4 col-md-2 blog-img">
+				<div class="col-sm-4 col-md-3 blog-img">
 					<img src="img/question-mark.png" alt="question" />
 				</div>
 				<div class="col-md-8 article">
@@ -378,7 +384,7 @@
   </div>
 </footer>
 
-<a class="footer-arrow" id="arrow-position">
+<a class="footer-arrow" id="arrow-position" active>
 	<img src="img/bottom-arrow-top.png" />
 </a>
 <div id="scroll-back-to-top">
@@ -393,6 +399,7 @@
 				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 			  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 				<script src="js/script.js"></script>
+				<script src="js/libs/jquery-1.10.1.min.js"></script>
 				<script src="js/extra.js"></script>
 				<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js" ></script>
 				<script src="js/libs/jquery.mCustomScrollbar.min.js" ></script>
