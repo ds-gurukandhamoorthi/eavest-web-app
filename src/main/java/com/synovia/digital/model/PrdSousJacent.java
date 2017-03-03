@@ -24,8 +24,14 @@ public class PrdSousJacent extends AbstractBean {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "LABEL", nullable = false, unique = true, length = 24)
+	@Column(name = "LABEL", nullable = false, unique = true, length = 50)
 	private String label;
+
+	@Column(name = "ISIN_CODE", unique = true, length = 25)
+	private String isinCode;
+
+	@Column(name = "IS_NEW")
+	private Boolean isNew = true;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdSousJacent")
 	private List<PrdSousJacentValue> prdSousJacentValues;
@@ -82,6 +88,22 @@ public class PrdSousJacent extends AbstractBean {
 
 	public void setPrdSousJacentValues(List<PrdSousJacentValue> prdSousJacentValues) {
 		this.prdSousJacentValues = prdSousJacentValues;
+	}
+
+	public String getIsinCode() {
+		return this.isinCode;
+	}
+
+	public void setIsinCode(String isinCode) {
+		this.isinCode = isinCode;
+	}
+
+	public Boolean getIsNew() {
+		return this.isNew;
+	}
+
+	public void setIsNew(Boolean isNew) {
+		this.isNew = isNew;
 	}
 
 }

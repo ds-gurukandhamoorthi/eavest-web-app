@@ -23,6 +23,11 @@ public class PrdSousjacentDto {
 	@Size(max = 50)
 	private String label;
 
+	@Size(max = 25)
+	private String isinCode;
+
+	private Boolean isNew;
+
 	public PrdSousjacentDto() {
 
 	}
@@ -46,6 +51,22 @@ public class PrdSousjacentDto {
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this);
+	}
+
+	public String getIsinCode() {
+		return this.isinCode;
+	}
+
+	public void setIsinCode(String isinCode) {
+		this.isinCode = isinCode;
+	}
+
+	public Boolean getIsNew() {
+		return this.isNew;
+	}
+
+	public void setIsNew(Boolean isNew) {
+		this.isNew = isNew;
 	}
 
 }

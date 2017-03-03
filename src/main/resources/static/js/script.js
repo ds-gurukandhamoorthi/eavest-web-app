@@ -21,20 +21,24 @@ $(function() {
 
   // Stop the arrow before footer
   $(window).scroll(function() {
-    var height = $(window).height();
-    var footHeight = $('#footer').offset().top;
+    var elementOffset = $('#footer').offset().top;
+    var footerTop = (elementOffset - $(window).scrollTop());
+    var imageBottom = footerTop + $('.footer-arrow').height() + 20;
+// 20 is the fixed bottom
+    // alert(footHeight); 2561
 
-if ($(document).height() <= ($(window).height() + $(window).scrollTop()))
-{
+// if ($(document).height() - footHeight <= ($(window).height() + $(window).scrollTop()))
+if(imageBottom > footerTop ) {
   $('.footer-arrow').css({
     position: 'fixed',
-    bottom: 140
+    bottom: 20
     });
   } else
   {
+    $('.footer-arrow').addClass('fixed');
   $('.footer-arrow').css({
     position: 'fixed',
-    bottom: 20,
+    bottom: 140,
     });
   }
 })
