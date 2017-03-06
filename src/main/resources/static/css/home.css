@@ -122,17 +122,17 @@ h5 {
   float: right;
 }
 
-.padding-left {
+.padding_left {
   padding-left: 30px;
   padding-right: 15px;
 }
 
-.padding-right {
+.padding_right {
   padding-right: 18px !important;
   padding-left: 7px !important;
 }
 
-.padding-bottom {
+.padding_bottom {
   padding-bottom: 30px;
 }
 
@@ -191,12 +191,15 @@ h5 {
 
 .navbar {
   font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 12px;;
   background-color: white;
   text-align: center;
   margin-top: 15px;
   padding-bottom: 20px;
+}
+
+#menu-home, #menu-method, #menu-mesure, #menu-products, #menu-blog, #menu-faq, #menu-contact {
+    text-transform: uppercase;
 }
 
 .navbar a {
@@ -307,7 +310,7 @@ img#eavest {
 
 /*hover*/
 
-#more-1, #more-2 {
+#more-img {
   display: block;
   position: absolute;
   left: 42%;
@@ -315,17 +318,17 @@ img#eavest {
   width: 100px;
   height: 96px;
   cursor: auto;
-  /*-webkit-transition: all 0.4s ease;
+  -webkit-transition: all 0.4s ease;
   -moz-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
-  transition: all 0.4s ease;*/
+  transition: all 0.4s ease;
 }
 
-#more-1:hover, #more-2:hover {
+/*#more-1:hover, #more-2:hover {
   width: 100px;
-  height: 96px;
+  height: 96px;*/
   /*backface-visibility: hidden;*/
-}
+/*}*/
 
 .overlay-1, .overlay-2 {
   transition: all 0.4s ease;
@@ -546,15 +549,11 @@ table {
   margin-top: 15px;
 }
 
-.blog-width {
-  width: 85%;
-}
-
 .grey-block {
   background-color: #E5E5E5;
   margin-left: 30px;
   padding-top: 11px;
-  padding-bottom: 23px;
+  padding-bottom: 55px;
   padding-left: 22px;
   margin-right: auto;
   right: 15px;
@@ -589,7 +588,7 @@ table {
 
 .grey-block-2 p{
   margin-top: 17px;
-  width: 85%;
+  width: 99%;
 }
 
 .p1-width {
@@ -608,6 +607,7 @@ table {
 .article p {
   font-size: 12px;
   text-align: justify;
+  margin-right: 30px;
 }
 
 .article p span {
@@ -662,7 +662,7 @@ table {
   background-color: #E5E5E5;
   padding-top: 10px;
   padding-bottom: 33px;
-  padding-left: 22px;
+  padding-left: 30px;
   float: right;
   right: 15px;
 }
@@ -869,6 +869,7 @@ footer * {
   background-color: black;
   color: white;
   padding: 18px 70px 32px 66px;
+  margin-bottom: 0;
 }
 
 .always-left {
@@ -877,6 +878,7 @@ footer * {
   line-height: 11px;
   margin-left: 10px;
   text-align: left;
+  margin-top: 11px;
 }
 
 .always-left a,.always-right a {
@@ -890,7 +892,7 @@ footer * {
 
 .always-right {
   font-size: 11px;
-  line-height: 11px;
+  line-height: 13px;
   float: right;
   text-align: right;
 }
@@ -947,6 +949,15 @@ a#arrow-position {
   .auth {
     margin-top: 10px;
   }
+  input[type=search] {
+    width: 68%;
+  }
+}
+
+@media only screen and (min-device-width : 500px) and (max-device-width : 768px){
+  input[type=search] {
+    width: 80%;
+  }
 }
 
 @media(max-width:767px){
@@ -954,18 +965,14 @@ a#arrow-position {
     padding-top: 16px;
     margin-left: 20px;
   }
-  .padding-left {
+  .padding_left {
     padding-left: 15px;
-  }
-  input[type=search] {
-    width: 83%;
   }
   .numbers, .perf-review {
     text-align: center;
   }
   .grey-block {
-    text-align: -webkit-center;
-    margin-bottom: 15px;
+    padding-left: 50px;
   }
   .wallet-black-block {
     margin-left: 15px;
@@ -983,6 +990,9 @@ a#arrow-position {
   }
   .white-block-blog {
     height: 219px;
+  }
+  .white-block-blog p {
+    left: 23px;
   }
   .black-block-partner {
     height: auto;
@@ -1007,6 +1017,9 @@ a#arrow-position {
   }
   .grey-block-3 .list-inline {
     text-align: -webkit-center;
+  }
+  .green-line {
+    left: 16px;
   }
   .agreement-block {
     padding-bottom: 0;
@@ -1056,11 +1069,6 @@ a#arrow-position {
     }
     .white-block-partner {
       margin-top: 15px;
-    }
-    .blog-img {
-      padding: 15px;
-      transform: translateY(-10px);
-      text-align: center;
     }
     .white-block-blog {
       padding: 0px;
@@ -1132,6 +1140,22 @@ a#arrow-position {
     }
   }
 
+  @media(max-width:992px) {
+    .white-block-blog h2 {
+      text-align: -webkit-center;
+    }
+    .white-block-blog p {
+      left: 43px;
+    }
+    .figure-month {
+      text-align: -webkit-center;
+      position: inherit;
+    }
+    .green-line {
+      left: 89px;
+    }
+  }
+
 /*2- Desktops and laptops*/
     @media(min-width:992px){
     input[type=search] {
@@ -1172,6 +1196,6 @@ a#arrow-position {
       width: 71%;
     }
     .footer-main {
-      padding: 18px 196px 32px 197px;
+      padding: 18px 179px 16px 179px;
     }
   }

@@ -1,64 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<head lang="fr">
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>EAVEST, Produits structurés et alternatifs</title>
+<head lang="fr">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<!-- FAVICON -->
-		<link href="./favicon.ico" rel="icon" type="image/ico" />
+	<title>EAVEST, Produits structurés et alternatifs</title>
 
-		<!-- SOURCES -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-	  <link rel="stylesheet" type="text/css" href="css/home.css" />
+	<!-- FAVICON -->
+	<link href="./favicon.ico" rel="icon" type="image/ico" />
+
+	<!-- SOURCES -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+	<link rel="stylesheet" type="text/css" href="/css/home.css" />
 
 
-		<!-- COMPATIBILITE IE8 -->
-		<!--[if lt IE 9]>
+	<!-- COMPATIBILITE IE8 -->
+	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<!-- META -->
-		<!-- All in One SEO Pack 2.3.9.1 by Michael Torbert of Semper Fi Web Design[513,671] -->
-		<!-- <meta name="description" itemprop="description" content="Cabinet de conseil spécialisé en produits structurés et alternatifs - Paris +33 (1) 42 80 21 99" /> -->
-	</head>
+	<!-- META -->
+	<!-- All in One SEO Pack 2.3.9.1 by Michael Torbert of Semper Fi Web Design[513,671] -->
+	<!-- <meta name="description" itemprop="description" content="Cabinet de conseil spécialisé en produits structurés et alternatifs - Paris +33 (1) 42 80 21 99" /> -->
+</head>
 
-  <body>
+<body>
 
-<!-- NAVBAR -->
+	<!-- NAVBAR -->
 
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-		<div class="nav">
-			<div class="col-md-12" id="eavest-logo">
-				<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
-			</div>
-			<div class="language-switcher navbar-right">
-				<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
-				<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
-				<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="nav">
+				<div class="col-md-12" id="eavest-logo">
+					<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
+				</div>
+				<div class="language-switcher navbar-right">
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+					<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 
-				<div class="zone-transit">
-					<p sec:authorize="isAuthenticated()">
-						<form th:action="@{/logout}" method="post" >
-							<input type="submit" value="Sign Out" class="btn btn-default" id="log" />
-						</form>
-					</p>
-					<p sec:authorize="hasRole('ROLE_ADMIN')">
-						<form th:action="@{/admin}" method="get">
-							<input type="submit" value="Back Office" class="btn btn-default" id="log" />
-						</form>
-					</p>
+					<div class="zone-transit">
+						<p sec:authorize="isAuthenticated()">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Sign Out" class="btn btn-default" id="log" />
+							</form>
+						</p>
+						<p sec:authorize="hasRole('ROLE_ADMIN')">
+							<form th:action="@{/admin}" method="get">
+								<input type="submit" value="Back Office" class="btn btn-default" id="log" />
+							</form>
+						</p>
+					</div>
 				</div>
 			</div>
-		  </div>
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
@@ -74,53 +76,67 @@
 					<div class="slider-container"></div>
 				</div>
 			</div>
-	</div>
-</nav>
+		</div>
+	</nav>
 
 
-<!-- SECTION PRODUCTS -->
-<section class="products">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 col-md-6 wrapper">
-        <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
-        <h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+	<!-- SECTION PRODUCTS -->
+	<section class="products">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-6 wrapper">
+					<img src="img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+					<ul class="list-unstyled product-content-1 overlay-1">
+						<li class="prod-list overlay-item" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
+							<span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
+							<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+						</li>
+					</ul>
 
-				<ul class="list-unstyled product-content-1 overlay-1">
-					<li class="prod-list overlay-item" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
-						<span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
-					</li>
-				</ul>
-				<a class="over">
-					<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
-				</a>
-      </div>
+<!-- KNA à garder pour test overlay
+					<ul class="list-unstyled product-content-1 overlay-1">
+						<li class="prod-list overlay-item"><span class="margin grey-letters">resonance 1 / FR00196847</span>
+							<span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
+						</li>
+						<li class="prod-list overlay-item"><span class="margin grey-letters prod-list-p">resonance 2 / FR00196847</span></li>
+						<li class="prod-list overlay-item"><span class="margin grey-letters">resonance 3 / FR00196847</span></li>
+						<li class="prod-list overlay-item"><span class="margin grey-letters">resonance 4 / FR00196847</span>
+							<span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+						</li>
+						<li class="prod-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
+					</ul>
+					 -->
 
-      <div class="col-sm-6 col-md-6 wrapper padding-left">
-        <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
-        <h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
-				<ul class="list-unstyled product-content-2 overlay-2">
-					<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5" >
-						<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
-					</li>
-        </ul>
-				<a class="over">
-					<span><img id="more-2" src="img/more-hover.png" alt="voir-plus" /></span>
-				</a>
-      </div>
-		<!-- end row products -->
-    </div>
-	<!-- end div container (products) -->
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-3 col-md-3">
-          <h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
+					<a class="over">
+						<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
+					</a>
+				</div>
 
-          <div class="search">
-            <p class="grey-letters">Émetteur, Code ISIN,</p>
+				<div class="col-sm-6 col-md-6 wrapper padding_left">
+					<img src="img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
+					<ul class="list-unstyled product-content-2 overlay-2">
+						<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+							<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
+							<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+						</li>
+					</ul>
+					<a class="over">
+						<span><img id="more-2" src="img/more-hover.png" alt="voir-plus" /></span>
+					</a>
+				</div>
+				<!-- end row products -->
+			</div>
+			<!-- end div container (products) -->
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3 col-md-3">
+					<h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
+
+					<div class="search">
+						<p class="grey-letters">Émetteur, Code ISIN,</p>
 						<p class="grey-letters">Nom du produit, Sous-jacent</p>
 						<div class="search-bar">
 							<span>
@@ -130,285 +146,291 @@
 								<i class="fa fa-2x fa-search" aria-hidden="true"></i>
 							</span>
 						</div>
-          </div>
-          <div class="clear"></div>
-      </div>
-      <div class="col-sm-6 col-md-6">
-        <div>
-          <ul class="list-inline list-unstyled numbers ">
-            <li class="square-1">10</li>
-            <li class="square-2" id="translate">16</li>
-          </ul>
-        </div>
-        <h1 class="perf-review">PERF REVIEW</h1>
-<!-- TABLEAU -->
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
-              <th class="col-sm-1 col-md-1 special-width">31.10.15</th>
-              <th class="col-sm-1 col-md-1 special-width">10.16</th>
-              <th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="left-align">Cac 40</td>
-              <td class="grey-letters">4509,26</td>
-              <td class="grey-letters">1,37%</td>
-              <td class="grey-letters">-7,93%</td>
-            </tr>
-            <tr>
-              <td class="left-align">Produit de Katalina</td>
-              <td class="grey-letters">3055,25</td>
-              <td class="grey-letters">1,77%</td>
-              <td class="grey-letters">-10,62%</td>
-            </tr>
-            <tr>
-              <td class="left-align">Produit de Teddy</td>
-              <td class="grey-letters">1864,51</td>
-              <td class="grey-letters">3,10%</td>
-              <td class="grey-letters">-135%</td>
-            </tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td><img src="img/show-more.png" class="img-responsive" alt="voir-plus" /></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tfoot>
-        </table>
-      </div>
-      <div class="col-xs-5 col-md-3">
-        <div class="white-block">
-          <h2>LE PRODUIT DU MOIS</h2>
-          <div class="month-product">
-            <img src="img/month-product.jpg" class="img-responsive img-product" alt="produit-du-mois" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<div class="container">
-	<div class="col-md-12 black-line"></div>
-</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="col-sm-6 col-md-6">
+					<div>
+						<ul class="list-inline list-unstyled numbers ">
+							<li class="square-1">10</li>
+							<li class="square-2" id="translate">16</li>
+						</ul>
+					</div>
+					<h1 class="perf-review">PERF REVIEW</h1>
+					<!-- TABLEAU -->
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
+								<th class="col-sm-1 col-md-1 special-width">31.10.15</th>
+								<th class="col-sm-1 col-md-1 special-width">10.16</th>
+								<th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="left-align">Cac 40</td>
+								<td class="grey-letters">4509,26</td>
+								<td class="grey-letters">1,37%</td>
+								<td class="grey-letters">-7,93%</td>
+							</tr>
+							<tr>
+								<td class="left-align">Produit de Katalina</td>
+								<td class="grey-letters">3055,25</td>
+								<td class="grey-letters">1,77%</td>
+								<td class="grey-letters">-10,62%</td>
+							</tr>
+							<tr>
+								<td class="left-align">Produit de Teddy</td>
+								<td class="grey-letters">1864,51</td>
+								<td class="grey-letters">3,10%</td>
+								<td class="grey-letters">-135%</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td><img src="img/show-more.png" class="img-responsive" alt="voir-plus" /></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div class="col-xs-5 col-md-3">
+					<div class="white-block">
+						<h2>LE PRODUIT DU MOIS</h2>
+						<div class="month-product">
+							<img src="img/month-product.jpg" class="img-responsive img-product" alt="produit-du-mois" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="container">
+		<div class="col-md-12 black-line"></div>
+	</div>
 
-<!-- SECTION PORTEFEUILLE -->
-<section>
-  <div class="container text-center wrap">
-		<div class="row">
-    <div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
-      <img src="img/wallet.png" alt="portefeuille" />
-    </div>
-    <div class="col-sm-9 col-md-9 wallet-black-block">
-      <h2>investisseurs, cgp, composez et suivez au quotidien
+	<!-- SECTION PORTEFEUILLE -->
+	<section>
+		<div class="container text-center wrap">
+			<div class="row">
+				<div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
+					<img src="img/wallet.png" alt="portefeuille" />
+				</div>
+				<div class="col-sm-9 col-md-9 wallet-black-block">
+					<h2>investisseurs, cgp, composez et suivez au quotidien
 			<span>votre portefeuille sur votre espace personnel</span>
 		</h2>
-      <button type="button" class="btn btn-secondary wallet-button">créer mon portefeuille</button>
-    </div>
+					<button type="button" class="btn btn-secondary wallet-button">créer mon portefeuille</button>
+				</div>
+			</div>
 		</div>
+	</section>
+	<div class="container">
+		<div class="col-md-12 black-line"></div>
 	</div>
-</section>
-<div class="container">
-	<div class="col-md-12 black-line"></div>
-</div>
 
-<!-- SECTION BLOG -->
+	<!-- SECTION BLOG -->
 
-<section>
-<div class="container">
-	<div class="row blog">
-		<div class="col-md-6 grey-block">
-			<ul class="list-inline list-unstyled blog-width">
-				<li class="blue-feature-1"></li>
-				<li class="blue-title">Mardi 18 octobre 2016</li>
-				<li><h3 class="p1-width">étude UFF : que veulent les épargnants français ?</h3></li>
-			</ul>
+	<section>
+		<div class="container">
+			<div class="row blog">
+				<div class="col-md-6 grey-block">
+					<ul class="list-inline list-unstyled">
+						<li class="blue-feature-1"></li>
+						<li class="blue-title">Mardi 18 octobre 2016</li>
+						<li>
+							<h3 class="p1-width">étude UFF : que veulent les épargnants français ?</h3></li>
+					</ul>
+					<div class="row">
+						<div class="col-xs-3 col-sm-4 col-md-3 blog-img">
+							<img src="img/question-mark.png" alt="question" />
+						</div>
+						<div class="col-md-8 article">
+							<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span> "En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...] "</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-4 col-sm-5 col-md-2 white-block-blog">
+					<div class="figure-margin">
+						<h2 class="padding_bottom">chiffre du mois</h2>
+						<span class="figure-month">18%</span>
+						<span class="green-line"></span>
+						<p class="grey-letters">des produits structurés blablabla</p>
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-3 grey-block-2">
+					<ul class="list-inline list-unstyled">
+						<li class="blue-feature-2"></li>
+						<li class="blue-title">Mardi 18 octobre 2016</li>
+						<h3 class="p2-width">étude UFF :<span> que veulent les épargnants français ?</span></h3>
+						<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span><span>"En ce qui concerne la "compréhension des produits" [...] "</span></p>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="container">
+		<div class="col-md-12 black-line"></div>
+	</div>
+
+	<!-- SECTION OUR AGREEMENT -->
+	<section>
+		<div class="container agreement-block">
+			<div class="row margin-block">
+				<div class="col-sm-4 col-md-3 black-block-partner">
+					<p class="grey-letters-light">
+						<span class="main-title">eavest </span>est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.
+					</p>
+				</div>
+				<div class="col-sm-7 col-md-5 grey-block-3">
+					<h4><b>Notre agrément</b></h4>
+					<p class="grey-letters">EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
+					<img id="ok" src="img/ok.png" alt="ok" class="hidden-xs hidden-sm" />
+					<div class="row">
+						<ul class="list-inline list-unstyled">
+							<li><img src="img/amf.png" alt="amf-logo" class="img-agreement img-responsive" /></li>
+							<li><img src="img/orias.png" alt="orias-logo" class="img-agreement img-responsive" /></li>
+							<li><img src="img/anacofi.png" alt="anacofi-logo" class="img-agreement img-responsive" /></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 white-block-partner">
+					<h4><b>Partenaires</b></h4>
+					<p class="grey-letters">En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- SECTION NOS VALEURS -->
+	<section>
+		<div class="container">
 			<div class="row">
-				<div class="col-sm-4 col-md-3 blog-img">
-					<img src="img/question-mark.png" alt="question" />
+				<div class="col-md-6 white-block-style">
+					<h4><b>Nos valeurs</b></h4>
+					<div class="row values">
+						<ul class="list-inline list-unstyled grey-letters">
+							<li class="padding_right">
+								<h5>indépendance</h5>
+								<img src="img/independance.png" alt="independance" class="value-img1" />
+							</li>
+							<li class="padding_right">
+								<h5>expertise</h5>
+								<img src="img/expertise.png" alt="expertise" class="value-img2" />
+							</li>
+							<li class="padding_right">
+								<h5>ouverture</h5>
+								<img src="img/ouverture.png" alt="ouverture" class="value-img3" />
+							</li>
+							<li class="padding_right">
+								<h5 id="proximity">proximité</h5>
+								<img src="img/proximite.png" alt="proximité" class="value-img4" />
+							</li>
+						</ul>
+					</div>
 				</div>
-				<div class="col-md-8 article">
-					<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span> "En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...] "</p>
+				<div class="col-md-5 white-block-style-2" id="methodo">
+					<h4><b>Notre méthodologie</b></h4>
+					<div class="row our-methodologie">
+						<div class="col-xs-3 col-md-3 methodologie">
+							<span class="number">1</span>
+							<p class="grey-letters">L'élaboration d'investissement sur mesure </p>
+							<img src="img/elaboration.png" alt="methodologie-1" class="methodo-img1" />
+						</div>
+						<div class="col-xs-3 col-md-3 methodologie">
+							<span class="number">2</span>
+							<p class="grey-letters p-width-2">Une aide <span>à la décision</span></p>
+							<br />
+							<img src="img/aide.png" alt="aide" class="methodo-img2" />
+						</div>
+						<div class="col-xs-3 col-md-3 methodologie">
+							<span class="number">3</span>
+							<p class="grey-letters p-width-3">Le suivi exclusif EAVEST</p>
+							<br />
+							<img src="img/suivi.png" alt="suivi" class="methodo-img3" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-4 col-sm-5 col-md-2 white-block-blog">
-			<div class="figure-margin">
-				<h2 class="padding-bottom">chiffre du mois</h2>
-				<span class="figure-month">18%</span>
-				<span class="green-line"></span>
-				<p class="grey-letters">des produits structurés blablabla</p>
+	</section>
+
+
+	<!-- SECTION team -->
+	<div class="container">
+		<div class="col-sm-12 col-md-12 grey-block-4">
+			<div>
+				<h3><b>L'équipe</b></h3>
+				<ul class="list-inline list-unstyled">
+					<li class="team"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
+						<span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+					<li class="team"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
+						<span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+					<li class="team"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
+						<span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+					<li class="team"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
+						<span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+					<li class="team"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
+						<span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
+				</ul>
 			</div>
-		</div>
-		<div class="col-xs-6 col-sm-6 col-md-3 grey-block-2">
-			<ul class="list-inline list-unstyled">
-				<li class="blue-feature-2"></li>
-				<li class="blue-title">Mardi 18 octobre 2016</li>
-				<h3 class="p2-width">étude UFF :<span> que veulent les épargnants français ?</span></h3>
-				<p class="grey-letters">Article de Frédéric Lorenzini N3D - 18 octobre 2016<span>"En ce qui concerne la "compréhension des produits" [...] "</span></p>
-			</ul>
 		</div>
 	</div>
-</div>
-</section>
-<div class="container">
-	<div class="col-md-12 black-line"></div>
-</div>
 
-<!-- SECTION OUR AGREEMENT -->
-<section>
-  <div class="container agreement-block">
-    <div class="row margin-block">
-      <div class="col-sm-4 col-md-3 black-block-partner">
-        <p class="grey-letters-light">
-          <span class="main-title">eavest </span>est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.
-        </p>
-      </div>
-      <div class="col-sm-7 col-md-5 grey-block-3">
-        <h4><b>Notre agrément</b></h4>
-        <p class="grey-letters">EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
-        <img id="ok" src="img/ok.png" alt="ok" class="hidden-xs hidden-sm" />
-        <div class="row">
-          <ul class="list-inline list-unstyled">
-            <li><img src="img/amf.png" alt="amf-logo" class="img-agreement img-responsive" /></li>
-            <li><img src="img/orias.png" alt="orias-logo" class="img-agreement img-responsive" /></li>
-            <li><img src="img/anacofi.png" alt="anacofi-logo" class="img-agreement img-responsive" /></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-3 white-block-partner">
-        <h4><b>Partenaires</b></h4>
-        <p class="grey-letters">En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION NOS VALEURS -->
-<section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 white-block-style">
-        <h4><b>Nos valeurs</b></h4>
-        <div class="row values">
-          <ul class="list-inline list-unstyled grey-letters">
-            <li class="padding-right">
-              <h5>indépendance</h5>
-              <img src="img/independance.png" alt="independance" class="value-img1" />
-            </li>
-            <li class="padding-right">
-              <h5>expertise</h5>
-              <img src="img/expertise.png" alt="expertise" class="value-img2" />
-            </li>
-            <li class="padding-right">
-              <h5>ouverture</h5>
-              <img src="img/ouverture.png" alt="ouverture" class="value-img3"/>
-            </li>
-            <li class="padding-right">
-              <h5 id="proximity">proximité</h5>
-              <img src="img/proximite.png" alt="proximité" class="value-img4"/>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-5 white-block-style-2" id="methodo">
-        <h4><b>Notre méthodologie</b></h4>
-        <div class="row our-methodologie">
-					<div class="col-xs-3 col-md-3 methodologie">
-						<span class="number">1</span>
-						<p class="grey-letters">L'élaboration d'investissement sur mesure </p>
-						<img src="img/elaboration.png" alt="methodologie-1" class="methodo-img1" />
-					</div>
-					<div class="col-xs-3 col-md-3 methodologie">
-						<span class="number">2</span>
-						<p class="grey-letters p-width-2">Une aide <span>à la décision</span></p>
-					<br />
-						<img src="img/aide.png" alt="aide" class="methodo-img2" />
-					</div>
-					<div class="col-xs-3 col-md-3 methodologie">
-						<span class="number">3</span>
-						<p class="grey-letters p-width-3">Le suivi exclusif EAVEST</p>
-						<br />
-						<img src="img/suivi.png" alt="suivi" class="methodo-img3" />
-					</div>
-				</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- SECTION team -->
-<div class="container">
-  <div class="col-sm-12 col-md-12 grey-block-4">
-    <div>
-      <h3><b>L'équipe</b></h3>
-      <ul class="list-inline list-unstyled">
-        <li class="team"><img src="img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
-        <li class="team"><img src="img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
-        <li class="team"><img src="img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
-        <li class="team"><img src="img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
-        <li class="team"><img src="img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
-        <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer id ="footer">
-  <div class="container-fluid">
-    <div class="footer-main navbar fixed-bottom">
-			<small class="always-left col-sm-12 col-md-6">
+	<!-- FOOTER -->
+	<footer id="footer">
+		<div class="container-fluid">
+			<div class="footer-main navbar fixed-bottom">
+				<small class="always-left col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span>
 				<span><a href="">+33 (1) 42 80 21 99</a></span>
 				<span><a href="http://eavest.com/mentions-legales/">mentions légales</a></span>
 			</small>
-			<small class="always-right col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers <br />enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
+				<small class="always-right col-sm-12 col-md-5">
+				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
 			</small>
-    </div>
-  </div>
-</footer>
+			</div>
+		</div>
+	</footer>
 
-<a class="footer-arrow" id="arrow-position">
-	<img src="img/bottom-arrow-top.png" />
-</a>
-<div id="scroll-back-to-top">
-	<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
-</div>
+	<a class="footer-arrow" id="arrow-position">
+		<img src="img/bottom-arrow-top.png" />
+	</a>
+	<div id="scroll-back-to-top">
+		<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
+	</div>
 
 
-		<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
-		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-				<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-				<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-			  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-				<script src="js/script.js"></script>
-				<script src="js/extra.js"></script>
-				<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js" ></script>
-				<script src="js/libs/jquery.mCustomScrollbar.min.js" ></script>
+	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/extra.js"></script>
+	<script src="js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+	<script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
 
-				<!-- Script for autocompleting the filter text box for searching products -->
-				<script th:inline="javascript">
-				/*<![CDATA[*/
-				$(document).ready(function(){
-					var productTags = [[${productNames}]];
-					/*console.log(productTags);*/
-					$('#find-product').autocomplete({
-						source: productTags
-					});
-				});
-				/*]]>*/
-				</script>
-	</body>
+	<!-- Script for autocompleting the filter text box for searching products -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function() {
+			var productTags = [
+				[$ {
+					productNames
+				}]
+			];
+			/*console.log(productTags);*/
+			$('#find-product').autocomplete({
+				source: productTags
+			});
+		});
+		/*]]>*/
+	</script>
+</body>
+
 </html>

@@ -1,3 +1,5 @@
+$('.footer-arrow').hide();
+
 $(function() {
 
 // navbar
@@ -9,7 +11,7 @@ $(function() {
       $('.slider').show();
     }
   });
-// footer-arrow hide show on scroll
+// footer-arrow hide /show on scroll
   $(document).on('scroll', function(){
     var scrollPos = $(window).scrollTop();
     if (scrollPos <= 0) {
@@ -20,27 +22,23 @@ $(function() {
   });
 
   // Stop the arrow before footer
-  $(window).scroll(function() {
+$(window).scroll(function() {
     var elementOffset = $('#footer').offset().top;
     var footerTop = (elementOffset - $(window).scrollTop());
-    var imageBottom = footerTop + $('.footer-arrow').height() + 20;
-// 20 is the fixed bottom
-    // alert(footHeight); 2561
+    if(footerTop > ($(window).height() - 20)) {
+      $('.footer-arrow').css({
+        position: 'fixed',
+        bottom: 20
+        });
+      }
 
-// if ($(document).height() - footHeight <= ($(window).height() + $(window).scrollTop()))
-if(imageBottom > footerTop ) {
-  $('.footer-arrow').css({
-    position: 'fixed',
-    bottom: 20
-    });
-  } else
-  {
-    $('.footer-arrow').addClass('fixed');
-  $('.footer-arrow').css({
-    position: 'fixed',
-    bottom: 140,
-    });
-  }
+    if( footerTop < ($(window).height() - 20) ){
+        $('.footer-arrow').addClass('fixed');
+          $('.footer-arrow').css({
+            position: 'fixed',
+            bottom: ($(window).height() - footerTop),
+        });
+    }
 })
 
   // scroll up on click arrow big
@@ -54,7 +52,7 @@ if(imageBottom > footerTop ) {
 });
 
 
-// Mouse Over
+// OVERLAY ALL PAGE
   $(function() {
 
 // block produits remboursés
@@ -80,6 +78,9 @@ if(imageBottom > footerTop ) {
     });
 
 // block produits à rappeler
+$('#more-1').hide();
+$('#more-2').hide();
+
   $('.overlay-2').mouseover(function(){
     $('.overlay-2').css({'background':'white', 'opacity':'0.6'});
     $('.overlay-item').css({'background':'white', 'opacity':'0.6'});
@@ -98,3 +99,5 @@ if(imageBottom > footerTop ) {
       $('.overlay-item').css({'background':'white','opacity':'1'});
     });
   });
+
+  // block produit du mois
