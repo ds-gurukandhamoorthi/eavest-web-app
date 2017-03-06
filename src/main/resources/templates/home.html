@@ -86,17 +86,12 @@
         <img src="img/bell.png" alt="bell" class="img-responsive img-bell"/>
         <h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
 
-        <ul class="list-unstyled product-content-1 overlay-1">
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 1 / FR00196847</span>
-            <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
-          </li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters prod-list-p">resonance 2 / FR00196847</span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 3 / FR00196847</span></li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 4 / FR00196847</span>
-            <span><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
-          </li>
-          <li class="prod-list overlay-item"><span class="margin grey-letters">resonance 5 / FR00196847</span></li>
-        </ul>
+				<ul class="list-unstyled product-content-1 overlay-1">
+					<li class="prod-list overlay-item" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
+						<span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
+						<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+					</li>
+				</ul>
 				<a class="over">
 					<span><img id="more-1" src="img/more-hover.png" alt="voir-plus" /></span>
 				</a>
@@ -108,7 +103,7 @@
 				<ul class="list-unstyled product-content-2 overlay-2">
 					<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5" >
 						<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
-						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive grey-letters" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
+						<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
 					</li>
         </ul>
 				<a class="over">
@@ -384,7 +379,7 @@
   </div>
 </footer>
 
-<a class="footer-arrow" id="arrow-position" active>
+<a class="footer-arrow" id="arrow-position">
 	<img src="img/bottom-arrow-top.png" />
 </a>
 <div id="scroll-back-to-top">
