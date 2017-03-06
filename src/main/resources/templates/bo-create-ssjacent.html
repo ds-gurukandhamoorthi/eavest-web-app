@@ -54,6 +54,12 @@
             <label for="lbl">Label</label>
             <input id="lbl" type="text" name="lbl" th:field="*{label}" required="required"/>
 
+            <label for="isin">Code ISIN</label>
+            <input id="isin" type="text" name="isin" th:field="*{isinCode}" required="required"/>
+
+            <label for="cb-new">Nouvel Indice</label>
+            <input id="cb-new" type="checkbox" name="cb-new" th:field="*{isNew}"/>
+
             <input type="submit" value="Créer sous-jacent" class="btn btn-primary" />
           </form>
 

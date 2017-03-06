@@ -136,9 +136,10 @@ public class BackOfficeControllerTest {
 				.param(ModelTest.PRODUCT_PARAM_DUE_DATE, dueDate)
 				.requestAttr(BackOfficeController.ATTR_PRODUCT_DTO, new PrdProductDto()).with(csrf()))
 				.andExpect(status().is3xxRedirection()).andExpect(view().name(expectedRedirectViewPath))
-				.andExpect(model().attributeExists(BackOfficeController.ATTR_PRODUCT_DTO,
-						BackOfficeController.ATTR_SOUS_JACENT_LIST, BackOfficeController.ATTR_PRODUCT_LIST))
-				.andExpect(model().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+				.andExpect(model().attributeExists(BackOfficeController.PARAMETER_PRODUCT_ID))
+				.andExpect(flash().attributeExists(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
+						BackOfficeController.ATTR_PRODUCT_LIST))
+				.andExpect(flash().attribute(BackOfficeController.ATTR_MESSAGE_FEEDBACK,
 						is("Product entry [AB12345678] has been successfully created!")));
 
 	}

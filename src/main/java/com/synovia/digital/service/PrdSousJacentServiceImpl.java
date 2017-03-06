@@ -50,6 +50,8 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		PrdSousJacent entity = new PrdSousJacent();
 		entity.setId(dto.getId() != null ? dto.getId() : null);
 		entity.setLabel(dto.getLabel() != null ? dto.getLabel() : null);
+		entity.setIsNew(dto.getIsNew() != null ? dto.getIsNew() : null);
+		entity.setIsinCode(dto.getIsinCode() != null ? dto.getIsinCode() : null);
 		return entity;
 	}
 
@@ -199,6 +201,12 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	private void updateFromDto(PrdSousJacent entity, PrdSousjacentDto dto) {
 		if (dto.getLabel() != null) {
 			entity.setLabel(dto.getLabel());
+		}
+		if (dto.getIsNew() != null) {
+			entity.setIsNew(dto.getIsNew());
+		}
+		if (dto.getIsinCode() != null) {
+			entity.setIsinCode(dto.getIsinCode());
 		}
 	}
 

@@ -27,6 +27,14 @@ public class PrdRule {
 
 	}
 
+	// --------------------- OTHER METHODS ---------------------
+
+	@Override
+	public String toString() {
+		return new StringBuilder("[").append("Protection barrier:").append(protectionBarrier).append("; ")
+				.append("Coupon barrier:").append(couponBarrier).append("]").toString();
+	}
+
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
 	public Double getProtectionBarrier() {

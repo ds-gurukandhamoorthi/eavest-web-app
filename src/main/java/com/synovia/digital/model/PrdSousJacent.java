@@ -106,4 +106,15 @@ public class PrdSousJacent extends AbstractBean {
 		this.isNew = isNew;
 	}
 
+	// --------------------- OTHER METHODS ---------------------
+
+	@Override
+	public String toString() {
+		String strId = id != null ? id.toString() : null;
+		String strIsNew = isNew != null ? isNew.toString() : null;
+
+		return new StringBuilder("[").append("ID:").append(strId).append("; ").append("Label:").append(label)
+				.append("; ").append("ISIN:").append(isinCode).append("; ").append("New base:").append(strIsNew)
+				.append("]").toString();
+	}
 }

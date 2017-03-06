@@ -59,7 +59,7 @@ public class PrdObservationDateServiceImpl implements PrdObservationDateService 
 		LOGGER.debug("Convert DTO into entity {} ", toAdd.toString());
 
 		PrdObservationDate result = (!PrdProductDateUtils.isValid(toAdd)) ? null : repo.save(toAdd);
-		LOGGER.debug("Save entity {} ", result.toString());
+		LOGGER.debug("Save entity {} ", result != null ? result.toString() : null);
 
 		return result;
 	}

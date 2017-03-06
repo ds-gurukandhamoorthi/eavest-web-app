@@ -268,5 +268,4 @@ public class PrdObservationDateServiceImplTest {
 		Assert.assertThat(updatedObsDate.getDate(), is(newDate));
 		Assert.assertThat(updatedObsDate.getPrdProduct(), is(updatedProduct));
 	}
-
 }

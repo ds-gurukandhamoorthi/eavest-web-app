@@ -48,14 +48,6 @@ public abstract class AbstractPrdProductDate extends AbstractBean {
 		this.date = date;
 	}
 
-	public DateFormat getFormat() {
-		return this.format;
-	}
-
-	public void setFormat(DateFormat format) {
-		this.format = format;
-	}
-
 	public PrdProduct getPrdProduct() {
 		return this.prdProduct;
 	}
@@ -74,8 +66,10 @@ public abstract class AbstractPrdProductDate extends AbstractBean {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("[").append("id:").append(id.toString()).append("; ").append("prdProduct:")
-				.append(prdProduct.toString()).append("; ").append("date:").append(date.toString()).append("; ")
-				.append("]").toString();
+		String strId = id != null ? id.toString() : null;
+		String strPrdProduct = prdProduct != null ? prdProduct.toString() : null;
+		String strDate = date != null ? format.format(date) : null;
+		return new StringBuilder("[").append("id:").append(strId).append("; ").append("prdProduct:")
+				.append(strPrdProduct).append("; ").append("date:").append(strDate).append("; ").append("]").toString();
 	}
 }

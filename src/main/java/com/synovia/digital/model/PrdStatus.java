@@ -54,6 +54,12 @@ public class PrdStatus {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return new StringBuilder("[").append("ID:").append(this.id).append("; ").append("Code:").append(this.code)
+				.append("; ").append("Description:").append(this.description).append("; ").append("]").toString();
+	}
+
 	public Integer getId() {
 		return this.id;
 	}

@@ -47,7 +47,7 @@
 	    <div class="main-area">
 	      <h1>Créer un produit</h1>
 	      <p th:text="${responseMessage}"/>
-	      <div class="product-form">
+	      <div class="main-form">
 	        <form name="form" th:action="@{/admin/createProduct}" th:object="${product}" action="/admin/createProduct" method="POST">
 	          <label for="isin">Isin</label>
 	          <input id="isin" type="text" name="isin" th:field="*{isin}" required="required"/>

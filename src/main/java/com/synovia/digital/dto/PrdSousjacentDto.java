@@ -26,7 +26,7 @@ public class PrdSousjacentDto {
 	@Size(max = 25)
 	private String isinCode;
 
-	private Boolean isNew;
+	private Boolean isNew = true;
 
 	public PrdSousjacentDto() {
 

@@ -449,4 +449,31 @@ public class PrdProduct extends AbstractBean {
 
 	// -------------------------- OTHER METHODS --------------------------
 
+	@Override
+	public String toString() {
+		String strLaunchDate = this.launchDate != null ? format.format(this.launchDate) : null;
+		String strDueDate = this.dueDate != null ? format.format(dueDate) : null;
+		String strPrdSousJacent = this.prdSousJacent != null ? prdSousJacent.toString() : null;
+		String strPrdRule = this.prdRule != null ? prdRule.toString() : null;
+		String strSubscribeStartDate = subscriptionStartDate != null ? format.format(subscriptionStartDate) : null;
+		String strSubscribeEndDate = subscriptionEndDate != null ? format.format(subscriptionEndDate) : null;
+		String strPrdStatus = prdStatus != null ? prdStatus.toString() : null;
+		String strEndDate = endDate != null ? format.format(endDate) : null;
+
+		return new StringBuilder("[").append("ID:").append(this.id).append("; ").append("ISIN:").append(this.isin)
+				.append("; ").append("Label:").append(this.label).append("; ").append("Launch date:")
+				.append(strLaunchDate).append("; ").append("Due date:").append(strDueDate).append("; ").append("Base:")
+				.append(strPrdSousJacent).append("; ").append("Rule:").append(strPrdRule).append("; ")
+				.append("Subscription start date:").append(strSubscribeStartDate).append("; ")
+				.append("Subscription end date:").append(strSubscribeEndDate).append("; ").append("Coupon value:")
+				.append(this.couponValue).append("; ").append("Nominal value:").append(this.nominalValue).append("; ")
+				.append("Capital guaranteed:").append(this.capitalGuaranteed).append("; ").append("Start price:")
+				.append(this.startPrice).append("; ").append("Bank:").append(this.deliver).append("; ")
+				.append("Guarantor:").append(this.guarantor).append("; ").append("Status:").append(strPrdStatus)
+				.append("; ").append("End date:").append(strEndDate).append("; ").append("EAVEST product:")
+				.append(this.isEavest).append("; ").append("Best-seller:").append(this.isBestSeller).append("; ")
+				.append("Path:").append(this.path).append("; ").append("Strike:").append(this.strike).append("; ")
+				.append("Observation frequency:").append(this.observationFrequency).append("; ").append("]").toString();
+	}
+
 }
