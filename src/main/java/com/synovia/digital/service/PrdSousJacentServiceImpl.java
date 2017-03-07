@@ -52,6 +52,7 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		entity.setLabel(dto.getLabel() != null ? dto.getLabel() : null);
 		entity.setIsNew(dto.getIsNew() != null ? dto.getIsNew() : null);
 		entity.setIsinCode(dto.getIsinCode() != null ? dto.getIsinCode() : null);
+		entity.setBloombergCode(dto.getBloombergCode() != null ? dto.getBloombergCode() : null);
 		return entity;
 	}
 
@@ -69,8 +70,9 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 			return null;
 
 		// Search for an existing entry with the same label.
-		PrdSousJacent duplicate = repo.findByLabel(sousJacentDto.getLabel());
-		if (duplicate != null)
+		List<PrdSousJacent> duplicate = repo.findByLabelOrBloombergCode(sousJacentDto.getLabel(),
+				sousJacentDto.getBloombergCode());
+		if (!duplicate.isEmpty())
 			throw new EavDuplicateEntryException(PrdSousJacent.class.getTypeName());
 
 		// Create the PrdSousJacent object.
@@ -208,6 +210,9 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		if (dto.getIsinCode() != null) {
 			entity.setIsinCode(dto.getIsinCode());
 		}
+		if (dto.getBloombergCode() != null) {
+			entity.setBloombergCode(dto.getBloombergCode());
+		}
 	}
 
 	/*
@@ -269,6 +274,26 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	public void delete(Long id) {
 		repo.delete(id);
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#getClassicBases()
+	 */
+	@Override
+	public List<PrdSousJacent> getClassicBases() {
+		return repo.findByIsNew(false);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#getNewBases()
+	 */
+	@Override
+	public List<PrdSousJacent> getNewBases() {
+		return repo.findByIsNew(true);
 	}
 
 }

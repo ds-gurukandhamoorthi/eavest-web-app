@@ -16,6 +16,8 @@ public class ModelTest {
 	 */
 	public static final String SOUS_JACENT_PARAM_LABEL = "label";
 	public static final String SOUS_JACENT_PARAM_ID = "id";
+	public static final String SOUS_JACENT_BLOOMBERG_CODE = "bloombergCode";
+	public static final String SOUS_JACENT_ISIN_CODE = "isinCode";
 
 	/*
 	 * ---------------------------------- PrdProduct ---------------------------------

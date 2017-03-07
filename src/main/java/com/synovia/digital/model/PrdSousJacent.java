@@ -27,8 +27,11 @@ public class PrdSousJacent extends AbstractBean {
 	@Column(name = "LABEL", nullable = false, unique = true, length = 50)
 	private String label;
 
-	@Column(name = "ISIN_CODE", unique = true, length = 25)
+	@Column(name = "ISIN_CODE", length = 25)
 	private String isinCode;
+
+	@Column(name = "BLOOMBERG_CODE", unique = true, length = 25)
+	private String bloombergCode;
 
 	@Column(name = "IS_NEW")
 	private Boolean isNew = true;
@@ -106,6 +109,14 @@ public class PrdSousJacent extends AbstractBean {
 		this.isNew = isNew;
 	}
 
+	public String getBloombergCode() {
+		return this.bloombergCode;
+	}
+
+	public void setBloombergCode(String bloombergCode) {
+		this.bloombergCode = bloombergCode;
+	}
+
 	// --------------------- OTHER METHODS ---------------------
 
 	@Override
@@ -115,6 +126,6 @@ public class PrdSousJacent extends AbstractBean {
 
 		return new StringBuilder("[").append("ID:").append(strId).append("; ").append("Label:").append(label)
 				.append("; ").append("ISIN:").append(isinCode).append("; ").append("New base:").append(strIsNew)
-				.append("]").toString();
+				.append("; ").append("BLOOMBERG code:").append(bloombergCode).append("]").toString();
 	}
 }

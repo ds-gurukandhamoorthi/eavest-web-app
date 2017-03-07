@@ -48,7 +48,18 @@
 	<section class="content-main" role="main">
 	    <div class="main-area">
 	      <h1>Back-office du site EAVEST</h1>
+        <p th:text="${responseMessage}"/>
+	      <div class="main-form">
+          <form name="param-form" th:action="@{/admin}" th:object="${product}" method="POST">
+            <label for="isin">Produit best-seller (code ISIN)</label>
+            <input id="isin" type="text" name="isin" th:field="*{isin}"/>
+
+            <input type="submit" value="Valider" class="btn btn-primary" />
+          </form>
+
+	      </div>
 	    </div>
+
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

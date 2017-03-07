@@ -94,6 +94,7 @@ public class PrdSousJacentRestControllerTest {
 		// Test : Add a 1-param PrdSousJacent
 		PrdSousjacentDto dto = new PrdSousjacentDto();
 		dto.setLabel("CREATED-SS-JCT");
+		dto.setBloombergCode("BLOOMBEACH");
 		String prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
@@ -105,6 +106,7 @@ public class PrdSousJacentRestControllerTest {
 		// Test : Add a 1-param PrdSousJacent
 		dto = new PrdSousjacentDto();
 		dto.setLabel("SS-JCT");
+		dto.setBloombergCode("BLOOMBEACH2");
 		prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
@@ -116,6 +118,7 @@ public class PrdSousJacentRestControllerTest {
 		// Test : Add a 1-param PrdSousJacent
 		dto = new PrdSousjacentDto();
 		dto.setLabel("created-ss-jct");
+		dto.setBloombergCode("BLOOMBEACH3");
 		prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))
@@ -127,6 +130,7 @@ public class PrdSousJacentRestControllerTest {
 		// Test : Add an existing label PrdSousJacent
 		dto = new PrdSousjacentDto();
 		dto.setLabel("created-ss-jct");
+		dto.setBloombergCode("BLOOMBEACH4");
 		prdSousJacentJson = json(dto);
 
 		this.mockMvc.perform(post("/api" + "/prdSousJacents").contentType(contentType).content(prdSousJacentJson))

@@ -55,7 +55,10 @@
             <input id="lbl" type="text" name="lbl" th:field="*{label}" required="required"/>
 
             <label for="isin">Code ISIN</label>
-            <input id="isin" type="text" name="isin" th:field="*{isinCode}" required="required"/>
+            <input id="isin" type="text" name="isin" th:field="*{isinCode}"/>
+
+            <label for="bloom">Code Bloomberg</label>
+            <input id="bloom" type="text" name="bloom" th:field="*{bloombergCode}"/>
 
             <label for="cb-new">Nouvel Indice</label>
             <input id="cb-new" type="checkbox" name="cb-new" th:field="*{isNew}"/>
@@ -71,16 +74,18 @@
 	      <div class="main-table">
 			<table>
 				<tr>
-				  <th th:text="#{i18n.code.ssjct.id}">Id</th>
-				  <th th:text="#{i18n.code.ssjct.label}">Label</th>
-				  <th th:text="#{i18n.code.ssjct.create.date}">Date de création</th>
-				  <th th:text="#{i18n.code.ssjct.update.date}">Date de mise à jour</th>
+				  <th th:text="#{bo.ssjct.id}">Id</th>
+				  <th th:text="#{bo.ssjct.label}">Label</th>
+				  <th th:text="#{bo.ssjct.isin}">Code ISIN</th>
+				  <th th:text="#{bo.ssjct.bloom}">Code Bloomberg</th>
+          <th th:text="#{bo.ssjct.new.base}">Nouvel indice</th>
 				</tr>
 				<tr th:each="ssjct : ${ssjacents}">
 				  <td th:text="${ssjct.id}">Id du sous-jacent</td>
-				  <td th:text="${ssjct.label}">Label du sous-jacent</td>
-				  <td th:text="${ssjct.createdAt}">Créé le</td>
-				  <td th:text="${ssjct.updatedAt}">Mis à jour le</td>
+				  <td th:text="${ssjct.label}">MY BASE</td>
+				  <td th:text="${ssjct.isinCode}">FRXXXXX</td>
+				  <td th:text="${ssjct.bloombergCode}">BLOOM Indice</td>
+          <td th:text="${ssjct.isNew}">true</td>
 				</tr>
 			</table>
 	      </div>

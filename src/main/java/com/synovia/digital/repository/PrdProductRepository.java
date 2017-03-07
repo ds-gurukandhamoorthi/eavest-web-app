@@ -14,4 +14,6 @@ public interface PrdProductRepository extends JpaRepository<PrdProduct, Long> {
 	public List<PrdProduct> findByEndDateAfter(Date from);
 
 	public List<PrdProduct> findByDueDateBetween(Date from, Date until);
+
+	public List<PrdProduct> findByIsBestSeller(Boolean isBestSeller);
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synovia.digital.dto.PrdProductDateDto;
@@ -96,8 +97,24 @@ public class BackOfficeController {
 	protected EavAccountService accountService;
 
 	@RequestMapping()
-	public String showBackOffice() {
-		return VIEW_BACK_OFFICE;
+	public ModelAndView showBackOffice(@ModelAttribute PrdProductDto bestSellerDto, ModelAndView modelAndView) {
+		modelAndView.setViewName(VIEW_BACK_OFFICE);
+		modelAndView.addObject(ATTR_PRODUCT_DTO, new PrdProduct());
+
+		// Find the corresponding entity
+		if (bestSellerDto.getIsin() != null) {
+			try {
+				PrdProduct p = productService.setBestSeller(bestSellerDto);
+				modelAndView.addObject(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("The product ").append(p.getLabel()).append(" is now a BEST-SELLER!!"));
+
+			} catch (EavEntryNotFoundException e) {
+				modelAndView.addObject(ATTR_MESSAGE_FEEDBACK,
+						"Product not found!! Please enter an existing ISIN code.");
+			}
+		}
+
+		return modelAndView;
 	}
 
 	@GetMapping(value = "/accounts")

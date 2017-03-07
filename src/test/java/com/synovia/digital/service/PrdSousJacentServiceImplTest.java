@@ -79,6 +79,8 @@ public class PrdSousJacentServiceImplTest {
 	public void testAdd() {
 		PrdSousjacentDto sousJacentDto = new PrdSousjacentDto();
 		sousJacentDto.setLabel("SS-JCT-TEST");
+		sousJacentDto.setBloombergCode("BLOOMCODE");
+		sousJacentDto.setIsinCode("IS4567IS");
 
 		try {
 			sousJacentService.add(sousJacentDto);
@@ -87,7 +89,8 @@ public class PrdSousJacentServiceImplTest {
 		}
 
 		ArgumentCaptor<PrdSousJacent> prdSousJacentArgument = ArgumentCaptor.forClass(PrdSousJacent.class);
-		verify(repositoryMock, times(1)).findByLabel(sousJacentDto.getLabel());
+		verify(repositoryMock, times(1)).findByLabelOrBloombergCode(sousJacentDto.getLabel(),
+				sousJacentDto.getBloombergCode());
 		verify(repositoryMock, times(1)).save(prdSousJacentArgument.capture());
 		verifyNoMoreInteractions(repositoryMock);
 
@@ -95,6 +98,8 @@ public class PrdSousJacentServiceImplTest {
 
 		Assert.isNull(model.getId());
 		assertEquals(model.getLabel(), sousJacentDto.getLabel());
+		assertEquals(model.getBloombergCode(), sousJacentDto.getBloombergCode());
+		assertEquals(model.getIsinCode(), sousJacentDto.getIsinCode());
 	}
 
 	/**
@@ -110,7 +115,7 @@ public class PrdSousJacentServiceImplTest {
 
 			sousJacentService.add(sousJacentDto);
 
-			verify(repositoryMock, times(1)).findByLabel(null);
+			verify(repositoryMock, times(1)).findByLabelOrBloombergCode(null, null);
 			verify(repositoryMock, times(1)).save(captor.capture());
 			verifyNoMoreInteractions(repositoryMock);
 

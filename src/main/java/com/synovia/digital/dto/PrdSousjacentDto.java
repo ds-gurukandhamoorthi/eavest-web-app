@@ -26,6 +26,9 @@ public class PrdSousjacentDto {
 	@Size(max = 25)
 	private String isinCode;
 
+	@Size(max = 25)
+	private String bloombergCode;
+
 	private Boolean isNew = true;
 
 	public PrdSousjacentDto() {
@@ -67,6 +70,14 @@ public class PrdSousjacentDto {
 
 	public void setIsNew(Boolean isNew) {
 		this.isNew = isNew;
+	}
+
+	public String getBloombergCode() {
+		return this.bloombergCode;
+	}
+
+	public void setBloombergCode(String bloombergCode) {
+		this.bloombergCode = bloombergCode;
 	}
 
 }

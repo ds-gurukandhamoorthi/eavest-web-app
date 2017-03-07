@@ -388,4 +388,101 @@ public class PrdProductServiceImplTest {
 		Assert.assertThat(saveEntity.getIsBestSeller(), is(isBestSeller));
 	}
 
+	@Test
+	public void tesSetBestSeller() throws EavEntryNotFoundException {
+		String isin = "ISIN-PRD";
+		PrdProductDto bestSellerDto = new PrdProductDto();
+		bestSellerDto.setIsBestSeller(true);
+		bestSellerDto.setIsin(isin);
+
+		PrdProduct p = new PrdProduct();
+
+		when(repoMock.findByIsin(isin)).thenReturn(p);
+		ArgumentCaptor<PrdProduct> captor = ArgumentCaptor.forClass(PrdProduct.class);
+
+		service.setBestSeller(bestSellerDto);
+
+		verify(repoMock, times(1)).findByIsin(isin);
+		verify(repoMock, times(1)).save(captor.capture());
+		verifyNoMoreInteractions(repoMock);
+
+		PrdProduct bestSeller = captor.getValue();
+
+		Assert.assertThat(bestSeller.getIsBestSeller(), is(true));
+	}
+
+	@Test
+	public void tesSetBestSeller_DTOIsNotBestSeller() throws EavEntryNotFoundException {
+		String isin = "ISIN-PRD";
+		PrdProductDto bestSellerDto = new PrdProductDto();
+		bestSellerDto.setIsBestSeller(false);
+		bestSellerDto.setIsin(isin);
+
+		PrdProduct p = new PrdProduct();
+
+		when(repoMock.findByIsin(isin)).thenReturn(p);
+		ArgumentCaptor<PrdProduct> captor = ArgumentCaptor.forClass(PrdProduct.class);
+
+		service.setBestSeller(bestSellerDto);
+
+		verify(repoMock, times(1)).findByIsin(isin);
+		verify(repoMock, times(1)).save(captor.capture());
+		verifyNoMoreInteractions(repoMock);
+
+		PrdProduct bestSeller = captor.getValue();
+
+		Assert.assertThat(bestSeller.getIsBestSeller(), is(true));
+	}
+
+	@Test
+	public void tesSetBestSeller_BestSellerNotFilled() throws EavEntryNotFoundException {
+		String isin = "ISIN-PRD";
+		PrdProductDto bestSellerDto = new PrdProductDto();
+		bestSellerDto.setIsin(isin);
+
+		PrdProduct p = new PrdProduct();
+
+		when(repoMock.findByIsin(isin)).thenReturn(p);
+		ArgumentCaptor<PrdProduct> captor = ArgumentCaptor.forClass(PrdProduct.class);
+
+		service.setBestSeller(bestSellerDto);
+
+		verify(repoMock, times(1)).findByIsin(isin);
+		verify(repoMock, times(1)).save(captor.capture());
+		verifyNoMoreInteractions(repoMock);
+
+		PrdProduct bestSeller = captor.getValue();
+
+		Assert.assertThat(bestSeller.getIsBestSeller(), is(true));
+	}
+
+	@Test(expected = EavEntryNotFoundException.class)
+	public void tesSetBestSeller_ProductNotFound() throws EavEntryNotFoundException {
+		String isin = "ISIN-PRD";
+		PrdProductDto bestSellerDto = new PrdProductDto();
+		bestSellerDto.setIsBestSeller(true);
+		bestSellerDto.setIsin(isin);
+
+		when(repoMock.findByIsin(isin)).thenReturn(null);
+
+		verifyNoMoreInteractions(repoMock);
+
+		service.setBestSeller(bestSellerDto);
+	}
+
+	@Test
+	public void tesSetBestSeller_DTONull() throws EavEntryNotFoundException {
+		String isin = "ISIN-PRD";
+		PrdProductDto bestSellerDto = null;
+
+		PrdProduct p = new PrdProduct();
+
+		when(repoMock.findByIsin(isin)).thenReturn(p);
+
+		PrdProduct bestSeller = service.setBestSeller(bestSellerDto);
+		verifyNoMoreInteractions(repoMock);
+
+		Assert.assertThat(bestSeller, is(nullValue()));
+	}
+
 }

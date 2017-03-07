@@ -1,6 +1,8 @@
 package com.synovia.digital;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -10,9 +12,11 @@ import org.springframework.context.annotation.Bean;
 
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.EavRole;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdStatus;
 import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.repository.EavRoleRepository;
+import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
 
 @SpringBootApplication
@@ -45,8 +49,8 @@ public class EavestWebAppApplication {
 	//	}
 
 	@Bean
-	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo,
-			EavRoleRepository roleRepo) {
+	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo, EavRoleRepository roleRepo,
+			PrdSousJacentRepository prdSsjctRepo) {
 		return () -> {
 			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
 			roleRepo.save(admin);
@@ -71,6 +75,22 @@ public class EavestWebAppApplication {
 			prdStatusRepo.save(new PrdStatus(4, "STOPPED", "The product evolution has ended"));
 			prdStatusRepo
 					.save(new PrdStatus(5, "CLOSED", "The product is stopped, no action can be done on the product"));
+
+			// Create the stock market indices
+			PrdSousJacent cac40 = new PrdSousJacent("CAC 40");
+			cac40.setIsNew(false);
+			cac40.setBloombergCode("CAC Index");
+
+			PrdSousJacent eurostoxx50 = new PrdSousJacent("Eurostoxx 50");
+			eurostoxx50.setIsNew(false);
+			eurostoxx50.setBloombergCode("SX5E Index");
+
+			PrdSousJacent eurostoxxDividend30 = new PrdSousJacent("EUROSTOXX Select Dividend 30");
+			eurostoxxDividend30.setIsNew(false);
+			eurostoxxDividend30.setBloombergCode("SD3E Index");
+
+			List<PrdSousJacent> indices = Arrays.asList(cac40, eurostoxx50, eurostoxxDividend30);
+			prdSsjctRepo.save(indices);
 		};
 	}
 }

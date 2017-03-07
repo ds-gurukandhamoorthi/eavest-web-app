@@ -3,6 +3,8 @@
  */
 package com.synovia.digital.web;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,8 @@ import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
+import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.utils.EavConstants;
 
 /**
  * This class defines TODO
@@ -39,6 +43,11 @@ public class HomeController {
 	protected static final String ATTR_UPCOMING_PRODUCT_LIST = "tocallProducts";
 	protected static final String ATTR_NB_PRODUCTS = "nbProducts";
 	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
+	protected static final String ATTR_BASE_LIST = "classicBases";
+	protected static final String ATTR_NEW_BASE_LIST = "newBases";
+	protected static final String ATTR_CURRENT_MONTH = "month";
+	protected static final String ATTR_CURRENT_YEAR = "year";
+	protected static final String ATTR_ONE_YEAR_BEFORE = "oneYearPast";
 
 	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
 
@@ -50,6 +59,9 @@ public class HomeController {
 
 	@Autowired
 	protected PrdObservationDateService obsDateService;
+
+	@Autowired
+	protected PrdSousJacentService ssjctService;
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -113,6 +125,26 @@ public class HomeController {
 		// Display the list of upcoming products
 		modelAndView.addObject(ATTR_UPCOMING_PRODUCT_LIST,
 				productService.listUpcomingProducts(now, DateUtils.addDays(now, nbDays)));
+
+		// Display the current date
+		Calendar calendar = Calendar.getInstance();
+		int idxCurrentMonth = calendar.get(Calendar.MONTH);
+		int currentYear = calendar.get(Calendar.YEAR);
+		Integer displayedYear = currentYear - EavConstants.C_MILLENARY;
+		calendar.set(currentYear - 1, idxCurrentMonth - 1, 1);
+		int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(Calendar.DAY_OF_MONTH, maxDayOfMonth);
+		String oneYearBefore = new SimpleDateFormat("dd.MM.yy").format(calendar.getTime());
+		modelAndView.addObject(ATTR_CURRENT_MONTH,
+				Integer.valueOf(idxCurrentMonth == 0 ? EavConstants.C_DECEMBER_INDEX : idxCurrentMonth));
+		modelAndView.addObject(ATTR_CURRENT_YEAR, displayedYear);
+		modelAndView.addObject(ATTR_ONE_YEAR_BEFORE, oneYearBefore);
+
+		// Retrieve the list of classic bases
+		modelAndView.addObject(ATTR_BASE_LIST, ssjctService.getClassicBases());
+
+		// Retrieve the list of new bases
+		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
 		return modelAndView;
 	}

@@ -106,6 +106,20 @@ public class PrdProductServiceImpl implements PrdProductService {
 
 	private void updateFromDto(PrdProduct entity, PrdProductDto dto) {
 		// TODO A status automatically sets the end date and vice versa
+		if (dto.getLabel() != null) {
+			entity.setLabel(dto.getLabel());
+		}
+
+		if (dto.getLaunchDate() != null) {
+			// Be sure that the new launch date is before the due date
+			Date dueDate = null;
+			try {
+				dueDate = dto.getDueDateObject();
+			} catch (ParseException e) {
+				dueDate = entity.getDueDate();
+			}
+
+		}
 	}
 
 	private PrdProduct convertToEntity(PrdProductDto dto) {
@@ -289,5 +303,30 @@ public class PrdProductServiceImpl implements PrdProductService {
 			System.out.println(n);
 		}
 		return l;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#setBestSeller(com.synovia.digital.dto
+	 * .PrdProductDto)
+	 */
+	@Override
+	public PrdProduct setBestSeller(PrdProductDto dto) throws EavEntryNotFoundException {
+		if (dto == null || dto.getIsin() == null) {
+			LOGGER.warn("Unable to set the best-seller product, entry is null or the ISIN code is not filled");
+			return null;
+		}
+		// Find the corresponding product from the DTO
+		PrdProduct p = repo.findByIsin(dto.getIsin());
+		if (p == null)
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
+
+		// TODO Update the product
+		//updateFromDto(p, dto);
+		p.setIsBestSeller(true);
+
+		return repo.save(p);
 	}
 }

@@ -50,4 +50,8 @@ public interface PrdSousJacentService {
 	public PrdSousJacent findById(Long id) throws EavEntryNotFoundException;
 
 	public void delete(Long id);
+
+	public List<PrdSousJacent> getClassicBases();
+
+	public List<PrdSousJacent> getNewBases();
 }

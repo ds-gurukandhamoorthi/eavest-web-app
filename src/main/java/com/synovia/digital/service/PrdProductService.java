@@ -53,4 +53,6 @@ public interface PrdProductService {
 	public String generatePackedName(Long id);
 
 	public List<String> getPackedNameList(Collection<PrdProduct> products);
+
+	public PrdProduct setBestSeller(PrdProductDto dto) throws EavEntryNotFoundException;
 }

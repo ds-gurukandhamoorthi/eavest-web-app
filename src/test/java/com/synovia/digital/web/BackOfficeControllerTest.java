@@ -230,6 +230,7 @@ public class BackOfficeControllerTest {
 	public void testCreateSousJacent() throws Exception {
 		Long id = 1000001L;
 		String label = "NEW-SJCT-EXAMPLE";
+		String bloombergCode = "BLOOMBEACH";
 
 		// Expected values
 		String expectedRedirectViewPath = TestUtil
@@ -238,6 +239,7 @@ public class BackOfficeControllerTest {
 		// Add a new entry
 		mockMvc.perform(post("/admin/createSsjacent").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param(ModelTest.SOUS_JACENT_PARAM_LABEL, label).param(ModelTest.SOUS_JACENT_PARAM_ID, id.toString())
+				.param(ModelTest.SOUS_JACENT_BLOOMBERG_CODE, bloombergCode)
 				.requestAttr(BackOfficeController.ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto()).with(csrf()))
 				.andExpect(status().is3xxRedirection()).andExpect(view().name(expectedRedirectViewPath))
 				.andExpect(flash().attribute(BackOfficeController.ATTR_SOUS_JACENT_DTO, is(notNullValue())))

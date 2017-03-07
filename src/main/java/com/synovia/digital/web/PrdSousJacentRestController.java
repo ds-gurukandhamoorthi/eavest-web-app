@@ -49,6 +49,7 @@ public class PrdSousJacentRestController {
 			return ResponseEntity.created(location).build();
 
 		} catch (EavTechnicalException e) {
+			e.printStackTrace();
 			response = ResponseEntity.badRequest().build();
 		}
 
