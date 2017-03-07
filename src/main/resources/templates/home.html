@@ -38,28 +38,30 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="nav">
-				<div class="col-md-12" id="eavest-logo">
+				<div class="col-md-12 center-block">
 					<h1><img src="img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
 					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
-					<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-					<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
-
+					<a href="#" th:text="${authUserName}" class="italicized auth" id="auth">Nom de l'utilisateur</a>
+					<span id="socials">
+						<a href="https://twitter.com/EAVEST_" id="twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+					</span>
 					<div class="zone-transit">
-						<p sec:authorize="isAuthenticated()">
+						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default" id="log" />
+								<input type="submit" value="Sign Out" class="btn btn-default log" />
 							</form>
-						</p>
-						<p sec:authorize="hasRole('ROLE_ADMIN')">
+						</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
 							<form th:action="@{/admin}" method="get">
-								<input type="submit" value="Back Office" class="btn btn-default" id="log" />
+								<input type="submit" value="Back Office" class="btn btn-default log" />
 							</form>
-						</p>
+						</span>
 					</div>
 				</div>
+
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
@@ -88,7 +90,7 @@
 					<img src="img/bell.png" alt="bell" class="img-responsive img-bell" />
 					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
 					<ul class="list-unstyled product-content-1 overlay-1">
-						<li class="prod-list overlay-item" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
+						<li class="prod-list overlay-item-1" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
 							<span class="margin grey-letters" th:text="${refund.label + ' / ' + refund.isin}">resonance 2 / FR00196847</span>
 							<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
 						</li>
@@ -117,7 +119,7 @@
 					<img src="img/bell.png" alt="bell" class="img-responsive img-bell" />
 					<h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
 					<ul class="list-unstyled product-content-2 overlay-2">
-						<li class="prod-list overlay-item" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+						<li class="prod-list overlay-item-2" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
 							<span class="margin grey-letters" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 2 / FR00196847</span>
 							<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest" /></span>
 						</li>
@@ -142,8 +144,8 @@
 							<span>
 								<form>
 									<input type="search" id="find-product" autocomplete="off"/>
+									<button type="submit"><i class="fa fa-2x fa-search"></i></button>
 								</form>
-								<i class="fa fa-2x fa-search" aria-hidden="true"></i>
 							</span>
 						</div>
 					</div>
@@ -199,10 +201,13 @@
 				</div>
 				<div class="col-xs-5 col-md-3">
 					<div class="white-block">
-						<h2>LE PRODUIT DU MOIS</h2>
+						<h2 id="month-product-title">LE PRODUIT DU MOIS</h2>
 						<div class="month-product">
 							<img src="img/month-product.jpg" class="img-responsive img-product" alt="produit-du-mois" />
 						</div>
+						<a>
+							<span><img id="more-3" src="img/more-hover.png" alt="voir-plus" /></span>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -217,13 +222,13 @@
 		<div class="container text-center wrap">
 			<div class="row">
 				<div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
-					<img src="img/wallet.png" alt="portefeuille" />
+					<a href="www.eavest.com/login"><img src="img/wallet.png" alt="portefeuille" /></a>
 				</div>
 				<div class="col-sm-9 col-md-9 wallet-black-block">
 					<h2>investisseurs, cgp, composez et suivez au quotidien
 			<span>votre portefeuille sur votre espace personnel</span>
 		</h2>
-					<button type="button" class="btn btn-secondary wallet-button">créer mon portefeuille</button>
+					<a href="www.eavest.com/login"><button type="button" class="btn btn-secondary wallet-button" >créer mon portefeuille</button></a>
 				</div>
 			</div>
 		</div>
@@ -241,9 +246,8 @@
 					<ul class="list-inline list-unstyled">
 						<li class="blue-feature-1"></li>
 						<li class="blue-title">Mardi 18 octobre 2016</li>
-						<li>
-							<h3 class="p1-width">étude UFF : que veulent les épargnants français ?</h3></li>
 					</ul>
+					<h3 class="blog-title-1">étude UFF : que veulent les épargnants français ?</h3>
 					<div class="row">
 						<div class="col-xs-3 col-sm-4 col-md-3 blog-img">
 							<img src="img/question-mark.png" alt="question" />
@@ -265,9 +269,9 @@
 					<ul class="list-inline list-unstyled">
 						<li class="blue-feature-2"></li>
 						<li class="blue-title">Mardi 18 octobre 2016</li>
-						<h3 class="p2-width">étude UFF :<span> que veulent les épargnants français ?</span></h3>
-						<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span><span>"En ce qui concerne la "compréhension des produits" [...] "</span></p>
 					</ul>
+					<h3 class="blog-title-2">étude UFF :<span> que veulent les épargnants français ?</span></h3>
+					<p class="grey-letters">Article de Frédéric Lorenzini <span>N3D - 18 octobre 2016</span><span>"En ce qui concerne la "compréhension des produits" [...] "</span></p>
 				</div>
 			</div>
 		</div>
@@ -309,48 +313,48 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6 white-block-style">
+				<div class="col-md-5 white-block-style">
 					<h4><b>Nos valeurs</b></h4>
 					<div class="row values">
 						<ul class="list-inline list-unstyled grey-letters">
 							<li class="padding_right">
 								<h5>indépendance</h5>
-								<img src="img/independance.png" alt="independance" class="value-img1" />
+								<img src="img/independance.png" alt="independance" id="value-img1" />
 							</li>
 							<li class="padding_right">
 								<h5>expertise</h5>
-								<img src="img/expertise.png" alt="expertise" class="value-img2" />
+								<img src="img/expertise.png" alt="expertise" id="value-img2" />
 							</li>
 							<li class="padding_right">
 								<h5>ouverture</h5>
-								<img src="img/ouverture.png" alt="ouverture" class="value-img3" />
+								<img src="img/ouverture.png" alt="ouverture" id="value-img3" />
 							</li>
 							<li class="padding_right">
 								<h5 id="proximity">proximité</h5>
-								<img src="img/proximite.png" alt="proximité" class="value-img4" />
+								<img src="img/proximite.png" alt="proximité" id="value-img4" />
 							</li>
 						</ul>
 					</div>
 				</div>
-				<div class="col-md-5 white-block-style-2" id="methodo">
+				<div class="col-md-6 white-block-style-2" id="methodo">
 					<h4><b>Notre méthodologie</b></h4>
 					<div class="row our-methodologie">
 						<div class="col-xs-3 col-md-3 methodologie">
 							<span class="number">1</span>
 							<p class="grey-letters">L'élaboration d'investissement sur mesure </p>
-							<img src="img/elaboration.png" alt="methodologie-1" class="methodo-img1" />
+							<img src="img/elaboration.png" alt="methodologie-1" id="methodo-img1" />
 						</div>
-						<div class="col-xs-3 col-md-3 methodologie">
+						<div class="col-xs-3 col-md-3 methodologie" id="methodo-2-block">
 							<span class="number">2</span>
 							<p class="grey-letters p-width-2">Une aide <span>à la décision</span></p>
 							<br />
-							<img src="img/aide.png" alt="aide" class="methodo-img2" />
+							<img src="img/aide.png" alt="aide" id="methodo-img2" />
 						</div>
 						<div class="col-xs-3 col-md-3 methodologie">
 							<span class="number">3</span>
 							<p class="grey-letters p-width-3">Le suivi exclusif EAVEST</p>
 							<br />
-							<img src="img/suivi.png" alt="suivi" class="methodo-img3" />
+							<img src="img/suivi.png" alt="suivi" id="methodo-img3" />
 						</div>
 					</div>
 				</div>
@@ -387,10 +391,10 @@
 				<small class="always-left col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span>
 				<span><a href="">+33 (1) 42 80 21 99</a></span>
-				<span><a href="http://eavest.com/mentions-legales/">mentions légales</a></span>
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span>
 			</small>
 				<small class="always-right col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
+				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr" target="_blank">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
 			</small>
 			</div>
 		</div>
@@ -416,20 +420,21 @@
 	<script src="js/libs/jquery.mCustomScrollbar.min.js"></script>
 
 	<!-- Script for autocompleting the filter text box for searching products -->
+
 	<script th:inline="javascript">
-		/*<![CDATA[*/
-		$(document).ready(function() {
-			var productTags = [
-				[$ {
-					productNames
-				}]
-			];
-			/*console.log(productTags);*/
-			$('#find-product').autocomplete({
-				source: productTags
-			});
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		// à décommenter KNA avant commit
+		var productTags = [[${productNames}]];
+		// var maListe = [];
+		/*console.log(productTags);*/
+		$('#find-product').autocomplete({
+		// à décommenter KNA avant commit
+		source: productTags
+		// source: maListe
 		});
-		/*]]>*/
+	});
+	/*]]>*/
 	</script>
 </body>
 
