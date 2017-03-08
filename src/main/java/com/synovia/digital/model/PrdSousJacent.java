@@ -36,6 +36,9 @@ public class PrdSousJacent extends AbstractBean {
 	@Column(name = "IS_NEW")
 	private Boolean isNew = true;
 
+	@Column(name = "IS_PERF_REVIEW")
+	private Boolean isPerfReview = false;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdSousJacent")
 	private List<PrdSousJacentValue> prdSousJacentValues;
 
@@ -126,6 +129,15 @@ public class PrdSousJacent extends AbstractBean {
 
 		return new StringBuilder("[").append("ID:").append(strId).append("; ").append("Label:").append(label)
 				.append("; ").append("ISIN:").append(isinCode).append("; ").append("New base:").append(strIsNew)
-				.append("; ").append("BLOOMBERG code:").append(bloombergCode).append("]").toString();
+				.append("; ").append("Displayable in Perf Review:").append(isPerfReview).append("; ")
+				.append("BLOOMBERG code:").append(bloombergCode).append("]").toString();
+	}
+
+	public Boolean getIsPerfReview() {
+		return this.isPerfReview;
+	}
+
+	public void setIsPerfReview(Boolean isPerfReview) {
+		this.isPerfReview = isPerfReview;
 	}
 }

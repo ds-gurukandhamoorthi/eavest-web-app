@@ -13,4 +13,6 @@ public interface PrdSousJacentRepository extends JpaRepository<PrdSousJacent, Lo
 	public List<PrdSousJacent> findByIsNew(Boolean isNew);
 
 	public List<PrdSousJacent> findByLabelOrBloombergCode(String label, String bloombergCode);
+
+	public List<PrdSousJacent> findByIsNewAndIsPerfReview(Boolean isNew, Boolean isPerfReview);
 }

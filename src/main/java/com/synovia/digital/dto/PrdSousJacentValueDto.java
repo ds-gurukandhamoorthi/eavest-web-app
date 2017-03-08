@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 import com.synovia.digital.dto.utils.DtoDateFormat;
 
 /**
@@ -69,6 +71,11 @@ public class PrdSousJacentValueDto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 }

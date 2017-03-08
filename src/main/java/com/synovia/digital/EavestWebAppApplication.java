@@ -79,17 +79,52 @@ public class EavestWebAppApplication {
 			// Create the stock market indices
 			PrdSousJacent cac40 = new PrdSousJacent("CAC 40");
 			cac40.setIsNew(false);
-			cac40.setBloombergCode("CAC Index");
+			cac40.setIsPerfReview(true);
+			cac40.setBloombergCode("CAC");
 
-			PrdSousJacent eurostoxx50 = new PrdSousJacent("Eurostoxx 50");
+			PrdSousJacent eurostoxx50 = new PrdSousJacent("Euro Stoxx 50");
 			eurostoxx50.setIsNew(false);
-			eurostoxx50.setBloombergCode("SX5E Index");
+			eurostoxx50.setIsPerfReview(true);
+			eurostoxx50.setBloombergCode("SX5E");
 
-			PrdSousJacent eurostoxxDividend30 = new PrdSousJacent("EUROSTOXX Select Dividend 30");
+			PrdSousJacent eurostoxxDividend30 = new PrdSousJacent("Euro Stoxx Select Dividend 30");
 			eurostoxxDividend30.setIsNew(false);
-			eurostoxxDividend30.setBloombergCode("SD3E Index");
+			eurostoxxDividend30.setIsPerfReview(true);
+			eurostoxxDividend30.setBloombergCode("SD3E");
 
-			List<PrdSousJacent> indices = Arrays.asList(cac40, eurostoxx50, eurostoxxDividend30);
+			// Create the new stock market indices
+			PrdSousJacent cac40Large = new PrdSousJacent("CAC Large 60 EWER");
+			cac40Large.setIsNew(true);
+			cac40Large.setIsPerfReview(true);
+			cac40Large.setBloombergCode("CLEWE");
+
+			PrdSousJacent euroistoxxEWC = new PrdSousJacent("Euro iStoxx EWC 50");
+			euroistoxxEWC.setIsNew(true);
+			euroistoxxEWC.setIsPerfReview(true);
+			euroistoxxEWC.setBloombergCode("ISXEC50");
+
+			PrdSousJacent iStoxx30 = new PrdSousJacent("iSTOXX Europe Centenary Select 30");
+			iStoxx30.setIsNew(true);
+			iStoxx30.setIsPerfReview(true);
+			iStoxx30.setBloombergCode("SXECS3P");
+
+			PrdSousJacent iStoxx50 = new PrdSousJacent("iSTOXX Europe Select High Beta 50");
+			iStoxx50.setIsNew(true);
+			iStoxx50.setIsPerfReview(true);
+			iStoxx50.setBloombergCode("ISXEHBP");
+
+			PrdSousJacent msciEuro50 = new PrdSousJacent("MSCI Euro 50 Select 4,75% Decrement");
+			msciEuro50.setIsNew(true);
+			msciEuro50.setIsPerfReview(true);
+			msciEuro50.setBloombergCode("M7EUSDA");
+
+			PrdSousJacent solactive = new PrdSousJacent("Solactive Eurozone 50 EW");
+			solactive.setIsNew(true);
+			solactive.setIsPerfReview(true);
+			solactive.setBloombergCode("SOLEW");
+
+			List<PrdSousJacent> indices = Arrays.asList(cac40, eurostoxx50, eurostoxxDividend30, cac40Large,
+					euroistoxxEWC, iStoxx30, iStoxx50, msciEuro50, solactive);
 			prdSsjctRepo.save(indices);
 		};
 	}

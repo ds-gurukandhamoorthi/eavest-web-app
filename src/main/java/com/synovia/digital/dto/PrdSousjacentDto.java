@@ -31,6 +31,8 @@ public class PrdSousjacentDto {
 
 	private Boolean isNew = true;
 
+	private Boolean isPerfReview = false;
+
 	public PrdSousjacentDto() {
 
 	}
@@ -78,6 +80,14 @@ public class PrdSousjacentDto {
 
 	public void setBloombergCode(String bloombergCode) {
 		this.bloombergCode = bloombergCode;
+	}
+
+	public Boolean getIsPerfReview() {
+		return this.isPerfReview;
+	}
+
+	public void setIsPerfReview(Boolean isPerfReview) {
+		this.isPerfReview = isPerfReview;
 	}
 
 }

@@ -283,7 +283,7 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 */
 	@Override
 	public List<PrdSousJacent> getClassicBases() {
-		return repo.findByIsNew(false);
+		return repo.findByIsNewAndIsPerfReview(false, true);
 	}
 
 	/*
@@ -293,7 +293,7 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 */
 	@Override
 	public List<PrdSousJacent> getNewBases() {
-		return repo.findByIsNew(true);
+		return repo.findByIsNewAndIsPerfReview(true, true);
 	}
 
 }

@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 import com.synovia.digital.dto.utils.DtoDateFormat;
 
 /**
@@ -63,8 +65,7 @@ public class PrdProductDateDto {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("[").append("id:").append(this.id.toString()).append("; ").append("date:")
-				.append(this.date).append("; ").append("idPrdProduct:").append(this.idPrdProduct).append("]")
-				.toString();
+		return ReflectionToStringBuilder.toString(this);
 	}
+
 }
