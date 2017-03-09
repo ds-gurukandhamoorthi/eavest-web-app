@@ -3,6 +3,7 @@
  */
 package com.synovia.digital.service;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +22,9 @@ import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.utils.DtoUtils;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.exceptions.utils.EavErrorCode;
+import com.synovia.digital.filedataware.EavHomeDirectory;
 import com.synovia.digital.model.PrdCouponDate;
 import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
@@ -30,6 +34,7 @@ import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
 import com.synovia.digital.service.utils.RefundProductComparator;
+import com.synovia.digital.utils.FileExtractor;
 import com.synovia.digital.utils.PrdStatusEnum;
 
 /**
@@ -50,6 +55,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Autowired
 	protected PrdObservationDateService obsDateService;
 
+	protected final EavHomeDirectory homeDir;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
 
 	/**
@@ -58,10 +65,11 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 */
 	@Autowired
 	public PrdProductServiceImpl(PrdProductRepository repo, PrdSousJacentRepository ssjctRepo,
-			PrdStatusRepository statusRepo) {
+			PrdStatusRepository statusRepo, EavHomeDirectory homeDir) {
 		this.repo = repo;
 		this.sousJacentRepo = ssjctRepo;
 		this.statusRepo = statusRepo;
+		this.homeDir = homeDir;
 	}
 
 	/*
@@ -99,6 +107,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 		PrdProduct toAdd = convertToEntity(dto);
 
 		// TODO Apply basic rules from PrdProduct fields
+
+		// Store the product data in the fdwh
 
 		// Save the object to add.
 		return repo.save(toAdd);
@@ -328,5 +338,106 @@ public class PrdProductServiceImpl implements PrdProductService {
 		p.setIsBestSeller(true);
 
 		return repo.save(p);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#findBestSeller()
+	 */
+	@Override
+	public PrdProduct findBestSeller() throws EavTechnicalException {
+		List<PrdProduct> bestSellers = repo.findByIsBestSeller(true);
+		// Verify that there is only one best-seller
+		if (bestSellers.size() > 1)
+			throw new EavTechnicalException(EavErrorCode.MULTIPLE_BESTSELLER);
+
+		PrdProduct result = null;
+		if (!bestSellers.isEmpty()) {
+			result = bestSellers.get(0);
+		}
+
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#getImage(com.synovia.digital.model.
+	 * PrdProduct)
+	 */
+	@Override
+	public File getImage(PrdProduct product) {
+		File bestImage = null;
+		if (product == null)
+			return bestImage;
+
+		File[] images = homeDir.getImageDir(product.getId()).listFiles();
+		for (File image : images) {
+			if (bestImage == null || (image.length() > bestImage.length())) {
+				if (image.length() < EavHomeDirectory.IMAGE_MAX_SIZE_BYTE) {
+					bestImage = image;
+				}
+			}
+		}
+		return bestImage;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#storeData(com.synovia.digital.model.
+	 * PrdProduct)
+	 */
+	@Override
+	public void storeDocuments(PrdProduct product) {
+		// Open the product path where to find the product documents
+		String pathname = product == null ? null : product.getPath();
+		if (pathname == null)
+			return;
+
+		File dir = new File(pathname);
+		// Control that the directory is valid
+		if (!validateProductDirectory(dir))
+			return;
+
+		// Copy the available files into the FDWH
+		try {
+			FileExtractor.Param images = new FileExtractor.Param(".jpg", homeDir.getImageDir(product.getId()));
+			FileExtractor.copy(dir, images);
+			// TODO Copy the other documents
+
+		} catch (EavTechnicalException e) {
+			LOGGER.error("Unable to extract files from input file {}", dir);
+		}
+
+	}
+
+	private boolean validateProductDirectory(File dir) {
+		return dir.exists() && dir.isDirectory() && dir.listFiles().length > 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#getBestSellerImage()
+	 */
+	@Override
+	public File getBestSellerImage() {
+		File img = null;
+		PrdProduct bestSeller = null;
+		try {
+			bestSeller = findBestSeller();
+		} catch (EavTechnicalException e) {
+			LOGGER.warn("Multiple best-seller are set. There should be only one.");
+		}
+
+		if (bestSeller != null) {
+			img = getImage(bestSeller);
+		}
+
+		return img;
 	}
 }

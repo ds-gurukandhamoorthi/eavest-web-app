@@ -3,6 +3,7 @@
  */
 package com.synovia.digital.service;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
 
 /**
@@ -55,4 +57,12 @@ public interface PrdProductService {
 	public List<String> getPackedNameList(Collection<PrdProduct> products);
 
 	public PrdProduct setBestSeller(PrdProductDto dto) throws EavEntryNotFoundException;
+
+	public PrdProduct findBestSeller() throws EavTechnicalException;
+
+	public File getImage(PrdProduct product);
+
+	public void storeDocuments(PrdProduct product);
+
+	public File getBestSellerImage();
 }

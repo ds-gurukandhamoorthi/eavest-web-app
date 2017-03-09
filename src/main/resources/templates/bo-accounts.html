@@ -57,15 +57,15 @@
 				<tr>
 				  <th th:text="#{bo.account.email}">E-mail</th>
 				  <th th:text="#{bo.account.enabled}">Statut</th>
-				  <th th:text="#{bo.account.lastName}">Nom</th>
-				  <th th:text="#{bo.account.firstName}">Prénom</th>
-          <th th:text="#{bo.account.aliasName}">Alias</th>
+				  <th th:text="#{bo.account.last.name}">Nom</th>
+				  <th th:text="#{bo.account.first.name}">Prénom</th>
+          <th th:text="#{bo.account.alias.name}">Alias</th>
           <th th:text="#{bo.account.company}">Société</th>
           <th th:text="#{bo.account.country}">Pays</th>
           <th th:text="#{bo.account.mobile}">Num portable</th>
           <th th:text="#{bo.account.fix}">Num fixe</th>
           <th th:text="#{bo.account.newsletter}">Newsletter</th>
-          <th th:text="#{bo.account.prdUser}">Id PrdUser</th>
+          <th th:text="#{bo.account.prd.user}">Id PrdUser</th>
 				</tr>
 				<tr th:each="account : ${accounts}">
 				  <td th:text="${account.email}">tco@example.com</td>

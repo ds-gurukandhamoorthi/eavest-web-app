@@ -3,12 +3,15 @@
  */
 package com.synovia.digital.web;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +37,7 @@ import com.synovia.digital.utils.EavConstants;
  */
 @RestController
 public class HomeController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
 	public static final String VIEW_INDEX = "index";
 	public static final String VIEW_LOGIN = "login";
@@ -48,6 +52,7 @@ public class HomeController {
 	protected static final String ATTR_CURRENT_MONTH = "month";
 	protected static final String ATTR_CURRENT_YEAR = "year";
 	protected static final String ATTR_ONE_YEAR_BEFORE = "oneYearPast";
+	protected static final String ATTR_IMG_BEST_SELLER = "imgBestSeller";
 
 	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
 
@@ -146,6 +151,30 @@ public class HomeController {
 		// Retrieve the list of new bases
 		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
+		// Set the best-seller product
+		String imagePath = "img/default-best-seller.jpg";
+		File image = productService.getBestSellerImage();
+		if (image != null) {
+			imagePath = image.getPath();
+		}
+		modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
+
+		//		try {
+		//			PrdProduct bestSeller = productService.findBestSeller();
+		//			if (bestSeller == null) {
+		//				LOGGER.info("No best-seller is set. A default image is displayed as the best-seller product.");
+		//
+		//			} else {
+		//				// Get the image of the best-seller
+		//				File image = productService.getImage(bestSeller);
+		//				if (image!=null)
+		//					defaultImagePath = image.getPath();
+		//
+		//			}
+		//		} catch (EavTechnicalException e) {
+		//			LOGGER.info("Multiple best-seller are set. A default image is displayed instead.");
+		//		}
+		//		modelAndView.addObject(ATTR_IMG_BEST_SELLER, defaultImagePath);
 		return modelAndView;
 	}
 

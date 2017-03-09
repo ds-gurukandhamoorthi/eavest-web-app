@@ -18,6 +18,7 @@ import org.junit.Test;
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.utils.DtoDateFormat;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.filedataware.EavHomeDirectory;
 import com.synovia.digital.model.AbstractPrdProductDate;
 import com.synovia.digital.model.PrdCouponDate;
 import com.synovia.digital.model.PrdEarlierRepaymentDate;
@@ -190,7 +191,7 @@ public class PrdProductDateUtilsTest {
 
 		PrdProductRepository repoMock = mock(PrdProductRepository.class);
 		PrdProductServiceImpl service = new PrdProductServiceImpl(repoMock, mock(PrdSousJacentRepository.class),
-				mock(PrdStatusRepository.class));
+				mock(PrdStatusRepository.class), mock(EavHomeDirectory.class));
 
 		when(repoMock.findOne(idPrdProduct)).thenReturn(null);
 		PrdProductDateUtils.convertToEntity(new PrdEarlierRepaymentDate(), toConvertDto, service);
@@ -251,7 +252,7 @@ public class PrdProductDateUtilsTest {
 
 		PrdProductRepository repoMock = mock(PrdProductRepository.class);
 		PrdProductServiceImpl service = new PrdProductServiceImpl(repoMock, mock(PrdSousJacentRepository.class),
-				mock(PrdStatusRepository.class));
+				mock(PrdStatusRepository.class), mock(EavHomeDirectory.class));
 
 		when(repoMock.findOne(idPrdProduct)).thenReturn(prdProduct);
 		when(repoMock.findOne(updatedIdPrdProduct)).thenReturn(updatedPrdProduct);
@@ -281,7 +282,7 @@ public class PrdProductDateUtilsTest {
 
 		PrdProductRepository repoMock = mock(PrdProductRepository.class);
 		PrdProductServiceImpl service = new PrdProductServiceImpl(repoMock, mock(PrdSousJacentRepository.class),
-				mock(PrdStatusRepository.class));
+				mock(PrdStatusRepository.class), mock(EavHomeDirectory.class));
 
 		when(repoMock.findOne(idPrdProduct)).thenReturn(prdProduct);
 
@@ -325,7 +326,7 @@ public class PrdProductDateUtilsTest {
 
 		PrdProductRepository repoMock = mock(PrdProductRepository.class);
 		PrdProductServiceImpl service = new PrdProductServiceImpl(repoMock, mock(PrdSousJacentRepository.class),
-				mock(PrdStatusRepository.class));
+				mock(PrdStatusRepository.class), mock(EavHomeDirectory.class));
 
 		when(repoMock.findOne(idPrdProduct)).thenReturn(prdProduct);
 		when(repoMock.findOne(updatedIdPrdProduct)).thenReturn(null);

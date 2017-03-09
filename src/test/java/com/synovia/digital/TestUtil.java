@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
  */
 public class TestUtil {
 
+	public static final String MSG_NO_EXCEPTION_EXPECTED = "Should not have thrown an exception!";
+	public static final String MSG_EXCEPTION_EXPECTED = "Should have thrown an exception!";
+
 	private static final String CHARACTER = "a";
 
 	public static final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

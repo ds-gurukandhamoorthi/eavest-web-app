@@ -20,4 +20,8 @@ public abstract class EavException extends Exception {
 		this.code = code;
 	}
 
+	public String getCode() {
+		return this.code;
+	}
+
 }

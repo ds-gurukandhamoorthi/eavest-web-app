@@ -3,6 +3,7 @@
  */
 package com.synovia.digital.service;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -15,6 +16,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,10 @@ import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.utils.DtoUtils;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavException;
+import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.exceptions.utils.EavErrorCode;
+import com.synovia.digital.filedataware.EavHomeDirectory;
 import com.synovia.digital.model.PrdCouponDate;
 import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
@@ -44,12 +51,13 @@ import com.synovia.digital.repository.PrdStatusRepository;
  * @since 17 févr. 2017
  */
 public class PrdProductServiceImplTest {
-
 	protected PrdProductRepository repoMock;
 	protected PrdSousJacentRepository sousJacentRepoMock;
 	protected PrdStatusRepository statusRepoMock;
 	protected PrdProductService service;
 	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+	protected EavHomeDirectory homeMock;
 
 	/**
 	 * @throws java.lang.Exception
@@ -59,7 +67,8 @@ public class PrdProductServiceImplTest {
 		repoMock = mock(PrdProductRepository.class);
 		sousJacentRepoMock = mock(PrdSousJacentRepository.class);
 		statusRepoMock = mock(PrdStatusRepository.class);
-		service = new PrdProductServiceImpl(repoMock, sousJacentRepoMock, statusRepoMock);
+		homeMock = mock(EavHomeDirectory.class);
+		service = new PrdProductServiceImpl(repoMock, sousJacentRepoMock, statusRepoMock, homeMock);
 	}
 
 	/**
@@ -389,7 +398,7 @@ public class PrdProductServiceImplTest {
 	}
 
 	@Test
-	public void tesSetBestSeller() throws EavEntryNotFoundException {
+	public void testSetBestSeller() throws EavEntryNotFoundException {
 		String isin = "ISIN-PRD";
 		PrdProductDto bestSellerDto = new PrdProductDto();
 		bestSellerDto.setIsBestSeller(true);
@@ -412,7 +421,7 @@ public class PrdProductServiceImplTest {
 	}
 
 	@Test
-	public void tesSetBestSeller_DTOIsNotBestSeller() throws EavEntryNotFoundException {
+	public void testSetBestSeller_DTOIsNotBestSeller() throws EavEntryNotFoundException {
 		String isin = "ISIN-PRD";
 		PrdProductDto bestSellerDto = new PrdProductDto();
 		bestSellerDto.setIsBestSeller(false);
@@ -435,7 +444,7 @@ public class PrdProductServiceImplTest {
 	}
 
 	@Test
-	public void tesSetBestSeller_BestSellerNotFilled() throws EavEntryNotFoundException {
+	public void testSetBestSeller_BestSellerNotFilled() throws EavEntryNotFoundException {
 		String isin = "ISIN-PRD";
 		PrdProductDto bestSellerDto = new PrdProductDto();
 		bestSellerDto.setIsin(isin);
@@ -457,7 +466,7 @@ public class PrdProductServiceImplTest {
 	}
 
 	@Test(expected = EavEntryNotFoundException.class)
-	public void tesSetBestSeller_ProductNotFound() throws EavEntryNotFoundException {
+	public void testSetBestSeller_ProductNotFound() throws EavEntryNotFoundException {
 		String isin = "ISIN-PRD";
 		PrdProductDto bestSellerDto = new PrdProductDto();
 		bestSellerDto.setIsBestSeller(true);
@@ -471,7 +480,7 @@ public class PrdProductServiceImplTest {
 	}
 
 	@Test
-	public void tesSetBestSeller_DTONull() throws EavEntryNotFoundException {
+	public void testSetBestSeller_DTONull() throws EavEntryNotFoundException {
 		String isin = "ISIN-PRD";
 		PrdProductDto bestSellerDto = null;
 
@@ -483,6 +492,56 @@ public class PrdProductServiceImplTest {
 		verifyNoMoreInteractions(repoMock);
 
 		Assert.assertThat(bestSeller, is(nullValue()));
+	}
+
+	@Test
+	public void testFindBestSeller_OneMatch() throws EavTechnicalException {
+		List<PrdProduct> bestSellers = new ArrayList<>();
+		PrdProduct bestSeller = new PrdProduct();
+		bestSellers.add(bestSeller);
+
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestSellers);
+
+		PrdProduct result = service.findBestSeller();
+
+		verify(repoMock, times(1)).findByIsBestSeller(true);
+		verifyNoMoreInteractions(repoMock);
+
+		Assert.assertThat(result, is(bestSeller));
+	}
+
+	@Test
+	public void testFindBestSeller_MultipleMatch() throws EavTechnicalException {
+		List<PrdProduct> bestSellers = new ArrayList<>();
+		bestSellers.addAll(Arrays.asList(new PrdProduct(), new PrdProduct(), new PrdProduct()));
+
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestSellers);
+
+		try {
+			service.findBestSeller();
+			Assert.fail("Should have thrown an exception.");
+
+		} catch (Exception e) {
+			verify(repoMock, times(1)).findByIsBestSeller(true);
+			verifyNoMoreInteractions(repoMock);
+
+			Assert.assertThat(e, is(instanceOf(EavTechnicalException.class)));
+			Assert.assertThat(((EavException) e).getCode(), is(EavErrorCode.MULTIPLE_BESTSELLER));
+		}
+	}
+
+	@Test
+	public void testFindBestSeller_NoMatch() throws EavTechnicalException {
+		List<PrdProduct> bestSellers = new ArrayList<>();
+
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestSellers);
+
+		PrdProduct result = service.findBestSeller();
+
+		verify(repoMock, times(1)).findByIsBestSeller(true);
+		verifyNoMoreInteractions(repoMock);
+
+		Assert.assertThat(result, is(nullValue()));
 	}
 
 }
