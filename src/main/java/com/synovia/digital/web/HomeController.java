@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.utils.EavConstants;
+import com.synovia.digital.utils.FileExtractor;
 
 /**
  * This class defines TODO
@@ -38,6 +40,9 @@ import com.synovia.digital.utils.EavConstants;
 @RestController
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+
+	public static final String STATIC_RESOURCES_DIR = "src/main/resources/static/";
+	public static final String IMG_DIR_BEST_SELLER = "img/bestseller/";
 
 	public static final String VIEW_INDEX = "index";
 	public static final String VIEW_LOGIN = "login";
@@ -151,11 +156,25 @@ public class HomeController {
 		// Retrieve the list of new bases
 		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
-		// Set the best-seller product
+		// Set the best-seller product image
 		String imagePath = "img/default-best-seller.jpg";
 		File image = productService.getBestSellerImage();
 		if (image != null) {
-			imagePath = image.getPath();
+			// Copy image to the best-seller directory
+			String imgBestSellerDirPath = new StringBuilder(System.getProperty("user.dir")).append(File.separator)
+					.append(STATIC_RESOURCES_DIR).append(File.separator).append(IMG_DIR_BEST_SELLER).toString();
+			File imgBestSellerDir = new File(imgBestSellerDirPath);
+			// Clean the destination directory
+			try {
+				FileUtils.cleanDirectory(imgBestSellerDir);
+				FileExtractor.Param p = new FileExtractor.Param(EavConstants.JPEG_EXTENSION, imgBestSellerDir);
+				FileExtractor.copy(image, p);
+				imagePath = new StringBuilder(IMG_DIR_BEST_SELLER).append(image.getName()).toString();
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
 

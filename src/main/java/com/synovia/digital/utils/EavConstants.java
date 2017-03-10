@@ -14,4 +14,6 @@ public class EavConstants {
 	public static final int C_MILLENARY = 2000;
 	public static final int C_DECEMBER_INDEX = 12;
 
+	public static final String JPEG_EXTENSION = ".jpg";
+
 }

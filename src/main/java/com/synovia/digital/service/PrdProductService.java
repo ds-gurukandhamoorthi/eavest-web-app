@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
@@ -65,4 +67,14 @@ public interface PrdProductService {
 	public void storeDocuments(PrdProduct product);
 
 	public File getBestSellerImage();
+
+	public void storeImage(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+
+	public void storeImage(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException;
+
+	public void storeTermSheet(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+
+	public void storeFease(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+
+	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavTechnicalException;
 }

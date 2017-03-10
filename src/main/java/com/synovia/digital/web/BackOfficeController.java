@@ -3,6 +3,8 @@
  */
 package com.synovia.digital.web;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,6 +32,7 @@ import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.service.EavAccountService;
@@ -54,6 +59,7 @@ public class BackOfficeController {
 	public static final String VIEW_ADD_PRODUCT_DATE = "bo-product-date";
 	public static final String VIEW_ACCOUNTS = "bo-accounts";
 	public static final String VIEW_TESTS_MENU = "bo-product-tests";
+	public static final String VIEW_ERROR = "error";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
@@ -77,6 +83,7 @@ public class BackOfficeController {
 	protected static final String ATTR_COUPON_DATE_DTO = "couponDate";
 	protected static final String ATTR_COUPON_DATE_LIST = "couponDates";
 	protected static final String ATTR_ACCOUNT_LIST = "accounts";
+	protected static final String ATTR_PRODUCT_IMAGE_FILENAME = "imageFile";
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
@@ -186,12 +193,44 @@ public class BackOfficeController {
 		return view;
 	}
 
+	@PostMapping(value = "/products/{id}/updateImage")
+	public String updateProductImage(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id,
+			RedirectAttributes attributes) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+
+		// Store the product data in the fdwh
+		try {
+			PrdProduct product = productService.findById(id);
+			productService.storeImage(product, file);
+
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Product image has been stored!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute("product", product);
+
+			File imageFile = productService.getImage(product);
+			if (imageFile != null) {
+				attributes.addFlashAttribute(ATTR_PRODUCT_IMAGE_FILENAME, productService.getImage(product).getName());
+			}
+			// Redirect the view
+			view = createRedirectViewPath("/admin/products/{id}/addDate");
+
+		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
 	@GetMapping(value = "/products/{id}/addDate")
 	public String showAddProductDate(@PathVariable("id") Long id, Model model) {
 		String view = VIEW_ADD_PRODUCT_DATE;
 		model.addAttribute(ATTR_OBS_DATE_DTO, new PrdProductDateDto());
 		model.addAttribute(ATTR_ER_DATE_DTO, new PrdProductDateDto());
 		model.addAttribute(ATTR_COUPON_DATE_DTO, new PrdProductDateDto());
+		model.addAttribute("prdFiles", new ArrayList<String>());
 		PrdProduct product;
 		try {
 			product = productService.findById(id);

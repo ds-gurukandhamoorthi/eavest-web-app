@@ -416,4 +416,12 @@ public class FileExtractorTest {
 
 	}
 
+	@Test
+	public void testJavaIoFileMkDirs() {
+		File parent = new File(testDir);
+		Assert.assertTrue(parent.mkdirs());
+
+		Assert.assertFalse(parent.mkdirs());
+	}
+
 }

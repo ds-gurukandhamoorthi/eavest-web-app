@@ -544,4 +544,13 @@ public class PrdProductServiceImplTest {
 		Assert.assertThat(result, is(nullValue()));
 	}
 
+	@Test(expected = EavTechnicalException.class)
+	public void testFindBestSeller_NullListBestSellers() throws EavTechnicalException {
+		List<PrdProduct> bestSellers = null;
+
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestSellers);
+
+		service.findBestSeller();
+	}
+
 }

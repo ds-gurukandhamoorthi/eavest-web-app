@@ -201,7 +201,7 @@ h5 {
   margin-top: 18px;
 }
 
-#menu-home, #menu-method, #menu-mesure, #menu-products, #menu-blog, #menu-faq, #menu-contact {
+#menu-home, #menu-method, #menu-mesure, #menu-products, #menu-blog, #menu-faq, #menu-contact, #menu-wallet {
     text-transform: uppercase;
 }
 
@@ -312,7 +312,9 @@ img#eavest {
   margin-left: 8px;
   vertical-align: -webkit-baseline-middle;
 }
-
+.display-on-click {
+  display:none;
+}
 /*Accordion*/
 .panel-group .panel {
   margin: 0 !important;

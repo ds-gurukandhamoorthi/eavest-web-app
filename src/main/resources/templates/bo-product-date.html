@@ -44,8 +44,32 @@
 	</section>
 	<section class="content-main" role="main">
     <div class="main-area">
-      <h1><span th:text="#{add.dates}">Ajouter les dates du produits</span> <span th:text="${product.isin}"></span></h1>
+      <h1><span th:text="#{add.dates}">Ajouter les attributs du produits</span> <span th:text="${product.isin}"></span></h1>
       <p th:text="${responseMessage}"/>
+      <div>
+        <h2>Documents du produits</h2>
+        <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateImage(id=${product.id})}" method="POST">
+          <table class="table table-bordered table-hover" id="tab_logic">
+            <tr>
+              <td>Image du produit:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" value="upload" /></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <span th:text="${imageFile}">Un fichier du produit</span>
+          </li>
+        </ul>
+      </div>
       <div>
         <h2>Dates d'observation</h2>
         <form action="#" th:object="${obsDate}" th:action="@{/admin/products/{id}/addObsDate(id=${product.id})}" method="POST">

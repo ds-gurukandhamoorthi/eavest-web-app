@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.utils.DtoUtils;
@@ -34,6 +35,7 @@ import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
 import com.synovia.digital.service.utils.RefundProductComparator;
+import com.synovia.digital.utils.EavConstants;
 import com.synovia.digital.utils.FileExtractor;
 import com.synovia.digital.utils.PrdStatusEnum;
 
@@ -107,8 +109,6 @@ public class PrdProductServiceImpl implements PrdProductService {
 		PrdProduct toAdd = convertToEntity(dto);
 
 		// TODO Apply basic rules from PrdProduct fields
-
-		// Store the product data in the fdwh
 
 		// Save the object to add.
 		return repo.save(toAdd);
@@ -348,6 +348,10 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Override
 	public PrdProduct findBestSeller() throws EavTechnicalException {
 		List<PrdProduct> bestSellers = repo.findByIsBestSeller(true);
+		// Prevent technical errors
+		if (bestSellers == null)
+			throw new EavTechnicalException(EavErrorCode.NULL_POINTER);
+
 		// Verify that there is only one best-seller
 		if (bestSellers.size() > 1)
 			throw new EavTechnicalException(EavErrorCode.MULTIPLE_BESTSELLER);
@@ -405,7 +409,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 
 		// Copy the available files into the FDWH
 		try {
-			FileExtractor.Param images = new FileExtractor.Param(".jpg", homeDir.getImageDir(product.getId()));
+			FileExtractor.Param images = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
+					homeDir.getImageDir(product.getId()));
 			FileExtractor.copy(dir, images);
 			// TODO Copy the other documents
 
@@ -439,5 +444,75 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 
 		return img;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#storeImage(com.synovia.digital.model.
+	 * PrdProduct, org.springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public void storeImage(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException {
+		if (product == null)
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
+
+		FileExtractor.Param images = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
+				homeDir.getImageDir(product.getId()));
+		FileExtractor.copy(fileToStore, images);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#storeImage(java.lang.Long,
+	 * org.springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public void storeImage(Long id, MultipartFile fileToStore) throws EavTechnicalException {
+		// Find the product
+		PrdProduct product = repo.findOne(id);
+		// Store the input file
+		storeImage(product, fileToStore);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#storeTermSheet(java.lang.Long,
+	 * org.springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public void storeTermSheet(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#storeFease(java.lang.Long,
+	 * org.springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public void storeFease(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#storeMarketingDoc(java.lang.Long,
+	 * org.springframework.web.multipart.MultipartFile)
+	 */
+	@Override
+	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
+		// TODO Auto-generated method stub
+
 	}
 }

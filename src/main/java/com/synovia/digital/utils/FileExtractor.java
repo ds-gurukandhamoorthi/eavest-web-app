@@ -11,8 +11,10 @@ import java.nio.channels.FileChannel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.exceptions.utils.EavErrorCode;
 
 /**
  * This class defines TODO
@@ -43,7 +45,7 @@ public class FileExtractor {
 		} else {
 			for (Param p : params) {
 				if (p != null && from.getName().endsWith(p.what)) {
-					File copy = new File(p.where, from.getName());
+					File copy = new File(p.where, p.filename != null ? p.filename : from.getName());
 					LOGGER.debug("Target directory for the extraction is {}", copy.getPath());
 					if (!copy.mkdirs()) {
 						LOGGER.warn("Input file {} has not been copied", from.getName());
@@ -64,16 +66,16 @@ public class FileExtractor {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 							LOGGER.error("Unable to create output file {}", from);
-							throw new EavTechnicalException("close.file.error");
+							throw new EavTechnicalException(EavErrorCode.CREATE_FILE_ERROR);
 						}
 						// Transfer the data
 						FileInputStream fisFrom = null;
-						FileOutputStream fisTo = null;
+						FileOutputStream fosTo = null;
 						try {
 							fisFrom = new FileInputStream(from);
-							fisTo = new FileOutputStream(copy);
+							fosTo = new FileOutputStream(copy);
 							FileChannel src = fisFrom.getChannel();
-							FileChannel dst = fisTo.getChannel();
+							FileChannel dst = fosTo.getChannel();
 							dst.transferFrom(src, 0, src.size());
 
 						} catch (IOException e) {
@@ -86,15 +88,15 @@ public class FileExtractor {
 									fisFrom.close();
 								} catch (IOException e) {
 									LOGGER.error("Unable to close input file {}", from);
-									throw new EavTechnicalException("close.file.error");
+									throw new EavTechnicalException(EavErrorCode.CLOSE_FILE_ERROR);
 								}
 							}
-							if (fisTo != null) {
+							if (fosTo != null) {
 								try {
-									fisTo.close();
+									fosTo.close();
 								} catch (IOException e) {
 									LOGGER.error("Unable to close output file {}", from);
-									throw new EavTechnicalException("close.file.error");
+									throw new EavTechnicalException(EavErrorCode.CLOSE_FILE_ERROR);
 								}
 							}
 						}
@@ -105,9 +107,60 @@ public class FileExtractor {
 
 	}
 
+	public static void copy(MultipartFile from, Param param) throws EavTechnicalException {
+		if (from == null || from.isEmpty()) {
+			LOGGER.error("Input file {} does not exist or is empty", from);
+			return;
+
+		}
+		if (param != null && from.getOriginalFilename().endsWith(param.what)) {
+			String originalFilename = from.getOriginalFilename();
+			File copy = new File(param.where, "image.jpg");
+			LOGGER.debug("Target directory for the extraction is {}", copy.getPath());
+			if (!copy.getParentFile().exists() && !copy.mkdirs()) {
+				LOGGER.warn("Unable to copy input file to {}", copy);
+			} else {
+				try {
+					// Create the output file
+					if (!copy.createNewFile()) {
+						LOGGER.info("Destination file {} already exists", copy);
+						copy.delete();
+						copy.createNewFile();
+					}
+					// Sets the rights
+					if (!copy.setWritable(true) || !copy.setReadable(true)) {
+						LOGGER.warn("No permission to change the access permissions of output file {}",
+								originalFilename);
+
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					LOGGER.error("Unable to create output file {}", copy.getName());
+					throw new EavTechnicalException(EavErrorCode.CREATE_FILE_ERROR);
+				}
+				// Transfer the data
+				try {
+					from.transferTo(copy);
+					LOGGER.info("File {} has been successfully copied", copy);
+
+				} catch (IllegalStateException e) {
+					LOGGER.error(
+							"File {} has already been moved in the filesystem and is not available anymore for another transfer",
+							originalFilename);
+					throw new EavTechnicalException(EavErrorCode.TRANSFER_FILE_ERROR);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+					LOGGER.warn("Input file {} cannot be correctly read or copied.", originalFilename);
+				}
+			}
+		}
+	}
+
 	public static class Param {
 		private String what;
 		private File where;
+		private String filename;
 
 		/**
 		 * 
@@ -126,6 +179,12 @@ public class FileExtractor {
 		public Param(String suffix, File where) throws EavTechnicalException {
 			this.what = suffix;
 			this.where = where;
+		}
+
+		public Param(String suffix, File where, String filename) throws EavTechnicalException {
+			this.what = suffix;
+			this.where = where;
+			this.filename = filename;
 		}
 
 	}

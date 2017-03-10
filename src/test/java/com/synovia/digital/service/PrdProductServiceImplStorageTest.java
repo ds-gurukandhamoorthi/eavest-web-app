@@ -13,6 +13,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.After;
@@ -174,6 +176,10 @@ public class PrdProductServiceImplStorageTest {
 		// The test starts here
 		File result = service.getImage(product);
 
+		// getImageDir is called twice: in storeDocument() and getImage()
+		verify(homeMock, times(2)).getImageDir(id);
+		verifyNoMoreInteractions(homeMock);
+
 		Assert.assertNotNull(result);
 		Assert.assertThat(result.length(), is(imageHigh.length()));
 		Assert.assertTrue(result.length() >= imageLow.length());
@@ -212,7 +218,118 @@ public class PrdProductServiceImplStorageTest {
 		// The test starts here
 		File result = service.getImage(product);
 
+		verify(homeMock, times(1)).getImageDir(id);
+		verifyNoMoreInteractions(homeMock);
+
 		Assert.assertThat(result, is(nullValue()));
 	}
 
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.service.PrdProductServiceImpl#getBestSellerImage(com.synovia.digital.model.PrdProduct)}.
+	 */
+	@Test
+	public void testGetBestSellerImage() {
+		Long id = 9876L;
+		String isin = "ERTYUJHVD34567";
+		String path = new StringBuilder(resDir).append(File.separator).append(FileExtractorTest.PRODUCT_SOURCE_DIR_NAME)
+				.append(File.separator).append(FileExtractorTest.INPUT_SIMPLE_STRUCURE).toString();
+
+		List<PrdProduct> bestsellers = new ArrayList<>();
+		PrdProduct bestSeller = new PrdProduct();
+		bestSeller.setId(id);
+		bestSeller.setIsin(isin);
+		bestSeller.setPath(path);
+		bestsellers.add(bestSeller);
+
+		File imageLow = new File(new StringBuilder(path).append(File.separator).append("1-graphique-PROTECTION-125x179")
+				.append(".jpg").toString());
+		System.out.println("Total size of the lower image: " + imageLow.length());
+		File imageHigh = new File(new StringBuilder(path).append(File.separator).append("1-graphique-PROTECTION")
+				.append(".jpg").toString());
+		System.out.println("Total size of the higher image: " + imageHigh.length());
+
+		File storeDir = new File(new StringBuilder(testDir).append(File.separator).append("img").toString());
+		when(homeMock.getImageDir(id)).thenReturn(storeDir);
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestsellers);
+		// Store the documents
+		service.storeDocuments(bestSeller);
+
+		// Start the test
+		File result = service.getBestSellerImage();
+
+		verify(homeMock, times(2)).getImageDir(id);
+		verify(repoMock, times(1)).findByIsBestSeller(true);
+		verifyNoMoreInteractions(homeMock, repoMock);
+
+		Assert.assertNotNull(result);
+		Assert.assertThat(result.length(), is(imageHigh.length()));
+		Assert.assertTrue(result.length() >= imageLow.length());
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.service.PrdProductServiceImpl#getBestSellerImage(com.synovia.digital.model.PrdProduct)}.
+	 */
+	@Test
+	public void testGetBestSellerImage_NoBestSeller() {
+		Long id = 9876L;
+		String isin = "ERTYUJHVD34567";
+		String path = new StringBuilder(resDir).append(File.separator).append(FileExtractorTest.PRODUCT_SOURCE_DIR_NAME)
+				.append(File.separator).append(FileExtractorTest.INPUT_SIMPLE_STRUCURE).toString();
+
+		List<PrdProduct> bestsellers = new ArrayList<>();
+		PrdProduct bestSeller = new PrdProduct();
+		bestSeller.setId(id);
+		bestSeller.setIsin(isin);
+		bestSeller.setPath(path);
+
+		File storeDir = new File(new StringBuilder(testDir).append(File.separator).append("img").toString());
+		when(homeMock.getImageDir(id)).thenReturn(storeDir);
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestsellers);
+		// Store the documents
+		service.storeDocuments(bestSeller);
+
+		// Start the test
+		File result = service.getBestSellerImage();
+
+		verify(homeMock, times(1)).getImageDir(id);
+		verify(repoMock, times(1)).findByIsBestSeller(true);
+		verifyNoMoreInteractions(repoMock, homeMock);
+
+		Assert.assertThat(result, is(nullValue()));
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.synovia.digital.service.PrdProductServiceImpl#getBestSellerImage(com.synovia.digital.model.PrdProduct)}.
+	 */
+	@Test
+	public void testGetBestSellerImage_NullListBestSellers() {
+		Long id = 9876L;
+		String isin = "ERTYUJHVD34567";
+		String path = new StringBuilder(resDir).append(File.separator).append(FileExtractorTest.PRODUCT_SOURCE_DIR_NAME)
+				.append(File.separator).append(FileExtractorTest.INPUT_SIMPLE_STRUCURE).toString();
+
+		List<PrdProduct> bestsellers = null;
+		PrdProduct bestSeller = new PrdProduct();
+		bestSeller.setId(id);
+		bestSeller.setIsin(isin);
+		bestSeller.setPath(path);
+
+		File storeDir = new File(new StringBuilder(testDir).append(File.separator).append("img").toString());
+		when(homeMock.getImageDir(id)).thenReturn(storeDir);
+		when(repoMock.findByIsBestSeller(true)).thenReturn(bestsellers);
+		// Store the documents
+		service.storeDocuments(bestSeller);
+
+		// Start the test
+		File result = service.getBestSellerImage();
+
+		verify(homeMock, times(1)).getImageDir(id);
+		verify(repoMock, times(1)).findByIsBestSeller(true);
+		verifyNoMoreInteractions(repoMock, homeMock);
+
+		Assert.assertThat(result, is(nullValue()));
+	}
 }
