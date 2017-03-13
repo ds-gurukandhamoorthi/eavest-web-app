@@ -32,6 +32,7 @@ public class ResourceSecurityConfiguration extends WebSecurityConfigurerAdapter 
 		//				.loginPage("/login").permitAll().and().logout().permitAll();
 
 		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/wallet/**").authenticated().antMatchers("/user/**").authenticated()
 				.antMatchers("/api/eavAccounts/{\\d+}/**").authenticated().and().formLogin().loginPage("/login")
 				.permitAll().and().logout().permitAll();
 	}

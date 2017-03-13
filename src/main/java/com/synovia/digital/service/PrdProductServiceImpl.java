@@ -31,6 +31,7 @@ import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdRule;
+import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
@@ -514,5 +515,23 @@ public class PrdProductServiceImpl implements PrdProductService {
 	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
 		// TODO Auto-generated method stub
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#getUserProducts(com.synovia.digital.
+	 * model.PrdUser)
+	 */
+	@Override
+	public List<PrdProduct> getUserProducts(PrdUser user) {
+		if (user == null)
+			return null;
+
+		Set<PrdUser> users = new HashSet<>();
+		users.add(user);
+
+		return repo.findByPrdUsers(users);
 	}
 }

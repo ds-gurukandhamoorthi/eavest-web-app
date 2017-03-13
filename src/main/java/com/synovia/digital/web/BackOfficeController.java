@@ -41,6 +41,7 @@ import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.utils.EavControllerUtils;
 
 /**
  * This class defines TODO
@@ -177,7 +178,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_PRODUCT_LIST, productService.findAll());
 				attributes.addAttribute(PARAMETER_PRODUCT_ID, added.getId());
 				// Redirect the view
-				view = createRedirectViewPath(REQUEST_MAPPING_ADD_PRODUCT_DATES);
+				view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_ADD_PRODUCT_DATES);
 
 			} catch (EavDuplicateEntryException e) {
 				LOGGER.debug("The input entry to create already exists.");
@@ -215,7 +216,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_PRODUCT_IMAGE_FILENAME, productService.getImage(product).getName());
 			}
 			// Redirect the view
-			view = createRedirectViewPath("/admin/products/{id}/addDate");
+			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
 
 		} catch (EavTechnicalException e) {
 			view = VIEW_ERROR;
@@ -272,7 +273,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
 				attributes.addFlashAttribute("product", product);
 				// Redirect the view
-				view = createRedirectViewPath("/admin/products/{id}/addDate");
+				view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
 
 			}
 		} catch (EavEntryNotFoundException e) {
@@ -310,7 +311,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
 				attributes.addFlashAttribute("product", product);
 				// Redirect the view
-				view = createRedirectViewPath("/admin/products/{id}/addDate");
+				view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
 
 			}
 		} catch (EavEntryNotFoundException e) {
@@ -348,7 +349,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
 				attributes.addFlashAttribute("product", product);
 				// Redirect the view
-				view = createRedirectViewPath("/admin/products/{id}/addDate");
+				view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
 
 			}
 		} catch (EavEntryNotFoundException e) {
@@ -392,7 +393,7 @@ public class BackOfficeController {
 						.append(added.getLabel()).append("] was successfully created!").toString());
 				attributes.addFlashAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
 
-				resultView = createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
+				resultView = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
 
 			} catch (EavDuplicateEntryException e) {
 				LOGGER.debug("The input entry to create already exists.");
@@ -408,10 +409,4 @@ public class BackOfficeController {
 		return resultView;
 	}
 
-	private String createRedirectViewPath(String requestMapping) {
-		StringBuilder redirectViewPath = new StringBuilder();
-		redirectViewPath.append("redirect:");
-		redirectViewPath.append(requestMapping);
-		return redirectViewPath.toString();
-	}
 }

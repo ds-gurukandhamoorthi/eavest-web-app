@@ -5,6 +5,9 @@ package com.synovia.digital.service;
 
 import org.springframework.stereotype.Service;
 
+import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.PrdUser;
+
 /**
  * This class defines TODO
  * 
@@ -14,4 +17,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PrdUserService {
 
+	public PrdUser getPrdUser(EavAccount account);
 }

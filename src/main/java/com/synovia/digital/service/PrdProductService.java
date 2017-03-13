@@ -15,6 +15,7 @@ import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
+import com.synovia.digital.model.PrdUser;
 
 /**
  * This class defines TODO
@@ -77,4 +78,6 @@ public interface PrdProductService {
 	public void storeFease(Long id, MultipartFile fileToStore) throws EavTechnicalException;
 
 	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+
+	public List<PrdProduct> getUserProducts(PrdUser user);
 }

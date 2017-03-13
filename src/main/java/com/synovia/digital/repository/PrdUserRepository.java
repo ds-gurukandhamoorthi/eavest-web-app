@@ -5,6 +5,7 @@ package com.synovia.digital.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdUser;
 
 /**
@@ -15,4 +16,5 @@ import com.synovia.digital.model.PrdUser;
  */
 public interface PrdUserRepository extends PagingAndSortingRepository<PrdUser, Long> {
 
+	public PrdUser findByAccount(EavAccount account);
 }

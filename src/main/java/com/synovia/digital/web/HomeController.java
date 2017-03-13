@@ -17,10 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
@@ -29,6 +30,7 @@ import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.utils.EavConstants;
+import com.synovia.digital.utils.EavControllerUtils;
 import com.synovia.digital.utils.FileExtractor;
 
 /**
@@ -37,7 +39,7 @@ import com.synovia.digital.utils.FileExtractor;
  * @author TeddyCouriol
  * @since 29 déc. 2016
  */
-@RestController
+@Controller
 public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
@@ -47,6 +49,7 @@ public class HomeController {
 	public static final String VIEW_INDEX = "index";
 	public static final String VIEW_LOGIN = "login";
 	public static final String VIEW_HOME = "home";
+	public static final String VIEW_WALLET = "wallet";
 
 	protected static final String ATTR_REFUND_PRODUCT_LIST = "refundProducts";
 	protected static final String ATTR_UPCOMING_PRODUCT_LIST = "tocallProducts";
@@ -58,6 +61,12 @@ public class HomeController {
 	protected static final String ATTR_CURRENT_YEAR = "year";
 	protected static final String ATTR_ONE_YEAR_BEFORE = "oneYearPast";
 	protected static final String ATTR_IMG_BEST_SELLER = "imgBestSeller";
+	public static final String ATTR_USERNAME_INFO = "authUserName";
+	public static final String ATTR_ACCOUNT = "account";
+
+	protected static final String PARAMETER_USER_ID = "id";
+
+	protected static final String REQUEST_MAPPING_USER_PRODUCTS = "/user/products/";
 
 	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
 
@@ -112,9 +121,9 @@ public class HomeController {
 			String email = u.getUsername();
 
 			EavAccount account = accountService.findByEmail(email);
-			authentifiedUsername = getIdentifiedName(account);
+			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
 		}
-		modelAndView.addObject("authUserName", authentifiedUsername);
+		modelAndView.addObject(ATTR_USERNAME_INFO, authentifiedUsername);
 
 		// Retrieve the list of products
 		List<PrdProduct> allProducts = productService.findAll();
@@ -197,13 +206,28 @@ public class HomeController {
 		return modelAndView;
 	}
 
-	private String getIdentifiedName(EavAccount account) {
-		StringBuilder identifiedName = new StringBuilder("");
-		if (account != null) {
-			identifiedName.append(account.getFirstName().substring(0, 1));
-			identifiedName.append(". ");
-			identifiedName.append(account.getLastName());
+	@RequestMapping(value = "/wallet")
+	public String wallet(RedirectAttributes attributes) {
+		String view = null;
+
+		try {
+			// Find the authenticated user and the corresponding PrdUser entity
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			User u = (User) auth.getPrincipal();
+			EavAccount account = accountService.findByEmail(u.getUsername());
+
+			attributes.addAttribute(ATTR_ACCOUNT, account);
+
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_USER_PRODUCTS);
+
+		} catch (Exception e) {
+			// TODO
+			e.printStackTrace();
+			view = "error";
+
 		}
-		return identifiedName.toString();
+
+		return view;
 	}
+
 }
