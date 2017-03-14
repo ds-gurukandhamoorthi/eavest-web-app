@@ -122,8 +122,6 @@ public class EavAccount extends AbstractBean {
 	}
 
 	public EavAccount(String mail, String password, String lastName, String firstName, Set<EavRole> eavRoles) {
-		System.out.println("EavAccount.EavAccount(mail, password, lastName, firstName, roles): " + mail + ", "
-				+ password + ", " + lastName + ", " + firstName + ", " + eavRoles.toString());
 		this.email = mail;
 		this.setPassword(password);
 		this.setLastName(lastName);

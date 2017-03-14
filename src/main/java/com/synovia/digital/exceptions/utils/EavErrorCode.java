@@ -16,4 +16,5 @@ public class EavErrorCode {
 	public static final String CLOSE_FILE_ERROR = "close.file.error";
 	public static final String CREATE_FILE_ERROR = "create.file.error";
 	public static final String TRANSFER_FILE_ERROR = "transfer.file.error";
+	public static final String MULTIPLE_EAV_PARAMS = "multiple.eav.params.forbidden";
 }

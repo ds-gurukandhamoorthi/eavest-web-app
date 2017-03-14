@@ -1,5 +1,6 @@
 package com.synovia.digital;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdStatus;
 import com.synovia.digital.repository.EavAccountRepository;
+import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
@@ -28,8 +31,17 @@ public class EavestWebAppApplication {
 
 	@Bean
 	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo, EavRoleRepository roleRepo,
-			PrdSousJacentRepository prdSsjctRepo) {
+			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo) {
 		return () -> {
+			// Initialize Eavest Parameters 
+			EavParams eavParams = new EavParams();
+			eavParams.setIsActive(true);
+			eavParamsRepo.save(eavParams);
+			eavParams.setLeftArticle(
+					new URL("http://eavest.com/janvier-2017-performance-des-indices-de-marche-et-nouveaux-indices/"));
+			eavParams.setRightArticle(new URL(
+					"http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"));
+			// Create default users (administrators)
 			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
 			roleRepo.save(admin);
 			roleRepo.save(new EavRole(2, "ROLE_USER", "EAVEST User"));

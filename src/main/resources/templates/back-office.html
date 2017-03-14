@@ -51,13 +51,36 @@
         <p th:text="${responseMessage}"/>
 	      <div class="main-form">
           <form name="param-form" th:action="@{/admin}" th:object="${product}" method="POST">
-            <label for="isin">Produit best-seller (code ISIN)</label>
+            <label for="isin" th:text="#{bo.product.best.seller}">Produit best-seller (code ISIN)</label>
             <input id="isin" type="text" name="isin" th:field="*{isin}"/>
 
             <input type="submit" value="Valider" class="btn btn-primary" />
           </form>
-
 	      </div>
+
+        <div class="main-form">
+          <form name="news-form" th:action="@{/admin}" th:object="${newsOfMonth}" method="POST">
+            <label for="nb-month" th:text="#{bo.news.number}">Chiffre du mois</label>
+            <input id="nb-month" type="text" name="nb-month" th:field="*{numberOfTheMonth}" pattern=".{1,4}" required="true" title="Le chiffre du mois ne doit pas dépasser 4 caractères"/>
+
+            <label for="txt-month" th:text="#{bo.news.text}">Texte relatif</label>
+            <input id="txt-month" type="text" name="txt-month" th:field="*{textOfTheMonth}" required="true"/>
+
+            <input type="submit" value="Valider" class="btn btn-primary" />
+          </form>
+	      </div>
+
+        <div class="main-form">
+          <form name="news-form" th:action="@{/admin}" th:object="${highlightArticles}" method="POST">
+            <label for="nb-month" th:text="#{bo.left.article}">Article positionné à gauche</label>
+            <input id="nb-month" type="url" name="nb-month" th:field="*{leftArticle}" title="Le chiffre du mois ne doit pas dépasser 4 caractères"/>
+
+            <label for="txt-month" th:text="#{bo.right.article}">Article positionné à droite</label>
+            <input id="txt-month" type="url" name="txt-month" th:field="*{rightArticle}"/>
+
+            <input type="submit" value="Valider" class="btn btn-primary" />
+          </form>
+        </div>
 	    </div>
 
 	</section>

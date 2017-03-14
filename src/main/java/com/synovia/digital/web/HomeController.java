@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.service.EavAccountService;
+import com.synovia.digital.service.EavParamsService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
@@ -63,6 +65,8 @@ public class HomeController {
 	protected static final String ATTR_IMG_BEST_SELLER = "imgBestSeller";
 	public static final String ATTR_USERNAME_INFO = "authUserName";
 	public static final String ATTR_ACCOUNT = "account";
+	protected static final String ATTR_NEWS_OF_MONTH = "newsOfMonth";
+	protected static final String ATTR_HIGHLIGHT_ARTICLES = "highlightArticles";
 
 	protected static final String PARAMETER_USER_ID = "id";
 
@@ -81,6 +85,9 @@ public class HomeController {
 
 	@Autowired
 	protected PrdSousJacentService ssjctService;
+
+	@Autowired
+	protected EavParamsService paramsService;
 
 	@RequestMapping(value = "/basic")
 	public String index() {
@@ -187,22 +194,20 @@ public class HomeController {
 		}
 		modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
 
-		//		try {
-		//			PrdProduct bestSeller = productService.findBestSeller();
-		//			if (bestSeller == null) {
-		//				LOGGER.info("No best-seller is set. A default image is displayed as the best-seller product.");
-		//
-		//			} else {
-		//				// Get the image of the best-seller
-		//				File image = productService.getImage(bestSeller);
-		//				if (image!=null)
-		//					defaultImagePath = image.getPath();
-		//
-		//			}
-		//		} catch (EavTechnicalException e) {
-		//			LOGGER.info("Multiple best-seller are set. A default image is displayed instead.");
-		//		}
-		//		modelAndView.addObject(ATTR_IMG_BEST_SELLER, defaultImagePath);
+		// Set the news of the month
+		try {
+			modelAndView.addObject(ATTR_NEWS_OF_MONTH, paramsService.getEavParams());
+		} catch (EavTechnicalException e) {
+			LOGGER.error("FATAL: EavParams table may have not been initialized or contains duplicate entry!");
+		}
+
+		// Set the highlighted articles
+		try {
+			modelAndView.addObject(ATTR_HIGHLIGHT_ARTICLES, paramsService.getEavParams());
+		} catch (EavTechnicalException e) {
+			LOGGER.error("FATAL: EavParams table may have not been initialized or contains duplicate entry!");
+		}
+
 		return modelAndView;
 	}
 

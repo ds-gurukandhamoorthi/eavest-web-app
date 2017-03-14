@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.dto.EavParamsDto;
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
@@ -36,6 +37,7 @@ import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.service.EavAccountService;
+import com.synovia.digital.service.EavParamsService;
 import com.synovia.digital.service.PrdCouponDateService;
 import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
@@ -85,6 +87,8 @@ public class BackOfficeController {
 	protected static final String ATTR_COUPON_DATE_LIST = "couponDates";
 	protected static final String ATTR_ACCOUNT_LIST = "accounts";
 	protected static final String ATTR_PRODUCT_IMAGE_FILENAME = "imageFile";
+	protected static final String ATTR_NEWS_MONTH_DTO = "newsOfMonth";
+	protected static final String ATTR_HOME_ARTICLES_DTO = "highlightArticles";
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
@@ -104,12 +108,19 @@ public class BackOfficeController {
 	@Autowired
 	protected EavAccountService accountService;
 
-	@RequestMapping()
-	public ModelAndView showBackOffice(@ModelAttribute PrdProductDto bestSellerDto, ModelAndView modelAndView) {
-		modelAndView.setViewName(VIEW_BACK_OFFICE);
-		modelAndView.addObject(ATTR_PRODUCT_DTO, new PrdProduct());
+	@Autowired
+	protected EavParamsService paramsService;
 
-		// Find the corresponding entity
+	@RequestMapping()
+	public ModelAndView showBackOffice(@ModelAttribute PrdProductDto bestSellerDto,
+			@Valid @ModelAttribute EavParamsDto newsMonthDto, @Valid @ModelAttribute EavParamsDto homeArticlesDto,
+			BindingResult result, ModelAndView modelAndView) {
+		modelAndView.setViewName(VIEW_BACK_OFFICE);
+		modelAndView.addObject(ATTR_PRODUCT_DTO, new PrdProductDto());
+		modelAndView.addObject(ATTR_NEWS_MONTH_DTO, new EavParamsDto());
+		modelAndView.addObject(ATTR_HOME_ARTICLES_DTO, new EavParamsDto());
+
+		// Find the corresponding product entity
 		if (bestSellerDto.getIsin() != null) {
 			try {
 				PrdProduct p = productService.setBestSeller(bestSellerDto);
@@ -122,6 +133,36 @@ public class BackOfficeController {
 			}
 		}
 
+		if (result.hasErrors()) {
+			LOGGER.warn("EavParams cannot be updated because of errors {}.", result.getAllErrors());
+			modelAndView.addObject(ATTR_MESSAGE_FEEDBACK, "Invalid parameters.");
+			return modelAndView;
+		}
+
+		// Set the news of the month
+		if (newsMonthDto.getNumberOfTheMonth() != null) {
+			String feedback = null;
+			try {
+				paramsService.updateParams(newsMonthDto);
+				feedback = "The key news of the month have been updated.";
+			} catch (EavEntryNotFoundException e) {
+				feedback = "No Eavest params found.";
+			}
+			modelAndView.addObject(ATTR_MESSAGE_FEEDBACK, feedback);
+		}
+
+		// Set highlights
+		if (homeArticlesDto.getRightArticle() != null || homeArticlesDto.getLeftArticle() != null) {
+			String feedback = null;
+			try {
+				paramsService.updateParams(homeArticlesDto);
+				feedback = "Home highlighted articles have been updated.";
+			} catch (EavEntryNotFoundException e) {
+				feedback = "No Eavest params found.";
+			}
+			modelAndView.addObject(ATTR_MESSAGE_FEEDBACK, feedback);
+
+		}
 		return modelAndView;
 	}
 
