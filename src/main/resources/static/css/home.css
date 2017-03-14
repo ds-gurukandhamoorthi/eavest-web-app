@@ -106,7 +106,7 @@ h5 {
 }
 
 .grey-letters {
-  color: #4A4A4A;
+  color: #585858;
   font-weight: 100;
 }
 
@@ -146,7 +146,7 @@ h5 {
   font-size: 15px;
   font-weight: normal;
   text-transform: none;
-  color: #4A4A4A;
+  color: #585858;
 }
 
 .italicized {
@@ -298,42 +298,137 @@ input.btn.btn-default {
   text-transform: uppercase;
   display: block;
   margin-top: 15px;
-  height: 33px;
+  height: 31px;
   font-size: 16px;
   padding-top: 2px;
 }
-
-img#eavest {
-    transform: translateY(-2px);
-}
-
 
 .margin {
   margin-left: 8px;
   vertical-align: -webkit-baseline-middle;
 }
-.display-on-click {
-  display:none;
-}
+
 /*Accordion*/
+
+/*hide accordion*/
+/*#panel-body-1, #panel-body-2, .panel-body  {
+  display: none;
+}*/
+
+#short-accordion-1, #short-accordion-2, #long-accordion-1,  #long-accordion-2 {
+  display: none;
+}
+
+
+/*show only 5 products */
+/*produits remboursés*/
+/*short*/
+#headingSix, #headingSeven, #headingEight {
+  display: none;
+}
+/*long*/
+#heading2Six, #heading2Seven, #heading2Eight {
+  display: none;
+}
+
+/*produits à rappeler*/
+/*short*/
+#heading3Six, #heading3Seven, #heading3Eight {
+  display: none;
+}
+
+/*long*/
+#heading4Six, #heading4Seven, #heading4Eight {
+  display: none;
+}
+
+
+.panel a {
+  text-decoration: none;
+}
+
+
+.panel {
+  border: none !important;
+}
+
 .panel-group .panel {
   margin: 0 !important;
   padding: 0 !important;
   border-radius: 0 !important;
 }
 
-.panel a {
-  text-decoration: none;
+a,
+a:hover,
+a:active,
+.accordion-title a:focus {
+  color: color: #585858 !important;
+  text-decoration: none !important;
+}
+.panel-heading:hover,
+.panel-heading:focus,
+.panel-heading:hover a,
+.panel-heading:focus a {
+  color: #585858;
+  font-weight: 100;
+  text-decoration: none !important;
 }
 
-.panel-default {
-  /*border-color: #F2F2F2 !important;*/
+a.panel-heading {
+    margin: 0;
+    padding: 0;
 }
 
-.panel {
-  border: none !important;
+.panel-body {
+  margin: -4px;
+  padding: 0;
 }
 
+.panel-body {
+  background-color: #F2F2F2 !important;
+}
+
+#accor-product {
+  width: 102px;
+  height: 133px;
+  margin-bottom: 25px;
+}
+
+.activestate {
+  /*font-weight: bold !important;
+  color: black !important;*/
+  display: block;
+}
+.activestate h4 {
+  margin-bottom: 4px;
+}
+
+.activestate:hover a {
+  color: #585858;
+  font-weight: 100;
+}
+.panel-heading {
+  display: block
+}
+
+.light-blue {
+  color: blue;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.bold-blue {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.grey-uppercase {
+  text-transform: uppercase;
+}
+
+.display-b {
+  display: block;
+}
 
 /*Hover*/
 
@@ -359,7 +454,65 @@ img#eavest {
   transition: all 0.4s ease;
 }
 
+.more-product-1 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 0;
+  text-decoration: none;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+.more-product-2 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 0;
+  text-decoration: none;
+  opacity: 0;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+#more-product-1 {
+  position: absolute;
+  top: 68px;
+  left: 206px;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+#more-product-2 {
+  position: absolute;
+  left: 43%;
+  top: 33%;
+  -webkit-transition: all 0.4s ease;
+  -moz-transition: all 0.4s ease;
+  -o-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
 .over:hover {
+  opacity: 0.92;
+}
+
+.more-product-1:hover, .more-product-2:hover  {
   opacity: 0.92;
 }
 
@@ -714,6 +867,10 @@ table {
   width: 100px;
 }
 
+.display-on-click {
+  display:none;
+}
+
 /*PRODUIT MOIS*/
 .white-block {
   background-color: white;
@@ -762,11 +919,11 @@ table {
 }
 
 .wallet-button:hover {
-  color: #4A4A4A;
+  color: #585858;
 }
 
 .wallet-black-block a:visited {
-  color: #4A4A4A !important;
+  color: #585858 !important;
 }
 
 .wallet-black-block span {
@@ -898,7 +1055,8 @@ table {
   text-align: left;
   font-weight: bolder;
   position: absolute;
-  left: 13px;
+  left: 11px;
+  top: 67px;
   font-size: 6rem;
 }
 
