@@ -54,7 +54,9 @@ public class HomeController {
 	public static final String VIEW_WALLET = "wallet";
 
 	protected static final String ATTR_REFUND_PRODUCT_LIST = "refundProducts";
+	protected static final String ATTR_NB_REFUND_PRODUCT_LIST = "nbRefundProducts";
 	protected static final String ATTR_UPCOMING_PRODUCT_LIST = "tocallProducts";
+	protected static final String ATTR_NB_UPCOMING_PRODUCT_LIST = "nbTocallProducts";
 	protected static final String ATTR_NB_PRODUCTS = "nbProducts";
 	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
 	protected static final String ATTR_BASE_LIST = "classicBases";
@@ -146,11 +148,13 @@ public class HomeController {
 		// Display the list of refund products
 		int nbDays = NB_DAYS_REFUND_PRODUCT_LIST;
 		Date now = new Date();
-		modelAndView.addObject(ATTR_REFUND_PRODUCT_LIST,
-				productService.listRefundProducts(DateUtils.addDays(now, -nbDays)));
+		List<PrdProduct> refundProducts = productService.listRefundProducts(DateUtils.addDays(now, -nbDays));
+		modelAndView.addObject(ATTR_REFUND_PRODUCT_LIST, refundProducts);
+		modelAndView.addObject(ATTR_NB_REFUND_PRODUCT_LIST, refundProducts != null ? refundProducts.size() : 0);
 		// Display the list of upcoming products
-		modelAndView.addObject(ATTR_UPCOMING_PRODUCT_LIST,
-				productService.listUpcomingProducts(now, DateUtils.addDays(now, nbDays)));
+		List<PrdProduct> upcomingProducts = productService.listUpcomingProducts(now, DateUtils.addDays(now, nbDays));
+		modelAndView.addObject(ATTR_UPCOMING_PRODUCT_LIST, upcomingProducts);
+		modelAndView.addObject(ATTR_NB_UPCOMING_PRODUCT_LIST, upcomingProducts != null ? upcomingProducts.size() : 0);
 
 		// Display the current date
 		Calendar calendar = Calendar.getInstance();

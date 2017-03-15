@@ -51,6 +51,7 @@ $(window).scroll(function() {
 // end window load
 });
 
+/*
 // ACCORDION redirection selon nombre de produits
 var refundProducts = 6
 var tocallProducts = 7
@@ -88,3 +89,4 @@ $(function() {
 
 
 });
+*/

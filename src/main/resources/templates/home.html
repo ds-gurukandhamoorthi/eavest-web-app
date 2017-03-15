@@ -96,8 +96,16 @@
 
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
-						  <div class="panel panel-default" th:each="refund : ${refundProducts}" th:if="${refundStat.count} le 5">
-						    <div class="activestate" role="tab" id="headingOne">
+						  <div class="panel panel-default" th:each="refund : ${refundProducts}" th:with="nbRefundProducts=${refundStat.count}">
+						    <div class="accordion-row" role="tab" th:if="${refundStat.index} le 4">
+						      <h4 class="accordion-title">
+										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div class="hidden-refund-product" role="tab" th:if="${refundStat.index} gt 4" style="display:none;">
 						      <h4 class="accordion-title">
 										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
 										<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
@@ -127,289 +135,14 @@
 										</div>
 									</div>
 								</div>
+								<!-- hover -->
+			 					<a class="more-product-1">
+			 						<span><img id="more-product-1" src="img/more-hover.png" alt="voir-plus" /></span>
+			 					</a>
 							</div>
 						</div>
 					</div>
 				</div>
-
-					<!-- KNA A commenter -->
-					<!-- <div class="sous-container">
-						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true"> -->
-
-
-
-							<!-- product 1 -->
-							<!-- <div class="panel panel-default">
-								<div class="activestate" role="tab" id="headingOne">
-									<h4 class="accordion-title">
-										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-										<span class="margin panel-title">resonance 1 / FR00196847</span>
-										<span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
-										</a>
-									</h4>
-								</div>
-								<div id="collapseOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingOne">
-									<div class="panel-body">
-
-											<div class="col-md-12">
-												<h3>société générale</h3>
-											</div>
-											<div class="col-md-3">
-												<img src="img/product.png" alt="produit" id="accor-product"/>
-											</div>
-											<div class="col-md-9">
-												<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-													<span class="display-b"></span>
-													<br />
-												<span class="light-blue">sous-jacent</span>
-													<span class="display-b"></span>
-												<span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-													<span class="display-b"></span>
-												<span class="light-blue">statut</span>
-													<span class="display-b"></span>
-												<span class="grey-uppercase">en cours</span>
-											</div>
-									</div>
-								</div>
-							</div> -->
-							<!-- product 2 -->
-							<!-- <div class="panel panel-default">
-							 <div class="activestate" role="tab" id="headingTwo">
-								 <h4 class="accordion-title">
-									 <a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-									 <span class="margin panel-title">resonance 2 / FR00196847</span>
-									 </a>
-								 </h4>
-							 </div>
-							 <div id="collapseTwo" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingTwo">
-								 <div class="panel-body">
-									 <div class="col-md-12">
-										 <h3>société générale</h3>
-									 </div>
-									 <div class="col-md-3">
-										 <img src="img/product.png" alt="produit" id="accor-product"/>
-									 </div>
-									 <div class="col-md-9">
-										 <span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-												 <span class="display-b"></span>
-											 <br />
-										 <span class="light-blue">sous-jacent</span>
-											 <span class="display-b"></span>
-										 <span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-											 <span class="display-b"></span>
-										 <span class="light-blue">statut</span>
-											 <span class="display-b"></span>
-										 <span class="grey-uppercase">en cours</span>
-									 </div>
-								 </div>
-							 </div>
-						 </div> -->
-						<!-- product 3 -->
-						<!-- <div class="panel panel-default">
-						 <div class="activestate" role="tab" id="headingTree">
-							 <h4 class="accordion-title">
-								 <a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseTree" aria-expanded="true" aria-controls="collapseTree">
-								 <span class="margin panel-title">resonance 3 / FR00196847</span>
-								 </a>
-							 </h4>
-						 </div>
-						 <div id="collapseTree" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingTree">
-							 <div class="panel-body">
-								 <div class="col-md-12">
-									 <h3>société générale</h3>
-								 </div>
-								 <div class="col-md-3">
-									 <img src="img/product.png" alt="produit" id="accor-product"/>
-								 </div>
-								 <div class="col-md-9">
-									 <span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-											 <span class="display-b"></span>
-										 <br />
-									 <span class="light-blue">sous-jacent</span>
-										 <span class="display-b"></span>
-									 <span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-										 <span class="display-b"></span>
-									 <span class="light-blue">statut</span>
-										 <span class="display-b"></span>
-									 <span class="grey-uppercase">en cours</span>
-								 </div>
-							 </div>
-						 </div>
-					 </div> -->
-					 <!-- product 4 -->
-	 				<!-- <div class="panel panel-default">
-	 				 <div class="activestate" role="tab" id="headingFour">
-	 					 <h4 class="accordion-title">
-	 						 <a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-	 						 <span class="margin panel-title">resonance 4 / FR00196847</span>
-	 						 <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
-	 						 </a>
-	 					 </h4>
-	 				 </div>
-	 				 <div id="collapseFour" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingFour">
-	 					 <div class="panel-body">
-	 						 <div class="col-md-12">
-	 							 <h3>société générale</h3>
-	 						 </div>
-	 						 <div class="col-md-3">
-	 							 <img src="img/product.png" alt="produit" id="accor-product"/>
-	 						 </div>
-	 						 <div class="col-md-9">
-	 							 <span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-	 									 <span class="display-b"></span>
-	 								 <br />
-	 							 <span class="light-blue">sous-jacent</span>
-	 								 <span class="display-b"></span>
-	 							 <span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-	 								 <span class="display-b"></span>
-	 							 <span class="light-blue">statut</span>
-	 								 <span class="display-b"></span>
-	 							 <span class="grey-uppercase">en cours</span>
-	 						 </div>
-	 					 </div>
-	 				 </div>
-	 				</div> -->
-	 					<!-- product 5 -->
-	 					<!-- <div class="panel panel-default">
-	 					 <div class="activestate" role="tab" id="headingFive">
-	 						 <h4 class="accordion-title">
-	 							 <a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-	 							 <span class="margin panel-title">resonance 5 / FR00196847</span>
-	 							 <span><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
-	 							 </a>
-	 						 </h4>
-	 					 </div>
-	 					 <div id="collapseFive" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingFive">
-	 						 <div class="panel-body">
-	 							 <div class="col-md-12">
-	 								 <h3>société générale</h3>
-	 							 </div>
-	 							 <div class="col-md-3">
-	 								 <img src="img/product.png" alt="produit" id="accor-product"/>
-	 							 </div>
-	 							 <div class="col-md-9">
-	 								 <span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-	 										 <span class="display-b"></span>
-	 									 <br />
-	 								 <span class="light-blue">sous-jacent</span>
-	 									 <span class="display-b"></span>
-	 								 <span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-	 									 <span class="display-b"></span>
-	 								 <span class="light-blue">statut</span>
-	 									 <span class="display-b"></span>
-	 								 <span class="grey-uppercase">en cours</span>
-	 							 </div>
-	 						 </div>
-	 					 </div>
-	 					</div> -->
-	 					<!-- product 6 -->
-	 					<!-- <div class="panel panel-default">
-	 					<div class="activestate" role="tab" id="headingSix">
-	 						<h4 class="accordion-title">
-	 							<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-	 							<span class="margin panel-title">resonance 6 / FR00196847</span>
-	 						</a>
-	 						</h4>
-	 					</div>
-	 					<div id="collapseSix" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingSix">
-	 						<div class="panel-body">
-	 							<div class="col-md-12">
-	 								<h3>société générale</h3>
-	 							</div>
-	 							<div class="col-md-3">
-	 								<img src="img/product.png" alt="produit" id="accor-product"/>
-	 							</div>
-	 							<div class="col-md-9">
-	 								<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-	 									<span class="display-b"></span>
-	 									<br />
-	 								<span class="light-blue">sous-jacent</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-	 									<span class="display-b"></span>
-	 								<span class="light-blue">statut</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">en cours</span>
-	 							</div>
-	 						</div>
-	 					</div>
-	 					</div> -->
-	 					<!-- product 7 -->
-	 					<!-- <div class="panel panel-default">
-	 					<div class="activestate" role="tab" id="headingSeven">
-	 						<h4 class="accordion-title">
-	 							<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
-	 							<span class="margin panel-title">resonance 7 / FR00196847</span>
-	 						</a>
-	 						</h4>
-	 					</div>
-	 					<div id="collapseSeven" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingSeven">
-	 						<div class="panel-body">
-	 							<div class="col-md-12">
-	 								<h3>société générale</h3>
-	 							</div>
-	 							<div class="col-md-3">
-	 								<img src="img/product.png" alt="produit" id="accor-product"/>
-	 							</div>
-	 							<div class="col-md-9">
-	 								<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-	 									<span class="display-b"></span>
-	 									<br />
-	 								<span class="light-blue">sous-jacent</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-	 									<span class="display-b"></span>
-	 								<span class="light-blue">statut</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">en cours</span>
-	 							</div>
-	 						</div>
-	 					</div>
-	 					</div> -->
-	 					<!-- product 8 -->
-	 					<!-- <div class="panel panel-default">
-	 					<div class="activestate" role="tab" id="headingEight">
-	 						<h4 class="accordion-title">
-	 							<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
-	 							<span class="margin panel-title">resonance 8 / FR00196847</span>
-	 						</a>
-	 						</h4>
-	 					</div>
-	 					<div id="collapseEight" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingEight">
-	 						<div class="panel-body">
-	 							<div class="col-md-12">
-	 								<h3>société générale</h3>
-	 							</div>
-	 							<div class="col-md-3">
-	 								<img src="img/product.png" alt="produit" id="accor-product"/>
-	 							</div>
-	 							<div class="col-md-9">
-	 								<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-	 									<span class="display-b"></span>
-	 									<br />
-	 								<span class="light-blue">sous-jacent</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">euro istoxx&reg; ewc 50</span>
-	 									<span class="display-b"></span>
-	 								<span class="light-blue">statut</span>
-	 									<span class="display-b"></span>
-	 								<span class="grey-uppercase">en cours</span>
-	 							</div>
-	 						</div>
-	 					</div>
-	 					</div> -->
-	 					<!-- hover -->
-	 					<!-- <a class="more-product-1">
-	 					<span><img id="more-product-1" src="img/more-hover.png" alt="voir-plus" /></span>
-	 					</a> -->
-				<!-- end panel produits rembourses-->
-				<!-- </div> -->
-			<!-- end sous-container produits rembourses -->
-			<!-- </div> -->
-			<!-- long produits rembourses -->
-			<!-- end col-md-6 -->
-		<!-- </div> -->
-<!-- END PRODUITS REMBOURSES -->
 
 			<!-- PRODUITS A RAPPELER -->
 			<div class="col-sm-6 col-md-6 wrapper padding_left">
@@ -419,8 +152,16 @@
 
 					<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
 						<!-- collapse product -->
-						<div class="panel panel-default" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
-							<div class="activestate" role="tab" id="heading2One">
+						<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
+							<div class="accordion-row" role="tab" th:if="${tocallStat.index} le 4">
+								<h4 class="accordion-title">
+									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
+									<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+									<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+									</a>
+								</h4>
+							</div>
+							<div class="hidden-tocall-product" role="tab" th:if="${tocallStat.index} gt 4" style="display:none;">
 								<h4 class="accordion-title">
 									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
 									<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
@@ -450,6 +191,10 @@
 									</div>
 								</div>
 							</div>
+							<!-- hover -->
+							<a class="more-product-2">
+								<span><img id="more-product-2" src="img/more-hover.png" alt="voir-plus" /></span>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -1177,6 +922,44 @@
 		source: productTags
 		// source: maListe
 		});
+	});
+	/*]]>*/
+	</script>
+
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	// ACCORDION redirection selon nombre de produits
+	$(document).ready(function() {
+		var refundProducts = /*[[${nbRefundProducts}]]*/ 61;
+		var tocallProducts = /*[[${nbTocallProducts}]]*/ 67;
+		/*
+		console.log(refundProducts);
+		console.log(tocallProducts);
+		*/
+
+	  if (refundProducts <= 5) {
+	    $( '#more-product-1, .more-product-1' ).hide();
+	  } else {
+	    $( '#more-product-1, .more-product-1' ).show();
+	  };
+
+	  if (tocallProducts <= 5) {
+	    $( '#more-product-2, .more-product-2' ).hide();
+	  } else {
+	    $( '#more-product-2, .more-product-2' ).show();
+	  };
+
+	  // redirection accordion au hover
+	  // afficher l'accordion total au click qui est en display none avant
+	  $( 'a #more-product-1' ).click(function(){
+	    $('.hidden-refund-product').show();
+	    $( '#more-product-1, .more-product-1' ).hide();
+	  });
+
+	  $( 'a #more-product-2' ).click(function(){
+	    $('.hidden-tocall-product').show();
+	    $( '#more-product-2, .more-product-2' ).hide();
+	  });
 	});
 	/*]]>*/
 	</script>
