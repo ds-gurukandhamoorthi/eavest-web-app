@@ -14,6 +14,7 @@ import org.springframework.core.env.Environment;
 
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.filedataware.EavHomeDirectory;
+import com.synovia.digital.filedataware.EavResource;
 
 /**
  * This class defines TODO
@@ -27,6 +28,7 @@ import com.synovia.digital.filedataware.EavHomeDirectory;
 public class EavConfigApp {
 	private static final Logger LOGGER = LoggerFactory.getLogger(EavConfigApp.class);
 	public static final String CONFIG_EAVEST_HOME = "fdwh.home.path";
+	public static final String CONFIG_PRODUCT_RESOURCE_NAME = "product.res.dirname";
 
 	@Autowired
 	private Environment env;
@@ -42,5 +44,12 @@ public class EavConfigApp {
 					"Eavest web app configuration failed to load file data warehouse property. See config.properties");
 		}
 		return dir;
+	}
+
+	@Bean
+	public EavResource eavResource() {
+		EavResource res = new EavResource();
+		res.setProductResourceDirName(env.getProperty(CONFIG_PRODUCT_RESOURCE_NAME));
+		return res;
 	}
 }

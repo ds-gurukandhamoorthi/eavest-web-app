@@ -21,6 +21,7 @@ import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.utils.PrdStatusEnum;
 
 @SpringBootApplication
 public class EavestWebAppApplication {
@@ -59,12 +60,12 @@ public class EavestWebAppApplication {
 			eavRolesAdmin.add(adminRole);
 			repo.save(new EavAccount("eavadm@mailinator.com", "eav", "Marlot", "Pascal", eavRolesAdmin));
 
-			prdStatusRepo.save(new PrdStatus(1, "IDLE", "Initial state"));
-			prdStatusRepo.save(new PrdStatus(2, "SUBSCRIBABLE", "Users can subscribe to the product"));
-			prdStatusRepo.save(new PrdStatus(3, "STARTED", "The product evolution has started"));
-			prdStatusRepo.save(new PrdStatus(4, "STOPPED", "The product evolution has ended"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.IDLE.toString(), "Initial state"));
 			prdStatusRepo
-					.save(new PrdStatus(5, "CLOSED", "The product is stopped, no action can be done on the product"));
+					.save(new PrdStatus(PrdStatusEnum.SUBSCRIBABLE.toString(), "Users can subscribe to the product"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.ON_GOING.toString(), "On going"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.PREPAYED.toString(), "Prepayment"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.REFUNDED.toString(), "Reimbursed"));
 
 			// Create the stock market indices
 			PrdSousJacent cac40 = new PrdSousJacent("CAC 40");

@@ -107,6 +107,20 @@ public class FileExtractor {
 
 	}
 
+	public static void copy(MultipartFile from, Param... params) throws EavTechnicalException {
+		if (params == null || params.length == 0) {
+			LOGGER.error(
+					"The parameters of the copy method has not been set or is empty. The method doesn't know what to copy and where.");
+			return;
+		}
+
+		for (Param p : params) {
+			copy(from, p);
+
+		}
+
+	}
+
 	public static void copy(MultipartFile from, Param param) throws EavTechnicalException {
 		if (from == null || from.isEmpty()) {
 			LOGGER.error("Input file {} does not exist or is empty", from);
@@ -114,8 +128,12 @@ public class FileExtractor {
 
 		}
 		if (param != null && from.getOriginalFilename().endsWith(param.what)) {
+			if (param.filename == null) {
+				LOGGER.warn("The destination filename has not been set. Cannot copy {}", from.getOriginalFilename());
+				return;
+			}
 			String originalFilename = from.getOriginalFilename();
-			File copy = new File(param.where, "image.jpg");
+			File copy = new File(param.where, param.filename);
 			LOGGER.debug("Target directory for the extraction is {}", copy.getPath());
 			if (!copy.getParentFile().exists() && !copy.mkdirs()) {
 				LOGGER.warn("Unable to copy input file to {}", copy);
@@ -168,7 +186,7 @@ public class FileExtractor {
 		 * These parameters are
 		 * <ul>
 		 * <li>the suffix of files to be extracted</li>
-		 * <li>the directory of files to be extracted</li>
+		 * <li>the directory where files are copied</li>
 		 * <ul>
 		 *
 		 * @param suffix

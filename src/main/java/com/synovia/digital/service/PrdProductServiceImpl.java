@@ -4,6 +4,7 @@
 package com.synovia.digital.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.exceptions.utils.EavErrorCode;
 import com.synovia.digital.filedataware.EavHomeDirectory;
+import com.synovia.digital.filedataware.EavResource;
 import com.synovia.digital.model.PrdCouponDate;
 import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
@@ -60,7 +63,12 @@ public class PrdProductServiceImpl implements PrdProductService {
 
 	protected final EavHomeDirectory homeDir;
 
+	@Autowired
+	protected EavResource eavResource;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
+
+	public static final String DEFAULT_IMAGE_NAME = "image";
 
 	/**
 	 * TODO Constructs ... based on ...
@@ -96,7 +104,7 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 * PrdProductDto)
 	 */
 	@Override
-	public PrdProduct add(PrdProductDto dto) throws EavDuplicateEntryException {
+	public PrdProduct add(PrdProductDto dto) throws EavTechnicalException {
 		LOGGER.debug("Adding a new PrdProduct entry with information: {}", dto);
 		if (dto == null)
 			return null;
@@ -109,10 +117,51 @@ public class PrdProductServiceImpl implements PrdProductService {
 		// Create the PrdProduct object.
 		PrdProduct toAdd = convertToEntity(dto);
 
-		// TODO Apply basic rules from PrdProduct fields
+		// Apply basic rules from PrdProduct fields
+		postUpdate(toAdd);
 
 		// Save the object to add.
 		return repo.save(toAdd);
+	}
+
+	private void postUpdate(PrdProduct product) throws EavTechnicalException {
+		try {
+			// Update effective end date
+			postUpdateEndDate(product);
+			// update product status
+			postUpdateStatus(product);
+		} catch (NullPointerException e) {
+			throw new EavTechnicalException(EavErrorCode.NULL_POINTER, e);
+		}
+	}
+
+	private void postUpdateEndDate(PrdProduct product) {
+		Date endDate = product.getEndDate();
+		if (endDate == null) {
+			Date now = new Date();
+			if (now.after(product.getDueDate())) {
+				product.setEndDate(product.getDueDate());
+			}
+		}
+	}
+
+	private void postUpdateStatus(PrdProduct product) {
+		Date now = new Date();
+		Date finalDate = product.getEndDate() != null ? product.getEndDate() : product.getDueDate();
+
+		if (now.before(product.getLaunchDate())) {
+			product.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.IDLE.name()));
+
+		} else if (now.after(product.getLaunchDate()) && now.before(finalDate)) {
+			product.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.ON_GOING.name()));
+
+		} else if (now.after(finalDate)) {
+			if (finalDate.before(product.getDueDate())) {
+				product.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.PREPAYED.name()));
+			} else {
+				product.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.REFUNDED.name()));
+			}
+		}
 	}
 
 	private void updateFromDto(PrdProduct entity, PrdProductDto dto) {
@@ -129,7 +178,6 @@ public class PrdProductServiceImpl implements PrdProductService {
 			} catch (ParseException e) {
 				dueDate = entity.getDueDate();
 			}
-
 		}
 	}
 
@@ -459,10 +507,38 @@ public class PrdProductServiceImpl implements PrdProductService {
 		if (product == null)
 			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
-		FileExtractor.Param images = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
-				homeDir.getImageDir(product.getId()));
-		FileExtractor.copy(fileToStore, images);
+		String imageName = getDefaultImageName(EavConstants.JPEG_EXTENSION);
+		// Store the product image in the FDWH
+		FileExtractor.Param imageParam = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
+				homeDir.getImageDir(product.getId()), imageName);
+		// Store the product image in the image templates directory
+		File destDir = EavConstants.shortcutProductImageDirectory(product.getIsin(),
+				eavResource.getProductResourceDirName());
+		try {
+			FileUtils.cleanDirectory(destDir);
+		} catch (IOException e) {
+			throw new EavTechnicalException(EavErrorCode.TRANSFER_FILE_ERROR, e);
+		}
+		FileExtractor.Param imageShortCutParam = new FileExtractor.Param(EavConstants.JPEG_EXTENSION, destDir,
+				imageName);
 
+		FileExtractor.copy(fileToStore, imageParam, imageShortCutParam);
+		// Update the entity
+		String imageShortcutDir = EavConstants.relativePathFromStaticResource(destDir.getPath());
+		String imageShortcut = new StringBuilder(imageShortcutDir).append(EavConstants.FILE_SEPARATOR).append(imageName)
+				.toString();
+		product.setImageShortcut(imageShortcut);
+		LOGGER.info("A shortcut of the input image has been created here {}", imageShortcutDir);
+
+		repo.save(product);
+	}
+
+	private String getDefaultImageName(String extension) {
+		String ext = extension;
+		if (!extension.startsWith(".")) {
+			ext = new StringBuilder(".").append(extension).toString();
+		}
+		return new StringBuilder(DEFAULT_IMAGE_NAME).append(ext).toString();
 	}
 
 	/*

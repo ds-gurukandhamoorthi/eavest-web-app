@@ -17,7 +17,14 @@ public abstract class EavException extends Exception {
 	protected String code;
 
 	public EavException(String code) {
+		this(code, null);
+	}
+
+	public EavException(String code, Throwable t) {
+		// TODO Translate the code
+		super(code, t);
 		this.code = code;
+
 	}
 
 	public String getCode() {

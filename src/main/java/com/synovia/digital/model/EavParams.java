@@ -26,7 +26,7 @@ public class EavParams {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer Id;
 
-	@Column(name = "NUMBER_OF_MONTH", length = 4)
+	@Column(name = "NUMBER_OF_MONTH", length = 6)
 	private String numberOfTheMonth;
 
 	@Column(name = "TEXT_OF_MONTH")

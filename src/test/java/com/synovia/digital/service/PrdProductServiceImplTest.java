@@ -43,6 +43,7 @@ import com.synovia.digital.model.PrdStatus;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.utils.PrdStatusEnum;
 
 /**
  * This class defines TODO
@@ -146,9 +147,21 @@ public class PrdProductServiceImplTest {
 		productDto.setIdPrdSousJacent(idSsJct);
 
 		when(sousJacentRepoMock.findOne(idSsJct)).thenReturn(sousJacent);
-		String code = "IDLE";
-		PrdStatus idleStatus = new PrdStatus(1, code);
+		String code = PrdStatusEnum.IDLE.name();
+		PrdStatus idleStatus = new PrdStatus(1, code, "Undefined status");
 		when(statusRepoMock.findByCode(code)).thenReturn(idleStatus);
+		code = PrdStatusEnum.ON_GOING.name();
+		PrdStatus ongoingStatus = new PrdStatus(2, code, "On going");
+		when(statusRepoMock.findByCode(code)).thenReturn(ongoingStatus);
+		code = PrdStatusEnum.PREPAYED.name();
+		PrdStatus prepayedStatus = new PrdStatus(3, code, "Prepayed");
+		when(statusRepoMock.findByCode(code)).thenReturn(prepayedStatus);
+		code = PrdStatusEnum.REFUNDED.name();
+		PrdStatus payedStatus = new PrdStatus(4, code, "Payed");
+		when(statusRepoMock.findByCode(code)).thenReturn(payedStatus);
+		code = PrdStatusEnum.SUBSCRIBABLE.name();
+		PrdStatus subscribeStatus = new PrdStatus(5, code, "Subscribable");
+		when(statusRepoMock.findByCode(code)).thenReturn(subscribeStatus);
 
 		// Test the creation of a product.
 		service.add(productDto);
@@ -170,7 +183,7 @@ public class PrdProductServiceImplTest {
 		// Parameters with default value
 		Assert.assertFalse(saveEntity.getIsEavest());
 		Assert.assertFalse(saveEntity.getIsBestSeller());
-		Assert.assertThat(saveEntity.getPrdStatus(), is(idleStatus));
+		Assert.assertThat(saveEntity.getPrdStatus(), is(ongoingStatus));
 		// All other parameters must be null
 		Assert.assertThat(saveEntity.getSubscriptionEndDate(), is(nullValue()));
 		Assert.assertThat(saveEntity.getSubscriptionStartDate(), is(nullValue()));
@@ -191,7 +204,7 @@ public class PrdProductServiceImplTest {
 	 * Test method for
 	 * {@link com.synovia.digital.service.PrdProductServiceImpl#add(com.synovia.digital.dto.PrdProductDto)}.
 	 */
-	@Test
+	@Test(expected = EavTechnicalException.class)
 	public void testAdd_EntityWithoutISIN() throws Exception {
 		PrdProductDto productDto = new PrdProductDto();
 
@@ -227,7 +240,7 @@ public class PrdProductServiceImplTest {
 	 * Test method for
 	 * {@link com.synovia.digital.service.PrdProductServiceImpl#add(com.synovia.digital.dto.PrdProductDto)}.
 	 */
-	@Test
+	@Test(expected = EavTechnicalException.class)
 	public void testAdd_IncompleteEntity() throws Exception {
 		Long id = 1L;
 		String isin = "P123456TCF";
@@ -238,16 +251,6 @@ public class PrdProductServiceImplTest {
 
 		// Test the creation of a product.
 		service.add(productDto);
-
-		ArgumentCaptor<PrdProduct> productArgument = ArgumentCaptor.forClass(PrdProduct.class);
-
-		verify(repoMock, times(1)).findByIsin(isin);
-		verify(repoMock, times(1)).save(productArgument.capture());
-		verifyNoMoreInteractions(repoMock);
-
-		PrdProduct saveEntity = productArgument.getValue();
-		Assert.assertThat(saveEntity, is(notNullValue()));
-
 	}
 
 	/**
@@ -295,7 +298,7 @@ public class PrdProductServiceImplTest {
 		Double startPrice = 100d;
 		String deliver = "CIC";
 		String guarantor = deliver;
-		String status = "STARTED";
+		String status = PrdStatusEnum.ON_GOING.name();
 		String effectiveEndDate = "2017-04-05";
 		Boolean isEavest = true;
 		Boolean isBestSeller = false;
@@ -333,16 +336,16 @@ public class PrdProductServiceImplTest {
 		// Mock the behavior of the underlying asset repository.
 		when(sousJacentRepoMock.findOne(idSsJct)).thenReturn(sousJacent);
 		String code;
-		code = "IDLE";
-		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(1, code));
-		code = "STARTED";
-		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(2, code));
-		code = "SUBSCRIBABLE";
-		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(3, code));
-		code = "STOPPED";
-		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(4, code));
-		code = "CLOSED";
-		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(5, code));
+		code = PrdStatusEnum.IDLE.name();
+		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(1, code, "Undefined"));
+		code = PrdStatusEnum.ON_GOING.name();
+		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(2, code, "On going"));
+		code = PrdStatusEnum.PREPAYED.name();
+		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(3, code, "Prepayed"));
+		code = PrdStatusEnum.REFUNDED.name();
+		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(4, code, "Payed"));
+		code = PrdStatusEnum.SUBSCRIBABLE.name();
+		when(statusRepoMock.findByCode(code)).thenReturn(new PrdStatus(5, code, "Subscribable"));
 
 		// Test the creation of a product.
 		service.add(productDto);

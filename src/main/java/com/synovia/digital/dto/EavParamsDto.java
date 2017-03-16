@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 public class EavParamsDto {
 
 	private Integer id;
-	@Size(max = 4)
+	@Size(max = 6)
 	private String numberOfTheMonth;
 	private String textOfTheMonth;
 	private Boolean isActive;

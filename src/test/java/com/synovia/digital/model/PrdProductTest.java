@@ -40,6 +40,7 @@ public class PrdProductTest {
 	private String path;
 	private Double strike;
 	private String observationFrequency;
+	private String imageShortcut;
 
 	/**
 	 * @throws java.lang.Exception
@@ -69,6 +70,7 @@ public class PrdProductTest {
 		path = "//path/dir";
 		strike = 3456.;
 		observationFrequency = "tous les jours";
+		imageShortcut = "/img/shortcut";
 	}
 
 	/**
@@ -105,6 +107,7 @@ public class PrdProductTest {
 		product.setPath(path);
 		product.setStrike(strike);
 		product.setObservationFrequency(observationFrequency);
+		product.setImageShortcut(imageShortcut);
 
 		String result = product.toString();
 
@@ -132,6 +135,7 @@ public class PrdProductTest {
 		Assert.assertTrue(result.contains(path));
 		Assert.assertTrue(result.contains(strike.toString()));
 		Assert.assertTrue(result.contains(observationFrequency));
+		Assert.assertTrue(result.contains(imageShortcut));
 	}
 
 	/**
@@ -142,28 +146,6 @@ public class PrdProductTest {
 	@Test
 	public void testToString_NullParams() throws ParseException {
 		PrdProduct product = new PrdProduct();
-		product.setId(null);
-		product.setIsin(null);
-		product.setLabel(null);
-		product.setLaunchDate(null);
-		product.setDueDate(null);
-		product.setPrdSousJacent(null);
-		product.setPrdRule(null);
-		product.setSubscriptionStartDate(null);
-		product.setSubscriptionEndDate(null);
-		product.setCouponValue(null);
-		product.setNominalValue(null);
-		product.setCapitalGuaranteed(null);
-		product.setStartPrice(null);
-		product.setDeliver(null);
-		product.setGuarantor(null);
-		product.setPrdStatus(null);
-		product.setEndDate(null);
-		product.setIsBestSeller(null);
-		product.setIsBestSeller(null);
-		product.setPath(null);
-		product.setStrike(null);
-		product.setObservationFrequency(null);
 
 		try {
 			product.toString();

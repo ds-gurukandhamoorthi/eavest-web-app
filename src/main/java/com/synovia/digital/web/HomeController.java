@@ -177,7 +177,7 @@ public class HomeController {
 		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
 		// Set the best-seller product image
-		String imagePath = "img/default-best-seller.jpg";
+		String imagePath = "img/default-best-seller_notExist.jpg";
 		File image = productService.getBestSellerImage();
 		if (image != null) {
 			// Copy image to the best-seller directory
