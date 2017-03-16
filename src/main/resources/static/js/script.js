@@ -51,10 +51,9 @@ $(window).scroll(function() {
 // end window load
 });
 
-/*
 // ACCORDION redirection selon nombre de produits
-var refundProducts = 6
-var tocallProducts = 7
+var refundProducts = []
+var tocallProducts = []
 
 $(function() {
 
@@ -87,6 +86,20 @@ $(function() {
     $('.activestate').css({'font-weight': 'bold', 'color': 'black'});
   });
 
+});
+
+// Tableau collapse perf review
+
+$(function() {
+  $('#more-perfReview').click(function(){
+    $('.display-on-click, #close').show();
+    $('#more-perfReview').hide();
+  });
+  $('#close').click(function(){
+    $('.display-on-click, #close').hide();
+    $('#more-perfReview').show();
+  })
+
+
 
 });
-*/
