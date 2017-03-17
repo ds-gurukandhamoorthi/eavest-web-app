@@ -39,7 +39,7 @@ import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
 import com.synovia.digital.service.utils.RefundProductComparator;
-import com.synovia.digital.utils.EavConstants;
+import com.synovia.digital.utils.EavUtils;
 import com.synovia.digital.utils.FileExtractor;
 import com.synovia.digital.utils.PrdStatusEnum;
 
@@ -458,7 +458,7 @@ public class PrdProductServiceImpl implements PrdProductService {
 
 		// Copy the available files into the FDWH
 		try {
-			FileExtractor.Param images = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
+			FileExtractor.Param images = new FileExtractor.Param(EavUtils.JPEG_EXTENSION,
 					homeDir.getImageDir(product.getId()));
 			FileExtractor.copy(dir, images);
 			// TODO Copy the other documents
@@ -507,25 +507,25 @@ public class PrdProductServiceImpl implements PrdProductService {
 		if (product == null)
 			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
-		String imageName = getDefaultImageName(EavConstants.JPEG_EXTENSION);
+		String imageName = getDefaultImageName(EavUtils.JPEG_EXTENSION);
 		// Store the product image in the FDWH
-		FileExtractor.Param imageParam = new FileExtractor.Param(EavConstants.JPEG_EXTENSION,
+		FileExtractor.Param imageParam = new FileExtractor.Param(EavUtils.JPEG_EXTENSION,
 				homeDir.getImageDir(product.getId()), imageName);
 		// Store the product image in the image templates directory
-		File destDir = EavConstants.shortcutProductImageDirectory(product.getIsin(),
+		File destDir = EavUtils.shortcutProductImageDirectory(product.getIsin(),
 				eavResource.getProductResourceDirName());
 		try {
 			FileUtils.cleanDirectory(destDir);
 		} catch (IOException e) {
 			throw new EavTechnicalException(EavErrorCode.TRANSFER_FILE_ERROR, e);
 		}
-		FileExtractor.Param imageShortCutParam = new FileExtractor.Param(EavConstants.JPEG_EXTENSION, destDir,
+		FileExtractor.Param imageShortCutParam = new FileExtractor.Param(EavUtils.JPEG_EXTENSION, destDir,
 				imageName);
 
 		FileExtractor.copy(fileToStore, imageParam, imageShortCutParam);
 		// Update the entity
-		String imageShortcutDir = EavConstants.relativePathFromStaticResource(destDir.getPath());
-		String imageShortcut = new StringBuilder(imageShortcutDir).append(EavConstants.FILE_SEPARATOR).append(imageName)
+		String imageShortcutDir = EavUtils.relativePathFromStaticResource(destDir.getPath());
+		String imageShortcut = new StringBuilder(imageShortcutDir).append(EavUtils.FILE_SEPARATOR).append(imageName)
 				.toString();
 		product.setImageShortcut(imageShortcut);
 		LOGGER.info("A shortcut of the input image has been created here {}", imageShortcutDir);

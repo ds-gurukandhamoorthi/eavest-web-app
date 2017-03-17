@@ -71,7 +71,7 @@
           <input id="company" type="text" name="company" th:valuetype="${eavAccount.company}" />
 
           <label for="usremail">E-mail</label>
-          <input id="usremail" type="email" name="email" th:valuetype="${eavAccount.email}" placeholder="john.doe@bar.com)" required="required" />
+          <input id="usremail" type="email" name="email" th:valuetype="${eavAccount.email}" placeholder="john.doe@bar.com" required="required" />
 
           <label for="pwrd">Mot de passe</label>
           <input id="pwrd" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" th:valuetype="${eavAccount.password}" required="required" title="Le mot de passe doit comporter au moins 6 caractèrers (un chiffre, une lettre minuscule et une lettre majuscule)"/>

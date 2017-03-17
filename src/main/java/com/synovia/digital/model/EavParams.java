@@ -3,9 +3,10 @@
  */
 package com.synovia.digital.model;
 
-import java.net.URL;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,17 +30,27 @@ public class EavParams {
 	@Column(name = "NUMBER_OF_MONTH", length = 6)
 	private String numberOfTheMonth;
 
-	@Column(name = "TEXT_OF_MONTH")
+	@Column(name = "TEXT_OF_MONTH", length = 160)
 	private String textOfTheMonth;
 
 	@Column(name = "IS_ACTIVE")
 	private Boolean isActive = false;
 
-	@Column(name = "LEFT_ARTICLE")
-	private URL leftArticle;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "url", column = @Column(name = "LEFT_ARTICLE_URL")),
+			@AttributeOverride(name = "title", column = @Column(name = "LEFT_ARTICLE_TITLE", length = 100)),
+			@AttributeOverride(name = "releaseDate", column = @Column(name = "LEFT_ARTICLE_RELEASE_DATE")),
+			@AttributeOverride(name = "author", column = @Column(name = "LEFT_ARTICLE_AUTHOR")),
+			@AttributeOverride(name = "content", column = @Column(name = "LEFT_ARTICLE_CONTENT", length = 240)) })
+	private EavArticle leftArticle;
 
-	@Column(name = "RIGHT_ARTICLE")
-	private URL rightArticle;
+	@Embedded
+	@AttributeOverrides({ @AttributeOverride(name = "url", column = @Column(name = "RIGHT_ARTICLE_URL")),
+			@AttributeOverride(name = "title", column = @Column(name = "RIGHT_ARTICLE_TITLE", length = 100)),
+			@AttributeOverride(name = "releaseDate", column = @Column(name = "RIGHT_ARTICLE_RELEASE_DATE")),
+			@AttributeOverride(name = "author", column = @Column(name = "RIGHT_ARTICLE_AUTHOR")),
+			@AttributeOverride(name = "content", column = @Column(name = "RIGHT_ARTICLE_CONTENT", length = 160)) })
+	private EavArticle rightArticle;
 
 	// -------------------------- CONSTRUCTORS --------------------------
 
@@ -84,27 +95,19 @@ public class EavParams {
 		this.isActive = isActive;
 	}
 
-	public URL getLeftArticle() {
+	public EavArticle getLeftArticle() {
 		return this.leftArticle;
 	}
 
-	public String getLeftArticleAsString() {
-		return (this.leftArticle != null) ? this.leftArticle.toString() : null;
-	}
-
-	public void setLeftArticle(URL leftArticle) {
+	public void setLeftArticle(EavArticle leftArticle) {
 		this.leftArticle = leftArticle;
 	}
 
-	public URL getRightArticle() {
+	public EavArticle getRightArticle() {
 		return this.rightArticle;
 	}
 
-	public String getRightArticleAsString() {
-		return (this.rightArticle != null) ? this.rightArticle.toString() : null;
-	}
-
-	public void setRightArticle(URL rightArticle) {
+	public void setRightArticle(EavArticle rightArticle) {
 		this.rightArticle = rightArticle;
 	}
 

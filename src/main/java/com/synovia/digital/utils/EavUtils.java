@@ -11,10 +11,16 @@ import java.io.File;
  * @author TeddyCouriol
  * @since 6 mars 2017
  */
-public class EavConstants {
+public class EavUtils {
 
 	public static final int C_MILLENARY = 2000;
 	public static final int C_DECEMBER_INDEX = 12;
+
+	public static final String LONG_DATE_FORMAT_PATTERN = "EEEEE dd MMMMM yyyy";
+
+	public static final String MID_DATE_FORMAT_PATTERN = "dd MMMMM yyyy";
+
+	public static final String DTO_DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 
 	public static final String JPEG_EXTENSION = ".jpg";
 
@@ -128,4 +134,5 @@ public class EavConstants {
 		return new StringBuilder(mainResourcesDirectoryPath()).append(FILE_SEPARATOR).append(STATIC_DIR_NAME)
 				.toString();
 	}
+
 }

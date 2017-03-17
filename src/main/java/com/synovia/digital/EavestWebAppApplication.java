@@ -11,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.synovia.digital.dto.utils.DtoDateFormat;
 import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavArticle;
 import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
 import com.synovia.digital.model.PrdSousJacent;
@@ -37,11 +39,24 @@ public class EavestWebAppApplication {
 			// Initialize Eavest Parameters 
 			EavParams eavParams = new EavParams();
 			eavParams.setIsActive(true);
+			EavArticle article = new EavArticle();
+			article.setUrl(new URL("http://www.synovia.fr/synovia-digital"));
+			article.setAuthor("Laurent BOCQUET");
+			article.setTitle("Le pôle DIGITAL de SYNOVIA");
+			article.setReleaseDate(DtoDateFormat.getFormat().parse("2017-03-17"));
+			article.setContent("L’offre de développement logiciel, applicatif, web et mobile, tierce maintenance"
+					+ " applicative répond aux besoins d’innovation numérique de nos clients en s’appuyant sur...");
+			eavParams.setLeftArticle(article);
+
+			EavArticle article2 = new EavArticle();
+			article2.setUrl(new URL("http://www.synovia.fr/synovia-pmo"));
+			article2.setAuthor("Jean-Marc GUILBAULT");
+			article2.setTitle("Le pôle PMO de SYNOVIA");
+			article2.setReleaseDate(DtoDateFormat.getFormat().parse("2017-02-10"));
+			article2.setContent("L’offre de PMO (Project Management Office) destinée principalement à accompagner "
+					+ "nos clients...");
+			eavParams.setRightArticle(article2);
 			eavParamsRepo.save(eavParams);
-			eavParams.setLeftArticle(
-					new URL("http://eavest.com/janvier-2017-performance-des-indices-de-marche-et-nouveaux-indices/"));
-			eavParams.setRightArticle(new URL(
-					"http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"));
 			// Create default users (administrators)
 			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
 			roleRepo.save(admin);

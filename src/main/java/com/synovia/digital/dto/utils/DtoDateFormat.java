@@ -6,8 +6,11 @@ package com.synovia.digital.dto.utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import com.synovia.digital.utils.EavUtils;
+
 /**
- * This class defines utilities for date formatting.
+ * This class defines utilities for date formatting from DTO. <br/>
+ * The format of the date from the front-end is "yyyy-MM-dd".
  * 
  * @author TeddyCouriol
  * @since 14 févr. 2017
@@ -28,6 +31,6 @@ public class DtoDateFormat {
 	}
 
 	private static class DtoDateFormatHolder {
-		private final static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		private final static DateFormat format = new SimpleDateFormat(EavUtils.DTO_DATE_FORMAT_PATTERN);
 	}
 }

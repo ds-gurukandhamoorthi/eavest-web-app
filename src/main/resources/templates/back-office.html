@@ -72,11 +72,46 @@
 
         <div class="main-form">
           <form name="news-form" th:action="@{/admin}" th:object="${highlightArticles}" method="POST">
-            <label for="nb-month" th:text="#{bo.left.article}">Article positionné à gauche</label>
-            <input id="nb-month" type="url" name="nb-month" th:field="*{leftArticle}" title="Le chiffre du mois ne doit pas dépasser 4 caractères"/>
+            <div>
+              <h2 th:text="#{bo.left.article}"></h2>
+              <label for="left-url" th:text="#{bo.article.url}">Article positionné à gauche</label>
+              <input id="left-url" type="url" name="left-url" th:field="*{leftArticleUrl}"/>
 
-            <label for="txt-month" th:text="#{bo.right.article}">Article positionné à droite</label>
-            <input id="txt-month" type="url" name="txt-month" th:field="*{rightArticle}"/>
+              <label for="left-title" th:text="#{bo.article.title}">Article positionné à gauche</label>
+              <input id="left-title" type="text" name="left-title" th:field="*{leftArticleTitle}" maxlength="80"/>
+
+              <label for="left-date" th:text="#{bo.article.date}">Article positionné à gauche</label>
+              <input id="left-date" type="date" name="left-date" th:field="*{leftArticleReleaseDate}"/>
+
+              <label for="left-author" th:text="#{bo.article.author}">Article positionné à gauche</label>
+              <input id="left-author" type="text" name="left-author" th:field="*{leftArticleAuthor}"/>
+
+              <textarea name="left-content" th:field="*{leftArticleContent}" form="news-form" th:placeholder="#{bo.article.content}" placeholder="Contenu de l'article" maxlength="200">Contenu de l'article</textarea>
+              <!--
+              <label for="left-content" th:text="#{bo.article.content}">Article positionné à gauche</label>
+              <input id="left-content" type="text" name="left-content" th:field="*{leftArticleContent}"/>
+            -->
+            </div>
+            <div>
+              <h2 th:text="#{bo.right.article}"></h2>
+              <label for="right-url" th:text="#{bo.article.url}">Article positionné à droite</label>
+              <input id="right-url" type="url" name="right-url" th:field="*{rightArticleUrl}"/>
+
+              <label for="right-title" th:text="#{bo.article.title}">Article positionné à gauche</label>
+              <input id="right-title" type="text" name="right-title" th:field="*{rightArticleTitle}" maxlength="80"/>
+
+              <label for="right-date" th:text="#{bo.article.date}">Article positionné à gauche</label>
+              <input id="right-date" type="date" name="right-date" th:field="*{rightArticleReleaseDate}"/>
+
+              <label for="right-author" th:text="#{bo.article.author}">Article positionné à gauche</label>
+              <input id="right-author" type="text" name="right-author" th:field="*{rightArticleAuthor}"/>
+
+              <textarea name="right-content" th:field="*{rightArticleContent}" form="news-form" th:placeholder="#{bo.article.content}" placeholder="Contenu de l'article" maxlength="120"></textarea>
+<!--
+              <label for="right-content" th:text="#{bo.article.content}">Article positionné à gauche</label>
+              <input id="right-content" type="text" name="right-content" th:field="*{rightArticleContent}"/>
+            -->
+            </div>
 
             <input type="submit" value="Valider" class="btn btn-primary" />
           </form>

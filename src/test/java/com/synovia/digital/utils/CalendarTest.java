@@ -44,7 +44,7 @@ public class CalendarTest {
 		Calendar calendar = Calendar.getInstance();
 		int currentMonth = calendar.get(Calendar.MONTH);
 		int currentYear = calendar.get(Calendar.YEAR);
-		Integer displayedYear = currentYear - EavConstants.C_MILLENARY;
+		Integer displayedYear = currentYear - EavUtils.C_MILLENARY;
 		calendar.set(Calendar.YEAR, currentYear - 1);
 		calendar.set(Calendar.MONTH, currentMonth - 1);
 		int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);

@@ -31,8 +31,8 @@ import com.synovia.digital.service.EavParamsService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
-import com.synovia.digital.utils.EavConstants;
 import com.synovia.digital.utils.EavControllerUtils;
+import com.synovia.digital.utils.EavUtils;
 import com.synovia.digital.utils.FileExtractor;
 
 /**
@@ -160,13 +160,13 @@ public class HomeController {
 		Calendar calendar = Calendar.getInstance();
 		int idxCurrentMonth = calendar.get(Calendar.MONTH);
 		int currentYear = calendar.get(Calendar.YEAR);
-		Integer displayedYear = currentYear - EavConstants.C_MILLENARY;
+		Integer displayedYear = currentYear - EavUtils.C_MILLENARY;
 		calendar.set(currentYear - 1, idxCurrentMonth - 1, 1);
 		int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		calendar.set(Calendar.DAY_OF_MONTH, maxDayOfMonth);
 		String oneYearBefore = new SimpleDateFormat("dd.MM.yy").format(calendar.getTime());
 		modelAndView.addObject(ATTR_CURRENT_MONTH,
-				Integer.valueOf(idxCurrentMonth == 0 ? EavConstants.C_DECEMBER_INDEX : idxCurrentMonth));
+				Integer.valueOf(idxCurrentMonth == 0 ? EavUtils.C_DECEMBER_INDEX : idxCurrentMonth));
 		modelAndView.addObject(ATTR_CURRENT_YEAR, displayedYear);
 		modelAndView.addObject(ATTR_ONE_YEAR_BEFORE, oneYearBefore);
 
@@ -177,7 +177,6 @@ public class HomeController {
 		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
 		// Set the best-seller product image
-		String imagePath = "img/default-best-seller_notExist.jpg";
 		File image = productService.getBestSellerImage();
 		if (image != null) {
 			// Copy image to the best-seller directory
@@ -187,16 +186,17 @@ public class HomeController {
 			// Clean the destination directory
 			try {
 				FileUtils.cleanDirectory(imgBestSellerDir);
-				FileExtractor.Param p = new FileExtractor.Param(EavConstants.JPEG_EXTENSION, imgBestSellerDir);
+				FileExtractor.Param p = new FileExtractor.Param(EavUtils.JPEG_EXTENSION, imgBestSellerDir);
 				FileExtractor.copy(image, p);
-				imagePath = new StringBuilder(IMG_DIR_BEST_SELLER).append(image.getName()).toString();
+				String imagePath = new StringBuilder(IMG_DIR_BEST_SELLER).append(image.getName()).toString();
+
+				modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
 
 		// Set the news of the month
 		try {

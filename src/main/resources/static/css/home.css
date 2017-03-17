@@ -1057,7 +1057,7 @@ button#close {
   border-bottom: solid 1px #0251FB;
 }
 
-.blue-title, .blue-title-1 {
+.blue-title {
   font-size: 13px;
   text-transform: uppercase;
   color: #0251FB;
@@ -1068,7 +1068,7 @@ button#close {
     margin-bottom: 0;
 }
 
-.grey-block-2 h3 span, p span {
+.new-line {
   display: block;
 }
 
@@ -1081,14 +1081,6 @@ button#close {
   padding-bottom: 10px;
 }
 
-.blog-title-1  span {
-  display: block;
-}
-
-.blog-title-2 {
-  width: 66%;
-}
-
 .blog-img {
   padding: 15px;
   transform: translateY(-10px);
@@ -1099,10 +1091,6 @@ button#close {
   text-align: justify;
   margin-right: 30px;
   padding-left: 30px;
-}
-
-.article p span {
-  display: block;
 }
 
 .white-block-blog {
