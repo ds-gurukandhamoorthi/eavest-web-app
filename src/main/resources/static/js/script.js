@@ -9,6 +9,7 @@ $(function() {
       $('.slider').show();
     }
   });
+
 // footer-arrow hide /show on scroll
   $(document).on('scroll', function(){
     var scrollPos = $(window).scrollTop();
@@ -99,7 +100,24 @@ $(function() {
     $('.display-on-click, #close').hide();
     $('#more-perfReview').show();
   })
+});
 
+// Set a fontSize relative to a number of words (dynamic content)
 
+$(function() {
+
+    var $quote = $('#figure-month');
+
+    var $numWords = $quote.text().split(" ").length;
+
+    if (($numWords >= 1) && ($numWords <= 2)) {
+        $quote.css("font-size", "60px");
+    }
+    else if (($numWords >= 3) && ($numWords < 5)) {
+        $quote.css("font-size", "50px");
+    }
+    else {
+        $quote.css("font-size", "30px");
+    }
 
 });

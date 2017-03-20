@@ -1,181 +1,117 @@
-body {
-    text-align: center;
-    background: whitesmoke;
-    color: #020202;
-    font-family: "Open Sans", Arial;
-    font-size: 14px;
-    line-height: 17px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/*GENERAL*/
+
+.main-title{
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
-.main {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
+.inline_block {
+  display: inline-block;
 }
 
-.main a {text-decoration: none;}
+/*NAVBAR*/
 
-.wrapper {
-    flex: 1;
-}
-.left-block, .language-switcher {
-    padding: 25px 25px 0 0;
-    font-size: 14px;
-    font-family: "Quicksand", Arial;
-    font-weight: bold;
-    color: black;
-    text-transform: uppercase;
-    width: 150px;
-}
-.language-switcher a:hover{text-decoration: underline}
+/*LOGIN*/
 
-ul#menu-main-menu-francais0 {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-    line-height: 13px;
-    text-transform: uppercase;
-    /* display: table-row; */
-    text-align: center;
-    /* text-decoration: none; */
+/*#login-page {
+  margin-bottom: 25px;
+}*/
+.login-main-content {
+  text-align: center;
 }
 
-li#menu-mission, li#menu-home, li#menu-method, li#menu-mesure, li#menu-products, li#menu-blog, li#menu-faq, li#menu-contact {display: inline-block;text-align: center;padding: 0 17px;/* text-decoration: none; */}
-
-li#menu-item-3043 {
-    display: inline-block;
-    text-align: center;
-    padding: 0 17px;
-    /* text-decoration: none; */
-}
-
-.nav-menu a, a:visited {color: #020202}
-
-.nav-menu a:hover, a:focus{
-  color: #0F45FF;
-}
-
-.nav {
-  background-color: white;
-	text-align: center;
-	color: black;
-	text-transform: uppercase;
-	font-weight: bold;
-  font-size: 13px;
-}
-
-h1 {
-    margin: 0 0 55px 0;
-    padding-top: 40px;
-}
-
-section.top-header-absolute {/* z-index: 200; *//* position: fixed; *//* width: 100%; *//* padding-right: 20px; */}
-
-section.content-main {}
-
-span.global-linker {
-    padding-right: 5px;
-}
-
-.slider.jquery {
-    padding: 29px 0;
-    background-color: black;
-}
-
-h1 {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 32px;
-    text-transform: uppercase;
-    margin: .67em 0;
-}
-
-.content-main {
-	display: flex;
-  justify-content: center;
-}
 .login-area {
-  width: 500px;
-  padding-bottom: 40px;
+  background-color: white;
+  padding: 40px;
 }
+
+.form-area, .subscribe-area {
+  background-color: white;
+}
+
 .form-area {
-    border-radius: 5px;
-    background-color: #ffffff;
-    padding: 20px;
-    text-transform: uppercase;
+  padding-bottom: 15px;
 }
+
+.subscribe-area {
+  padding-top: 15px;
+  padding-bottom: 150px;
+  margin-bottom: 5px;
+  color: black;
+}
+
+#create_count:hover, #pwd_forgotten:hover {
+  font-size: 16px;
+}
+
+#create_count {
+  padding-right: 15px;
+}
+
+.block {
+  display: block;
+}
+
+.alert {
+  padding: 0px;
+  margin-bottom: 0px;
+  border: none;
+  border-radius: none;
+  line-height: 25px;
+}
+
+.label-title {
+  font-size: 14px;
+  font-weight: lighter;
+  display: block;
+  color: black;
+  text-transform: uppercase;
+}
+
+input {
+  border: none;
+}
+
 input[type=text], [type=password], [type=email] {
-    width: 100%;
-    padding: 12px 20px 6px 20px;
-    margin: 0px 0 12px 0;
-    display: inline-block;
-    border: none;
-    border-bottom: 2px solid #888;
-    box-sizing: border-box;
+  border-bottom: solid 1px #888;
+  width: 250px;
 }
 
-input[type=submit] {
-    color: black;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border-color: #222222;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #ffffff;
-    text-transform: uppercase;
+#submit {
+  margin-top: 25px;
+  /*margin-bottom: 15px;*/
 }
 
-nav {
-    font-weight: bold;
-    /* color: black; */
-    /* cursor: pointer; */
-    /* text-decoration: none; */
+#login {
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 3px 15px;
 }
 
-footer {
-	display: flex;
-	flex-direction: column;
-    background: black;
-    color: #fffefe;
-    font-size: 14px;
-    line-height: 14px;
-    padding: 23px 0 43px 0;
+/*SUBSCRIBE PAGE*/
+
+#subscribe {
+  font-size: 14px;
+  padding: 3px 15px;
 }
 
-footer a {
-	color: #fffefe;
+#subs-submit {
+  margin-top: 35px;
+  padding-bottom: 45px;
 }
 
-footer a:hover {
-	text-decoration: underline;
+/*ACCOUNT CREATED PAGE*/
+.padding_b {
+  padding-bottom: 20px;
 }
 
-footer .always-left {
-	font-size: 11px;
-    font-weight: 600;
-    line-height: 11px;
-    margin-bottom: 20px;
-
+/*REINIT ERROR*/
+.margin_b {
+  margin-bottom: 90px;
 }
 
-footer .always-right {
-	font-size: 11px;
-    font-weight: 600;
-    line-height: 11px;
-    margin-bottom: 15px;
-    margin-right: 10px;
-    margin-left: 0px;
-
-}
-
-footer .always-right a {
-	color: white;
-    cursor: pointer;
-    margin-left: 10px;
-    margin-right: 10px;
-
+/*footer*/
+.footer-main {
+  padding: 18px 70px 32px 66px;
 }

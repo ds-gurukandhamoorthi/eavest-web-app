@@ -12,12 +12,15 @@
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
 
 	<!-- SOURCES -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
+		<link rel="stylesheet" type="text/css" href="/css/wallet.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="/css/login.css" /> -->
 
 
 	<!-- COMPATIBILITE IE8 -->
@@ -39,14 +42,14 @@
 		<div class="container-fluid">
 			<div class="nav">
 				<div class="col-md-12 center-block">
-					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
 					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth" id="auth">Nom de l'utilisateur</a>
+					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
-						<a href="https://twitter.com/EAVEST_" id="twitter"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="#" class="language">en</a>
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
@@ -67,7 +70,7 @@
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
 					<li id="menu-home"><a href="/home">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet">Portefeuille</a></li>
+					<li id="menu-wallet" class="selected"><a href="/wallet">Mon portefeuille</a></li>
 					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
 					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
 					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
@@ -82,41 +85,365 @@
 		</div>
 	</nav>
 
+	<!-- MAIN CONTENT -->
 
-	<!-- SECTION PRODUCTS -->
-	<section class="products">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-md-6 wrapper">
-					<h1 class="product-title" th:text="#{wallet.title}">Mon portefeuille</h1>
+	<!-- SECTION PORTEFEUILLE -->
+	<div class="container">
+		<a href="/wallet"><img src="/img/wallet-vect.png" id="wallet" alt="portefeuille" /></a>
+		<h1 th:text="#{wallet.title}">mon portefeuille</h1>
 
-					<!--ACCORDION PRODUITS REMBOURSES-->
-					<div class="sous-container">
-						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-							<!-- collapse product -->
-						  <div class="panel panel-default" th:each="product : ${userProducts}">
-						    <div class="list-unstyled product-content-1" role="tab" id="headingOne">
-						      <h4 class="prod-list">
-										<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" th:href="'#collapse' + ${productStat.index}" aria-expanded="true">
-										<span class="margin grey-letters" th:text="${product.label + ' / ' + product.isin}">resonance 1 / FR00196847</span>
-										<span th:if="${product.isEavest}"><img class="float-right img-responsive" src="img/black-logo.png" alt="black-logo" id="eavest"/></span>
-										</a>
-									</h4>
+		<div class="col-md-12 wallet-wrapper black-line-1">
+			<div class="sous-container wallet-header">
+
+				<div class="panel-group" id="accordion-wallet-1" role="tablist" aria-multiselectable="true">
+					<!-- collapse product -->
+					<!-- product 2 -->
+					<div class="panel panel-default" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+						<div class="activestate" role="tab" id="headingWalletOne">
+							<h4 class="accordion-title">
+								<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-wallet-1" href="#collapseWalletOne"  th:href="'#collapseWalletOne' + ${tocallStat.index}" aria-expanded="true">
+								<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+								<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+								</a>
+							</h4>
+						</div>
+						<div th:id="'collapse2' + ${tocallStat.index}" id="collapseWalletOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletOne">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<h3>société générale</h3>
 								</div>
-								<div th:id="'collapse' + ${productStat.index}" id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-									<div class="panel-body">
-										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-									</div>
+								<div class="col-sm-2 col-md-2">
+									<img src="img/product.png" alt="produit" id="accor-product"/>
+									<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
+										<i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+									</span>
+								</br>
+									<img src="img/files.png" alt="document" id="document"/>
+									<span id="term-sheet" class="grey-uppercase">term sheet</span>
+								</br></br>
+									<img src="img/files.png" alt="document" id="document"/>
+									<span class="grey-uppercase">document<span class="display-b"></span></br></br>
+									<span id="marketing">marketing</span></span>
+								</div>
+								<div class="col-sm-3 col-md-3">
+									<span class="light-blue">sous-jacent</span>
+										<span class="display-b"></span>
+									<span class="blue-uppercase">euro istoxx&reg; ewc 50</span>
+									</br></br>
+									<span class="light-blue">devise</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">eur</span>
+									</br></br>
+									<span class="light-blue">statut</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">en cours</span>
+										<span class="display-b"></span>
+								</div>
+								<div class="col-sm-4 col-md-4">
+									<span class="light-blue">strike</span>
+										<span class="display-b"></span>
+									<span class="blue-uppercase">2964.86 points au 07/09/2016</span>
+									</br></br>
+									<span class="light-blue">barrière de rappel</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">2964.86 points/ 100% du strike</span>
+									</br></br>
+									<span class="light-blue">barrière de protection</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">1778.92 points/ 60% du strike</span>
+									</br></br>
+								</div>
+								<div class="col-sm-3 col-md-3">
+									<span class="light-blue">maturité</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">20 septembre 2024</span>
+									</br></br>
+									<span class="light-blue">coupon</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">7.00%</span>
+									</br></br>
+									<span class="light-blue">fréquence d'observation</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">annuelle les années 1 à 8</span>
+									</br></br>
+									<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- product 2 -->
+					<div class="panel panel-default" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+						<div class="activestate" role="tab" id="headingWalletTwo">
+							<h4 class="accordion-title">
+								<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-wallet-1" href="#collapseWalletTwo"  th:href="'#collapseWallet2' + ${tocallStat.index}" aria-expanded="true">
+								<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+								<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+								</a>
+							</h4>
+						</div>
+						<div th:id="'collapse2' + ${tocallStat.index}" id="collapseWalletTwo" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletTwo">
+							<div class="panel-body">
+								<div class="col-md-12">
+									<h3>société générale</h3>
+								</div>
+								<div class="col-sm-2 col-md-2">
+									<img src="img/product.png" alt="produit" id="accor-product"/>
+									<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
+										<i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+									</span>
+								</br>
+									<img src="img/files.png" alt="document" id="document"/>
+									<span  id="term-sheet" class="grey-uppercase">term sheet</span>
+								</br></br>
+									<img src="img/files.png" alt="document" id="document"/>
+									<span class="grey-uppercase">document<span class="display-b"></span></br></br>
+									<span id="marketing">marketing</span></span>
+								</div>
+								<div class="col-sm-3 col-md-3">
+									<span class="light-blue">sous-jacent</span>
+										<span class="display-b"></span>
+									<span class="blue-uppercase">euro istoxx&reg; ewc 50</span>
+									</br></br>
+									<span class="light-blue">devise</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">eur</span>
+									</br></br>
+									<span class="light-blue">statut</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">en cours</span>
+										<span class="display-b"></span>
+								</div>
+								<div class="col-sm-4 col-md-4">
+									<span class="light-blue">strike</span>
+										<span class="display-b"></span>
+									<span class="blue-uppercase">2964.86 points au 07/09/2016</span>
+									</br></br>
+									<span class="light-blue">barrière de rappel</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">2964.86 points/ 100% du strike</span>
+									</br></br>
+									<span class="light-blue">barrière de protection</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">1778.92 points/ 60% du strike</span>
+									</br></br>
+								</div>
+								<div class="col-sm-3 col-md-3">
+									<span class="light-blue">maturité</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">20 septembre 2024</span>
+									</br></br>
+									<span class="light-blue">coupon</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">7.00%</span>
+									</br></br>
+									<span class="light-blue">fréquence d'observation</span>
+										<span class="display-b"></span>
+										<span class="grey-uppercase">annuelle les années 1 à 8</span>
+									</br></br>
+									<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- end row products -->
 			</div>
-			<!-- end div container (products) -->
+		<div class="add-product">
+			<span class="big-blue-letters"><img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
+			ajouter un produit</span>
 		</div>
+	</div>
+		<!-- SECTION PRODUCTS-->
+	<section class="products">
+			<div class="row">
+				<!-- PRODUITS REMBOURSES -->
+				<div class="col-sm-6 col-md-6 wrapper">
+					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+					<div class="sous-container">
+
+						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
+							<!-- collapse product -->
+						  <div class="panel panel-default" th:each="refund : ${refundProducts}" th:with="nbRefundProducts=${refundStat.count}">
+						    <div class="accordion-row" role="tab" th:if="${refundStat.index} le 4">
+						      <h4 class="accordion-title">
+										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div class="hidden-refund-product" role="tab" th:if="${refundStat.index} gt 4" style="display:none;">
+						      <h4 class="accordion-title">
+										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div th:id="'collapse' + ${refundStat.index}" id="collapseOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingOne">
+									<div class="panel-body">
+										<div class="col-md-12">
+											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
+										</div>
+										<div class="col-md-3">
+											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+										</div>
+										<div class="col-md-9">
+											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+												<span class="display-b"></span>
+												<br />
+											<span class="light-blue">sous-jacent</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
+												<span class="display-b"></span>
+											<span class="light-blue">statut</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
+										</div>
+									</div>
+								</div>
+								<!-- hover -->
+			 					<a class="more-product-1">
+			 						<span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" /></span>
+			 					</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- PRODUITS A RAPPELER -->
+				<div class="col-sm-6 col-md-6 wrapper padding_left">
+					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
+					<div class="sous-container">
+
+						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
+							<!-- collapse product -->
+							<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
+								<div class="accordion-row" role="tab" th:if="${tocallStat.index} le 4">
+									<h4 class="accordion-title">
+										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div class="hidden-tocall-product" role="tab" th:if="${tocallStat.index} gt 4" style="display:none;">
+									<h4 class="accordion-title">
+										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div th:id="'collapse2' + ${tocallStat.index}" id="collapse2One" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="heading2One">
+									<div class="panel-body">
+										<div class="col-md-12">
+											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
+										</div>
+										<div class="col-md-3">
+											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
+										</div>
+										<div class="col-md-9">
+											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+												<span class="display-b"></span>
+												<br />
+											<span class="light-blue">sous-jacent</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
+												<span class="display-b"></span>
+											<span class="light-blue">statut</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
+										</div>
+									</div>
+								</div>
+								<!-- hover -->
+								<a class="more-product-2">
+									<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 	</section>
+	<!-- END SECTION PRODUCTS  -->
+	<!--PERFREVIEW -->
+	<div class="col-sm-12 col-md-6">
+		<div>
+			<ul class="list-inline list-unstyled numbers ">
+				<li class="square-1" th:text="${month}">10</li>
+				<li class="square-2" id="translate" th:text="${year}">16</li>
+			</ul>
+		</div>
+		<h1 class="perf-review">PERF REVIEW</h1>
+		<!-- TABLEAU -->
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
+					<th class="col-sm-1 col-md-1 special-width"><span th:text="${oneYearPast}">31.10.15</span></th>
+					<th class="col-sm-1 col-md-1 special-width"><span th:text="${month}">10</span>.<span th:text="${year}">16</span></th>
+					<th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="base : ${classicBases}">
+					<td class="left-align" th:text="${base.label}">Cac 40</td>
+					<td class="grey-letters">4509,26</td>
+					<td class="grey-letters"><span>1,37</span>%</td>
+					<td class="grey-letters"><span>-7,93</span>%</td>
+				</tr>
+				<!-- TCO: The following block might be uncommented if no connexion with the server
+				<tr>
+					<td class="left-align">Cac 40</td>
+					<td class="grey-letters">4509,26</td>
+					<td class="grey-letters">1,37%</td>
+					<td class="grey-letters">-7,93%</td>
+				</tr>
+				<tr>
+					<td class="left-align">Produit de Katalina</td>
+					<td class="grey-letters">3055,25</td>
+					<td class="grey-letters">1,77%</td>
+					<td class="grey-letters">-10,62%</td>
+				</tr>
+			-->
+			</tbody>
+			<thead class="display-on-click">
+				<tr>
+					<th class="col-sm-6 col-md-6 grey-letters">Nouveaux indices</th>
+					<th class="col-sm-1 col-md-1 special-width"><span th:text="${oneYearPast}">31.10.15</span></th>
+					<th class="col-sm-1 col-md-1 special-width"><span th:text="${month}">10</span>.<span th:text="${year}">16</span></th>
+					<th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
+				</tr>
+			</thead>
+			<tbody class="display-on-click">
+				<tr th:each="base : ${newBases}">
+					<td class="left-align" th:text="${base.label}">Cac Large 60 EWER</td>
+					<td class="grey-letters">1780,53</td>
+					<td class="grey-letters"><span>-1,18</span>%</td>
+					<td class="grey-letters"><span>7,07</span>%</td>
+				</tr>
+				<!-- TCO: Add static rows here if no connexion with the server
+				-->
+			</tbody>
+			<tfoot>
+				<tr>
+					<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
+					<button class="btn" type="button" id="close"><i class="fa fa-times fa-2x"></i></button>
+				</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<!-- end container -->
+	</div>
+
+
 
 	<!-- FOOTER -->
 	<footer id="footer">
@@ -131,7 +458,6 @@
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
 				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
 			</small>
-			<span class="clear"></span>
 			</div>
 		</div>
 	</footer>
@@ -151,7 +477,6 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="/js/script.js"></script>
-	<!-- <script src="js/overlay.js"></script> -->
 	<script src="/js/extra.js"></script>
 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
