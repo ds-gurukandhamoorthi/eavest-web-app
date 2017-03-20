@@ -119,83 +119,82 @@
 											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-                      <img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
-                    </div>
-                    <div class="col-md-9">
-                      <span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
-                      <span class="display-b"></span>
-                      <br />
-                      <span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
-                      <span class="display-b"></span>
-                      <span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-                      <span class="display-b"></span>
-                      <span class="light-blue" th:text="#{prd.status}">statut</span>
-                      <span class="display-b"></span>
-                      <span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
-                    </div>
+											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+										</div>
+										<div class="col-md-9">
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
+												<span class="display-b"></span>
+												<br />
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
+												<span class="display-b"></span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
+										</div>
 									</div>
 								</div>
 								<!-- hover -->
-                <a class="more-product-1">
-                  <span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" /></span>
-                </a>
+			 					<a class="more-product-1">
+			 						<span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" /></span>
+			 					</a>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- PRODUITS A RAPPELER -->
+				<div class="col-sm-6 col-md-6 wrapper padding_left">
+					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
+					<div class="sous-container">
 
-			<!-- PRODUITS A RAPPELER -->
-			<div class="col-sm-6 col-md-6 wrapper padding_left">
-				<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-				<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
-				<div class="sous-container">
-
-					<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
-						<!-- collapse product -->
-						<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
-		        	<div class="activestate" role="tab" th:if="${tocallStat.index} le 4">
-								<h4 class="accordion-title">
-									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
-									<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-									<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
-									</a>
-								</h4>
-							</div>
-							<div class="hidden-tocall-product" role="tab" th:if="${tocallStat.index} gt 4" style="display:none;">
-                <h4 class="accordion-title">
-                  <a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
-                    <span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-                    <span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
-                  </a>
-                </h4>
-              </div>
-							<div th:id="'collapse2' + ${tocallStat.index}" id="collapse2One" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="heading2One">
-								<div class="panel-body">
+						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
+							<!-- collapse product -->
+							<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
+								<div class="accordion-row" role="tab" th:if="${tocallStat.index} le 4">
+									<h4 class="accordion-title">
+										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div class="hidden-tocall-product" role="tab" th:if="${tocallStat.index} gt 4" style="display:none;">
+									<h4 class="accordion-title">
+										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
+										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										</a>
+									</h4>
+								</div>
+								<div th:id="'collapse2' + ${tocallStat.index}" id="collapse2One" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="heading2One">
+									<div class="panel-body">
 										<div class="col-md-12">
-												<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
+											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-												<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
-												<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
-														<span class="display-b"></span>
-														<br />
-												<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
-														<span class="display-b"></span>
-												<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-														<span class="display-b"></span>
-												<span class="light-blue" th:text="#{prd.status}">statut</span>
-														<span class="display-b"></span>
-												<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
+												<span class="display-b"></span>
+												<br />
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
+												<span class="display-b"></span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
+												<span class="display-b"></span>
+											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
 										</div>
+									</div>
 								</div>
-						</div>
-						<!-- hover -->
-						<a class="more-product-2">
-								<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
-						</a>
-						</div>
+								<!-- hover -->
+								<a class="more-product-2">
+									<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -205,7 +204,6 @@
 	</section>
 
 	<!-- SECTION PERFREVIEW -->
-
 	<section class="perf-review">
 		<div class="container">
 			<div class="row">
@@ -254,7 +252,7 @@
 								<td class="grey-letters"><span>1,37</span>%</td>
 								<td class="grey-letters"><span>-7,93</span>%</td>
 							</tr>
-							<!-- TCO: The following block might be uncommented if no connexion with the server -->
+							<!-- TCO: The following block might be uncommented if no connexion with the server
 							<tr>
 								<td class="left-align">Cac 40</td>
 								<td class="grey-letters">4509,26</td>
@@ -267,6 +265,7 @@
 								<td class="grey-letters">1,77%</td>
 								<td class="grey-letters">-10,62%</td>
 							</tr>
+						-->
 						</tbody>
 						<thead class="display-on-click">
 							<tr>
@@ -287,7 +286,7 @@
 						<tfoot>
 							<tr>
 								<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
-										<button class="btn" type="button" id="close"><i class="fa fa-times fa-2x"></i></i></button>
+									<button class="btn" type="button" id="close"><i class="fa fa-times fa-2x"></i></button>
 								</td>
 								<td></td>
 								<td></td>
@@ -342,12 +341,12 @@
 						<div class="white-block">
 							<h2 id="month-product-title">LE PRODUIT DU MOIS</h2>
 								<div class="month-product">
-										<img src="img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit-du-mois" />
-									<span  class="over-product">
-										<a>
-											<span><img class="more-product-sm" src="img/more-hover.png" alt="voir-plus" /></span>
-										</a>
-									</span>
+									<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" />
+								</div>
+								<div class="over">
+									<a>
+										<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" /></span>
+									</a>
 								</div>
 						</div>
 					</div>
@@ -388,8 +387,8 @@
 				<div class="col-md-6 grey-block">
 					<div>
 						<ul class="list-inline list-unstyled">
-								<li class="blue-feature-1"></li>
-								<li class="blue-title"><span th:text="${highlightArticles.leftArticle.releaseDateAsLongFormatString}">Mardi 18 octobre 2016</span></li>
+							<li class="blue-feature-1"></li>
+							<li class="blue-title"><span th:text="${highlightArticles.leftArticle.releaseDateAsLongFormatString}">Mardi 18 octobre 2016</span></li>
 						</ul>
 					</div>
 					<div>
@@ -428,26 +427,28 @@
 					</div>
 				</div>
 				<div class="col-xs-7 col-sm-6 col-md-3 grey-block-2">
-          <div>
+					<div>
 						<ul class="list-inline list-unstyled">
 							<li class="blue-feature-2"></li>
 							<li class="blue-title"><span th:text="${highlightArticles.rightArticle.releaseDateAsLongFormatString}">Mardi 18 octobre 2016</span></li>
 						</ul>
+
+
 					</div>
-				<div>
-					<h3 class="blog-title-2" th:text="${highlightArticles.rightArticle.title}">étude UFF : que veulent les épargnants français ?</h3>
+					<div>
+						<h3 class="blog-title-2" th:text="${highlightArticles.rightArticle.title}">étude UFF : que veulent les épargnants français ?</h3>
+					</div>
+					<p class="grey-letters" id="blog-2-p">
+						Article de <span th:text="${highlightArticles.rightArticle.author}">Frédéric Lorenzini</span>
+						<span class="new-line">N3D - <span th:text="${highlightArticles.rightArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
+						<span class="new-line" th:text="${highlightArticles.rightArticle.content}">"En ce qui concerne la "compréhension des produits" [...] "</span>
+					</p>
+					<div class="over-blue">
+						<a href="http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"  th:href="${highlightArticles.rightArticle.urlAsString}">
+							<span class="more-blue">Lire la suite</span>
+						</a>
+					</div>
 				</div>
-				<p class="grey-letters" id="blog-2-p">
-				Article de <span th:text="${highlightArticles.rightArticle.author}">Frédéric Lorenzini</span>
-				<span class="new-line">N3D - <span th:text="${highlightArticles.rightArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
-				<span class="new-line" th:text="${highlightArticles.rightArticle.content}">"En ce qui concerne la "compréhension des produits" [...] "</span>
-				</p>
-				<div class="over-blue">
-					<a href="http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"  th:href="${highlightArticles.rightArticle.urlAsString}">
-					<span class="more-blue">Lire la suite</span>
-					</a>
-				</div>
-			</div>
 			</div>
 		</div>
 	</section>
@@ -669,7 +670,7 @@
        });
      });
      /*]]>*/
-     </script>
+	</script>
 </body>
 
 </html>

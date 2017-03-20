@@ -52,6 +52,7 @@ public class SubscriptionController {
 
 	private static final String VIEW_SUBSCRIBE = "subscribe";
 	private static final String VIEW_FORGET_PASSWORD = "forget-pwd";
+	private static final String VIEW_ACCOUNT_CREATED = "account-created";
 
 	@PostMapping(value = "/subscribe")
 	public String createAccountSubmit(@ModelAttribute EavAccount account) {
@@ -81,7 +82,7 @@ public class SubscriptionController {
 		}
 		subscriptionService.sendMailAccountCreated(adminMails.toArray(new String[0]), account);
 
-		return "account_created";
+		return VIEW_ACCOUNT_CREATED;
 
 	}
 

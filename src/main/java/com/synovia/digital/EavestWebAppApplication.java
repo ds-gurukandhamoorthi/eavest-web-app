@@ -4,14 +4,22 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.synovia.digital.dto.utils.DtoDateFormat;
 import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.EavArticle;
 import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
 import com.synovia.digital.model.PrdSousJacent;
@@ -21,12 +29,32 @@ import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.utils.PrdStatusEnum;
 
 @SpringBootApplication
-public class EavestWebAppApplication {
+public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EavestWebAppApplication.class, args);
+	}
+
+	@Bean
+	public LocaleResolver localeResolver() {
+		SessionLocaleResolver slr = new SessionLocaleResolver();
+		slr.setDefaultLocale(Locale.FRENCH);
+		return slr;
+	}
+
+	@Bean
+	public LocaleChangeInterceptor localeChangeInterceptor() {
+		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+		lci.setParamName("lang");
+		return lci;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(localeChangeInterceptor());
 	}
 
 	@Bean
@@ -36,11 +64,24 @@ public class EavestWebAppApplication {
 			// Initialize Eavest Parameters 
 			EavParams eavParams = new EavParams();
 			eavParams.setIsActive(true);
+			EavArticle article = new EavArticle();
+			article.setUrl(new URL("http://www.synovia.fr/synovia-digital"));
+			article.setAuthor("Laurent BOCQUET");
+			article.setTitle("Le pôle DIGITAL de SYNOVIA");
+			article.setReleaseDate(DtoDateFormat.getFormat().parse("2017-03-17"));
+			article.setContent("L’offre de développement logiciel, applicatif, web et mobile, tierce maintenance"
+					+ " applicative répond aux besoins d’innovation numérique de nos clients en s’appuyant sur...");
+			eavParams.setLeftArticle(article);
+
+			EavArticle article2 = new EavArticle();
+			article2.setUrl(new URL("http://www.synovia.fr/synovia-pmo"));
+			article2.setAuthor("Jean-Marc GUILBAULT");
+			article2.setTitle("Le pôle PMO de SYNOVIA");
+			article2.setReleaseDate(DtoDateFormat.getFormat().parse("2017-02-10"));
+			article2.setContent("L’offre de PMO (Project Management Office) destinée principalement à accompagner "
+					+ "nos clients...");
+			eavParams.setRightArticle(article2);
 			eavParamsRepo.save(eavParams);
-			eavParams.setLeftArticle(
-					new URL("http://eavest.com/janvier-2017-performance-des-indices-de-marche-et-nouveaux-indices/"));
-			eavParams.setRightArticle(new URL(
-					"http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"));
 			// Create default users (administrators)
 			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
 			roleRepo.save(admin);
@@ -59,12 +100,12 @@ public class EavestWebAppApplication {
 			eavRolesAdmin.add(adminRole);
 			repo.save(new EavAccount("eavadm@mailinator.com", "eav", "Marlot", "Pascal", eavRolesAdmin));
 
-			prdStatusRepo.save(new PrdStatus(1, "IDLE", "Initial state"));
-			prdStatusRepo.save(new PrdStatus(2, "SUBSCRIBABLE", "Users can subscribe to the product"));
-			prdStatusRepo.save(new PrdStatus(3, "STARTED", "The product evolution has started"));
-			prdStatusRepo.save(new PrdStatus(4, "STOPPED", "The product evolution has ended"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.IDLE.toString(), "Initial state"));
 			prdStatusRepo
-					.save(new PrdStatus(5, "CLOSED", "The product is stopped, no action can be done on the product"));
+					.save(new PrdStatus(PrdStatusEnum.SUBSCRIBABLE.toString(), "Users can subscribe to the product"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.ON_GOING.toString(), "On going"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.PREPAYED.toString(), "Prepayment"));
+			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.REFUNDED.toString(), "Reimbursed"));
 
 			// Create the stock market indices
 			PrdSousJacent cac40 = new PrdSousJacent("CAC 40");

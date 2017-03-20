@@ -23,4 +23,8 @@ public class EavTechnicalException extends EavException {
 		super(code);
 	}
 
+	public EavTechnicalException(String code, Throwable t) {
+		super(code, t);
+	}
+
 }

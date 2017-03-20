@@ -31,7 +31,7 @@ public class PrdStatus {
 	@Column(name = "CODE", nullable = false, unique = true, length = 20)
 	private String code;
 
-	@Column(name = "DESCRIPTION")
+	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
 	@OneToMany(mappedBy = "prdStatus")
@@ -44,14 +44,14 @@ public class PrdStatus {
 
 	}
 
-	public PrdStatus(Integer id, String code) {
-		this(id, code, null);
-	}
-
 	public PrdStatus(Integer id, String code, String description) {
 		this.id = id;
 		this.code = code;
 		this.description = description;
+	}
+
+	public PrdStatus(String code, String description) {
+		this(null, code, description);
 	}
 
 	@Override

@@ -152,7 +152,7 @@ public class BackOfficeController {
 		}
 
 		// Set highlights
-		if (homeArticlesDto.getRightArticle() != null || homeArticlesDto.getLeftArticle() != null) {
+		if (homeArticlesDto.getRightArticleUrl() != null || homeArticlesDto.getLeftArticleUrl() != null) {
 			String feedback = null;
 			try {
 				paramsService.updateParams(homeArticlesDto);

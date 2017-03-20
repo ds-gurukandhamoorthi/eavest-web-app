@@ -3,10 +3,17 @@
  */
 package com.synovia.digital.model;
 
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import com.synovia.digital.utils.EavUtils;
 
 /**
  * This class defines TODO
@@ -18,19 +25,19 @@ import javax.persistence.Embeddable;
 public class EavArticle {
 	// ------------------------------ FIELDS ------------------------------
 
-	@Column(name = "URL")
-	private String url;
+	@Column(name = "URL", nullable = false)
+	private URL url;
 
-	@Column(name = "TITLE")
+	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "RELEASE_DATE")
+	@Column(name = "RELEASE_DATE", nullable = false)
 	private Date releaseDate;
 
-	@Column(name = "AUTHOR")
+	@Column(name = "AUTHOR", nullable = false)
 	private String author;
 
-	@Column(name = "CONTENT")
+	@Column(name = "CONTENT", nullable = false)
 	private String content;
 
 	// --------------------- CONSTRUCTOR(S) ---------------------
@@ -43,7 +50,7 @@ public class EavArticle {
 		this(null, null, null, null, null);
 	}
 
-	public EavArticle(String url, String title, Date releaseDate, String author, String content) {
+	public EavArticle(URL url, String title, Date releaseDate, String author, String content) {
 		this.url = url;
 		this.title = title;
 		this.releaseDate = releaseDate;
@@ -53,11 +60,15 @@ public class EavArticle {
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
 
-	public String getUrl() {
+	public URL getUrl() {
 		return this.url;
 	}
 
-	public void setUrl(String url) {
+	public String getUrlAsString() {
+		return this.url.toExternalForm();
+	}
+
+	public void setUrl(URL url) {
 		this.url = url;
 	}
 
@@ -71,6 +82,16 @@ public class EavArticle {
 
 	public Date getReleaseDate() {
 		return this.releaseDate;
+	}
+
+	public String getReleaseDateAsLongFormatString() {
+		DateFormat formatter = new SimpleDateFormat(EavUtils.LONG_DATE_FORMAT_PATTERN, LocaleContextHolder.getLocale());
+		return formatter.format(this.releaseDate);
+	}
+
+	public String getReleaseDateAsShortFormatString() {
+		DateFormat formatter = new SimpleDateFormat(EavUtils.MID_DATE_FORMAT_PATTERN, LocaleContextHolder.getLocale());
+		return formatter.format(this.releaseDate);
 	}
 
 	public void setReleaseDate(Date releaseDate) {

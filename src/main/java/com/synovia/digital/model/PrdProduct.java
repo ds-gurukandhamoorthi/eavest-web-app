@@ -115,6 +115,9 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "OBSERVATION_FREQUENCY")
 	private String observationFrequency;
 
+	@Column(name = "IMAGE_SHORTCUT")
+	private String imageShortcut;
+
 	@Transient
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -447,6 +450,14 @@ public class PrdProduct extends AbstractBean {
 		this.prdStatus = prdStatus;
 	}
 
+	public String getImageShortcut() {
+		return this.imageShortcut;
+	}
+
+	public void setImageShortcut(String imageShortcut) {
+		this.imageShortcut = imageShortcut;
+	}
+
 	// -------------------------- OTHER METHODS --------------------------
 
 	@Override
@@ -473,7 +484,8 @@ public class PrdProduct extends AbstractBean {
 				.append("; ").append("End date:").append(strEndDate).append("; ").append("EAVEST product:")
 				.append(this.isEavest).append("; ").append("Best-seller:").append(this.isBestSeller).append("; ")
 				.append("Path:").append(this.path).append("; ").append("Strike:").append(this.strike).append("; ")
-				.append("Observation frequency:").append(this.observationFrequency).append("]").toString();
+				.append("Observation frequency:").append(this.observationFrequency).append("; ")
+				.append("Image shortcut:").append(this.imageShortcut).append("]").toString();
 	}
 
 }

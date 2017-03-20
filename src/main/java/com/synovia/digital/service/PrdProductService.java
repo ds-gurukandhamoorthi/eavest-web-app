@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synovia.digital.dto.PrdProductDto;
-import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
@@ -29,7 +28,7 @@ public interface PrdProductService {
 
 	public List<PrdProduct> findAll();
 
-	public PrdProduct add(PrdProductDto dto) throws EavDuplicateEntryException;
+	public PrdProduct add(PrdProductDto dto) throws EavTechnicalException;
 
 	public List<PrdProduct> listRefundProducts(Date from);
 

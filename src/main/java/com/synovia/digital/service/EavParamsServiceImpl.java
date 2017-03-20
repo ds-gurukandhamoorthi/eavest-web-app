@@ -4,6 +4,7 @@
 package com.synovia.digital.service;
 
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import com.synovia.digital.dto.EavParamsDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.exceptions.utils.EavErrorCode;
+import com.synovia.digital.model.EavArticle;
 import com.synovia.digital.model.EavParams;
 import com.synovia.digital.repository.EavParamsRepository;
 
@@ -58,6 +60,11 @@ public class EavParamsServiceImpl implements EavParamsService {
 		return repo.save(eavParams);
 	}
 
+	/**
+	 * 
+	 * @param dto
+	 * @return
+	 */
 	private EavParams convertToEntity(EavParamsDto dto) {
 		EavParams eavParams = new EavParams();
 		eavParams.setId(dto.getId());
@@ -147,19 +154,29 @@ public class EavParamsServiceImpl implements EavParamsService {
 			entity.setTextOfTheMonth(dto.getTextOfTheMonth());
 		}
 
-		if (dto.getLeftArticle() != null) {
+		if (dto.getLeftArticleUrl() != null) {
 			try {
-				entity.setLeftArticle(dto.getLeftArticleAsURL());
+				EavArticle article = new EavArticle(dto.getLeftArticleUrlObject(), dto.getLeftArticleTitle(),
+						dto.getLeftArticleReleaseDateObject(), dto.getLeftArticleAuthor(), dto.getLeftArticleContent());
+				entity.setLeftArticle(article);
+
 			} catch (MalformedURLException e) {
-				LOGGER.warn("Invalid URL {} for the left article", dto.getLeftArticle());
+				LOGGER.warn("Invalid URL {} for the left article", dto.getLeftArticleUrl());
+			} catch (ParseException e) {
+				LOGGER.warn("Invalid date format {} for the left article", dto.getLeftArticleReleaseDate());
 			}
 		}
 
-		if (dto.getRightArticle() != null) {
+		if (dto.getRightArticleUrl() != null) {
 			try {
-				entity.setRightArticle(dto.getRightArticleAsURL());
+				EavArticle article = new EavArticle(dto.getRightArticleUrlObject(), dto.getRightArticleTitle(),
+						dto.getRightArticleReleaseDateObject(), dto.getRightArticleAuthor(),
+						dto.getRightArticleContent());
+				entity.setRightArticle(article);
 			} catch (MalformedURLException e) {
-				LOGGER.warn("Invalid URL {} for the right article", dto.getRightArticle());
+				LOGGER.warn("Invalid URL {} for the right article", dto.getRightArticleUrl());
+			} catch (ParseException e) {
+				LOGGER.warn("Invalid date format {} for the right article", dto.getRightArticleReleaseDate());
 			}
 		}
 	}
