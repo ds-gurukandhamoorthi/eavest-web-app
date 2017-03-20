@@ -100,12 +100,12 @@
               <div  class="col-md-6">
                 <label class="label-title" for="lname">Nom</label>
                 <input class="input-line" id="lname" type="text" name="lastName" th:valuetype="${eavAccount.lastName}" />
-                <span class="block"></span>
+                <span class="block"></span><br/>
               </div>
               <span class="col-md-6">
                 <label class="label-title" for="fname">Prénom</label>
                 <input class="input-line" id="fname" type="text" name="firstName" th:valuetype="${eavAccount.firstName}" />
-                <span class="block"></span>
+                <span class="block"></span><br/>
               </span>
             </div>
           </form>
@@ -118,8 +118,9 @@
                 <label class="label-title" for="company">Société</label>
                 <input class="input-line" id="company" type="text" name="company" th:valuetype="${eavAccount.company}" />
                 <span class="block"></span>
+								<br/>
               </div>
-              <div class="col-md-6">
+							<div class="col-md-6">
                 <label class="label-title" for="usremail">E-mail</label>
                 <input id="usremail" type="email" name="email" th:valuetype="${eavAccount.email}" placeholder="" required="required" />
                 <span class="block"></span>
