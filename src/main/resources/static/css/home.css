@@ -588,7 +588,7 @@ a.panel-heading {
   color: white;
   font-size: 19px;
   position: absolute;
-  left: 60%;
+  left: 63%;
   top: 39%;
   opacity: 1;
   margin: -20px 0 0 -88px;
@@ -914,10 +914,7 @@ button#close {
   text-align: center;
   margin-top: 20px;
   width: auto;
-}
-
-#white-block {
-  padding: 0 190px;
+  margin-right: 0;
 }
 
 .resp-sm {
@@ -1010,7 +1007,7 @@ button#close {
 
 #question-img {
   width: 121px;
-  height: 113px;
+  height: 95px;
 }
 
 .grey-block {
@@ -1023,6 +1020,7 @@ button#close {
   right: 15px;
   margin-bottom: 15px;
   transition: opacity 1s ease 0s;
+  height: 273px;
 }
 
 .blue-feature-1 {
@@ -1094,6 +1092,7 @@ button#close {
   border-bottom: 2px solid #30FD30;
   height: 60px;
   margin: 0 7px;
+  font-size: 60px;
 }
 
 .white-block-blog p {
@@ -1112,6 +1111,7 @@ button#close {
   padding-left: 30px;
   float: right;
   right: 15px;
+  height: 273px;
 }
 
 /*SECTION OUR AGREEMENT*/
@@ -1403,7 +1403,7 @@ a#arrow-position {
     margin-top: 10px;
   }
   input[type=search] {
-    width: 68%;
+    width: 62%;
   }
   .language-switcher {
     right: 45px;
@@ -1434,40 +1434,38 @@ a#arrow-position {
   #methodo-img2 {
     transform: translateY(5px);
   }
+  .grey-block-2, .white-block-blog {
+    height: 320px;
+  }
 }
 
 /*product of the month*/
 @media (max-device-width : 450px) {
   #white-block {
-  padding: 0 50px;
   margin-top: 20px;
   }
+  .grey-block {
+    height: 330px;
+  }
 }
 
-@media only screen and (min-device-width : 450px) and (max-device-width : 557px) {
+@media (max-device-width : 733px){
+  #question-img {
+    width: 80px;
+    height: 69px;
+  }
+}
+
+@media (max-device-width : 732px) {
   #white-block {
-  padding: 0 100px;
   margin-top: 20px;
+  padding: 0;
   }
 }
 
-@media only screen and (min-device-width : 557px) and (max-device-width : 610px) {
-  #white-block {
-  padding: 0 160px;
-  margin-top: 20px;
-  }
-}
-
-@media only screen and (min-device-width : 610px) and (max-device-width : 680px){
-  #white-block {
-    padding: 0 183px;
-    margin-top: 20px;
-  }
-}
-
-@media only screen and (min-device-width : 680px) and (max-device-width : 744px){
-  #white-block {
-    padding: 0 214px;
+@media only screen and (min-device-width : 462px) and (max-device-width : 765px) {
+  .white-block-blog {
+    height: 272px;
   }
 }
 
@@ -1477,147 +1475,9 @@ a#arrow-position {
   }
 }
 
-/*overproduct*/
-
-@media max-device-width : 323px){
-  .over-product {
-    width: 77%;
-    height: 319px;
-    transform: translateY(18px);
-    left: 32px;
-  }
-}
-
-@media only screen and (min-device-width : 323px) and (max-device-width : 391px){
-  .over-product {
-    width: 74%;
-    left: 46px;
-    height: 319px;
-  }
-}
-
-@media only screen and (min-device-width : 391px) and (max-device-width : 431px){
-  .over-product {
-    width: 60%;
-    left: 86px;
-    height: 269px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 435px) and (max-device-width : 450px){
-  .over-product {
-    width: 81%;
-    left: 86px;
-  }
-}
-
-@media only screen and (min-device-width : 450px) and (max-device-width : 457px){
-  .over-product {
-    width: 50%;
-    left: 108px;
-    height: 269px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 457px) and (max-device-width : 530px){
-  .over-product {
-    width: 50%;
-    left: 119px;
-    height: 270px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 530px) and (max-device-width : 556px){
-  .over-product {
-    width: 50%;
-    left: 133px;
-    height: 270px;
-    transform: translateY(38px);
-  }
-}
-
-
-@media only screen and (min-device-width : 556px) and (max-device-width : 609px){
-  .over-product {
-    width: 45%;
-    left: 159px;
-    height: 299px;
-    transform: translateY(18px);
-  }
-}
-
-@media only screen and (min-device-width : 609px) and (max-device-width : 642px){
-  .over-product {
-    width: 39%;
-    left: 183px;
-    height: 270px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 642px) and (max-device-width : 667px){
-  .over-product {
-    width: 36%;
-    left: 210px;
-    height: 270px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 667px) and (max-device-width : 675px){
-  .over-product {
-    width: 34%;
-    left: 222px;
-    height: 270px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 675px) and (max-device-width : 693px){
-  .over-product {
-    width: 30%;
-    height: 267px;
-    position: absolute;
-    left: 229px;
-    top: 0;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 693px) and (max-device-width : 712px){
-  .over-product {
-    height: 270px;
-    width: 30%;
-    left: 239px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 712px) and (max-device-width : 727px){
-  .over-product {
-    height: 270px;
-    width: 34%;
-    left: 193px;
-    transform: translateY(38px);
-  }
-}
-
-@media only screen and (min-device-width : 727px) and (max-device-width : 769px){
-  .over-product {
-    height: 268px;
-    width: 37%;
-    left: 223px;
-    transform: translateY(38px);
-  }
-}
-
-
 @media only screen and (min-device-width : 500px) and (max-device-width : 768px){
   input[type=search] {
-    width: 80%;
+    width: 62%;
   }
   .methodologie {
     margin-left: 36px;
@@ -1639,16 +1499,18 @@ a#arrow-position {
 
 @media (max-width : 722px ) {
   .figure-month {
-    margin: 0 51px;
+    font-size: 40px;
   }
-  .white-block-blog {
-    height: 235px;
+  #white-block {
+    height: 316px;
+    padding: 0;
+    padding-left: 0 !important;
   }
 }
 
-@media only screen and (min-device-width : 722px) and (max-device-width : 766px){
-  .white-block-blog {
-    height: 219px;
+@media (max-width : 742px ){
+  .more-product-sm {
+      left: 60%;
   }
 }
 
@@ -1669,6 +1531,9 @@ a#arrow-position {
 @media only screen and (min-device-width : 760px) and (max-device-width : 990px) {
   .team {
     padding-left: 0px !important;
+  }
+  .white-block-blog {
+    height: 273px;
   }
 }
 
@@ -1805,7 +1670,7 @@ a#arrow-position {
 
   @media only screen and (min-device-width : 760px) and (max-device-width : 987px){
     input[type=search] {
-      width: 78%;
+      width: 71%;
     }
   }
 
@@ -1814,12 +1679,6 @@ a#arrow-position {
     width: 168px;
     height: 118px;
     padding-left: 41px;
-    }
-  }
-
-  @media(max-width: 712px){
-    .article p {
-      margin-left: 111px;
     }
   }
 
@@ -1837,7 +1696,6 @@ a#arrow-position {
       padding: 0px;
       margin: 0 10px 10px 10px;
       margin-left: 15px;
-      height: 235px;
     }
     #value-img3 {
       transform: translateX(17px);

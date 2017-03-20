@@ -252,20 +252,6 @@
 								<td class="grey-letters"><span>1,37</span>%</td>
 								<td class="grey-letters"><span>-7,93</span>%</td>
 							</tr>
-							<!-- TCO: The following block might be uncommented if no connexion with the server
-							<tr>
-								<td class="left-align">Cac 40</td>
-								<td class="grey-letters">4509,26</td>
-								<td class="grey-letters">1,37%</td>
-								<td class="grey-letters">-7,93%</td>
-							</tr>
-							<tr>
-								<td class="left-align">Produit de Katalina</td>
-								<td class="grey-letters">3055,25</td>
-								<td class="grey-letters">1,77%</td>
-								<td class="grey-letters">-10,62%</td>
-							</tr>
-						-->
 						</tbody>
 						<thead class="display-on-click">
 							<tr>
@@ -295,6 +281,7 @@
 						</tfoot>
 					</table>
 				</div>
+
 				<div class="hidden-xs hidden-sm col-md-3">
 					<div class="sous-container">
 						<div class="white-block">
@@ -319,6 +306,8 @@
 
 
 				<!-- VERSION XS RESPONSIVE ONLY -->
+
+
 				<div class="container resp-sm">
 					<div class="col-xs-12 col-sm-6 hidden-md hidden-lg" id="black-block">
 						<h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
@@ -337,22 +326,24 @@
 						</div>
 						<div class="clear"></div>
 					</div>
-					<div class="col-xs-12 col-sm-5 hidden-md hidden-lg" id="white-block">
-						<div class="white-block">
-							<h2 id="month-product-title">LE PRODUIT DU MOIS</h2>
-								<div class="month-product">
-									<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" />
-								</div>
-								<div class="over">
-									<a>
-										<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" /></span>
-									</a>
-								</div>
+
+					<div class="col-xs-6 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
+						<div class="sous-container">
+							<div class="white-block">
+								<h2 id="month-product-title">LE PRODUIT DU MOIS</h2>
+									<div class="month-product">
+										<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" />
+									</div>
+									<div class="over-product">
+										<a>
+											<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" /></span>
+										</a>
+									</div>
+							</div>
 						</div>
 					</div>
 				<!-- end row -->
 				</div>
-
 				<!-- FIN VERSION XS RESPONSIVE ONLY -->
 
 	<div class="container">
@@ -396,7 +387,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-3 col-sm-4 col-md-3 blog-img">
-							<img src="/img/question-mark.png" id="question-img" alt="question" />
+							<img src="/img/question-mark.png" id="question-img" alt="question" class="img-responsive" />
 						</div>
 						<div class="col-md-8 article">
 							<p class="grey-letters" id="blog-1-p">
@@ -416,7 +407,7 @@
 				<div class="col-xs-4 col-sm-5 col-md-2 white-block-blog">
 					<div>
 						<h1 class="padding_bottom">chiffre du mois</h1>
-						<div class="figure-month" th:text="${newsOfMonth.numberOfTheMonth}">18%</div>
+						<div class="figure-month" id="numberOfTheMonth" th:text="${newsOfMonth.numberOfTheMonth}">180%</div>
               <span></span>
               <p class="grey-letters" id="figure-p" th:text="${newsOfMonth.textOfTheMonth}">des produits structurés blablabla</p>
 						<!-- <div class="over">
@@ -613,64 +604,68 @@
 		<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
 	</div>
 
-
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="/js/script.js"></script>
-	<!-- <script src="js/overlay.js"></script> -->
-	<script src="/js/extra.js"></script>
-	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
-	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
-	<!-- Script for autocompleting the filter text box for searching products -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+ 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 	<script src="/js/script.js"></script>
+ 	<!-- <script src="js/overlay.js"></script> -->
+ 	<script src="/js/extra.js"></script>
+ 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+ 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+ 	<!-- Script for autocompleting the filter text box for searching products -->
 
-	<script th:inline="javascript">
-     /*<![CDATA[*/
-     $(document).ready(function(){
-         // à décommenter KNA avant commit
-         var productTags = [[${productNames}]];
-         // var maListe = [];
-         /*console.log(productTags);*/
-         $('#find-product').autocomplete({
-         // à décommenter KNA avant commit
-         source: productTags
-         // source: maListe
-         });
-     });
-     // ACCORDION redirection selon nombre de produits
-     $(document).ready(function() {
-         var refundProducts = /*[[${nbRefundProducts}]]*/ 61;
-         var tocallProducts = /*[[${nbTocallProducts}]]*/ 67;
-         /*
-         console.log(refundProducts);
-         console.log(tocallProducts);
-         */
-       if (refundProducts <= 5) {
-         $( '#more-product-1, .more-product-1' ).hide();
-       } else {
-         $( '#more-product-1, .more-product-1' ).show();
-       };
-       if (tocallProducts <= 5) {
-         $( '#more-product-2, .more-product-2' ).hide();
-       } else {
-         $( '#more-product-2, .more-product-2' ).show();
-       };
-       // redirection accordion au hover
-       // afficher l'accordion total au click qui est en display none avant
-       $( 'a #more-product-1' ).click(function(){
-         $('.hidden-refund-product').show();
-         $( '#more-product-1, .more-product-1' ).hide();
-       });
-       $( 'a #more-product-2' ).click(function(){
-         $('.hidden-tocall-product').show();
-         $( '#more-product-2, .more-product-2' ).hide();
-       });
-     });
-     /*]]>*/
-	</script>
-</body>
+ 	<script th:inline="javascript">
+ 	/*<![CDATA[*/
+ 	$(document).ready(function(){
+ 		// à décommenter KNA avant commit
+ 	// 	var productTags = [[${productNames}]];
+ 		var maListe = [];
+ 		/*console.log(productTags);*/
+ 		$('#find-product').autocomplete({
+ 		// à décommenter KNA avant commit
+ 	// 	source: productTags
+ 		source: maListe
+ 		});
+ 	});
 
-</html>
+ 	// ACCORDION redirection selon nombre de produits
+ 	$(document).ready(function() {
+ 		var refundProducts = /*[[${nbRefundProducts}]]*/ 61;
+ 		var tocallProducts = /*[[${nbTocallProducts}]]*/ 67;
+ 		/*
+ 		console.log(refundProducts);
+ 		console.log(tocallProducts);
+ 		*/
+
+ 	  if (refundProducts <= 5) {
+ 	    $( '#more-product-1, .more-product-1' ).hide();
+ 	  } else {
+ 	    $( '#more-product-1, .more-product-1' ).show();
+ 	  };
+
+ 	  if (tocallProducts <= 5) {
+ 	    $( '#more-product-2, .more-product-2' ).hide();
+ 	  } else {
+ 	    $( '#more-product-2, .more-product-2' ).show();
+ 	  };
+
+ 	  // redirection accordion au hover
+ 	  // afficher l'accordion total au click qui est en display none avant
+ 	  $( 'a #more-product-1' ).click(function(){
+ 	    $('.hidden-refund-product').show();
+ 	    $( '#more-product-1, .more-product-1' ).hide();
+ 	  });
+
+ 	  $( 'a #more-product-2' ).click(function(){
+ 	    $('.hidden-tocall-product').show();
+ 	    $( '#more-product-2, .more-product-2' ).hide();
+ 	  });
+ 	});
+ 	/*]]>*/
+ 	</script>
+ </body>
+
+ </html>
