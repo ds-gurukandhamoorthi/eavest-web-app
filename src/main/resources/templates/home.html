@@ -1,4 +1,4 @@
-				<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head lang="fr">
@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>EAVEST, Produits structurés et alternatifs</title>
+	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -43,16 +43,16 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
 					<a href="#" th:text="${authUserName}" class="italicized auth" id="auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_" id="twitter"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default log" />
+								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
 							</form>
 						</span>
 						<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -67,14 +67,14 @@
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet">Mon Portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
-					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
-					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
-					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
-					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
+					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+					<li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+					<li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
+					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
+					<li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
 				</ul>
 				<div class="slider_jquery slider">
 					<div class="slider-container"></div>
@@ -91,7 +91,7 @@
 				<!-- PRODUITS REMBOURSES -->
 				<div class="col-sm-6 col-md-6 wrapper">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+					<h1 class="product-title"><span th:text="#{refund.prd}">produits remboursés</span> <span class="min" th:text="#{home.since.days}">depuis 30 jours</span></h1>
 					<div class="sous-container">
 
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
@@ -122,14 +122,14 @@
 											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
 												<span class="display-b"></span>
 												<br />
-											<span class="light-blue">sous-jacent</span>
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
 												<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
 												<span class="display-b"></span>
-											<span class="light-blue">statut</span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
 												<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
 										</div>
@@ -147,7 +147,7 @@
 				<!-- PRODUITS A RAPPELER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
+					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
 					<div class="sous-container">
 
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
@@ -178,14 +178,14 @@
 											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
 												<span class="display-b"></span>
 												<br />
-											<span class="light-blue">sous-jacent</span>
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
 												<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
 												<span class="display-b"></span>
-											<span class="light-blue">statut</span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
 												<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
 										</div>
@@ -211,7 +211,7 @@
 			<div class="row">
 
 				<div class="hidden-sm col-md-3">
-					<h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
+					<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
 
 					<div class="search">
 						<p class="grey-letters">Émetteur, Code ISIN,</p>

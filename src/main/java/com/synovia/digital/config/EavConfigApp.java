@@ -52,4 +52,5 @@ public class EavConfigApp {
 		res.setProductResourceDirName(env.getProperty(CONFIG_PRODUCT_RESOURCE_NAME));
 		return res;
 	}
+
 }
