@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
+	<link rel="stylesheet" type="text/css" href="/css/products.css" />
 
 
 	<!-- COMPATIBILITE IE8 -->
@@ -83,9 +84,42 @@
 		</div>
 	</nav>
 
-
 <!-- SECTION PRODUCTS-->
-	<section class="products">
+	<section class="products-page">
+			<div class="container">
+				<div class="row filters black-line-products">
+					<div class="sous-container">
+						<div class="col-md-3 filter-1">
+							<label for="filter_1">EMETTEUR</label>
+							<input type="text" class="text" name="bank_name" id="filter_1" />
+						</div>
+						<div class="col-md-3 filter-2">
+							<label for="filter_2">CODE ISIN</label>
+							<input type="text" class="text" name="code_isin" id="filter_2" />
+						</div>
+						<div class="col-md-3 filter-3">
+							<label for="filter_3">NOM DU PRODUIT</label>
+							<input type="text" class="text" name="product_name" id="filter_3" />
+						</div>
+						<div class="col-md-3 filter-4">
+							<label for="filter_4">SOUS-JACENT</label>
+							<input type="text" class="text" name="base" id="filter_4" />
+						</div>
+						<div class="col-md-12 filter-search">
+							<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
+						</div>
+
+						<div class="pull-right light-letter">
+							<div class="checkbox">
+  							<label><input type="checkbox" value="">les produits eavest</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
 	</section>
 
 
