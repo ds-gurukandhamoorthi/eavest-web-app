@@ -102,22 +102,23 @@ $(function() {
   })
 });
 
-// Set a fontSize relative to a number of words (dynamic content)
-
+// Set a fontSize relative to a number of words (dynamic content for figure of the month)
 $(function() {
 
-    var $quote = $('#figure-month');
+    var $quote = $(".figure-month");
 
-    var $numWords = $quote.text().split(" ").length;
+    var $numWords = $quote.text().length;
 
     if (($numWords >= 1) && ($numWords <= 2)) {
-        $quote.css("font-size", "60px");
+        $quote.css("font-size", "5vw");
     }
-    else if (($numWords >= 3) && ($numWords < 5)) {
-        $quote.css("font-size", "50px");
+    else if (($numWords > 2) && ($numWords <= 4)) {
+        $quote.css("font-size", "4.3vw");
+    }
+    else if (($numWords > 4) && ($numWords <= 5))  {
+        $quote.css("font-size", "3.5vw");
     }
     else {
-        $quote.css("font-size", "30px");
+        $quote.css("font-size", "3vw");
     }
-
 });
