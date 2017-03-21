@@ -152,7 +152,7 @@
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
 							<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
-								<div class="accordion-row" role="tab" th:if="${tocallStat.index} le 4">
+								<div class="activestate" role="tab" th:if="${tocallStat.index} le 4">
 									<h4 class="accordion-title">
 										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
 										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>

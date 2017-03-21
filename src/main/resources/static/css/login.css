@@ -111,6 +111,15 @@ input[type=text], [type=password], [type=email] {
   margin-bottom: 90px;
 }
 
+#margin_b {
+  margin-bottom: 110px;
+}
+
+/*FORGET PASSWORD*/
+#submit-forget-pwd {
+  margin-bottom: 25px;
+}
+
 /*footer*/
 .footer-main {
   padding: 18px 70px 32px 66px;
