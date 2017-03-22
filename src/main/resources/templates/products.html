@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
+	<title>EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -19,8 +19,8 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
+	<link rel="stylesheet" type="text/css" href="/css/wallet.css" />
 	<link rel="stylesheet" type="text/css" href="/css/products.css" />
-
 
 	<!-- COMPATIBILITE IE8 -->
 	<!--[if lt IE 9]>
@@ -41,19 +41,19 @@
 		<div class="container-fluid">
 			<div class="nav">
 				<div class="col-md-12 center-block">
-					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo" id="header"/></h1>
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth" id="auth">Nom de l'utilisateur</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
-						<a href="https://twitter.com/EAVEST_" id="twitter"><i class="fa fa-twitter"></i></a>
-						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
+								<input type="submit" value="Sign Out" class="btn btn-default log" />
 							</form>
 						</span>
 						<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -68,14 +68,14 @@
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
-					<li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
-					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
-					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
-					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
+					<li id="menu-home"><a href="/home">Home</a></li>
+					<li id="menu-wallet"><a href="/wallet">Mon portefeuille</a></li>
+					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
+					<li id="menu-products" class="selected"><a href="http://eavest.com/track-records/">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
 				</ul>
 				<div class="slider_jquery slider">
 					<div class="slider-container"></div>
@@ -85,43 +85,159 @@
 	</nav>
 
 <!-- SECTION PRODUCTS-->
-	<section class="products-page">
-			<div class="container">
-				<div class="row filters black-line-products">
-					<div class="sous-container">
-						<div class="col-md-3 filter-1">
-							<label for="filter_1">EMETTEUR</label>
-							<input type="text" class="text" name="bank_name" id="filter_1" />
-						</div>
-						<div class="col-md-3 filter-2">
-							<label for="filter_2">CODE ISIN</label>
-							<input type="text" class="text" name="code_isin" id="filter_2" />
-						</div>
-						<div class="col-md-3 filter-3">
-							<label for="filter_3">NOM DU PRODUIT</label>
-							<input type="text" class="text" name="product_name" id="filter_3" />
-						</div>
-						<div class="col-md-3 filter-4">
-							<label for="filter_4">SOUS-JACENT</label>
-							<input type="text" class="text" name="base" id="filter_4" />
-						</div>
-						<div class="col-md-12 filter-search">
-							<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
-						</div>
+	<section class="products-header">
+		<div class="container">
+			<div class="row filters black-line-products">
+				<div class="sous-container">
+					<div class="col-md-3 filter-1">
+						<label for="filter_1">EMETTEUR</label>
+						<input type="text" class="text" name="bank_name" id="filter_1" />
+					</div>
+					<div class="col-md-3 filter-2">
+						<label for="filter_2">CODE ISIN</label>
+						<input type="text" class="text" name="code_isin" id="filter_2" />
+					</div>
+					<div class="col-md-3 filter-3">
+						<label for="filter_3">NOM DU PRODUIT</label>
+						<input type="text" class="text" name="product_name" id="filter_3" />
+					</div>
+					<div class="col-md-3 filter-4">
+						<label for="filter_4">SOUS-JACENT</label>
+						<input type="text" class="text" name="base" id="filter_4" />
+					</div>
+					<div class="col-md-12 filter-search">
+						<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
+					</div>
 
-						<div class="pull-right light-letter">
-							<div class="checkbox">
-  							<label><input type="checkbox" value="">les produits eavest</label>
-							</div>
+					<div class="pull-right light-letter">
+						<div class="checkbox">
+  						<label><input type="checkbox" value="">les produits eavest</label>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-
+		</div>
 	</section>
-
+	<section class="product-list">
+		<div class="container">
+			<!-- product 1 -->
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-5">
+						<a href="#"><img src="img/product.png" alt="produit" class="product-img"/></a>
+						<div class="sheets-product">
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod" class="grey-uppercase">term sheet</span>
+							</div><br /><br />
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod">document marketing</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<a href="#">
+							<p class="product-title">Daystoxx may 2017
+								<span class="display-b"></span>
+									fr0013456789
+							</p>
+						</a>
+						<p class="product-brand">société générale</p>
+						<span class="strong-blue">sous-jacent</span>
+						<span class="product-p">euro stoxx50®</span>
+						<span class="strong-blue">statut</span>
+						<span class="product-p">en cours</span>
+					</div>
+				</div>
+			</div>
+			<!-- product 2 -->
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-5">
+						<a href="#"><img src="img/product.png" alt="produit" class="product-img"/></a>
+						<div class="sheets-product">
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod" class="grey-uppercase">term sheet</span>
+							</div><br /><br />
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod">document marketing</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<a href="#">
+							<p class="product-title">Daystoxx may 2017
+								<span class="display-b"></span>
+									fr0013456789
+							</p>
+						</a>
+						<p class="product-brand">société générale</p>
+						<span class="strong-blue">sous-jacent</span>
+						<span class="product-p">euro stoxx50®</span>
+						<span class="strong-blue">statut</span>
+						<span class="product-p">en cours</span>
+					</div>
+				</div>
+			</div>
+			<!-- product 3 -->
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-5">
+						<a href="#"><img src="img/product.png" alt="produit" class="product-img"/></a>
+						<div class="sheets-product">
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod" class="grey-uppercase">term sheet</span>
+							</div><br /><br />
+							<div class="col-md-2 term-sheet-row">
+								<img src="img/files-products.png" alt="document" class="term-sheet-img"/>
+							</div>
+							<div class="col-md-10 padding_zero">
+								<span class="term-sheet-prod">document marketing</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-7">
+						<a href="#">
+							<p class="product-title">Daystoxx may 2017
+								<span class="display-b"></span>
+									fr0013456789
+							</p>
+						</a>
+						<p class="product-brand">société générale</p>
+						<span class="strong-blue">sous-jacent</span>
+						<span class="product-p">euro stoxx50®</span>
+						<span class="strong-blue">statut</span>
+						<span class="product-p">en cours</span>
+					</div>
+				</div>
+			</div>
+		<!-- end container -->
+		</div>
+	</section>
+	<!-- PAGINATION -->
+	<div class="container">
+  	<ul class="pagination">
+    	<li class="active"><a href="#">1</a></li>
+    	<li><a href="#">2</a></li>
+    	<li><a href="#">3</a></li>
+    	<li><a href="#">4</a></li>
+    	<li><a href="#">5</a></li>
+  	</ul>
+	</div>
 
 	<!-- FOOTER -->
 	<footer id="footer">
@@ -136,7 +252,6 @@
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
 				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
 			</small>
-			<span class="clear"></span>
 			</div>
 		</div>
 	</footer>
@@ -150,7 +265,16 @@
 
 
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/extra.js"></script>
+	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
 
-</body>
+	</body>
 
-</html>
+	</html>

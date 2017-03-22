@@ -115,6 +115,10 @@ input[type=text], [type=password], [type=email] {
   margin-bottom: 110px;
 }
 
+#margin_b-reinit {
+  margin-bottom: 250px;
+}
+
 /*FORGET PASSWORD*/
 #submit-forget-pwd {
   margin-bottom: 25px;
