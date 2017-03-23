@@ -160,12 +160,13 @@
 											<span>1778.92</span> <span th:text="#{eav.pts}">points</span>
 											/ <span th:if="${product.prdRule}" th:text="${product.prdRule.protectionBarrier}">60</span>
 											<span th:text="#{percent.strike}">% du strike</span>
+										</span>
 										<br /><br />
 									</div>
 									<div class="col-sm-3 col-md-3">
 										<span class="light-blue" th:text="#{prd.maturity}">maturité</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase" th:text=${product.dueDateAsLongFormatString}>20 septembre 2024</span>
+										<span class="grey-uppercase" th:text="${product.dueDateAsLongFormatString}">20 septembre 2024</span>
 										<br /><br />
 										<span class="light-blue" th:text="#{prd.coupon}">coupon</span>
 										<span class="display-b"></span>
