@@ -49,7 +49,7 @@
 					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+						<a href="/wallet/?lang=fr" class="language">fr</a>/<a href="/wallet/?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
@@ -121,9 +121,8 @@
 										<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
 										<br /><br />
 										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span class="grey-uppercase">document<span class="display-b"></span>
+										<span class="grey-uppercase" th:text="#{doc.market}">document marketing<span class="display-b"></span>
 										<br /><br />
-										<span id="marketing">marketing</span></span>
 									</div>
 									<div class="col-sm-3 col-md-3">
 										<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
@@ -149,7 +148,7 @@
 										<span class="light-blue" th:text="#{prd.remb.barrier}">barrière de rappel</span>
 										<span class="display-b"></span>
 										<span class="grey-uppercase">
-											<span>2964.86</span> <span th:text="#{eav.pts}">points</span>
+											<span th:text="${#numbers.formatDecimal(5555.86456765, 0, 2, 'POINT')}">2964.86</span> <span th:text="#{eav.pts}">points</span>
 											/ <span th:if="${product.prdRule}" th:text="${product.prdRule.reimbursementBarrier}">100</span>
 											<span th:text="#{percent.strike}">% du strike</span>
 										</span>
@@ -157,7 +156,7 @@
 										<span class="light-blue" th:text="#{prd.protec.barrier}">barrière de protection</span>
 										<span class="display-b"></span>
 										<span class="grey-uppercase">
-											<span>1778.92</span> <span th:text="#{eav.pts}">points</span>
+											<span th:text="${#numbers.formatDecimal(2356.12345, 0, 2, 'POINT')}">1778.92</span> <span th:text="#{eav.pts}">points</span>
 											/ <span th:if="${product.prdRule}" th:text="${product.prdRule.protectionBarrier}">60</span>
 											<span th:text="#{percent.strike}">% du strike</span>
 										</span>
