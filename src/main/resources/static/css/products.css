@@ -157,3 +157,25 @@
   border-bottom-right-radius: 0;
   border-top-right-radius: 0;
 }
+
+/*MY PRODUCT*/
+
+.add-to-wallet {
+  padding-right: 0;
+  float: right;
+  transform: translateX(67px);
+}
+
+.hovered {
+  display: block;
+}
+
+.product-detail-title a:focus  {
+  color: color: #585858;
+  text-decoration: none;
+}
+
+.product-detail-title:hover {
+  color: black;
+  font-weight: 800;
+}

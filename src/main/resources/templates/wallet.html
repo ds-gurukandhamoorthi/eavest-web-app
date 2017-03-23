@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>EAVEST, Produits structurés et alternatifs</title>
+	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
-		<link rel="stylesheet" type="text/css" href="/css/wallet.css" />
+	<link rel="stylesheet" type="text/css" href="/css/wallet.css" />
 	<!-- <link rel="stylesheet" type="text/css" href="/css/login.css" /> -->
 
 
@@ -70,7 +70,7 @@
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
         	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+          <li id="menu-wallet" class="selected"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
           <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
           <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
           <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
@@ -374,7 +374,7 @@
 	</section>
 	<!-- END SECTION PRODUCTS  -->
 	<!--PERFREVIEW -->
-	<section class="my-perf-review">
+	<!-- <section class="my-perf-review">
 		<div class="container">
 			<div class="col-sm-12 col-md-6">
 				<div>
@@ -383,9 +383,9 @@
 						<li class="square-2" id="translate" th:text="${year}">16</li>
 					</ul>
 				</div>
-				<h1 class="perf-review">PERF REVIEW</h1>
+				<h1 class="perf-review">PERFREVIEW</h1> -->
 				<!-- TABLEAU -->
-				<table class="table table-bordered">
+				<!-- <table class="table table-bordered">
 					<thead>
 						<tr>
 							<th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
@@ -400,7 +400,7 @@
 							<td class="grey-letters">4509,26</td>
 							<td class="grey-letters"><span>1,37</span>%</td>
 							<td class="grey-letters"><span>-7,93</span>%</td>
-						</tr>
+						</tr> -->
 						<!-- TCO: The following block might be uncommented if no connexion with the server
 						<tr>
 							<td class="left-align">Cac 40</td>
@@ -415,7 +415,7 @@
 							<td class="grey-letters">-10,62%</td>
 						</tr>
 					-->
-					</tbody>
+					<!-- </tbody>
 					<thead class="display-on-click">
 						<tr>
 							<th class="col-sm-6 col-md-6 grey-letters">Nouveaux indices</th>
@@ -430,10 +430,10 @@
 							<td class="grey-letters">1780,53</td>
 							<td class="grey-letters"><span>-1,18</span>%</td>
 							<td class="grey-letters"><span>7,07</span>%</td>
-						</tr>
+						</tr> -->
 						<!-- TCO: Add static rows here if no connexion with the server
 						-->
-					</tbody>
+					<!-- </tbody>
 					<tfoot>
 						<tr>
 							<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
@@ -447,7 +447,7 @@
 				</table>
 			</div>
 		</div>
-	</section>
+	</section> -->
 	<!-- end container -->
 
 	<!-- FOOTER -->
