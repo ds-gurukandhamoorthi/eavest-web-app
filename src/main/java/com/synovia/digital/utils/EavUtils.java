@@ -22,6 +22,14 @@ public class EavUtils {
 
 	public static final String DTO_DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 
+	public static final String PRD_MONTH_FORMAT_PATTERN = "MM";
+
+	public static final String PRD_YEAR_FORMAT_PATTERN = "yy";
+
+	public static final String PRD_MONTH_YEAR_FORMAT_PATTERN = "MM.yy";
+
+	public static final String PRD_DAY_MONTH_YEAR_FORMAT_PATTERN = "dd.MM.yy";
+
 	public static final String JPEG_EXTENSION = ".jpg";
 
 	public static final String FILE_SEPARATOR = File.separator;

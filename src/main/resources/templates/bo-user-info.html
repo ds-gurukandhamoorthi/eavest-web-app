@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="fr">
+  	<meta charset="UTF-8" />
+	<title>EAVEST Back-Office - create product</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="/css/admin/bo-product.css" type="text/css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css" />
+</head>
+<body>
+	<section class="top-header-absolute">
+		<header class="main">
+      		<div class="left-block"></div>
+			<div class="wrapper">
+				<h1>
+					<img src="/img/eavest-logo.png" alt="Eavest" />
+				</h1>
+
+        <nav class="nav-menu">
+          <ul class="navbar list-inline list-unstyled">
+            <li id="menu-wallet"><a href="/wallet">Retour</a></li>
+            <li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+    			</ul>
+				</nav>
+			</div>
+			<div class="language-switcher">
+		        <span class="global-linker">
+	    	      	<a href="/home">Home</a>
+		        </span>
+		    </div>
+
+		</header>
+
+		<div class="slider jquery" style="display: block;">
+			<div class="slider-container"></div>
+		</div>
+	</section>
+	<section class="content-main" role="main">
+    <div class="main-area">
+      <h1>Utilisateur: <span th:text="${account.firstName + ' ' + account.lastName}"></span></h1>
+    </div>
+
+    <div class="main-area">
+      <h1>Ajouter des produits</h1>
+      <div class="main-form">
+        <form name="form" th:action="@{/user/{id}/addProducts(id=${prdUser.id})}" th:object="${selectedProducts}" action="/user/products" method="POST">
+          <label for="to-add">Sélectionner les produits à ajouter</label>
+          <div>
+            <table id="product-list" class="display" cellspacing="0">
+              <thead>
+        				<tr>
+                  <th>Select</th>
+        				  <th th:text="#{bo.products.isin}">ISIN</th>
+        				  <th th:text="#{bo.products.label}">Label</th>
+        				</tr>
+              </thead>
+              <tbody>
+        				<tr th:each="product : ${products}">
+                  <td>
+                    <input type="checkbox" th:name="|products[${productStat.index}]|" th:value="${product.id}"
+                            th:field="*{productList[__${productStat.index}__].id}"/>
+                  </td>
+        				  <td th:text="${product.isin}">ISIN</td>
+        				  <td th:text="${product.label}">Label du sous-jacent</td>
+        				</tr>
+              </tbody>
+      			</table>
+          </div>
+
+          <input type="submit" value="Ajouter les produits" class="btn btn-primary" />
+        </form>
+
+      </div>
+    </div>
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+  <script src="/js/admin/data-table-example.js"></script>
+</body>
+</html>

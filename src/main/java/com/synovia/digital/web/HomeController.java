@@ -3,14 +3,11 @@
  */
 package com.synovia.digital.web;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +30,7 @@ import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.utils.EavControllerUtils;
 import com.synovia.digital.utils.EavUtils;
-import com.synovia.digital.utils.FileExtractor;
+import com.synovia.digital.utils.PerfReviewDates;
 
 /**
  * This class defines TODO
@@ -61,10 +58,10 @@ public class HomeController {
 	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
 	protected static final String ATTR_BASE_LIST = "classicBases";
 	protected static final String ATTR_NEW_BASE_LIST = "newBases";
-	protected static final String ATTR_CURRENT_MONTH = "month";
+	protected static final String ATTR_LAST_MONTH = "month";
 	protected static final String ATTR_CURRENT_YEAR = "year";
 	protected static final String ATTR_ONE_YEAR_BEFORE = "oneYearPast";
-	protected static final String ATTR_IMG_BEST_SELLER = "imgBestSeller";
+	protected static final String ATTR_BEST_SELLER = "bestSeller";
 	public static final String ATTR_USERNAME_INFO = "authUserName";
 	public static final String ATTR_ACCOUNT = "account";
 	protected static final String ATTR_NEWS_OF_MONTH = "newsOfMonth";
@@ -157,18 +154,13 @@ public class HomeController {
 		modelAndView.addObject(ATTR_NB_UPCOMING_PRODUCT_LIST, upcomingProducts != null ? upcomingProducts.size() : 0);
 
 		// Display the current date
-		Calendar calendar = Calendar.getInstance();
-		int idxCurrentMonth = calendar.get(Calendar.MONTH);
-		int currentYear = calendar.get(Calendar.YEAR);
-		Integer displayedYear = currentYear - EavUtils.C_MILLENARY;
-		calendar.set(currentYear - 1, idxCurrentMonth - 1, 1);
-		int maxDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		calendar.set(Calendar.DAY_OF_MONTH, maxDayOfMonth);
-		String oneYearBefore = new SimpleDateFormat("dd.MM.yy").format(calendar.getTime());
-		modelAndView.addObject(ATTR_CURRENT_MONTH,
-				Integer.valueOf(idxCurrentMonth == 0 ? EavUtils.C_DECEMBER_INDEX : idxCurrentMonth));
-		modelAndView.addObject(ATTR_CURRENT_YEAR, displayedYear);
-		modelAndView.addObject(ATTR_ONE_YEAR_BEFORE, oneYearBefore);
+		PerfReviewDates prd = new PerfReviewDates();
+		modelAndView.addObject(ATTR_LAST_MONTH,
+				prd.getLastDayOfLastMonthAsString(new SimpleDateFormat(EavUtils.PRD_MONTH_FORMAT_PATTERN)));
+		modelAndView.addObject(ATTR_CURRENT_YEAR,
+				prd.getLastDayOfLastMonthAsString(new SimpleDateFormat(EavUtils.PRD_YEAR_FORMAT_PATTERN)));
+		modelAndView.addObject(ATTR_ONE_YEAR_BEFORE,
+				prd.getLastDayOfLastMonthAsString(new SimpleDateFormat(EavUtils.PRD_DAY_MONTH_YEAR_FORMAT_PATTERN)));
 
 		// Retrieve the list of classic bases
 		modelAndView.addObject(ATTR_BASE_LIST, ssjctService.getClassicBases());
@@ -176,26 +168,11 @@ public class HomeController {
 		// Retrieve the list of new bases
 		modelAndView.addObject(ATTR_NEW_BASE_LIST, ssjctService.getNewBases());
 
-		// Set the best-seller product image
-		File image = productService.getBestSellerImage();
-		if (image != null) {
-			// Copy image to the best-seller directory
-			String imgBestSellerDirPath = new StringBuilder(System.getProperty("user.dir")).append(File.separator)
-					.append(STATIC_RESOURCES_DIR).append(File.separator).append(IMG_DIR_BEST_SELLER).toString();
-			File imgBestSellerDir = new File(imgBestSellerDirPath);
-			// Clean the destination directory
-			try {
-				FileUtils.cleanDirectory(imgBestSellerDir);
-				FileExtractor.Param p = new FileExtractor.Param(EavUtils.JPEG_EXTENSION, imgBestSellerDir);
-				FileExtractor.copy(image, p);
-				String imagePath = new StringBuilder(IMG_DIR_BEST_SELLER).append(image.getName()).toString();
-
-				modelAndView.addObject(ATTR_IMG_BEST_SELLER, imagePath);
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		// Set the best-seller product
+		try {
+			modelAndView.addObject(ATTR_BEST_SELLER, productService.findBestSeller());
+		} catch (EavTechnicalException e1) {
+			LOGGER.warn("Best-seller not found! Multiple best-sellers may have been set.");
 		}
 
 		// Set the news of the month

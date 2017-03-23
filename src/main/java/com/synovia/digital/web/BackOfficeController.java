@@ -29,13 +29,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.synovia.digital.dto.EavParamsDto;
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.PrdProductDto;
+import com.synovia.digital.dto.PrdProductListDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.EavParamsService;
 import com.synovia.digital.service.PrdCouponDateService;
@@ -43,6 +46,7 @@ import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.service.PrdUserService;
 import com.synovia.digital.utils.EavControllerUtils;
 
 /**
@@ -63,6 +67,7 @@ public class BackOfficeController {
 	public static final String VIEW_ACCOUNTS = "bo-accounts";
 	public static final String VIEW_TESTS_MENU = "bo-product-tests";
 	public static final String VIEW_ERROR = "error";
+	public static final String VIEW_USER_INFO = "bo-user-info";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
@@ -89,6 +94,8 @@ public class BackOfficeController {
 	protected static final String ATTR_PRODUCT_IMAGE_FILENAME = "imageFile";
 	protected static final String ATTR_NEWS_MONTH_DTO = "newsOfMonth";
 	protected static final String ATTR_HOME_ARTICLES_DTO = "highlightArticles";
+	protected static final String ATTR_ACCOUNT = "account";
+	protected static final String ATTR_USER = "prdUser";
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
@@ -110,6 +117,9 @@ public class BackOfficeController {
 
 	@Autowired
 	protected EavParamsService paramsService;
+
+	@Autowired
+	protected PrdUserService userService;
 
 	@RequestMapping()
 	public ModelAndView showBackOffice(@ModelAttribute PrdProductDto bestSellerDto,
@@ -228,7 +238,7 @@ public class BackOfficeController {
 				// Display the create product view.
 			} catch (Exception e) {
 				// TODO Display error page
-				return "error";
+				return VIEW_ERROR;
 			}
 		}
 
@@ -280,7 +290,7 @@ public class BackOfficeController {
 
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = "error";
+			view = VIEW_ERROR;
 		}
 		return view;
 	}
@@ -319,7 +329,7 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = "error";
+			view = VIEW_ERROR;
 		}
 
 		return view;
@@ -357,7 +367,7 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = "error";
+			view = VIEW_ERROR;
 		}
 
 		return view;
@@ -395,7 +405,7 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = "error";
+			view = VIEW_ERROR;
 		}
 
 		return view;
@@ -443,11 +453,37 @@ public class BackOfficeController {
 
 			} catch (Exception e) {
 				// TODO Display error page
-				resultView = "error";
+				resultView = VIEW_ERROR;
 			}
 		}
 
 		return resultView;
+	}
+
+	@GetMapping(value = "/users/{id}")
+	public String userInfos(@PathVariable("id") Long id, Model model) {
+		String resultView = VIEW_USER_INFO;
+		try {
+			PrdUser user = userService.findById(id);
+			EavAccount userAccount = user.getAccount();
+
+			model.addAttribute(ATTR_USER, user);
+			model.addAttribute(ATTR_ACCOUNT, userAccount);
+			model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+			model.addAttribute("selectedProducts", new PrdProductListDto());
+
+		} catch (EavEntryNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			resultView = VIEW_ERROR;
+		}
+
+		return resultView;
+	}
+
+	@PostMapping(value = "/users/{id}/addProducts")
+	public String addUserProducts(@PathVariable("id") Long id) {
+		return null;
 	}
 
 }

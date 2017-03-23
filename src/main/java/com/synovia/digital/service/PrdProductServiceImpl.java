@@ -4,7 +4,6 @@
 package com.synovia.digital.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -511,26 +509,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 		// Store the product image in the FDWH
 		FileExtractor.Param imageParam = new FileExtractor.Param(EavUtils.JPEG_EXTENSION,
 				homeDir.getImageDir(product.getId()), imageName);
-		// Store the product image in the image templates directory
-		File destDir = EavUtils.shortcutProductImageDirectory(product.getIsin(),
-				eavResource.getProductResourceDirName());
-		try {
-			FileUtils.cleanDirectory(destDir);
-		} catch (IOException e) {
-			throw new EavTechnicalException(EavErrorCode.TRANSFER_FILE_ERROR, e);
-		}
-		FileExtractor.Param imageShortCutParam = new FileExtractor.Param(EavUtils.JPEG_EXTENSION, destDir,
-				imageName);
 
-		FileExtractor.copy(fileToStore, imageParam, imageShortCutParam);
-		// Update the entity
-		String imageShortcutDir = EavUtils.relativePathFromStaticResource(destDir.getPath());
-		String imageShortcut = new StringBuilder(imageShortcutDir).append(EavUtils.FILE_SEPARATOR).append(imageName)
-				.toString();
-		product.setImageShortcut(imageShortcut);
-		LOGGER.info("A shortcut of the input image has been created here {}", imageShortcutDir);
-
-		repo.save(product);
+		FileExtractor.copy(fileToStore, imageParam);
 	}
 
 	private String getDefaultImageName(String extension) {

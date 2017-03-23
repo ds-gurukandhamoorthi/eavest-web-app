@@ -34,7 +34,7 @@ public class PrdUser {
 	private EavAccount account;
 
 	@ManyToMany()
-	@JoinTable(name = "PRD_USER_PRODUCTS",
+	@JoinTable(name = "PRD_USER_PRODUCT",
 			joinColumns = @JoinColumn(name = "ID_PRD_USER", referencedColumnName = "ID"),
 			inverseJoinColumns = @JoinColumn(name = "ID_PRD_PRODUCT", referencedColumnName = "ID"))
 	private Set<PrdProduct> products;
@@ -42,7 +42,7 @@ public class PrdUser {
 	// ------------------------------ CONSTRUCTORS ------------------------------
 
 	public PrdUser() {
-
+		this(null);
 	}
 
 	public PrdUser(EavAccount account) {

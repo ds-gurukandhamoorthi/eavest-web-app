@@ -53,7 +53,8 @@ public class FileExtractor {
 						try {
 							// Create the output file
 							if (!copy.createNewFile()) {
-								LOGGER.info("Destination file {} already exists", copy);
+								LOGGER.info("Destination file {} already exists. Will be removed by this operation.",
+										copy);
 								copy.delete();
 								copy.createNewFile();
 							}
