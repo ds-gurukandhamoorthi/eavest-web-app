@@ -1,8 +1,15 @@
+/*body {
+  background-color: white;
+}*/
+
 .filters label {
   display: block;
   font-weight: 600;
   font-size: 13px;
   padding-bottom: 2px;
+}
+.radio label, .checkbox label {
+  padding-left: 0 !important;
 }
 
 .filters {
@@ -36,11 +43,12 @@
   background-color: black;
   color: white;
   margin-bottom: 15px;
+  padding-left: 45px;
+  padding-right: 45px;
 }
 
 .black-line-products {
   padding-bottom: 5px;
-  margin-bottom: 30px;
   border-bottom: 3px solid black;
 }
 
@@ -59,4 +67,115 @@
   font-weight: 400;
   color: black;
   text-decoration: none!important;
+}
+
+.prod-list {
+  margin: 25px 0;
+}
+
+.product-list {
+  margin-top: 60px;
+}
+
+/*.product-list .container {
+  background-color: white;
+}*/
+
+.product-img {
+  border: 1px solid #000;
+  width: 127px;
+  height: 176px;
+  margin-bottom: 25px;
+}
+
+.product-title {
+  text-decoration: none;
+  color: black;
+  font-size: 13px;
+  line-height: 13px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0
+}
+
+.product-brand {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0
+}
+
+.strong-blue {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: block;
+  margin-bottom: -5px;
+  color: #1044FF;
+  margin-top: 8px;
+}
+
+.product-p {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.term-sheet-row, .padding_zero {
+  padding: 0;
+}
+
+.term-sheet-img {
+  height: 24px;
+}
+
+.term-sheet-prod {
+  text-transform: uppercase;
+  margin-left: 8px;
+  display: block;
+}
+
+#pagination-section {
+  margin-top: 70px;
+}
+
+.pagination {
+  float: right;
+}
+
+.pagination > .active {
+  background-color: color: #1044FF;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*MY PRODUCT*/
+
+.add-to-wallet {
+  padding-right: 0;
+  float: right;
+  transform: translateX(67px);
+}
+
+.hovered {
+  display: block;
+}
+
+.product-detail-title a:focus  {
+  color: color: #585858;
+  text-decoration: none;
+}
+
+.product-detail-title:hover {
+  color: black;
+  font-weight: 800;
 }

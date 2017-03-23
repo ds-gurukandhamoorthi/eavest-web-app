@@ -378,6 +378,12 @@ a.panel-heading {
   margin-bottom: 25px;
 }
 
+.product {
+  width: 102px;
+  height: 133px;
+  margin-bottom: 25px;
+}
+
 .activestate {
   /*font-weight: bold !important;
   color: black !important;*/
@@ -588,7 +594,7 @@ a.panel-heading {
   color: white;
   font-size: 19px;
   position: absolute;
-  left: 63%;
+  left: 62%;
   top: 39%;
   opacity: 1;
   margin: -20px 0 0 -88px;
@@ -1080,12 +1086,22 @@ p#blog-1-p, p#blog-2-p {
 .white-block-blog {
   background-color: white;
   text-align: center;
-  height: 220px;
+  height: 250px;
   padding: 0px;
   margin: 0 10px 10px 10px;
   margin-left: 15px;
+  padding-right: 8px;
 }
 
+p#figure-p {
+    margin-top: 10px;
+}
+
+#figure-p {
+  overflow: auto;
+  word-wrap: break-word;
+  height: 86px;
+}
 
 .white-block-blog h2 {
   padding-top: 0;
@@ -1099,7 +1115,7 @@ p#blog-1-p, p#blog-2-p {
   border-bottom: 2px solid #30FD30;
   height: 60px;
   margin: 0 7px;
-  font-size: 60px;
+  /*font-size: 60px;*/
 }
 
 .white-block-blog p {
