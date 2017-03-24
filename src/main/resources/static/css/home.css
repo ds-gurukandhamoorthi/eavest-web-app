@@ -366,10 +366,13 @@ a.panel-heading {
 .panel-body {
   margin: -4px;
   padding: 0;
+  background-color: #F2F2F2 !important;
 }
 
-.panel-body {
-  background-color: #F2F2F2 !important;
+#wallet-trash {
+  position: absolute;
+  top: -31px;
+  right: -11px;
 }
 
 #accor-product {
@@ -1074,11 +1077,11 @@ button#close {
   text-align: justify;
   margin-right: 30px;
   padding-left: 30px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 p#blog-1-p, p#blog-2-p {
-  overflow: auto;
+  overflow: hidden;
   word-wrap: break-word;
   height: 118px;
 }
@@ -1098,7 +1101,7 @@ p#figure-p {
 }
 
 #figure-p {
-  overflow: auto;
+  overflow: hidden;
   word-wrap: break-word;
   height: 86px;
 }

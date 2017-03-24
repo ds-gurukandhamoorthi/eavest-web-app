@@ -10,12 +10,6 @@
   padding: 0;
 }
 
-.fa-trash-o {
-  position: absolute;
-  top: 0px;
-  right: 15px;
-}
-
 .blue-uppercase {
   color: blue;
   text-transform: uppercase;
@@ -23,15 +17,13 @@
   font-size: 16px;
 }
 
-img#document {
-  height: 30px;
+.term-sheet {
+  display: block;
+  margin: 0 0 5px 0;
 }
 
-#marketing {
-  position: absolute;
-  bottom: 19px;
-  left: 47px;
-  padding-bottom: 5px;
+img#document {
+  height: 30px;
 }
 
 .big-blue-letters {
@@ -49,15 +41,10 @@ img#document {
 
 
 @media only screen and (min-device-width : 767px) and (max-device-width : 990px){
-  .fa-trash-o {
+  #wallet-trash {
     position: absolute;
     top: 0px;
     right: 0px;
-  }
-  #marketing {
-    position: absolute;
-    bottom: 14px;
-    left: 16px;
   }
   #term-sheet {
     position: absolute;
