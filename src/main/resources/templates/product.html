@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head lang="fr">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title>EAVEST, Produits structurés et alternatifs</title>
+
+	<!-- FAVICON -->
+	<link href="./favicon.ico" rel="icon" type="image/ico" />
+
+	<!-- SOURCES -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+	<link rel="stylesheet" type="text/css" href="/css/home.css" />
+	<link rel="stylesheet" type="text/css" href="/css/wallet.css" />
+	<link rel="stylesheet" type="text/css" href="/css/products.css" />
+
+	<!-- COMPATIBILITE IE8 -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+	<!-- META -->
+	<!-- All in One SEO Pack 2.3.9.1 by Michael Torbert of Semper Fi Web Design[513,671] -->
+	<!-- <meta name="description" itemprop="description" content="Cabinet de conseil spécialisé en produits structurés et alternatifs - Paris +33 (1) 42 80 21 99" /> -->
+</head>
+
+<body>
+
+	<!-- NAVBAR -->
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="nav">
+				<div class="col-md-12 center-block">
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
+				</div>
+				<div class="language-switcher navbar-right">
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<span id="socials">
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+					</span>
+					<div class="zone-transit">
+						<span sec:authorize="isAuthenticated()">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Sign Out" class="btn btn-default log" />
+							</form>
+						</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
+							<form th:action="@{/admin}" method="get">
+								<input type="submit" value="Back Office" class="btn btn-default log" />
+							</form>
+						</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="col-md-12 container-fluid navbar">
+				<ul class="navbar list-inline list-unstyled">
+					<li id="menu-home"><a href="/home">Home</a></li>
+					<li id="menu-wallet"><a href="/wallet">Mon portefeuille</a></li>
+					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
+					<li id="menu-products" class="selected"><a href="http://eavest.com/track-records/">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
+				</ul>
+				<div class="slider_jquery slider">
+					<div class="slider-container"></div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+<!-- SECTION PRODUCT-->
+<section class="my-product">
+	<div class="container">
+
+		<div class="row my-product-header">
+			<div class="col-md-6 my-product-title">
+				<h1 th:text="#{product.title}">Autofocus rendement juin 2016</h1>
+			</div>
+			<div class="col-md-offset-2 col-md-4 add-to-wallet">
+				<span class="big-blue-letters">
+					<button class="btn"><img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" /></button>
+					ajouter au portefeuille
+				</span>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-5 product-wrapper">
+				<div class="panel-group">
+					<div class="panel panel-default prod-list panel-heading" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+						<div>
+							<h5 class="product-detail-title">
+								<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 7 / FR00196847</span>
+								<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+							</h5>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-12 product-body">
+			<div>
+				<h3><span th:text="${product.deliver}">société générale</span></h3>
+			</div>
+			<div class="row product-row">
+				<div class="col-sm-2 col-md-2" id="img-product">
+					<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" id="accor-product"/>
+				</div>
+				<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
+					<button type="submit" class="btn">
+						<i class="fa fa-trash-o fa-2x" id="product-trash" aria-hidden="true"></i>
+					</button>
+				</span>
+
+				<div class="col-sm-3 col-md-3">
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</span></li>
+						<li class="blue-uppercase" th:text="${product.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{eav.currency}">devise</li>
+						<li class="grey-uppercase">eur</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.status}">statut</li>
+						<li class="grey-uppercase" th:text="${product.prdStatus.description}">en cours</li>
+					</ul>
+				</div>
+				<div class="col-sm-4 col-md-4">
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.strike}">strike</li>
+						<li class="blue-uppercase">
+							<span th:text="${product.strike}">2964.86
+							</span>
+							<span th:text="#{wallet.timed.points}">points au
+							</span>
+							<span th:text="${product.launchDateAsString}">07/09/2016
+							</span>
+						</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.remb.barrier}">barrière de rappel</li>
+						<li class="grey-uppercase">
+							<span th:text="${#numbers.formatDecimal(5555.86456765, 0, 2, 'POINT')}">2964.86
+							</span>
+							<span th:text="#{eav.pts}">points
+							</span>
+							/ <span th:if="${product.prdRule}" th:text="${product.prdRule.reimbursementBarrier}">100</span>
+							<span th:text="#{percent.strike}">% du strike</span>
+							2964.86 points/ 100% du strike
+						</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue " th:text="#{prd.protec.barrier}">barrière de protection</li>
+						<li class="grey-uppercase">
+							<span th:text="${#numbers.formatDecimal(2356.12345, 0, 2, 'POINT')}">1778.92
+							</span>
+							<span th:text="#{eav.pts}">points
+							</span>
+							/ <span th:if="${product.prdRule}" th:text="${product.prdRule.protectionBarrier}">60
+							</span>
+							<span th:text="#{percent.strike}">% du strike
+							</span>
+						</li>
+					</ul>
+				</div>
+				<div class="col-sm-3 col-md-3">
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.maturity}">maturité</li>
+						<li class="grey-uppercase" th:text="${product.dueDateAsLongFormatString}">20 septembre 2024</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.coupon}">coupon</li>
+						<li class="grey-uppercase">
+							<span th:text="${product.couponValue}">7.00
+							</span>%
+						</li>
+					</ul>
+					<ul class="list-unstyled">
+						<li class="light-blue" th:text="#{prd.obs.fqcy}">fréquence d'observation</li>
+						<li class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</li>
+					</ul>
+					<button type="submit" class="btn">
+						<i class="fa fa-trash-o fa-2x hidden-xs" id="product-trash" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+			<div class="col-md-7 term-sheet-list grey-uppercase">
+				<span class="term-sheet" th:if="${product.hasTermSheet}">
+					<a href="#" target="_blank">
+						<img src="/img/files.png" alt="document" id="document"/></a>
+						<span th:text="#{term.sheet}">term sheet</span>
+					</a>
+				</span>
+				<span class="term-sheet" th:if="${product.hasMarketingDoc}">
+					<a href="#" target="_blank">
+						<img src="/img/files.png" alt="document" id="document"/></a>
+						<span th:text="#{doc.market}">document marketing</span>
+					</a>
+				</span>
+				<span class="term-sheet" th:if="${product.hasFease}">
+					<a href="#" target="_blank">
+						<img src="/img/files.png" alt="document" id="document"/></a>
+						<span th:text="#{doc.fease}">fease</span>
+					</a>
+				</span>
+			</div>
+
+			<div class="col-sm-12 col-md-12 prod-black-separator">
+			</div>
+			<!-- end container -->
+		</div>
+	</section>
+
+	<!-- FOOTER -->
+	<footer id="footer">
+		<div class="container-fluid">
+			<div class="footer-main navbar fixed-bottom">
+				<small class="always-left col-xs-12 col-sm-12 col-md-6">
+				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
+				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span class="block"></span>
+				</small>
+				<small class="always-right col-xs-12 col-sm-12 col-md-5">
+				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
+			</small>
+			</div>
+		</div>
+	</footer>
+
+	<a class="footer-arrow" id="arrow-position">
+		<img src="/img/bottom-arrow-top.png" />
+	</a>
+	<div id="scroll-back-to-top">
+		<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
+	</div>
+
+
+	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/extra.js"></script>
+	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+
+	</body>
+
+	</html>
