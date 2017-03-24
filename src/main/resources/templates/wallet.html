@@ -116,13 +116,6 @@
 										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
 											<i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
 										</span>
-										<br />
-										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
-										<br /><br />
-										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span class="grey-uppercase" th:text="#{doc.market}">document marketing<span class="display-b"></span>
-										<br /><br />
 									</div>
 									<div class="col-sm-3 col-md-3">
 										<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
@@ -176,6 +169,20 @@
 										<span class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</span>
 										<br /><br />
 										<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
+									</div>
+								</div>
+								<div>
+									<div th:if="${product.hasTermSheet}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
+									</div>
+									<div th:if="${product.hasMarketingDoc}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span class="grey-uppercase" th:text="#{doc.market}">document marketing</span>
+									</div>
+									<div th:if="${product.hasFease}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span class="grey-uppercase" th:text="#{doc.fease}">fease</span>
 									</div>
 								</div>
 							</div>
