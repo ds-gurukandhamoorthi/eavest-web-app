@@ -119,7 +119,7 @@
 											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
 											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
@@ -143,7 +143,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- PRODUITS A RAPPELER -->
+				<!-- PRODUITS A OBSERVER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
 					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
@@ -174,7 +174,7 @@
 											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
 											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
@@ -287,7 +287,8 @@
 						<div class="white-block">
 							<h2>LE PRODUIT DU MOIS</h2>
 							<div class="month-product">
-                <img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" />
+                <img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" />
+								<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" />
               </div>
               <div class="over-product">
                 <a>

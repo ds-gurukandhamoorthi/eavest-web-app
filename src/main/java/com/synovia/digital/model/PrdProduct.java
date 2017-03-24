@@ -23,6 +23,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.context.i18n.LocaleContextHolder;
+
+import com.synovia.digital.utils.EavUtils;
+
 @Entity
 @Table(name = "prd_product", schema = "test")
 public class PrdProduct extends AbstractBean {
@@ -210,6 +214,16 @@ public class PrdProduct extends AbstractBean {
 	}
 
 	public String getDueDateAsString() {
+		return format.format(dueDate);
+	}
+
+	public String getDueDateAsLongFormatString() {
+		DateFormat format = new SimpleDateFormat(EavUtils.LONG_DATE_FORMAT_PATTERN, LocaleContextHolder.getLocale());
+		return format.format(dueDate);
+
+	}
+
+	public String getDueDateAsStringLongFormat() {
 		return format.format(dueDate);
 	}
 

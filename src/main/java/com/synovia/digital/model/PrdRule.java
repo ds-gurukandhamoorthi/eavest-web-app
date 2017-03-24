@@ -15,6 +15,10 @@ public class PrdRule {
 	@Column(name = "COUPON_BARRIER")
 	private Double couponBarrier;
 
+	/** The reimbursement barrier [%] */
+	@Column(name = "REIMBURSEMENT_BARRIER")
+	private Double reimbursementBarrier;
+
 	// --------------------- CONSTRUCTOR(S) ---------------------
 
 	public PrdRule() {
@@ -51,6 +55,14 @@ public class PrdRule {
 
 	public void setCouponBarrier(Double couponBarrier) {
 		this.couponBarrier = couponBarrier;
+	}
+
+	public Double getReimbursementBarrier() {
+		return this.reimbursementBarrier;
+	}
+
+	public void setReimbursementBarrier(Double reimbursementBarrier) {
+		this.reimbursementBarrier = reimbursementBarrier;
 	}
 
 }

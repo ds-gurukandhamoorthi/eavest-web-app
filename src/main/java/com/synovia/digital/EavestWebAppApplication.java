@@ -24,11 +24,13 @@ import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdStatus;
+import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.repository.PrdUserRepository;
 import com.synovia.digital.utils.PrdStatusEnum;
 
 @SpringBootApplication
@@ -59,7 +61,7 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 
 	@Bean
 	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo, EavRoleRepository roleRepo,
-			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo) {
+			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo, PrdUserRepository userRepo) {
 		return () -> {
 			// Initialize Eavest Parameters 
 			EavParams eavParams = new EavParams();
@@ -82,7 +84,7 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 					+ "nos clients...");
 			eavParams.setRightArticle(article2);
 			eavParamsRepo.save(eavParams);
-			// Create default users (administrators)
+			// Create default accounts (administrators)
 			EavRole admin = new EavRole(1, "ROLE_ADMIN", "EAVEST Administrator");
 			roleRepo.save(admin);
 			roleRepo.save(new EavRole(2, "ROLE_USER", "EAVEST User"));
@@ -95,10 +97,14 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 			eavRoles.add(adminRole);
 			eavRoles.add(userRole);
 			eavRoles.add(testerRole);
-			repo.save(new EavAccount("adm@mailinator.com", "admin", "Couriol", "Teddy", eavRoles));
+			EavAccount adminUser = new EavAccount("adm@mailinator.com", "admin", "Couriol", "Teddy", eavRoles);
+			repo.save(adminUser);
 			Set<EavRole> eavRolesAdmin = new HashSet<>();
 			eavRolesAdmin.add(adminRole);
 			repo.save(new EavAccount("eavadm@mailinator.com", "eav", "Marlot", "Pascal", eavRolesAdmin));
+			// Create the corresponding PrdUser entity
+			PrdUser user = new PrdUser(adminUser);
+			userRepo.save(user);
 
 			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.IDLE.toString(), "Initial state"));
 			prdStatusRepo
@@ -157,6 +163,19 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 			List<PrdSousJacent> indices = Arrays.asList(cac40, eurostoxx50, eurostoxxDividend30, cac40Large,
 					euroistoxxEWC, iStoxx30, iStoxx50, msciEuro50, solactive);
 			prdSsjctRepo.save(indices);
+
+			//			// Create default products
+			//			PrdProduct eavToCall = new PrdProduct();
+			//			eavToCall.setLabel("Autocall Hebdomadaire SX5E 5Y");
+			//			eavToCall.setIsin("FR0013238946");
+			//			eavToCall.setPrdSousJacent(eurostoxx50);
+			//			eavToCall.setLaunchDateAsString("12/12/2012");
+			//			eavToCall.setDueDateAsString("22/12/2022");
+			//			eavToCall.setDeliver("Natixis");
+			//			eavToCall.setIsEavest(true);
+			//			eavToCall.setDueDateAsString("20/03/2017");
+			//
+			//			productRepo.save(eavToCall);
 		};
 	}
 }

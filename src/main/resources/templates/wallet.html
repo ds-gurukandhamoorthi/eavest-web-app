@@ -49,7 +49,7 @@
 					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+						<a href="/wallet/?lang=fr" class="language">fr</a>/<a href="/wallet/?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
@@ -90,158 +90,99 @@
 	<!-- SECTION PORTEFEUILLE -->
 	<section class="my-products">
 		<div class="container">
-			<a href="/wallet"><img src="/img/wallet-vect.png" id="wallet" alt="portefeuille" /></a>
+			<img src="/img/wallet-vect.png" id="wallet" alt="portefeuille" />
 			<h1 th:text="#{wallet.title}">mon portefeuille</h1>
+			<p th:unless="${userProducts}" th:text="#{wallet.empty}">Vous n'avez pas encore de produits dans votre portefeuille!</p>
 			<div class="col-md-12 wallet-wrapper black-line-1">
 				<div class="sous-container wallet-header">
 					<div class="panel-group" id="accordion-wallet-1" role="tablist" aria-multiselectable="true">
 						<!-- collapse product -->
-						<!-- product 2 -->
-						<div class="panel panel-default" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
+						<div class="panel panel-default" th:each="product : ${userProducts}">
 							<div class="activestate" role="tab" id="headingWalletOne">
 								<h4 class="accordion-title">
-									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-wallet-1" href="#collapseWalletOne"  th:href="'#collapseWalletOne' + ${tocallStat.index}" aria-expanded="true">
-									<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-									<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-wallet-1" href="#collapseWalletOne"  th:href="'#collapseWallet' + ${productStat.index}" aria-expanded="true">
+									<span class="margin panel-title" th:text="${product.label + ' / ' + product.isin}">resonance 1 / FR00196847</span>
+									<span th:if="${product.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
 									</a>
 								</h4>
 							</div>
-							<div th:id="'collapse2' + ${tocallStat.index}" id="collapseWalletOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletOne">
+							<div th:id="'collapseWallet' + ${productStat.index}" id="collapseWalletOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletOne">
 								<div class="panel-body">
 									<div class="col-md-12">
-										<h3>société générale</h3>
+										<h3><span th:text="${product.deliver}">société générale</span></h3>
 									</div>
 									<div class="col-sm-2 col-md-2">
-										<img src="img/product.png" alt="produit" id="accor-product"/>
+										<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" id="accor-product"/>
 										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
 											<i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
 										</span>
-										<br />
-										<img src="img/files.png" alt="document" id="document"/>
-										<span id="term-sheet" class="grey-uppercase">term sheet</span>
-										<br /><br />
-										<img src="img/files.png" alt="document" id="document"/>
-										<span class="grey-uppercase">document<span class="display-b"></span><br /><br />
-										<span id="marketing">marketing</span></span>
 									</div>
 									<div class="col-sm-3 col-md-3">
-										<span class="light-blue">sous-jacent</span>
+										<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
 										<span class="display-b"></span>
-										<span class="blue-uppercase">euro istoxx&reg; ewc 50</span>
+										<span class="blue-uppercase" th:text="${product.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
 										<br /><br />
-										<span class="light-blue">devise</span>
+										<span class="light-blue" th:text="#{eav.currency}">devise</span>
 										<span class="display-b"></span>
 										<span class="grey-uppercase">eur</span>
 										<br /><br />
-										<span class="light-blue">statut</span>
+										<span class="light-blue" th:text="#{prd.status}">statut</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">en cours</span>
+										<span class="grey-uppercase" th:text="${product.prdStatus.description}">en cours</span>
 										<span class="display-b"></span>
 									</div>
 									<div class="col-sm-4 col-md-4">
-										<span class="light-blue">strike</span>
+										<span class="light-blue" th:text="#{prd.strike}">strike</span>
 										<span class="display-b"></span>
-										<span class="blue-uppercase">2964.86 points au 07/09/2016</span>
+										<span class="blue-uppercase">
+											<span th:text="${product.strike}">2964.86</span> <span th:text="#{wallet.timed.points}">points au</span> <span th:text="${product.launchDateAsString}">07/09/2016</span>
+										</span>
 										<br /><br />
-										<span class="light-blue">barrière de rappel</span>
+										<span class="light-blue" th:text="#{prd.remb.barrier}">barrière de rappel</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">2964.86 points/ 100% du strike</span>
+										<span class="grey-uppercase">
+											<span th:text="${#numbers.formatDecimal(5555.86456765, 0, 2, 'POINT')}">2964.86</span> <span th:text="#{eav.pts}">points</span>
+											/ <span th:if="${product.prdRule}" th:text="${product.prdRule.reimbursementBarrier}">100</span>
+											<span th:text="#{percent.strike}">% du strike</span>
+										</span>
 										<br /><br />
-										<span class="light-blue">barrière de protection</span>
+										<span class="light-blue" th:text="#{prd.protec.barrier}">barrière de protection</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">1778.92 points/ 60% du strike</span>
+										<span class="grey-uppercase">
+											<span th:text="${#numbers.formatDecimal(2356.12345, 0, 2, 'POINT')}">1778.92</span> <span th:text="#{eav.pts}">points</span>
+											/ <span th:if="${product.prdRule}" th:text="${product.prdRule.protectionBarrier}">60</span>
+											<span th:text="#{percent.strike}">% du strike</span>
+										</span>
 										<br /><br />
 									</div>
 									<div class="col-sm-3 col-md-3">
-										<span class="light-blue">maturité</span>
+										<span class="light-blue" th:text="#{prd.maturity}">maturité</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">20 septembre 2024</span>
+										<span class="grey-uppercase" th:text="${product.dueDateAsLongFormatString}">20 septembre 2024</span>
 										<br /><br />
-										<span class="light-blue">coupon</span>
+										<span class="light-blue" th:text="#{prd.coupon}">coupon</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">7.00%</span>
+										<span class="grey-uppercase"><span th:text="${product.couponValue}">7.00</span>%</span>
 										<br /><br />
-										<span class="light-blue">fréquence d'observation</span>
+										<span class="light-blue" th:text="#{prd.obs.fqcy}">fréquence d'observation</span>
 										<span class="display-b"></span>
-										<span class="grey-uppercase">annuelle les années 1 à 8</span>
+										<span class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</span>
 										<br /><br />
 										<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
 									</div>
 								</div>
-							</div>
-						</div>
-						<!-- product 2 -->
-						<div class="panel panel-default" th:each="tocall : ${tocallProducts}" th:if="${tocallStat.count} le 5">
-							<div class="activestate" role="tab" id="headingWalletTwo">
-								<h4 class="accordion-title">
-									<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-wallet-1" href="#collapseWalletTwo"  th:href="'#collapseWallet2' + ${tocallStat.index}" aria-expanded="true">
-										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
-									</a>
-								</h4>
-							</div>
-							<div th:id="'collapse2' + ${tocallStat.index}" id="collapseWalletTwo" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletTwo">
-								<div class="panel-body">
-									<div class="col-md-12">
-										<h3>société générale</h3>
+								<div>
+									<div th:if="${product.hasTermSheet}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
 									</div>
-									<div class="col-sm-2 col-md-2">
-										<img src="img/product.png" alt="produit" id="accor-product"/>
-										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
-											<i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
-										</span>
-										<br />
-										<img src="img/files.png" alt="document" id="document"/>
-										<span  id="term-sheet" class="grey-uppercase">term sheet</span>
-										<br /><br />
-										<img src="img/files.png" alt="document" id="document"/>
-										<span class="grey-uppercase">document
-											<span class="display-b"></span><br /><br />
-											<span id="marketing">marketing</span>
-										</span>
+									<div th:if="${product.hasMarketingDoc}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span class="grey-uppercase" th:text="#{doc.market}">document marketing</span>
 									</div>
-									<div class="col-sm-3 col-md-3">
-										<span class="light-blue">sous-jacent</span>
-										<span class="display-b"></span>
-										<span class="blue-uppercase">euro istoxx&reg; ewc 50</span>
-										<br /><br />
-										<span class="light-blue">devise</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">eur</span>
-										<br /><br />
-										<span class="light-blue">statut</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">en cours</span>
-										<span class="display-b"></span>
-									</div>
-									<div class="col-sm-4 col-md-4">
-										<span class="light-blue">strike</span>
-										<span class="display-b"></span>
-										<span class="blue-uppercase">2964.86 points au 07/09/2016</span>
-										<br /><br />
-										<span class="light-blue">barrière de rappel</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">2964.86 points/ 100% du strike</span>
-										<br /><br />
-										<span class="light-blue">barrière de protection</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">1778.92 points/ 60% du strike</span>
-										<br /><br />
-									</div>
-									<div class="col-sm-3 col-md-3">
-										<span class="light-blue">maturité</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">20 septembre 2024</span>
-										<br /><br />
-										<span class="light-blue">coupon</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">7.00%</span>
-										<br /><br />
-										<span class="light-blue">fréquence d'observation</span>
-										<span class="display-b"></span>
-										<span class="grey-uppercase">annuelle les années 1 à 8</span>
-										<br /><br />
-										<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
+									<div th:if="${product.hasFease}">
+										<a><img src="/img/files.png" alt="document" id="document"/></a>
+										<span class="grey-uppercase" th:text="#{doc.fease}">fease</span>
 									</div>
 								</div>
 							</div>
@@ -249,7 +190,10 @@
 					</div>
 				</div>
 				<div class="add-product">
-					<span class="big-blue-letters"><img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
+					<span class="big-blue-letters">
+						<a th:if="${prdUser}" href="/products" th:href="@{/admin/users/{id}(id=${prdUser.id})}">
+							<img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
+						</a>
 						ajouter un produit
 					</span>
 				</div>
@@ -374,7 +318,8 @@
 	</section>
 	<!-- END SECTION PRODUCTS  -->
 	<!--PERFREVIEW -->
-	<!-- <section class="my-perf-review">
+	<!-- Disabled since we don't know what to display
+	<section class="my-perf-review">
 		<div class="container">
 			<div class="col-sm-12 col-md-6">
 				<div>
@@ -383,9 +328,8 @@
 						<li class="square-2" id="translate" th:text="${year}">16</li>
 					</ul>
 				</div>
-				<h1 class="perf-review">PERFREVIEW</h1> -->
-				<!-- TABLEAU -->
-				<!-- <table class="table table-bordered">
+				<h1 class="perf-review">PERF REVIEW</h1>
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
@@ -400,22 +344,8 @@
 							<td class="grey-letters">4509,26</td>
 							<td class="grey-letters"><span>1,37</span>%</td>
 							<td class="grey-letters"><span>-7,93</span>%</td>
-						</tr> -->
-						<!-- TCO: The following block might be uncommented if no connexion with the server
-						<tr>
-							<td class="left-align">Cac 40</td>
-							<td class="grey-letters">4509,26</td>
-							<td class="grey-letters">1,37%</td>
-							<td class="grey-letters">-7,93%</td>
 						</tr>
-						<tr>
-							<td class="left-align">Produit de Katalina</td>
-							<td class="grey-letters">3055,25</td>
-							<td class="grey-letters">1,77%</td>
-							<td class="grey-letters">-10,62%</td>
-						</tr>
-					-->
-					<!-- </tbody>
+					</tbody>
 					<thead class="display-on-click">
 						<tr>
 							<th class="col-sm-6 col-md-6 grey-letters">Nouveaux indices</th>
@@ -430,10 +360,8 @@
 							<td class="grey-letters">1780,53</td>
 							<td class="grey-letters"><span>-1,18</span>%</td>
 							<td class="grey-letters"><span>7,07</span>%</td>
-						</tr> -->
-						<!-- TCO: Add static rows here if no connexion with the server
-						-->
-					<!-- </tbody>
+						</tr>
+					</tbody>
 					<tfoot>
 						<tr>
 							<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
@@ -447,7 +375,8 @@
 				</table>
 			</div>
 		</div>
-	</section> -->
+	</section>
+-->
 	<!-- end container -->
 
 	<!-- FOOTER -->
