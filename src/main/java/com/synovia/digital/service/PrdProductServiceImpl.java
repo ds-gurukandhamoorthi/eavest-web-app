@@ -315,7 +315,7 @@ public class PrdProductServiceImpl implements PrdProductService {
 		List<PrdProduct> results = new ArrayList<>();
 		for (PrdObservationDate d : obsDates) {
 			PrdProduct p = d.getPrdProduct();
-			if (p.getEndDate() != null && d.getDate().before(p.getEndDate())) {
+			if (p.getEndDate() == null || d.getDate().before(p.getEndDate())) {
 				results.add(p);
 			}
 		}
@@ -756,8 +756,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 		List<PrdProduct> results = new ArrayList<>();
 		for (PrdObservationDate d : obsDates) {
 			PrdProduct p = d.getPrdProduct();
-			if (p.getEndDate() != null && d.getDate().before(p.getEndDate()) && p.getPrdUsers().contains(user)) {
-				results.add(d.getPrdProduct());
+			if (p.getPrdUsers().contains(user) && (p.getEndDate() == null || d.getDate().before(p.getEndDate()))) {
+				results.add(p);
 			}
 		}
 		return results;
