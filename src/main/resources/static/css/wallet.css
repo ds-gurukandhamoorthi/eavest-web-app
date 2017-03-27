@@ -2,12 +2,12 @@
   margin-bottom: 60px;
 }
 
-.add-product {
-  padding-bottom: 45px;
-}
-
 .wallet-wrapper {
   padding: 0;
+}
+
+.panel-body {
+  margin: 0;
 }
 
 .blue-uppercase {
@@ -22,6 +22,10 @@
   margin: 0 0 5px 0;
 }
 
+#wallet-products {
+  margin-bottom: 85px;
+}
+
 img#document {
   height: 30px;
 }
@@ -32,11 +36,20 @@ img#document {
   text-transform: uppercase;
 }
 
+#accordion-wallet-1 {
+  padding-bottom: 60px;
+}
+
 #add-product {
   margin: 3px;
   width: 30px;
   cursor: pointer;
   display: inline-block;
+}
+
+#empty {
+  font-size: 14px;
+  font-style: italic;
 }
 
 
