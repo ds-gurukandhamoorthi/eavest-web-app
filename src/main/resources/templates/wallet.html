@@ -194,7 +194,7 @@
 						<a th:if="${prdUser}" href="/products" th:href="@{/admin/users/{id}(id=${prdUser.id})}">
 							<img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
 						</a>
-						ajouter un produit
+						<span th:text="#{wallet.add.product}">ajouter un produit</span>
 					</span>
 				</div>
 			</div>
@@ -206,7 +206,7 @@
 				<!-- PRODUITS REMBOURSES -->
 				<div class="col-sm-6 col-md-6 wrapper">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+					<h1 class="product-title"><span th:text="#{refund.prd}">produits remboursés</span> <span class="min" th:text="#{home.since.days}">depuis 30 jours</span></h1>
 					<div class="sous-container">
 
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
@@ -234,17 +234,17 @@
 											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
 											<span class="display-b"></span>
 											<br />
-											<span class="light-blue">sous-jacent</span>
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
 											<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
 											<span class="display-b"></span>
-											<span class="light-blue">statut</span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
 											<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
 										</div>
@@ -262,7 +262,7 @@
 				<!-- PRODUITS A RAPPELER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title"><b>produits à rappeler</b><span class="min"> dans les 30 jours</span></h1>
+					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b><span class="min" th:text="#{home.from.days}"> dans les 30 jours</span></h1>
 					<div class="sous-container">
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
@@ -289,17 +289,17 @@
 											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
+											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
 											<span class="display-b"></span>
 											<br />
-											<span class="light-blue">sous-jacent</span>
+											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
 											<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
 											<span class="display-b"></span>
-											<span class="light-blue">statut</span>
+											<span class="light-blue" th:text="#{prd.status}">statut</span>
 											<span class="display-b"></span>
 											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
 										</div>
