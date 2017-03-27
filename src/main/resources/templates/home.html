@@ -111,26 +111,28 @@
 										</a>
 									</h4>
 								</div>
-
 								<div th:id="'collapse' + ${refundStat.index}" id="collapseOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingOne">
 									<div class="panel-body">
-										<div class="col-md-12">
-											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
+										<div class="col-md-12 product-accor-title">
+											<h3><span th:text="${refund.deliver}" >Société générale</span></h3>
 										</div>
-										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" th:alt="#{prd.image}" alt="produit" id="accor-product"/>
-										</div>
-										<div class="col-md-9">
-											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
-												<span class="display-b"></span>
-												<br />
-											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
-												<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-												<span class="display-b"></span>
-											<span class="light-blue" th:text="#{prd.status}">statut</span>
-												<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
+										<div class="row prod-accor-row">
+											<div class="col-xs-5 col-sm-4 col-md-3">
+												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" th:alt="#{prd.image}" alt="produit" id="accor-product"/>
+											</div>
+											<div class="col-xs-7 col-sm-7 col-md-9">
+												<ul class="list-unstyled">
+													<li><span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span></span>
+														<span class="bold-blue">4.254</span>
+													</li>
+												</ul>
+												<ul class="list-unstyled">
+													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
+													<li class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
+													<li class="light-blue">statut</li>
+													<li class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -169,23 +171,26 @@
 								</div>
 								<div th:id="'collapse2' + ${tocallStat.index}" id="collapse2One" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="heading2One">
 									<div class="panel-body">
-										<div class="col-md-12">
+										<div class="col-md-12 product-accor-title">
 											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
 										</div>
-										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
-										</div>
-										<div class="col-md-9">
-											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
-												<span class="display-b"></span>
-												<br />
-											<span class="light-blue" th:text="#{undrl.asset}">sous-jacent</span>
-												<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-												<span class="display-b"></span>
-											<span class="light-blue" th:text="#{prd.status}">statut</span>
-												<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
+										<div class="row prod-accor-row">
+											<div class="col-xs-5 col-sm-4 col-md-3">
+												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
+											</div>
+											<div class="col-xs-7 col-sm-7 col-md-9">
+												<ul class="list-unstyled">
+													<li><span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span></span>
+														<span class="bold-blue">4.254</span>
+													</li>
+												</ul>
+												<ul class="list-unstyled">
+													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
+													<li class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
+													<li class="light-blue" th:text="#{prd.status}">statut</li>
+													<li class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -587,7 +592,7 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
