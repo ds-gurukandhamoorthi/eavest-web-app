@@ -68,16 +68,25 @@
 	          <label for="due-date">Date d'échéance</label>
 	          <input id="due-date" type="date" name="due-date" th:field="*{dueDate}" />
 
-            <!--
-	          <label for="protect">Barrière de protection (%)</label>
-	          <input id="protect" type="number" name="protect" th:field="*{protectionBarrier}" />
+            <label for="strike">Strike</label>
+	          <input id="strike" type="number" name="strike" step="0.01" th:field="*{strike}" />
+
+            <label for="remb">Barrière de rappel (%)</label>
+	          <input id="remb" type="number" name="remb" min="0" max="100" step="0.01" th:field="*{reimbursementBarrier}" />
+
+            <label for="protect">Barrière de protection (%)</label>
+	          <input id="protect" type="number" name="protect" min="0" max="100" step="0.01" th:field="*{protectionBarrier}" />
 
 	          <label for="coupon">Barrière de coupon (%)</label>
-	          <input id="coupon" type="number" name="coupon" th:field="*{couponBarrier}" />
+	          <input id="coupon" type="number" name="coupon" min="0" max="100" step="0.01" th:field="*{couponBarrier}" />
 
 	          <label for="coupon">Valeur de coupon (%)</label>
-	          <input id="coupon" type="number" name="coupon" th:field="*{couponValue}" />
+	          <input id="coupon" type="number" name="coupon" min="0" max="100" step="0.01" th:field="*{couponValue}" />
 
+            <label for="frqcy">Fréquence d'observation</label>
+	          <input id="frqcy" type="text" name="frqcy" th:field="*{observationFrequency}" />
+
+            <!--
 	          <label for="nominal">Valeur nominale</label>
 	          <input id="nominal" type="number" name="nominal" th:field="*{nominalValue}" />
 

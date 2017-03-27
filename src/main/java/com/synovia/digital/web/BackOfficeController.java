@@ -92,6 +92,9 @@ public class BackOfficeController {
 	protected static final String ATTR_COUPON_DATE_LIST = "couponDates";
 	protected static final String ATTR_ACCOUNT_LIST = "accounts";
 	protected static final String ATTR_PRODUCT_IMAGE_FILENAME = "imageFile";
+	protected static final String ATTR_PRODUCT_TS_FILENAME = "termSheetFile";
+	protected static final String ATTR_PRODUCT_MKT_FILENAME = "marketingFile";
+	protected static final String ATTR_PRODUCT_FEASE_FILENAME = "feaseFile";
 	protected static final String ATTR_NEWS_MONTH_DTO = "newsOfMonth";
 	protected static final String ATTR_HOME_ARTICLES_DTO = "highlightArticles";
 	protected static final String ATTR_ACCOUNT = "account";
@@ -264,8 +267,89 @@ public class BackOfficeController {
 
 			File imageFile = productService.getImage(product);
 			if (imageFile != null) {
-				attributes.addFlashAttribute(ATTR_PRODUCT_IMAGE_FILENAME, productService.getImage(product).getName());
+				attributes.addFlashAttribute(ATTR_PRODUCT_IMAGE_FILENAME, imageFile.getName());
 			}
+			// Redirect the view
+			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+
+		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/updateTermSheet")
+	public String updateProductTermSheet(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id,
+			RedirectAttributes attributes) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+
+		// Store the product data in the fdwh
+		try {
+			PrdProduct product = productService.findById(id);
+			productService.storeTermSheet(product, file);
+
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Product term sheet has been stored!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute("product", product);
+
+			// Redirect the view
+			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+
+		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/updateMarketingDoc")
+	public String updateProductMarketingDoc(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id,
+			RedirectAttributes attributes) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+
+		// Store the product data in the fdwh
+		try {
+			PrdProduct product = productService.findById(id);
+			productService.storeMarketingDoc(product, file);
+
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Product marketing document has been stored!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute("product", product);
+
+			// Redirect the view
+			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+
+		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/updateFease")
+	public String updateProductFease(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id,
+			RedirectAttributes attributes) {
+		String view = VIEW_ADD_PRODUCT_DATE;
+
+		// Store the product data in the fdwh
+		try {
+			PrdProduct product = productService.findById(id);
+			productService.storeFease(product, file);
+
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Product fease document has been stored!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute("product", product);
+
 			// Redirect the view
 			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
 

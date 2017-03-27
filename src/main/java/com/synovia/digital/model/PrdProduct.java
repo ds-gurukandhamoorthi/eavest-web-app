@@ -86,10 +86,10 @@ public class PrdProduct extends AbstractBean {
 	/** Translation of "prix d'emission" */
 	private Double startPrice;
 
-	@Column(name = "DELIVER")
+	@Column(name = "DELIVER", length = 40)
 	private String deliver;
 
-	@Column(name = "GUARANTOR")
+	@Column(name = "GUARANTOR", length = 40)
 	private String guarantor;
 
 	/** The Status of this entity. Is updated in post-update method. */
@@ -116,11 +116,17 @@ public class PrdProduct extends AbstractBean {
 	@Column(name = "STRIKE")
 	private Double strike;
 
-	@Column(name = "OBSERVATION_FREQUENCY")
+	@Column(name = "OBSERVATION_FREQUENCY", length = 40)
 	private String observationFrequency;
 
-	@Column(name = "IMAGE_SHORTCUT")
-	private String imageShortcut;
+	@Column(name = "HAS_FEASE")
+	private Boolean hasFease;
+
+	@Column(name = "HAS_TERM_SHEET")
+	private Boolean hasTermSheet;
+
+	@Column(name = "HAS_MARKETING_DOC")
+	private Boolean hasMarketingDoc;
 
 	@Transient
 	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -428,6 +434,15 @@ public class PrdProduct extends AbstractBean {
 		return this.strike;
 	}
 
+	public Long getStrikeRound() {
+		Long result = null;
+		if (this.strike != null) {
+			result = Math.round(this.strike);
+		}
+
+		return result;
+	}
+
 	public void setStrike(Double strike) {
 		this.strike = strike;
 	}
@@ -464,12 +479,28 @@ public class PrdProduct extends AbstractBean {
 		this.prdStatus = prdStatus;
 	}
 
-	public String getImageShortcut() {
-		return this.imageShortcut;
+	public Boolean getHasFease() {
+		return this.hasFease;
 	}
 
-	public void setImageShortcut(String imageShortcut) {
-		this.imageShortcut = imageShortcut;
+	public void setHasFease(Boolean hasFease) {
+		this.hasFease = hasFease;
+	}
+
+	public Boolean getHasTermSheet() {
+		return this.hasTermSheet;
+	}
+
+	public void setHasTermSheet(Boolean hasTermSheet) {
+		this.hasTermSheet = hasTermSheet;
+	}
+
+	public Boolean getHasMarketingDoc() {
+		return this.hasMarketingDoc;
+	}
+
+	public void setHasMarketingDoc(Boolean hasMarketingDoc) {
+		this.hasMarketingDoc = hasMarketingDoc;
 	}
 
 	// -------------------------- OTHER METHODS --------------------------
@@ -498,8 +529,9 @@ public class PrdProduct extends AbstractBean {
 				.append("; ").append("End date:").append(strEndDate).append("; ").append("EAVEST product:")
 				.append(this.isEavest).append("; ").append("Best-seller:").append(this.isBestSeller).append("; ")
 				.append("Path:").append(this.path).append("; ").append("Strike:").append(this.strike).append("; ")
-				.append("Observation frequency:").append(this.observationFrequency).append("; ")
-				.append("Image shortcut:").append(this.imageShortcut).append("]").toString();
+				.append("Observation frequency:").append(this.observationFrequency).append("; ").append("Has fease:")
+				.append(this.hasFease).append("; ").append("Has term sheet:").append(this.hasTermSheet).append("; ")
+				.append("Has marketing document:").append(this.hasMarketingDoc).append("]").toString();
 	}
 
 }

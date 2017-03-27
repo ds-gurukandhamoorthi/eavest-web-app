@@ -25,9 +25,10 @@ public class PrdRule {
 
 	}
 
-	public PrdRule(Double protectionBarrier, Double couponBarrier) {
+	public PrdRule(Double protectionBarrier, Double couponBarrier, Double reimbursementBarrier) {
 		this.protectionBarrier = protectionBarrier;
 		this.couponBarrier = couponBarrier;
+		this.reimbursementBarrier = reimbursementBarrier;
 
 	}
 
@@ -36,7 +37,8 @@ public class PrdRule {
 	@Override
 	public String toString() {
 		return new StringBuilder("[").append("Protection barrier:").append(protectionBarrier).append("; ")
-				.append("Coupon barrier:").append(couponBarrier).append("]").toString();
+				.append("Coupon barrier:").append(couponBarrier).append("; ").append("Reimbursement barrier:")
+				.append(reimbursementBarrier).append("]").toString();
 	}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------

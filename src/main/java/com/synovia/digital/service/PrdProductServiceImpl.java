@@ -36,6 +36,7 @@ import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
+import com.synovia.digital.service.utils.PrdUserProductComparator;
 import com.synovia.digital.service.utils.RefundProductComparator;
 import com.synovia.digital.utils.EavUtils;
 import com.synovia.digital.utils.FileExtractor;
@@ -65,8 +66,6 @@ public class PrdProductServiceImpl implements PrdProductService {
 	protected EavResource eavResource;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
-
-	public static final String DEFAULT_IMAGE_NAME = "image";
 
 	/**
 	 * TODO Constructs ... based on ...
@@ -197,7 +196,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 		entity.setPrdSousJacent(
 				dto.getIdPrdSousJacent() != null ? sousJacentRepo.findOne(dto.getIdPrdSousJacent()) : null);
-		entity.setPrdRule(new PrdRule(dto.getProtectionBarrier(), dto.getCouponBarrier()));
+		entity.setPrdRule(
+				new PrdRule(dto.getProtectionBarrier(), dto.getCouponBarrier(), dto.getReimbursementBarrier()));
 		if (dto.getObservationDates() != null) {
 			Set<PrdObservationDate> obsDates = new HashSet<>();
 			try {
@@ -314,7 +314,10 @@ public class PrdProductServiceImpl implements PrdProductService {
 		List<PrdObservationDate> obsDates = obsDateService.filterByDate(from, until);
 		List<PrdProduct> results = new ArrayList<>();
 		for (PrdObservationDate d : obsDates) {
-			results.add(d.getPrdProduct());
+			PrdProduct p = d.getPrdProduct();
+			if (p.getEndDate() != null && d.getDate().before(p.getEndDate())) {
+				results.add(p);
+			}
 		}
 		return results;
 	}
@@ -514,11 +517,19 @@ public class PrdProductServiceImpl implements PrdProductService {
 	}
 
 	private String getDefaultImageName(String extension) {
-		String ext = extension;
-		if (!extension.startsWith(".")) {
-			ext = new StringBuilder(".").append(extension).toString();
-		}
-		return new StringBuilder(DEFAULT_IMAGE_NAME).append(ext).toString();
+		return EavUtils.constructDefaultDocumentName(extension, EavUtils.DEFAULT_IMAGE_NAME);
+	}
+
+	private String getDefaultTermSheetDocName(String extension) {
+		return EavUtils.constructDefaultDocumentName(extension, EavUtils.DEFAULT_TS_NAME);
+	}
+
+	private String getDefaultMarketingDocName(String extension) {
+		return EavUtils.constructDefaultDocumentName(extension, EavUtils.DEFAULT_MARKET_DOC_NAME);
+	}
+
+	private String getDefaultFeaseDocName(String extension) {
+		return EavUtils.constructDefaultDocumentName(extension, EavUtils.DEFAULT_FEASE_NAME);
 	}
 
 	/*
@@ -543,9 +554,20 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 * org.springframework.web.multipart.MultipartFile)
 	 */
 	@Override
-	public void storeTermSheet(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
-		// TODO Auto-generated method stub
+	public void storeTermSheet(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException {
+		if (product == null)
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
+		String tsName = getDefaultTermSheetDocName(EavUtils.PDF_EXTENSION);
+		// Store the product image in the FDWH
+		FileExtractor.Param param = new FileExtractor.Param(EavUtils.PDF_EXTENSION,
+				homeDir.getTermSheetDir(product.getId()), tsName);
+
+		FileExtractor.copy(fileToStore, param);
+
+		// Update product information
+		product.setHasTermSheet(getTermSheet(product) != null);
+		repo.save(product);
 	}
 
 	/*
@@ -555,9 +577,20 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 * org.springframework.web.multipart.MultipartFile)
 	 */
 	@Override
-	public void storeFease(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
-		// TODO Auto-generated method stub
+	public void storeFease(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException {
+		if (product == null)
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
+		String feaseName = getDefaultFeaseDocName(EavUtils.PDF_EXTENSION);
+		// Store the product image in the FDWH
+		FileExtractor.Param param = new FileExtractor.Param(EavUtils.PDF_EXTENSION,
+				homeDir.getFeaseDir(product.getId()), feaseName);
+
+		FileExtractor.copy(fileToStore, param);
+
+		// Update product information
+		product.setHasFease(getFease(product) != null);
+		repo.save(product);
 	}
 
 	/*
@@ -568,9 +601,20 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 * org.springframework.web.multipart.MultipartFile)
 	 */
 	@Override
-	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavEntryNotFoundException {
-		// TODO Auto-generated method stub
+	public void storeMarketingDoc(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException {
+		if (product == null)
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
+		String docName = getDefaultMarketingDocName(EavUtils.PDF_EXTENSION);
+		// Store the product image in the FDWH
+		FileExtractor.Param param = new FileExtractor.Param(EavUtils.PDF_EXTENSION,
+				homeDir.getMarketingDir(product.getId()), docName);
+
+		FileExtractor.copy(fileToStore, param);
+
+		// Update product information
+		product.setHasMarketingDoc(getMarketingDoc(product) != null);
+		repo.save(product);
 	}
 
 	/*
@@ -588,6 +632,134 @@ public class PrdProductServiceImpl implements PrdProductService {
 		Set<PrdUser> users = new HashSet<>();
 		users.add(user);
 
-		return repo.findByPrdUsers(users);
+		List<PrdProduct> result = repo.findByPrdUsers(users);
+		Collections.sort(result, new PrdUserProductComparator());
+
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#getFease(com.synovia.digital.model.
+	 * PrdProduct)
+	 */
+	@Override
+	public File getFease(PrdProduct product) {
+		File fease = null;
+		if (product == null)
+			return fease;
+
+		File[] docs = homeDir.getFeaseDir(product.getId()).listFiles();
+		if (docs.length > 1) {
+			LOGGER.error("Several documents exist but only one reference is required for product {}",
+					product.getLabel());
+
+		} else {
+			if (docs.length == 0) {
+				LOGGER.warn("No reference document found for product {}", product.getLabel());
+			} else {
+				fease = docs[0];
+
+			}
+		}
+		return fease;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#getTermSheet(com.synovia.digital.
+	 * model.PrdProduct)
+	 */
+	@Override
+	public File getTermSheet(PrdProduct product) {
+		File result = null;
+		if (product == null)
+			return result;
+
+		File[] docs = homeDir.getTermSheetDir(product.getId()).listFiles();
+		if (docs.length > 1) {
+			LOGGER.error("Several documents exist but only one reference is required for product {}",
+					product.getLabel());
+
+		} else {
+			if (docs.length == 0) {
+				LOGGER.warn("No reference document found for product {}", product.getLabel());
+			} else {
+				result = docs[0];
+
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#getMarketingDoc(com.synovia.digital.
+	 * model.PrdProduct)
+	 */
+	@Override
+	public File getMarketingDoc(PrdProduct product) {
+		File result = null;
+		if (product == null)
+			return result;
+
+		File[] docs = homeDir.getMarketingDir(product.getId()).listFiles();
+		if (docs.length > 1) {
+			LOGGER.error("Several documents exist but only one reference is required for product {}",
+					product.getLabel());
+
+		} else {
+			if (docs.length == 0) {
+				LOGGER.warn("No reference document found for product {}", product.getLabel());
+			} else {
+				result = docs[0];
+
+			}
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#listUserRefundProducts(java.util.
+	 * Date, com.synovia.digital.model.PrdUser)
+	 */
+	@Override
+	public List<PrdProduct> listUserRefundProducts(Date from, PrdUser user) {
+		Set<PrdUser> u = new HashSet<>();
+		u.add(user);
+		List<PrdProduct> list = (from == null) ? new ArrayList<>() : repo.findByEndDateAfterAndPrdUsers(from, u);
+		Collections.sort(list, new RefundProductComparator());
+
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#listUserUpcomingProducts(java.util.
+	 * Date, java.util.Date, com.synovia.digital.model.PrdUser)
+	 */
+	@Override
+	public List<PrdProduct> listUserUpcomingProducts(Date from, Date until, PrdUser user) {
+		// Retrieve the list of a filter of observation dates
+		List<PrdObservationDate> obsDates = obsDateService.filterByDate(from, until);
+		List<PrdProduct> results = new ArrayList<>();
+		for (PrdObservationDate d : obsDates) {
+			PrdProduct p = d.getPrdProduct();
+			if (p.getEndDate() != null && d.getDate().before(p.getEndDate()) && p.getPrdUsers().contains(user)) {
+				results.add(d.getPrdProduct());
+			}
+		}
+		return results;
 	}
 }

@@ -91,4 +91,40 @@ public class EavHomeDirectory {
 
 		return result;
 	}
+
+	public File getTermSheetDir(Long idPrdProduct) {
+		String relativePath = new StringBuilder(idPrdProduct.toString()).append(File.separator)
+				.append(TERM_SHEET_DIR_NAME).toString();
+		File result = new File(productDir, relativePath);
+		if (!result.exists()) {
+			result.mkdirs();
+		}
+
+		return result;
+
+	}
+
+	public File getFeaseDir(Long idPrdProduct) {
+		String relativePath = new StringBuilder(idPrdProduct.toString()).append(File.separator).append(FEASE_DIR_NAME)
+				.toString();
+		File result = new File(productDir, relativePath);
+		if (!result.exists()) {
+			result.mkdirs();
+		}
+
+		return result;
+
+	}
+
+	public File getMarketingDir(Long idPrdProduct) {
+		String relativePath = new StringBuilder(idPrdProduct.toString()).append(File.separator)
+				.append(MARKETING_DIR_NAME).toString();
+		File result = new File(productDir, relativePath);
+		if (!result.exists()) {
+			result.mkdirs();
+		}
+
+		return result;
+
+	}
 }

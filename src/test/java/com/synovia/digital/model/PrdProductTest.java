@@ -25,6 +25,7 @@ public class PrdProductTest {
 	private Long prdSousJacentId;
 	private Double protectionBarrier;
 	private Double couponBarrier;
+	private Double reimbursementBarrier;
 	private String subscriptionStartDateAsString;
 	private String subscriptionEndDateAsString;
 	private Double couponValue;
@@ -40,7 +41,6 @@ public class PrdProductTest {
 	private String path;
 	private Double strike;
 	private String observationFrequency;
-	private String imageShortcut;
 
 	/**
 	 * @throws java.lang.Exception
@@ -70,7 +70,6 @@ public class PrdProductTest {
 		path = "//path/dir";
 		strike = 3456.;
 		observationFrequency = "tous les jours";
-		imageShortcut = "/img/shortcut";
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class PrdProductTest {
 		PrdSousJacent base = new PrdSousJacent();
 		base.setId(prdSousJacentId);
 		product.setPrdSousJacent(base);
-		product.setPrdRule(new PrdRule(protectionBarrier, couponBarrier));
+		product.setPrdRule(new PrdRule(protectionBarrier, couponBarrier, reimbursementBarrier));
 		product.setSubscriptionStartDateAsString(subscriptionStartDateAsString);
 		product.setSubscriptionEndDateAsString(subscriptionEndDateAsString);
 		product.setCouponValue(couponValue);
@@ -107,7 +106,6 @@ public class PrdProductTest {
 		product.setPath(path);
 		product.setStrike(strike);
 		product.setObservationFrequency(observationFrequency);
-		product.setImageShortcut(imageShortcut);
 
 		String result = product.toString();
 
@@ -120,6 +118,7 @@ public class PrdProductTest {
 		Assert.assertTrue(result.contains(protectionBarrier.toString()));
 		Assert.assertTrue(result.contains(protectionBarrier.toString()));
 		Assert.assertTrue(result.contains(couponBarrier.toString()));
+		Assert.assertTrue(result.contains(reimbursementBarrier.toString()));
 		Assert.assertTrue(result.contains(subscriptionStartDateAsString));
 		Assert.assertTrue(result.contains(subscriptionEndDateAsString));
 		Assert.assertTrue(result.contains(couponValue.toString()));
@@ -135,7 +134,6 @@ public class PrdProductTest {
 		Assert.assertTrue(result.contains(path));
 		Assert.assertTrue(result.contains(strike.toString()));
 		Assert.assertTrue(result.contains(observationFrequency));
-		Assert.assertTrue(result.contains(imageShortcut));
 	}
 
 	/**

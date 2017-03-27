@@ -64,7 +64,7 @@
             <input id="nb-month" type="text" name="nb-month" th:field="*{numberOfTheMonth}" pattern=".{1,6}" required="true" title="Le chiffre du mois ne doit pas dépasser 6 caractères"/>
 
             <label for="txt-month" th:text="#{bo.news.text}">Texte relatif</label>
-            <input id="txt-month" type="text" name="txt-month" th:field="*{textOfTheMonth}" required="true"/>
+            <input id="txt-month" type="text" name="txt-month" th:field="*{textOfTheMonth}" required="true" maxlength="150"/>
 
             <input type="submit" value="Valider" class="btn btn-primary" />
           </form>

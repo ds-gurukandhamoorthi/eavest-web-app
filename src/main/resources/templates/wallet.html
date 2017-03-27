@@ -9,7 +9,7 @@
 	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
-	<link href="./favicon.ico" rel="icon" type="image/ico" />
+	<link href="/ico/favicon.ico" rel="icon" type="image/ico" />
 
 	<!-- SOURCES -->
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" /> -->
@@ -168,21 +168,21 @@
 										<span class="display-b"></span>
 										<span class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</span>
 										<br /><br />
-										<i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i>
+										<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x hidden-xs" aria-hidden="true"></i></a>
 									</div>
-								</div>
-								<div>
-									<div th:if="${product.hasTermSheet}">
-										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
-									</div>
-									<div th:if="${product.hasMarketingDoc}">
-										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span class="grey-uppercase" th:text="#{doc.market}">document marketing</span>
-									</div>
-									<div th:if="${product.hasFease}">
-										<a><img src="/img/files.png" alt="document" id="document"/></a>
-										<span class="grey-uppercase" th:text="#{doc.fease}">fease</span>
+									<div class="col-sm-12 col-md-12">
+										<div th:if="${product.hasTermSheet}">
+											<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}"><img src="/img/files.png" alt="document" id="document"/></a>
+											<span id="term-sheet" class="grey-uppercase" th:text="#{term.sheet}">term sheet</span>
+										</div>
+										<div th:if="${product.hasMarketingDoc}">
+											<a href="#" th:href="@{/products/{id}/market(id=${product.id})}"><img src="/img/files.png" alt="document" id="document"/></a>
+											<span class="grey-uppercase" th:text="#{doc.market}">document marketing</span>
+										</div>
+										<div th:if="${product.hasFease}">
+											<a href="#" th:href="@{/products/{id}/fease(id=${product.id})}"><img src="/img/files.png" alt="document" id="document"/></a>
+											<span class="grey-uppercase" th:text="#{doc.fease}">fease</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -211,7 +211,7 @@
 
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
-							<div class="panel panel-default" th:each="refund : ${refundProducts}" th:with="nbRefundProducts=${refundStat.count}">
+							<div class="panel panel-default" th:each="refund : ${userRefundProducts}" th:with="nbRefundProducts=${refundStat.count}">
 								<div class="accordion-row" role="tab" th:if="${refundStat.index} le 4">
 									<h4 class="accordion-title">
 										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
@@ -266,7 +266,7 @@
 					<div class="sous-container">
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
-							<div class="panel panel-default" th:each="tocall : ${tocallProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
+							<div class="panel panel-default" th:each="tocall : ${userUpcomingProducts}"  th:with="nbTocallProducts=${tocallStat.count}">
 								<div class="accordion-row" role="tab" th:if="${tocallStat.index} le 4">
 									<h4 class="accordion-title">
 										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">

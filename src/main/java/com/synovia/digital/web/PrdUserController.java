@@ -4,10 +4,12 @@
 package com.synovia.digital.web;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,11 @@ public class PrdUserController {
 	protected static final String ATTR_LAST_MONTH = "month";
 	protected static final String ATTR_CURRENT_YEAR = "year";
 	protected static final String ATTR_ONE_YEAR_BEFORE = "oneYearPast";
+	protected static final String ATTR_PRD_FEASE = "fease";
+	protected static final String ATTR_PRD_TERMS = "terms";
+	protected static final String ATTR_PRD_MARKET = "market";
+	protected static final String ATTR_USER_UPCOMING_PRODUCTS = "userUpcomingProducts";
+	protected static final String ATTR_USER_REFUND_PRODUCTS = "userRefundProducts";
 
 	@Autowired
 	private PrdUserService userService;
@@ -88,8 +95,17 @@ public class PrdUserController {
 			model.addAttribute(ATTR_ONE_YEAR_BEFORE, prd
 					.getLastDayOfLastMonthAsString(new SimpleDateFormat(EavUtils.PRD_DAY_MONTH_YEAR_FORMAT_PATTERN)));
 
-			// Retrieve the list of classic bases
+			// Retrieve the list of classic underlying assets
 			model.addAttribute(ATTR_BASE_LIST, ssjctService.getClassicBases());
+
+			// Retrieve the list of user upcoming products
+			int nbDays = EavUtils.NB_DAYS_REFUND_PRODUCT_LIST;
+			Date now = new Date();
+			model.addAttribute(ATTR_USER_UPCOMING_PRODUCTS,
+					productService.listUserUpcomingProducts(now, DateUtils.addDays(now, nbDays), prdUser));
+			// Retrieve the list of user reimbursed products
+			model.addAttribute(ATTR_USER_REFUND_PRODUCTS,
+					productService.listUserRefundProducts(DateUtils.addDays(now, -nbDays), prdUser));
 
 			view = VIEW_USER_PRODUCTS;
 
@@ -116,7 +132,9 @@ public class PrdUserController {
 			// Set the product list
 			Set<PrdProduct> products = new HashSet<>();
 			for (PrdProductDto dto : productList.getProductList()) {
-				products.add(productService.findById(dto.getId()));
+				if (dto.getId() != null) {
+					products.add(productService.findById(dto.getId()));
+				}
 			}
 			PrdUser u = userService.updateProductList(id, products);
 
@@ -132,4 +150,24 @@ public class PrdUserController {
 		return view;
 	}
 
+	@RequestMapping(value = "/{id}/removeProduct")
+	public String removeProduct(@RequestParam("prd") Long idPrdProduct, @PathVariable Long id, Model model,
+			RedirectAttributes attributes) {
+		String view = null;
+		try {
+			PrdProduct product = productService.findById(idPrdProduct);
+			// Get the product list
+			PrdUser u = userService.removeProduct(id, product);
+
+			attributes.addAttribute(HomeController.ATTR_ACCOUNT, u.getAccount());
+
+			view = EavControllerUtils.createRedirectViewPath(HomeController.REQUEST_MAPPING_USER_PRODUCTS);
+
+		} catch (EavEntryNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return view;
+	}
 }

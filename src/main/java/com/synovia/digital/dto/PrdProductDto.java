@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
@@ -38,10 +39,12 @@ public class PrdProductDto {
 
 	/** The date of the end of the product [yyyy-MM-dd] */
 	@NotNull
+	@Size(max = 10)
 	private String dueDate;
 
 	/** The date of the beginning of the product [yyyy-MM-dd] */
 	@NotNull
+	@Size(max = 10)
 	private String launchDate;
 
 	/** The underlying asset of the product */
@@ -56,12 +59,14 @@ public class PrdProductDto {
 	private String[] couponPaymentDates;
 
 	/** The date from which it is possible to subscribe to the product. [yyyy-MM-dd] */
+	@Size(max = 10)
 	private String subscriptionStartDate;
 
 	/**
 	 * The date from which it is no more possible to subscribe to the product.
 	 * [yyyy-MM-dd]
 	 */
+	@Size(max = 10)
 	private String subscriptionEndDate;
 
 	/** The value of the coupon [%] */
@@ -81,15 +86,18 @@ public class PrdProductDto {
 	private Double startPrice;
 
 	/** The company that delivers the product. */
+	@Size(max = 40)
 	private String deliver;
 
 	/** The company that guarantees the product. */
+	@Size(max = 40)
 	private String guarantor;
 
 	/** The product status code. */
 	private String statusCode;
 
 	/** The effective end date of the product. [yyyy-MM-dd] */
+	@Size(max = 10)
 	private String endDate;
 
 	/** The flag to determine whether the product is an EAVEST product. */
@@ -105,7 +113,13 @@ public class PrdProductDto {
 	private Double strike;
 
 	/** The frequency of the observation dates. */
+	@Size(max = 40)
 	private String observationFrequency;
+
+	/** The reimbursement barrier [%] */
+	@Min(value = 0)
+	@Max(value = 100)
+	private Double reimbursementBarrier;
 
 	/** The protection barrier [%] */
 	@Min(value = 0)
@@ -360,6 +374,14 @@ public class PrdProductDto {
 
 	public void setCouponPaymentDates(String[] couponPaymentDates) {
 		this.couponPaymentDates = couponPaymentDates;
+	}
+
+	public Double getReimbursementBarrier() {
+		return this.reimbursementBarrier;
+	}
+
+	public void setReimbursementBarrier(Double reimbursementBarrier) {
+		this.reimbursementBarrier = reimbursementBarrier;
 	}
 
 }
