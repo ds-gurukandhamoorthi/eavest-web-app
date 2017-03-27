@@ -117,4 +117,35 @@ public class PrdUserServiceImpl implements PrdUserService {
 		return repo.save(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdUserService#removeProduct(java.lang.Long,
+	 * com.synovia.digital.model.PrdProduct)
+	 */
+	@Override
+	public PrdUser removeProduct(Long id, PrdProduct product) throws EavEntryNotFoundException {
+		// Find the entity
+		PrdUser user = repo.findOne(id);
+		if (user == null)
+			throw new EavEntryNotFoundException(PrdUser.class.getTypeName());
+		// Get the list of products
+		return removeProduct(user, product);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdUserService#removeProduct(com.synovia.digital.model.
+	 * PrdUser, com.synovia.digital.model.PrdProduct)
+	 */
+	@Override
+	public PrdUser removeProduct(PrdUser user, PrdProduct product) {
+		// Get the list of products and remove
+		user.getProducts().remove(product);
+		// Update the entity
+		return repo.save(user);
+	}
+
 }

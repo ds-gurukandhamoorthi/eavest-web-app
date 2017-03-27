@@ -71,8 +71,6 @@ public class HomeController {
 
 	protected static final String REQUEST_MAPPING_USER_PRODUCTS = "/user/products/";
 
-	private static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
-
 	@Autowired
 	protected EavAccountService accountService;
 
@@ -143,7 +141,7 @@ public class HomeController {
 		modelAndView.addObject(ATTR_NB_PRODUCTS, nbProducts);
 
 		// Display the list of refund products
-		int nbDays = NB_DAYS_REFUND_PRODUCT_LIST;
+		int nbDays = EavUtils.NB_DAYS_REFUND_PRODUCT_LIST;
 		Date now = new Date();
 		List<PrdProduct> refundProducts = productService.listRefundProducts(DateUtils.addDays(now, -nbDays));
 		modelAndView.addObject(ATTR_REFUND_PRODUCT_LIST, refundProducts);

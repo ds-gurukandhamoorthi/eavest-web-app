@@ -83,14 +83,13 @@
 		</div>
 	</nav>
 
-
 <!-- SECTION PRODUCTS-->
 	<section class="products">
 		<div class="container">
 			<div class="row">
 				<!-- PRODUITS REMBOURSES -->
 				<div class="col-sm-6 col-md-6 wrapper">
-					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" th:alt="#{home.bell}"/>
 					<h1 class="product-title"><span th:text="#{refund.prd}">produits remboursés</span> <span class="min" th:text="#{home.since.days}">depuis 30 jours</span></h1>
 					<div class="sous-container">
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
@@ -100,7 +99,7 @@
 						      <h4 class="accordion-title">
 										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
 										<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
-										<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" th:alt="#{prd.eavest}" alt="black-logo" id="eavest"/></span>
 										</a>
 									</h4>
 								</div>
@@ -108,7 +107,7 @@
 									<h4 class="accordion-title">
 										<a class="panel-heading prod-list" role="button" data-toggle="collapse" data-parent="#accordion-1" href="#collapseOne" th:href="'#collapse' + ${refundStat.index}" aria-expanded="true">
 											<span class="margin panel-title" th:text="${refund.label + ' / ' + refund.isin}">resonance 1 / FR00196847</span>
-											<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+											<span th:if="${refund.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" th:alt="#{prd.eavest}" alt="black-logo" id="eavest"/></span>
 										</a>
 									</h4>
 								</div>
@@ -119,7 +118,7 @@
 											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" th:alt="#{prd.image}" alt="produit" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
 											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
@@ -137,7 +136,7 @@
 								</div>
 								<!-- hover -->
 			 					<a class="more-product-1">
-			 						<span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" /></span>
+			 						<span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 			 					</a>
 							</div>
 						</div>
@@ -145,7 +144,7 @@
 				</div>
 				<!-- PRODUITS A OBSERVER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
-					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
+					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" th:alt="#{home.bell}"/>
 					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
 					<div class="sous-container">
 
@@ -156,7 +155,7 @@
 									<h4 class="accordion-title">
 										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
 										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" th:alt="#{prd.eavest}" id="eavest"/></span>
 										</a>
 									</h4>
 								</div>
@@ -164,7 +163,7 @@
 									<h4 class="accordion-title">
 										<a class="prod-list panel-heading" role="button" data-toggle="collapse" data-parent="#accordion-2" href="#collapse2One"  th:href="'#collapse2' + ${tocallStat.index}" aria-expanded="true">
 										<span class="margin panel-title" th:text="${tocall.label + ' / ' + tocall.isin}">resonance 1 / FR00196847</span>
-										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" id="eavest"/></span>
+										<span th:if="${tocall.isEavest}"><img class="float-right img-responsive" src="/img/black-logo.png" alt="black-logo" th:alt="#{prd.eavest}" id="eavest"/></span>
 										</a>
 									</h4>
 								</div>
@@ -174,7 +173,7 @@
 											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
 										</div>
 										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" id="accor-product"/>
+											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
 										</div>
 										<div class="col-md-9">
 											<span class="light-blue" id="cours"><span th:text="#{prd.value}">cours</span> <span class="bold-blue">4.254</span></span>
@@ -192,7 +191,7 @@
 								</div>
 								<!-- hover -->
 								<a class="more-product-2">
-									<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
+									<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
 								</a>
 							</div>
 						</div>
@@ -212,8 +211,8 @@
 					<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
 
 					<div class="search">
-						<p class="grey-letters">Émetteur, Code ISIN,</p>
-						<p class="grey-letters">Nom du produit, Sous-jacent</p>
+						<p class="grey-letters"><span th:text="#{prd.bank.name}">Émetteur</span>, <span th:text="#{prd.isin.code}">Code ISIN</span>,</p>
+						<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
 						<div class="search-bar">
 							<span>
 								<form>
@@ -234,15 +233,15 @@
 							<li class="square-2" id="translate" th:text="${year}">16</li>
 						</ul>
 					</div>
-					<h1 class="perf-review">PERF REVIEW</h1>
+					<h1 class="perf-review"><span th:text="#{perf.review}">PERF REVIEW</span></h1>
 					<!-- TABLEAU -->
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-sm-6 col-md-6 grey-letters">Indices boursiers</th>
+								<th class="col-sm-6 col-md-6 grey-letters"><span th:text="#{financial.supports}">Indices boursiers</span></th>
 								<th class="col-sm-1 col-md-1 special-width"><span th:text="${oneYearPast}">31.10.15</span></th>
 								<th class="col-sm-1 col-md-1 special-width"><span th:text="${month}">10</span>.<span th:text="${year}">16</span></th>
-								<th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
+								<th class="col-sm-1 col-md-1 special-width"><span th:text="#{value.at.one.year}">1 an glissant</span></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -255,10 +254,10 @@
 						</tbody>
 						<thead class="display-on-click">
 							<tr>
-								<th class="col-sm-6 col-md-6 grey-letters">Nouveaux indices</th>
+								<th class="col-sm-6 col-md-6 grey-letters"><span th:text="#{new.fin.supports}">Nouveaux indices</span></th>
 								<th class="col-sm-1 col-md-1 special-width"><span th:text="${oneYearPast}">31.10.15</span></th>
 								<th class="col-sm-1 col-md-1 special-width"><span th:text="${month}">10</span>.<span th:text="${year}">16</span></th>
-								<th class="col-sm-1 col-md-1 special-width">1 an glissant</th>
+								<th class="col-sm-1 col-md-1 special-width"><span th:text="#{value.at.one.year}">1 an glissant</span></th>
 							</tr>
 						</thead>
 						<tbody class="display-on-click">
@@ -271,7 +270,7 @@
 						</tbody>
 						<tfoot>
 							<tr>
-								<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
+								<td><img id="more-perfReview" src="/img/show-more.png" class="img-responsive" alt="voir-plus" th:alt="#{get.more}" />
 									<button class="btn" type="button" id="close"><i class="fa fa-times fa-2x"></i></button>
 								</td>
 								<td></td>
@@ -285,14 +284,14 @@
 				<div class="hidden-xs hidden-sm col-md-3">
 					<div class="sous-container">
 						<div class="white-block">
-							<h2>LE PRODUIT DU MOIS</h2>
+							<h2><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
 							<div class="month-product">
-                <img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" />
-								<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" />
+                <img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
+								<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}" />
               </div>
               <div class="over-product">
                 <a>
-                  <span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" /></span>
+                  <span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
                 </a>
 							</div>
 						</div>
@@ -311,11 +310,11 @@
 
 				<div class="container resp-sm">
 					<div class="col-xs-12 col-sm-6 hidden-md hidden-lg" id="black-block">
-						<h2 class="black-block">cherchez un produit<br /> parmis nos<br /> <span th:text="${nbProducts}">2000</span> références</h2>
+						<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
 
 						<div class="search">
-							<p class="grey-letters">Émetteur, Code ISIN,</p>
-							<p class="grey-letters">Nom du produit, Sous-jacent</p>
+							<p class="grey-letters"><span th:text="#{prd.bank.name}">Émetteur</span>, <span th:text="#{prd.isin.code}">Code ISIN</span>,</p>
+							<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
 							<div class="search-bar">
 								<span>
 									<form>
@@ -331,13 +330,13 @@
 					<div class="col-xs-6 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
 						<div class="sous-container">
 							<div class="white-block">
-								<h2 id="month-product-title">LE PRODUIT DU MOIS</h2>
+								<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
 									<div class="month-product">
-										<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" />
+										<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
 									</div>
 									<div class="over-product">
 										<a>
-											<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" /></span>
+											<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
 										</a>
 									</div>
 							</div>
@@ -356,13 +355,13 @@
 		<div class="container text-center wrap">
 			<div class="row">
 				<div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
-					<a href="/wallet"><img src="/img/wallet.png" id="wallet" alt="portefeuille" /></a>
+					<a href="/wallet"><img src="/img/wallet.png" id="wallet" alt="portefeuille" th:alt="#{wallet.title}"/></a>
 				</div>
 				<div class="col-sm-9 col-md-9 wallet-black-block">
-					<h2>investisseurs, cgp, composez et suivez au quotidien
-						<span>votre portefeuille sur votre espace personnel</span>
+					<h2><span class="wallet-teaser" th:text="#{home.wallet.teaser}">investisseurs, cgp, composez et suivez au quotidien
+						votre portefeuille sur votre espace personnel</span>
 					</h2>
-					<a href="/wallet"><button type="button" class="btn btn-secondary wallet-button" >créer mon portefeuille</button></a>
+					<a href="/wallet"><button type="button" class="btn btn-secondary wallet-button"><span th:text="#{home.create.wallet}">créer mon portefeuille</span></button></a>
 				</div>
 			</div>
 		</div>
@@ -392,30 +391,25 @@
 						</div>
 						<div class="col-md-8 article">
 							<p class="grey-letters" id="blog-1-p">
-							Article de <span th:text="${highlightArticles.leftArticle.author}">Frédéric Lorenzini</span>
-							<span class="new-line">N3D - <span th:text="${highlightArticles.leftArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
-							<span class="new-line" th:text="${highlightArticles.leftArticle.content}">"En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...] "</span>
+								<span th:text="#{article.from}">Article de</span> <span th:text="${highlightArticles.leftArticle.author}">Frédéric Lorenzini</span>
+								<span class="new-line"> - <span th:text="${highlightArticles.leftArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
+								<span class="new-line" th:text="${highlightArticles.leftArticle.content}">"En ce qui concerne la "compréhension des produits", il apparait que seulement 18% des personnes interrogées comprennent "bien" le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...]le fonctionnement d'un produit structuré [...] "</span>
 							</p>
 						</div>
 					</div>
 					<!-- overlay grey-block -->
 					<div class="over-blue">
 						<a href="http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/" th:href="${highlightArticles.leftArticle.urlAsString}">
-							<span class="more-blue">Lire la suite</span>
+							<span class="more-blue" th:text="#{article.read.more}">Lire la suite</span>
 						</a>
 					</div>
 				</div>
 				<div class="col-xs-4 col-sm-5 col-md-2 white-block-blog">
 					<div>
-						<h1 class="padding_bottom">chiffre du mois</h1>
+						<h1 class="padding_bottom" th:text="#{home.key.number}">chiffre du mois</h1>
 						<div class="figure-month" id="numberOfTheMonth" th:text="${newsOfMonth.numberOfTheMonth}">10000%</div>
               <span></span>
               <p class="grey-letters" id="figure-p" th:text="${newsOfMonth.textOfTheMonth}">des produits structurés blablablades produits structurés blablablades produits des produits structurés blablablades produits des produits structurés blablablades produits</p>
-						<!-- <div class="over">
-							<a>
-								<span><img id="more-figure-month" src="/img/more-hover.png" alt="voir-plus" /></span>
-							</a>
-						</div> -->
 					</div>
 				</div>
 				<div class="col-xs-7 col-sm-6 col-md-3 grey-block-2">
@@ -424,20 +418,18 @@
 							<li class="blue-feature-2"></li>
 							<li class="blue-title"><span th:text="${highlightArticles.rightArticle.releaseDateAsLongFormatString}">Mardi 18 octobre 2016</span></li>
 						</ul>
-
-
 					</div>
 					<div>
 						<h3 class="blog-title-2" th:text="${highlightArticles.rightArticle.title}">étude UFF : que veulent les épargnants français ?</h3>
 					</div>
 					<p class="grey-letters" id="blog-2-p">
-						Article de <span th:text="${highlightArticles.rightArticle.author}">Frédéric Lorenzini</span>
-						<span class="new-line">N3D - <span th:text="${highlightArticles.rightArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
+						<span th:text="#{article.from}">Article de</span> <span th:text="${highlightArticles.rightArticle.author}">Frédéric Lorenzini</span>
+						<span class="new-line"> - <span th:text="${highlightArticles.rightArticle.releaseDateAsShortFormatString}">18 octobre 2016</span></span>
 						<span class="new-line" th:text="${highlightArticles.rightArticle.content}">"En ce qui concerne la "compréhension des produits" [...] En ce qui concerne la "compréhension des produits" [...] En ce qui concerne la "compréhension des produits" [...] En ce qui concerne la "compréhension des produits" [...] En ce qui concerne la "compréhension des produits" [...] "</span>
 					</p>
 					<div class="over-blue">
 						<a href="http://eavest.com/le-sous-jacent-un-possible-mecanisme-supplementaire-pour-un-produit-structure/"  th:href="${highlightArticles.rightArticle.urlAsString}">
-							<span class="more-blue">Lire la suite</span>
+							<span class="more-blue" th:text="#{article.read.more}">Lire la suite</span>
 						</a>
 					</div>
 				</div>
@@ -454,15 +446,19 @@
 			<div class="row margin-block">
 				<div class="col-sm-4 col-md-3 black-block-partner">
 					<p class="grey-letters-light">
-						<span class="main-title">eavest </span>est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.
+						<span class="main-title">eavest </span><span th:text="#{home.eavest.teaser}">est un cabinet de conseil indépendant spécialisé dans la construction, le suivi et l'analyse de produits structurés et alternatifs sur-mesure à destination de clients professionnels européens.</span>
 					</p>
 					<a href="http://eavest.com/" class="over">
-						<span><img id="more-eavest-block" src="/img/more-hover.png" alt="voir-plus" /></span>
+						<span><img id="more-eavest-block" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 					</a>
 				</div>
 				<div class="col-sm-7 col-md-5 grey-block-3">
-					<h4>Notre agrément</h4>
-					<p class="grey-letters">EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.</p>
+					<h4 th:text="#{home.agreement}">Notre agrément</h4>
+					<p class="grey-letters">
+						<span th:text="#{home.agrmt.teaser}">
+							EAVEST a obtenu le statut de Conseil en Investissements Financiers auprès de l'ANACOFI, association agréée par l'Autorité des Marchés Financiers (AMF). EAVEST est également immatriculé à l'ORIAS.
+						</span>
+					</p>
 					<img id="ok" src="/img/ok.png" alt="ok" class="hidden-xs hidden-sm" />
 					<div class="row">
 						<ul class="list-inline list-unstyled">
@@ -472,14 +468,18 @@
 						</ul>
 					</div>
 						<a href="http://eavest.com/" class="over">
-							<span><img id="more-our-agrement" src="/img/more-hover.png" alt="voir-plus" /></span>
+							<span><img id="more-our-agrement" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 						</a>
 				</div>
 				<div class="col-md-3 white-block-partner">
-					<h4 id="partner-title">Partenaires</h4>
-					<p class="grey-letters" id="partner-p">En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.</p>
+					<h4 id="partner-title" th:text="#{home.partners}">Partenaires</h4>
+					<p class="grey-letters" id="partner-p">
+						<span th:text="#{home.partn.teaser}">
+							En collaborations avec plus de 15 banques d'investissement partenaires, les stratégies sont pensées et conçues grâce à nos équipes d'ingénierie financière cross asset dédiées à Paris, Genève et Luxembourg.
+						</span>
+					</p>
 					<a href="http://eavest.com/" class="over">
-						<span><img id="more-partner" src="/img/more-hover.png" alt="voir-plus" /></span>
+						<span><img id="more-partner" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 					</a>
 				</div>
 			</div>
@@ -491,54 +491,54 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5 white-block-style">
-					<h4>Nos valeurs</h4>
+					<h4 th:text="#{home.values}">Nos valeurs</h4>
 					<div class="row values">
 						<ul class="list-inline list-unstyled grey-letters">
 							<li class="padding_right">
-								<h5>indépendance</h5>
-								<img src="/img/independance.png" alt="independance" id="value-img1" />
+								<h5 th:text="#{home.val.independancy}">indépendance</h5>
+								<img src="/img/independance.png" alt="independance" th:alt="#{home.val.independancy}" id="value-img1" />
 							</li>
 							<li class="padding_right">
-								<h5>expertise</h5>
-								<img src="/img/expertise.png" alt="expertise" id="value-img2" />
+								<h5 th:text="#{home.val.knowledge}">expertise</h5>
+								<img src="/img/expertise.png" alt="expertise" th:alt="#{home.val.knowledge}" id="value-img2" />
 							</li>
 							<li class="padding_right">
-								<h5>ouverture</h5>
-								<img src="/img/ouverture.png" alt="ouverture" id="value-img3" />
+								<h5 th:text="#{home.val.open}">ouverture</h5>
+								<img src="/img/ouverture.png" alt="ouverture" th:alt="#{home.val.open}" id="value-img3" />
 							</li>
 							<li class="padding_right">
-								<h5 id="proximity">proximité</h5>
-								<img src="/img/proximite.png" alt="proximité" id="value-img4" />
+								<h5 id="proximity" th:text="#{home.val.proximity}">proximité</h5>
+								<img src="/img/proximite.png" alt="proximité" th:alt="#{home.val.proximity}" id="value-img4" />
 							</li>
 						</ul>
 					</div>
 					<a href="http://eavest.com/" class="over">
-						<span><img id="more-values" src="/img/more-hover.png" alt="voir-plus" /></span>
+						<span><img id="more-values" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 					</a>
 				</div>
 				<div class="col-md-6 white-block-style-2" id="methodo">
-					<h4>Notre méthodologie</h4>
+					<h4 th:text="#{home.methodology}">Notre méthodologie</h4>
 					<div class="row our-methodologie">
 						<div class="col-xs-3 col-md-3 methodologie">
 							<span class="number" id="methodo-numbers">1</span>
-							<p class="grey-letters" id="methodo-p">L'élaboration d'investissement sur mesure </p>
-							<img src="/img/elaboration.png" alt="methodologie-1" id="methodo-img1" />
+							<p class="grey-letters" id="methodo-p"><span th:text="#{home.method.1}">L'élaboration d'investissement sur mesure</span> </p>
+							<img src="/img/elaboration.png" alt="methodologie-1" th:alt="#{home.method.methodology}" id="methodo-img1" />
 						</div>
 						<div class="col-xs-3 col-md-3 methodologie" id="methodo-2-block">
 							<span class="number">2</span>
-							<p class="grey-letters p-width-2">Une aide <span>à la décision</span></p>
+							<p class="grey-letters p-width-2"><span th:text="#{home.method.2}">Une aide à la décision</span></p>
 							<br />
-							<img src="/img/aide.png" alt="aide" id="methodo-img2" />
+							<img src="/img/aide.png" alt="aide" th:alt="#{home.method.help}" id="methodo-img2" />
 						</div>
 						<div class="col-xs-3 col-md-3 methodologie">
 							<span class="number">3</span>
-							<p class="grey-letters p-width-3">Le suivi exclusif EAVEST</p>
+							<p class="grey-letters p-width-3"><span th:text="#{home.method.3}">Le suivi exclusif EAVEST</span></p>
 							<br />
-							<img src="/img/suivi.png" alt="suivi" id="methodo-img3" />
+							<img src="/img/suivi.png" alt="suivi" th:alt="#{home.method.follow}" id="methodo-img3" />
 						</div>
 					</div>
 					<a href="http://eavest.com/methodologie-2/" class="over">
-						<span><img id="more-methodologie" src="/img/more-hover.png" alt="voir-plus" /></span>
+						<span><img id="more-methodologie" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}"/></span>
 					</a>
 				</div>
 			</div>
@@ -550,28 +550,28 @@
 	<div class="container">
 		<div class="col-sm-12 col-md-12 grey-block-4">
 			<div>
-				<h4>L'équipe</h4>
+				<h4 th:text="#{home.team}">L'équipe</h4>
 			</div>
 			<div class="row list-inline list-unstyled col-md-12 team">
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
-          <img src="/img/fondateur.png" alt="fondateur" class="img-circle img-responsive" />
-          <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span>
+          <img src="/img/fondateur.png" alt="image" class="img-circle img-responsive" />
+          <span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.1}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
-          <img src="/img/fondateur2.png" alt="fondateur" class="img-circle img-responsive" />
-          <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span>
+          <img src="/img/fondateur2.png" alt="image" class="img-circle img-responsive" />
+					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.2}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
-          <img src="/img/fondateur3.png" alt="fondateur" class="img-circle img-responsive" />
-          <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span>
+          <img src="/img/fondateur3.png" alt="image" class="img-circle img-responsive" />
+					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.3}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3 col-md-2 team-img">
-          <img src="/img/fondateur4.png" alt="fondateur" class="img-circle img-responsive" />
-          <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span>
+          <img src="/img/fondateur4.png" alt="image" class="img-circle img-responsive" />
+					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.4}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3 col-md-2 team-img">
-          <img src="/img/fondateur5.png" alt="fondateur" class="img-circle img-responsive" />
-          <span class="team-p grey-letters">Franck Magne <br />Président Fondateur</span>
+          <img src="/img/fondateur5.png" alt="image" class="img-circle img-responsive" />
+					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.5}">Président Fondateur</span></span>
         </div>
       </div>
 			<a href="http://eavest.com/" class="over">
@@ -587,13 +587,15 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span><br /><br /><br />
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
-			</small>
-			<span class="clear"></span>
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
 			</div>
 		</div>
 	</footer>

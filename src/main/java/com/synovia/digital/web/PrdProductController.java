@@ -9,6 +9,10 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,8 +54,7 @@ public class PrdProductController {
 		try {
 			prdImage = productService.getImage(productService.findById(id));
 			LOGGER.info("Reading image {}", prdImage);
-			byte[] image = org.apache.commons.io.FileUtils.readFileToByteArray(prdImage);
-			result = image;
+			result = org.apache.commons.io.FileUtils.readFileToByteArray(prdImage);
 			LOGGER.info("Image {} has been successfully read", prdImage);
 
 		} catch (EavEntryNotFoundException e) {
@@ -67,32 +70,86 @@ public class PrdProductController {
 
 	@GetMapping(value = "/{id}/fease")
 	@ResponseBody
-	public byte[] getProductFease(@PathVariable Long id) {
+	public ResponseEntity<byte[]> getProductFease(@PathVariable Long id) {
 		LOGGER.info("Call getProductFease");
-		byte[] result = null;
+		ResponseEntity<byte[]> result = null;
 		// TODO
+		File prdFease;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			prdFease = productService.getFease(productService.findById(id));
+			LOGGER.info("Reading fease {}", prdFease);
+			String filename = prdFease.getName();
+			headers.setContentDispositionFormData(filename, filename);
+			//			result = org.apache.commons.io.FileUtils.readFileToByteArray(prdFease);
+			result = new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(prdFease), headers,
+					HttpStatus.OK);
+
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.warn("Product not found {}", id);
+
+		} catch (IOException e) {
+			LOGGER.warn("IOException while reading product fease");
+			e.printStackTrace();
+		}
 
 		return result;
 	}
 
 	@GetMapping(value = "/{id}/market")
 	@ResponseBody
-	public byte[] getProductMarketingDoc(@PathVariable Long id) {
+	public ResponseEntity<byte[]> getProductMarketingDoc(@PathVariable Long id) {
 		LOGGER.info("Call getProductMarketingDoc");
-		byte[] result = null;
+		ResponseEntity<byte[]> result = null;
 		// TODO
+		File prdMarket;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			prdMarket = productService.getMarketingDoc(productService.findById(id));
+			LOGGER.info("Reading marketing document {}", prdMarket);
+			String filename = prdMarket.getName();
+			headers.setContentDispositionFormData(filename, filename);
+			result = new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(prdMarket), headers,
+					HttpStatus.OK);
+
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.warn("Product not found {}", id);
+
+		} catch (IOException e) {
+			LOGGER.warn("IOException while reading product marketin document");
+			e.printStackTrace();
+		}
 
 		return result;
 	}
 
 	@GetMapping(value = "/{id}/tsheet")
 	@ResponseBody
-	public byte[] getProductTermSheet(@PathVariable Long id) {
+	public ResponseEntity<byte[]> getProductTermSheet(@PathVariable Long id) {
 		LOGGER.info("Call getProductTermSheet");
-		byte[] result = null;
+		ResponseEntity<byte[]> result = null;
 		// TODO
+		File prdTS;
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			prdTS = productService.getTermSheet(productService.findById(id));
+			LOGGER.info("Reading term sheet {}", prdTS);
+			String filename = prdTS.getName();
+			headers.setContentDispositionFormData(filename, filename);
+			result = new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(prdTS), headers,
+					HttpStatus.OK);
+
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.warn("Product not found {}", id);
+
+		} catch (IOException e) {
+			LOGGER.warn("IOException while reading product term sheet");
+			e.printStackTrace();
+		}
 
 		return result;
 	}
-
 }

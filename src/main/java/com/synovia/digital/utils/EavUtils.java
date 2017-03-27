@@ -16,6 +16,8 @@ public class EavUtils {
 	public static final int C_MILLENARY = 2000;
 	public static final int C_DECEMBER_INDEX = 12;
 
+	public static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
+
 	public static final String LONG_DATE_FORMAT_PATTERN = "EEEEE dd MMMMM yyyy";
 
 	public static final String MID_DATE_FORMAT_PATTERN = "dd MMMMM yyyy";
@@ -30,7 +32,19 @@ public class EavUtils {
 
 	public static final String PRD_DAY_MONTH_YEAR_FORMAT_PATTERN = "dd.MM.yy";
 
+	public static final String DEFAULT_IMAGE_NAME = "image";
+
+	public static final String DEFAULT_DOCUMENT_NAME = "default_name";
+
+	public static final String DEFAULT_TS_NAME = "ts";
+
+	public static final String DEFAULT_MARKET_DOC_NAME = "mkt";
+
+	public static final String DEFAULT_FEASE_NAME = "fease";
+
 	public static final String JPEG_EXTENSION = ".jpg";
+
+	public static final String PDF_EXTENSION = ".pdf";
 
 	public static final String FILE_SEPARATOR = File.separator;
 
@@ -141,6 +155,15 @@ public class EavUtils {
 	public static String staticResourcesDirectoryPath() {
 		return new StringBuilder(mainResourcesDirectoryPath()).append(FILE_SEPARATOR).append(STATIC_DIR_NAME)
 				.toString();
+	}
+
+	public static String constructDefaultDocumentName(String extension, String name) {
+		String ext = extension;
+		if (!extension.startsWith(".")) {
+			ext = new StringBuilder(".").append(extension).toString();
+		}
+
+		return new StringBuilder(name).append(ext).toString();
 	}
 
 }

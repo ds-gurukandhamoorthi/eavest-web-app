@@ -222,7 +222,7 @@
 						<a th:if="${prdUser}" href="/products" th:href="@{/admin/users/{id}(id=${prdUser.id})}">
 							<img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
 						</a>
-						ajouter un produit
+						<span th:text="#{wallet.add.product}">ajouter un produit</span>
 					</span>
 				</div>
 			</div>
@@ -236,7 +236,7 @@
 				<!-- PRODUITS REMBOURSES -->
 				<div class="col-sm-6 col-md-6 wrapper" id="wallet-products">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title">produits remboursés<span class="min"> depuis 30 jours</span></h1>
+					<h1 class="product-title"><span th:text="#{refund.prd}">produits remboursés</span> <span class="min" th:text="#{home.since.days}">depuis 30 jours</span></h1>
 					<div class="sous-container">
 
 						<div class="panel-group" id="accordion-1" role="tablist" aria-multiselectable="true">
@@ -291,7 +291,7 @@
 				<!-- PRODUITS A RAPPELER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" />
-					<h1 class="product-title">produits à rappeler<span class="min"> dans les 30 jours</span></h1>
+					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b><span class="min" th:text="#{home.from.days}"> dans les 30 jours</span></h1>
 					<div class="sous-container">
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
 							<!-- collapse product -->
@@ -360,7 +360,7 @@
 						<li class="square-2" id="translate" th:text="${year}">16</li>
 					</ul>
 				</div>
-				<h1 class="perf-review">PERF REVIEW</h1>
+				<h1 class="perf-review">PERFREVIEW</h1>
 				<table class="table table-bordered">
 					<thead>
 						<tr>

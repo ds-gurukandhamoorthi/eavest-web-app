@@ -20,4 +20,6 @@ public interface PrdProductRepository extends JpaRepository<PrdProduct, Long> {
 	public List<PrdProduct> findByIsBestSeller(Boolean isBestSeller);
 
 	public List<PrdProduct> findByPrdUsers(Set<PrdUser> users);
+
+	public List<PrdProduct> findByEndDateAfterAndPrdUsers(Date from, Set<PrdUser> users);
 }

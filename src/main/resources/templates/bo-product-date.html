@@ -48,20 +48,44 @@
       <p th:text="${responseMessage}"/>
       <div>
         <h2>Documents du produits</h2>
-        <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateImage(id=${product.id})}" method="POST">
-          <table class="table table-bordered table-hover" id="tab_logic">
-            <tr>
+        <table class="table table-bordered table-hover" id="tab_logic">
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateImage(id=${product.id})}" method="POST">
               <td>Image du produit:</td>
               <td>
                 <input type="file" name='file'/>
               </td>
-            </tr>
-            <tr>
-              <td></td>
               <td><input type="submit" value="upload" /></td>
-            </tr>
-          </table>
-        </form>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateTermSheet(id=${product.id})}" method="POST">
+              <td>Term sheet:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateMarketingDoc(id=${product.id})}" method="POST">
+              <td>Document marketing:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateFease(id=${product.id})}" method="POST">
+              <td>Fease:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+        </table>
       </div>
       <div>
         <ul>

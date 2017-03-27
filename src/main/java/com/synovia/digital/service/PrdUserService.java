@@ -30,4 +30,8 @@ public interface PrdUserService {
 	public PrdUser updateProductList(Long id, Set<PrdProduct> products) throws EavEntryNotFoundException;
 
 	public PrdUser updateProductList(PrdUser user, Set<PrdProduct> products);
+
+	public PrdUser removeProduct(Long id, PrdProduct product) throws EavEntryNotFoundException;
+
+	public PrdUser removeProduct(PrdUser user, PrdProduct product);
 }

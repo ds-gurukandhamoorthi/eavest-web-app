@@ -981,8 +981,10 @@ button#close {
   color: #585858 !important;
 }
 
-.wallet-black-block span {
+.wallet-teaser {
   display: block;
+  padding-left: 15%;
+  padding-right: 15%
 }
 
 .wallet-button {

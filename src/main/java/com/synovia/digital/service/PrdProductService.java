@@ -34,6 +34,10 @@ public interface PrdProductService {
 
 	public List<PrdProduct> listUpcomingProducts(Date from, Date until);
 
+	public List<PrdProduct> listUserRefundProducts(Date from, PrdUser user);
+
+	public List<PrdProduct> listUserUpcomingProducts(Date from, Date until, PrdUser user);
+
 	/**
 	 * Creates an identifier name for a given product.
 	 * <p>
@@ -72,11 +76,17 @@ public interface PrdProductService {
 
 	public void storeImage(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException;
 
-	public void storeTermSheet(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+	public void storeTermSheet(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException;
 
-	public void storeFease(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+	public void storeFease(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException;
 
-	public void storeMarketingDoc(Long id, MultipartFile fileToStore) throws EavTechnicalException;
+	public void storeMarketingDoc(PrdProduct product, MultipartFile fileToStore) throws EavTechnicalException;
 
 	public List<PrdProduct> getUserProducts(PrdUser user);
+
+	public File getFease(PrdProduct product);
+
+	public File getTermSheet(PrdProduct product);
+
+	public File getMarketingDoc(PrdProduct product);
 }
