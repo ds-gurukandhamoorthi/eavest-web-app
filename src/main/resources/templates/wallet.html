@@ -94,7 +94,7 @@
 			<h1 th:text="#{wallet.title}">mon portefeuille</h1>
 			<p th:unless="${userProducts}" th:text="#{wallet.empty}" id="empty">Vous n'avez pas encore de produits dans votre portefeuille !</p>
 
-			<div class="col-md-12 wallet-wrapper black-line-1">
+			<div class="col-sm-12 col-md-12 wallet-wrapper black-line-1">
 				<div class="sous-container wallet-header">
 					<div class="panel-group" id="accordion-wallet-1" role="tablist" aria-multiselectable="true">
 						<!-- collapse product -->
@@ -109,7 +109,7 @@
 							</div>
 							<div th:id="'collapseWallet' + ${productStat.index}" id="collapseWalletOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletOne">
 								<div class="panel-body">
-									<div class="col-md-12 product-body">
+									<div class="col-md-12 product-accor-title">
 										<h3><span th:text="${product.deliver}">société générale</span></h3>
 									</div>
 									<div class="row product-row">
@@ -117,7 +117,7 @@
 											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" id="accor-product"/>
 										</div>
 										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
-											<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-trash" aria-hidden="true"></i></a>
+											<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-trash-wallet" aria-hidden="true"></i></a>
 										</span>
 										<div class="col-sm-3 col-md-3">
 											<ul class="list-unstyled">
@@ -209,7 +209,11 @@
 											</a>
 										</span>
 									</div>
-							</div>
+								</div>
+							<!-- hover -->
+							<!-- <a class="more-product-2">
+								<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
+							</a> -->
 						</div>
 					</div>
 				</div>
@@ -256,30 +260,29 @@
 								</div>
 								<div th:id="'collapse' + ${refundStat.index}" id="collapseOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingOne">
 									<div class="panel-body">
-										<div class="col-md-12">
-											<h3><span th:text="${refund.deliver}">Société générale</span></h3>
+										<div class="col-md-12 product-accor-title">
+											<h3><span th:text="${refund.deliver}" >Société générale</span></h3>
 										</div>
-										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
-										</div>
-										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-											<span class="display-b"></span>
-											<br />
-											<span class="light-blue">sous-jacent</span>
-											<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-											<span class="display-b"></span>
-											<span class="light-blue">statut</span>
-											<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</span>
+										<div class="row prod-accor-row">
+											<div class="col-xs-5 col-sm-4 col-md-3">
+												<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+											</div>
+											<div class="col-xs-7 col-sm-7 col-md-9">
+												<ul class="list-unstyled">
+													<li><span class="light-blue" id="cours">cours</span>
+														<span class="bold-blue">4.254</span>
+													</li>
+												</ul>
+												<ul class="list-unstyled">
+													<li class="light-blue">sous-jacent</li>
+													<li class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
+													<li class="light-blue">statut</li>
+													<li class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
-								<!-- hover -->
-								<a class="more-product-1">
-									<span><img id="more-product-1" src="/img/more-hover.png" alt="voir-plus" /></span>
-								</a>
 							</div>
 						</div>
 					</div>
@@ -311,30 +314,33 @@
 								</div>
 								<div th:id="'collapse2' + ${tocallStat.index}" id="collapse2One" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="heading2One">
 									<div class="panel-body">
-										<div class="col-md-12">
-											<h3><span th:text="${tocall.deliver}">Société générale</span></h3>
+										<div class="col-md-12 product-accor-title">
+											<h3><span th:text="${refund.deliver}" >Société générale</span></h3>
 										</div>
-										<div class="col-md-3">
-											<img src="/img/product.png" th:src="@{${tocall.imageShortcut}}" alt="produit" id="accor-product"/>
-										</div>
-										<div class="col-md-9">
-											<span class="light-blue" id="cours">cours <span class="bold-blue">4.254</span></span>
-											<span class="display-b"></span>
-											<br />
-											<span class="light-blue">sous-jacent</span>
-											<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</span>
-											<span class="display-b"></span>
-											<span class="light-blue">statut</span>
-											<span class="display-b"></span>
-											<span class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</span>
+										<div class="row prod-accor-row">
+											<div class="col-xs-5 col-sm-4 col-md-3">
+												<img src="/img/product.png" th:src="@{${refund.imageShortcut}}" alt="produit" id="accor-product"/>
+											</div>
+											<div class="col-xs-7 col-sm-7 col-md-9">
+												<ul class="list-unstyled">
+													<li><span class="light-blue" id="cours">cours</span>
+														<span class="bold-blue">4.254</span>
+													</li>
+												</ul>
+												<ul class="list-unstyled">
+													<li class="light-blue">sous-jacent</li>
+													<li class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
+													<li class="light-blue">statut</li>
+													<li class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</li>
+												</ul>
+											</div>
 										</div>
 									</div>
 								</div>
 								<!-- hover -->
-								<a class="more-product-2">
+								<!-- <a class="more-product-2">
 									<span><img id="more-product-2" src="/img/more-hover.png" alt="voir-plus" /></span>
-								</a>
+								</a> -->
 							</div>
 						</div>
 					</div>

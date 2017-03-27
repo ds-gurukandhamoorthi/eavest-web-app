@@ -52,6 +52,34 @@ img#document {
   font-style: italic;
 }
 
+#product-trash-wallet {
+  position: absolute;
+  top: -33px;
+  right: 14px;
+  color: black;
+}
+
+.product-row {
+  margin-left: -4px;
+}
+
+.term-sheet-list {
+    padding-left: 9px;
+}
+
+@media only screen and (max-width:760px){
+  .container {
+    margin-top: 45px;
+  }
+  #product-trash-wallet {
+    top: 53px;
+    right: 4px;
+  }
+  .add-product {
+    text-align: center;
+  }
+}
+
 
 @media only screen and (min-device-width : 767px) and (max-device-width : 990px){
   #wallet-trash {
