@@ -36,12 +36,15 @@ public class PrdProductController {
 
 	public static final String VIEW_PRODUCTS = "products";
 
+	protected static final String ATTR_PRODUCT_LIST = "products";
+
 	@Autowired
 	protected PrdProductService productService;
 
 	@GetMapping()
 	public String listProducts(Model model) {
 		System.out.println("PrdProductController.listProducts()");
+		model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
 		return VIEW_PRODUCTS;
 	}
 

@@ -147,7 +147,7 @@
 				<!-- PRODUITS A OBSERVER -->
 				<div class="col-sm-6 col-md-6 wrapper padding_left">
 					<img src="/img/bell.png" alt="bell" class="img-responsive img-bell" th:alt="#{home.bell}"/>
-					<h1 class="product-title"><b th:text="#{to.call.prd}">produits à rappeler</b> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
+					<h1 class="product-title"><span th:text="#{to.call.prd}">produits à rappeler</span> <span class="min" th:text="#{home.from.days}">dans les 30 jours</span></h1>
 					<div class="sous-container">
 
 						<div class="panel-group" id="accordion-2" role="tablist" aria-multiselectable="true">
@@ -333,7 +333,7 @@
 				<div class="white-block">
 					<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
 						<div class="month-product">
-							<img src="/img/month-product.jpg" th:src="@{${imgBestSeller}}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
+							<img src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
 						</div>
 						<div class="over-product">
 							<a>
