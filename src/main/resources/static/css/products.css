@@ -151,6 +151,9 @@
   margin-top: 15px;
   border-bottom: 2px solid black;
 }
+.zone-transit .btn {
+  background-color: #FFFFFF;
+} 
 
 .btn {
   text-decoration: none;

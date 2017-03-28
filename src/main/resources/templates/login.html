@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>EAVEST, Produits structurés et alternatifs</title>
+	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -44,16 +44,16 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
 					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default log" />
+								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
 							</form>
 						</span>
 						<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -68,15 +68,15 @@
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet">Mon portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
-					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
-					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
-					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
-					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
-				</ul>
+        	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+          <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
+          <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
+          <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
+        </ul>
 				<div class="slider_jquery slider">
 					<div class="slider-container"></div>
 				</div>
@@ -90,9 +90,9 @@
     <div class="container" id="login-page">
 
       <div class="login-area col-md-offset-2 col-md-8">
-        <p th:if="${param.logout}" class="alert"><em>Vous avez été déconnecté</em>
-        <span th:if="${param.error}" class="alert alert-error block"><em>Une erreur s'est produite, veuillez réessayer</em></span></p>
-        <h1>Se connecter à son compte EAVEST</h1>
+        <p th:if="${param.logout}" class="alert"><em th:text="#{usr.disconnected}">Vous avez été déconnecté</em>
+        <span th:if="${param.error}" class="alert alert-error block"><em th:text="#{connection.error}">Une erreur s'est produite, veuillez réessayer</em></span></p>
+        <h1 th:text="#{connection.title}">Se connecter à son compte EAVEST</h1>
       </div>
       <div class="form-area col-md-offset-2 col-md-8">
         <div class="form-area">
