@@ -306,43 +306,46 @@
 			</div>
 		</div>
 	</section>
+
 	<!-- SECTION PRODUCT -->
+
+
 
 	<!-- VERSION XS RESPONSIVE ONLY -->
 	<div class="container resp-sm">
-		<div class="col-xs-12 col-sm-6 hidden-md hidden-lg" id="black-block">
-			<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
+	<div class="col-xs-12 col-sm-6 hidden-md hidden-lg" id="black-block">
+	<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
 
-			<div class="search">
-				<p class="grey-letters"><span th:text="#{prd.bank.name}">Émetteur</span>, <span th:text="#{prd.isin.code}">Code ISIN</span>,</p>
-				<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
-				<div class="search-bar">
-					<span>
-						<form>
-							<input type="search" id="find-product" autocomplete="off"/>
-							<button type="submit"><i class="fa fa-2x fa-search"></i></button>
-						</form>
-					</span>
-				</div>
-			</div>
-			<div class="clear"></div>
+	<div class="search">
+		<p class="grey-letters"><span th:text="#{prd.bank.name}">Émetteur</span>, <span th:text="#{prd.isin.code}">Code ISIN</span>,</p>
+		<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
+		<div class="search-bar">
+			<span>
+				<form>
+					<input type="search" id="find-product" autocomplete="off"/>
+					<button type="submit"><i class="fa fa-2x fa-search"></i></button>
+				</form>
+			</span>
 		</div>
+	</div>
+	<div class="clear"></div>
+	</div>
 
-		<div class="col-xs-6 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
-			<div class="sous-container">
-				<div class="white-block">
-					<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
-						<div class="month-product">
-							<img src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
-						</div>
-						<div class="over-product">
-							<a>
-								<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
-							</a>
-						</div>
+	<div class="col-xs-6 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
+	<div class="sous-container">
+		<div class="white-block">
+			<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
+				<div class="month-product">
+					<img src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
 				</div>
-			</div>
+				<div class="over-product">
+					<a>
+						<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
+					</a>
+				</div>
 		</div>
+	</div>
+	</div>
 	<!-- end row -->
 	</div>
 	<!-- FIN VERSION XS RESPONSIVE ONLY -->
