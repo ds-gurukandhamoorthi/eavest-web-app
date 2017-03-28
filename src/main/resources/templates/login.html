@@ -99,20 +99,20 @@
           <form name="loginForm" th:action="@{/login}" action="http://localhost:8080/home" method="POST">
             <div class="row inline_block">
               <span class="col-md-6">
-                <label class="label-title" for="uid" id="id">IDENTIFIANT</label>
+                <label class="label-title" for="uid" id="id" th:text="#{connection.id}">IDENTIFIANT</label>
                 <span class="block"></span>
               	<input class="input-line" id="uid" type="text" name="username" placeholder="" />
                 <span class="block"></span>
               </span>
               <span class="col-md-6">
-                <label class="label-title" for="pwd" id="mdp">MOT DE PASSE</label>
+                <label class="label-title" for="pwd" id="mdp" th:text="#{connection.pwd}">MOT DE PASSE</label>
                 <span class="block"></span>
                 <input class="input-line" id="pwd" type="password" name="password" placeholder="" />
                 <span class="block"></span>
               </span>
             </div>
             <div class="col-md-12" id="submit">
-              <input type="submit" id="login" value="je me connecte" class="btn btn-default log" />
+              <input type="submit" id="login" value="je me connecte" th:value="#{con.connect.action}" class="btn btn-default log" />
             </div>
           </form>
         </div>
@@ -120,10 +120,10 @@
 
       <div class="subscribe-area col-md-offset-2 col-md-8">
         <div class="inline_block">
-          <a href="/subscribe" id="create_count">Créer mon compte</a>
+          <a href="/subscribe" id="create_count" th:text="#{con.create.acc}">Créer mon compte</a>
         </div>
         <div class="inline_block">
-          <a href="/forgotPassword" id="pwd_forgotten">Mot de passe oublié</a>
+          <a href="/forgotPassword" id="pwd_forgotten" th:text="#{con.forget.pwd}">Mot de passe oublié</a>
         </div>
       </div>
     <!-- end container -->
