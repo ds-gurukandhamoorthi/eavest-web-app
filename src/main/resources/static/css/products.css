@@ -1,6 +1,4 @@
-/*body {
-  background-color: white;
-}*/
+
 
 /*.container {
   padding: 0;
@@ -15,6 +13,11 @@
 .radio label, .checkbox label {
   padding-left: 0 !important;
 }
+
+.list-product-title:hover, a:hover {
+  background-color: #F2F2F2;
+}
+
 
 #product-trash {
   position: absolute;
