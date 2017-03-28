@@ -123,11 +123,6 @@ h5 {
   float: right;
 }
 
-.padding_left {
-  padding-left: 30px;
-  padding-right: 15px;
-}
-
 .padding_right {
   padding-right: 4px !important;
   padding-left: 7px !important;
@@ -342,6 +337,7 @@ input.btn.btn-default {
   border-radius: 0 !important;
 }
 
+
 a,
 a:hover,
 a:active,
@@ -413,6 +409,15 @@ a.panel-heading {
 .bold-blue {
   font-weight: bold;
   font-size: 16px;
+  color: blue;
+}
+
+.product-accor-title {
+  padding-left: 9px;
+}
+
+.prod-accor-row {
+  margin-left: -4px;
 }
 
 .grey-uppercase {
@@ -1635,9 +1640,6 @@ a#arrow-position {
 }
 
 @media(max-width:767px){
-  .padding_left {
-    padding-left: 15px;
-  }
   .grey-block {
     padding-left: 50px;
   }
