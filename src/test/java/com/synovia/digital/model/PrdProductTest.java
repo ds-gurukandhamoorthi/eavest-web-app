@@ -55,6 +55,7 @@ public class PrdProductTest {
 		prdSousJacentId = 947L;
 		protectionBarrier = 54d;
 		couponBarrier = 3456d;
+		reimbursementBarrier = 34d;
 		subscriptionEndDateAsString = "06/07/2045";
 		subscriptionStartDateAsString = "17/05/2014";
 		couponValue = 67d;

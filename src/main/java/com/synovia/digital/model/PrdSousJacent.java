@@ -39,6 +39,15 @@ public class PrdSousJacent extends AbstractBean {
 	@Column(name = "IS_PERF_REVIEW")
 	private Boolean isPerfReview = false;
 
+	@Column(name = "MONTH_VALUE")
+	private Double monthValue;
+
+	@Column(name = "MONTH_PERF")
+	private Double perfOnAMonth;
+
+	@Column(name = "YEAR_PERF")
+	private Double perfOnAYear;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "prdSousJacent")
 	private List<PrdSousJacentValue> prdSousJacentValues;
 
@@ -120,6 +129,38 @@ public class PrdSousJacent extends AbstractBean {
 		this.bloombergCode = bloombergCode;
 	}
 
+	public Boolean getIsPerfReview() {
+		return this.isPerfReview;
+	}
+
+	public void setIsPerfReview(Boolean isPerfReview) {
+		this.isPerfReview = isPerfReview;
+	}
+
+	public Double getMonthValue() {
+		return this.monthValue;
+	}
+
+	public void setMonthValue(Double monthValue) {
+		this.monthValue = monthValue;
+	}
+
+	public Double getPerfOnAMonth() {
+		return this.perfOnAMonth;
+	}
+
+	public void setPerfOnAMonth(Double perfOnAMonth) {
+		this.perfOnAMonth = perfOnAMonth;
+	}
+
+	public Double getPerfOnAYear() {
+		return this.perfOnAYear;
+	}
+
+	public void setPerfOnAYear(Double perfOnAYear) {
+		this.perfOnAYear = perfOnAYear;
+	}
+
 	// --------------------- OTHER METHODS ---------------------
 
 	@Override
@@ -130,14 +171,9 @@ public class PrdSousJacent extends AbstractBean {
 		return new StringBuilder("[").append("ID:").append(strId).append("; ").append("Label:").append(label)
 				.append("; ").append("ISIN:").append(isinCode).append("; ").append("New base:").append(strIsNew)
 				.append("; ").append("Displayable in Perf Review:").append(isPerfReview).append("; ")
-				.append("BLOOMBERG code:").append(bloombergCode).append("]").toString();
+				.append("BLOOMBERG code:").append(bloombergCode).append("; ").append("Current month value:")
+				.append(monthValue).append("; ").append("Current perf on a month:").append(perfOnAMonth).append("; ")
+				.append("Current perf on a year:").append(perfOnAYear).append("]").toString();
 	}
 
-	public Boolean getIsPerfReview() {
-		return this.isPerfReview;
-	}
-
-	public void setIsPerfReview(Boolean isPerfReview) {
-		this.isPerfReview = isPerfReview;
-	}
 }

@@ -3,8 +3,12 @@
  */
 package com.synovia.digital.service;
 
+import java.util.Date;
+
 import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdSousJacentValue;
 
 /**
@@ -22,4 +26,6 @@ public interface PrdSousJacentValueService {
 	public void delete(Long id);
 
 	public PrdSousJacentValue findById(Long id) throws EavEntryNotFoundException;
+
+	public PrdSousJacentValue getValue(PrdSousJacent ssjct, Date date) throws EavTechnicalException;
 }

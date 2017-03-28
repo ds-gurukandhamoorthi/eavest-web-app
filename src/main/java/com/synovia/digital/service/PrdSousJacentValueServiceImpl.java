@@ -4,14 +4,20 @@
 package com.synovia.digital.service;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.synovia.digital.dto.PrdSousJacentValueDto;
+import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdSousJacentValue;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdSousJacentValueRepository;
@@ -116,6 +122,27 @@ public class PrdSousJacentValueServiceImpl implements PrdSousJacentValueService 
 			throw new EavEntryNotFoundException(PrdSousJacentValue.class.getTypeName());
 
 		return toFind;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdSousJacentValueService#getValue(com.synovia.digital.
+	 * model.PrdSousJacent, java.util.Date)
+	 */
+	@Override
+	public PrdSousJacentValue getValue(PrdSousJacent ssjct, Date date) throws EavTechnicalException {
+		int hours = 1;
+		List<PrdSousJacentValue> values = repo.findByPrdSousJacentAndDateBetween(ssjct,
+				DateUtils.addHours(date, -hours), DateUtils.addDays(date, hours));
+		if (values.size() > 1)
+			throw new EavDuplicateEntryException(PrdSousJacentValue.class.toString());
+
+		if (values.isEmpty())
+			throw new EavEntryNotFoundException(PrdSousJacentValue.class.toString());
+
+		return values.get(0);
 	}
 
 }

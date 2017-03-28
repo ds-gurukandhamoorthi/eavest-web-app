@@ -3,6 +3,7 @@
  */
 package com.synovia.digital.service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -17,9 +18,11 @@ import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavException;
+import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdSousJacentValue;
 import com.synovia.digital.repository.PrdSousJacentRepository;
+import com.synovia.digital.utils.PerfReviewDates;
 
 /**
  * This class defines TODO
@@ -294,6 +297,117 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	@Override
 	public List<PrdSousJacent> getNewBases() {
 		return repo.findByIsNewAndIsPerfReview(true, true);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#lastMonthValue()
+	 */
+	@Override
+	public Double currentMonthValue(PrdSousJacent ssjct) throws EavTechnicalException {
+		// Get the date of the last day of the last month
+		Calendar lastMonth = new PerfReviewDates().getLastDayOfLastMonth();
+		//		LOGGER.info("Last day of last month: {}", lastMonth.getTime());
+		// Find the corresponding underlying asset value
+		PrdSousJacentValue v = sousJacentValueService.getValue(ssjct, lastMonth.getTime());
+		if (v == null)
+			throw new EavEntryNotFoundException(PrdSousJacentValue.class.toString());
+
+		return v.getValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#lastMonthPerformance()
+	 */
+	@Override
+	public Double currentMonthPerformance(PrdSousJacent ssjct) throws EavTechnicalException {
+		// Get the last month value
+		Double currentValue = currentMonthValue(ssjct);
+		// Get the value of the previous month
+		Double previousValue = previousMonthValue(ssjct);
+		//		LOGGER.info("value[last month]={}, value[previous month]={}", currentValue, previousValue);
+
+		return 100 * (currentValue - previousValue) / previousValue;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#oneYearPerformance()
+	 */
+	@Override
+	public Double oneYearPerformance(PrdSousJacent ssjct) throws EavTechnicalException {
+		// Get the date of the last day of the previous month
+		Calendar lastYear = new PerfReviewDates().getLastDayOfLastMonthOfLastYear();
+		// Find the corresponding underlying asset value
+		PrdSousJacentValue v = sousJacentValueService.getValue(ssjct, lastYear.getTime());
+		if (v == null)
+			throw new EavEntryNotFoundException(PrdSousJacentValue.class.toString());
+
+		Double lastYearValue = v.getValue();
+		Double currentValue = currentMonthValue(ssjct);
+
+		return 100 * (currentValue - lastYearValue) / lastYearValue;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdSousJacentService#previousMonthValue(com.synovia.
+	 * digital.model.PrdSousJacent)
+	 */
+	@Override
+	public Double previousMonthValue(PrdSousJacent ssjct) throws EavTechnicalException {
+		// Get the date of the last day of the previous month
+		Calendar previousMonth = new PerfReviewDates().getLastDayOfPreviousMonth();
+		// Find the corresponding underlying asset value
+		PrdSousJacentValue v = sousJacentValueService.getValue(ssjct, previousMonth.getTime());
+		if (v == null)
+			throw new EavEntryNotFoundException(PrdSousJacentValue.class.toString());
+
+		return v.getValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdSousJacentService#updatePerf(com.synovia.digital.
+	 * model.PrdSousJacent)
+	 */
+	@Override
+	public PrdSousJacent updatePerf(PrdSousJacent ssjct) throws EavTechnicalException {
+		//		LOGGER.info("Underlying asset to be updated {}", ssjct);
+		// Set the current month value
+		ssjct.setMonthValue(currentMonthValue(ssjct));
+		// Set the current perf on a month
+		ssjct.setPerfOnAMonth(currentMonthPerformance(ssjct));
+		// Set the current perf on a year
+		ssjct.setPerfOnAYear(oneYearPerformance(ssjct));
+
+		PrdSousJacent updated = repo.save(ssjct);
+		//		LOGGER.info("Underlying asset {} has been updated", updated);
+		return updated;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#updateAll()
+	 */
+	@Override
+	public void updateAll() throws EavTechnicalException {
+		// Find all entities
+		List<PrdSousJacent> entities = findAll();
+
+		for (PrdSousJacent sj : entities) {
+			updatePerf(sj);
+		}
+
 	}
 
 }

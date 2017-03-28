@@ -11,6 +11,7 @@ import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdSousJacent;
 
 /**
@@ -54,4 +55,16 @@ public interface PrdSousJacentService {
 	public List<PrdSousJacent> getClassicBases();
 
 	public List<PrdSousJacent> getNewBases();
+
+	public Double currentMonthValue(PrdSousJacent ssjct) throws EavTechnicalException;
+
+	public Double previousMonthValue(PrdSousJacent ssjct) throws EavTechnicalException;
+
+	public Double currentMonthPerformance(PrdSousJacent ssjct) throws EavTechnicalException;
+
+	public Double oneYearPerformance(PrdSousJacent ssjct) throws EavTechnicalException;
+
+	public PrdSousJacent updatePerf(PrdSousJacent ssjct) throws EavTechnicalException;
+
+	public void updateAll() throws EavTechnicalException;
 }

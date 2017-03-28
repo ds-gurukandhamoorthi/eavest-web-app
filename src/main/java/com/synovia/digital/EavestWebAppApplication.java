@@ -1,16 +1,23 @@
 package com.synovia.digital;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -23,17 +30,21 @@ import com.synovia.digital.model.EavArticle;
 import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.model.PrdSousJacentValue;
 import com.synovia.digital.model.PrdStatus;
 import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
+import com.synovia.digital.repository.PrdSousJacentValueRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
 import com.synovia.digital.repository.PrdUserRepository;
+import com.synovia.digital.utils.EavUtils;
 import com.synovia.digital.utils.PrdStatusEnum;
 
 @SpringBootApplication
+@EnableScheduling
 public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) {
@@ -61,7 +72,8 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 
 	@Bean
 	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo, EavRoleRepository roleRepo,
-			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo, PrdUserRepository userRepo) {
+			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo, PrdUserRepository userRepo,
+			PrdSousJacentValueRepository ssjctValueRepo) {
 		return () -> {
 			// Initialize Eavest Parameters 
 			EavParams eavParams = new EavParams();
@@ -164,6 +176,24 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 					euroistoxxEWC, iStoxx30, iStoxx50, msciEuro50, solactive);
 			prdSsjctRepo.save(indices);
 
+			// Complete the underlying asset with their historic values
+			DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+			List<String[]> ssjctValues = readSousJacentValues(new StringBuilder(EavUtils.mainResourcesDirectoryPath())
+					.append(EavUtils.FILE_SEPARATOR).append("valeurs_Indices.csv").toString());
+
+			for (String[] value : ssjctValues) {
+				// 0 - label sous-jacent
+				// 1 - isin
+				// 2 - bloomberg
+				// 3 - date
+				// 4 - value
+				// Find the corresponding stock market
+				PrdSousJacent ssjct = prdSsjctRepo.findByBloombergCode(value[2]);
+				PrdSousJacentValue v = new PrdSousJacentValue(ssjct, f.parse(value[3]), Double.valueOf(value[4]));
+				ssjctValueRepo.save(v);
+
+			}
+
 			//			// Create default products
 			//			PrdProduct eavToCall = new PrdProduct();
 			//			eavToCall.setLabel("Autocall Hebdomadaire SX5E 5Y");
@@ -177,5 +207,30 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 			//
 			//			productRepo.save(eavToCall);
 		};
+	}
+
+	private static List<String[]> readSousJacentValues(String filepath) {
+		List<String[]> ssJacentValues = new ArrayList<>();
+		try (Scanner scanner = new Scanner(new File(filepath))) {
+			// Skip first line
+			scanner.nextLine();
+
+			scanner.useDelimiter(";");
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+
+				String[] ssJacentInfo = line.split(scanner.delimiter().pattern());
+				ssJacentValues.add(ssJacentInfo);
+
+			}
+
+		} catch (
+
+		FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ssJacentValues;
 	}
 }

@@ -15,7 +15,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -594,6 +596,19 @@ public class PrdSousJacentServiceImplTest {
 		} catch (Exception e) {
 			fail("Should not have thrown an exception");
 		}
+	}
+
+	//	@Test
+	public void testCurrentMonthValue() throws Exception {
+		PrdSousJacent ssjct = new PrdSousJacent();
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Double expectedValue = 4980.54;
+		PrdSousJacentValue value1 = new PrdSousJacentValue(ssjct, formatter.parse("28/02/2017"), expectedValue);
+		PrdSousJacentValue value2 = new PrdSousJacentValue(ssjct, formatter.parse("15/02/2017"), 4923.09);
+		PrdSousJacentValue value3 = new PrdSousJacentValue(ssjct, formatter.parse("28/01/2017"), 4900.59);
+		PrdSousJacentValue value4 = new PrdSousJacentValue(ssjct, formatter.parse("31/01/2017"), 4965.29);
+
+		sousJacentService.currentMonthValue(ssjct);
 	}
 
 }

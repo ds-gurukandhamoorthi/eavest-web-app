@@ -51,6 +51,13 @@ public class PrdSousJacentValue extends AbstractBean {
 	 *
 	 */
 	public PrdSousJacentValue() {
+		this(null, null, null);
+	}
+
+	public PrdSousJacentValue(PrdSousJacent ssjct, Date d, Double value) {
+		this.prdSousJacent = ssjct;
+		this.date = d;
+		this.value = value;
 	}
 
 	// --------------------- GETTER / SETTER METHODS ---------------------
