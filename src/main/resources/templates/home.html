@@ -336,7 +336,8 @@
 		<div class="white-block">
 			<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
 				<div class="month-product">
-					<img src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
+					<img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
+					<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}" />
 				</div>
 				<div class="over-product">
 					<a>
