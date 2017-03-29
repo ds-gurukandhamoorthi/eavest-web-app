@@ -112,7 +112,7 @@ select, input[type=text], [type=password], [type=email], [type=number], [type=da
     box-sizing: border-box;
 }
 
-input[type=submit] {
+.main-area input[type=submit] {
     color: black;
     padding: 14px 20px;
     margin: 8px 0;

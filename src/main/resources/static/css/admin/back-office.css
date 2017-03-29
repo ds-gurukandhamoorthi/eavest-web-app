@@ -112,6 +112,13 @@ select, input[type=text], [type=password], [type=email], [type=number], [type=da
     box-sizing: border-box;
 }
 
+textarea {
+  width: 100%;
+  padding: 12px 20px 6px 20px;
+  margin: 0px 0 12px 0;
+  display: inline-block;
+}
+
 input[type=submit] {
     color: black;
     padding: 14px 20px;

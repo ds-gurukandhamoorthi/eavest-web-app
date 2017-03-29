@@ -25,7 +25,7 @@ public class EavParamsDto {
 	@Size(max = 6)
 	private String numberOfTheMonth;
 
-	@Size(max = 160)
+	@Size(max = 255)
 	private String textOfTheMonth;
 
 	private Boolean isActive;

@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -71,6 +70,8 @@ public class HomeController {
 
 	protected static final String REQUEST_MAPPING_USER_PRODUCTS = "/user/products/";
 
+	protected static final String REQUEST_MAPPING_HOME = "/home";
+
 	@Autowired
 	protected EavAccountService accountService;
 
@@ -86,35 +87,20 @@ public class HomeController {
 	@Autowired
 	protected EavParamsService paramsService;
 
-	@RequestMapping(value = "/basic")
-	public String index() {
-		System.out.println("HomeController.index()");
-		return "index";
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView index(ModelAndView modelAndView) {
-		System.out.println("HomeController.index()");
-		modelAndView.setViewName(VIEW_INDEX);
+	@RequestMapping(value = "/")
+	public ModelAndView index(ModelAndView modelAndView, RedirectAttributes attributes) {
+		modelAndView.setViewName(EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_HOME));
 		return modelAndView;
 	}
 
-	//	@RequestMapping(value = "/", method = RequestMethod.GET)
-	//	public String index(Model model) {
-	//		System.out.println("HomeController.index()");
-	//		return home(model);
-	//	}
-
 	@RequestMapping(value = "/login")
 	public ModelAndView login(ModelAndView modelAndView) {
-		System.out.println("HomeController.login()");
 		modelAndView.setViewName(VIEW_LOGIN);
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/home")
 	public ModelAndView home(ModelAndView modelAndView) {
-		System.out.println("HomeController.home()");
 		modelAndView.setViewName(VIEW_HOME);
 		// Display user info
 		String authentifiedUsername = "";

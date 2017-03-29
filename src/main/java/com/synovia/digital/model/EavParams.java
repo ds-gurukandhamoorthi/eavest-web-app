@@ -30,7 +30,7 @@ public class EavParams {
 	@Column(name = "NUMBER_OF_MONTH", length = 6)
 	private String numberOfTheMonth;
 
-	@Column(name = "TEXT_OF_MONTH", length = 160)
+	@Column(name = "TEXT_OF_MONTH")
 	private String textOfTheMonth;
 
 	@Column(name = "IS_ACTIVE")

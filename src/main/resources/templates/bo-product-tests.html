@@ -121,37 +121,41 @@
 	      </div>
 	    </div>
 
-	    <div class="main-area">
+	    <div class="list-area">
 	      <h1>Liste des produits</h1>
 	      <div class="main-table">
-			<table id="product-list" class="display" cellspacing="0">
-        <thead>
-  				<tr>
-  				  <th th:text="#{bo.products.id}">Id</th>
-  				  <th th:text="#{bo.products.isin}">ISIN</th>
-  				  <th th:text="#{bo.products.label}">Label</th>
-            <th th:text="#{bo.products.bank.name}">Emetteur</th>
-  				  <th th:text="#{bo.products.launch.date}">Date de création</th>
-  				  <th th:text="#{bo.products.due.date}">Date de mise à jour</th>
-  				  <th th:text="#{bo.products.eavest}">Produits Eavest</th>
-            <th th:text="#{bo.products.end.date}">Date de fin</th>
-  				</tr>
-        </thead>
-        <tbody>
-  				<tr th:each="product : ${products}">
-  				  <td th:text="${product.id}">Id du produit</td>
-  				  <td th:text="${product.isin}">ISIN</td>
-  				  <td th:text="${product.label}">Label du sous-jacent</td>
-            <td th:text="${product.deliver}">Société Générale</td>
-  				  <td th:text="${product.launchDate}"></td>
-  				  <td th:text="${product.dueDate}"></td>
-            <td th:text="${product.isEavest}">false</td>
-  				  <td th:text="${product.endDate}">dd/MM/yyyy</td>
-  				</tr>
-        </tbody>
-			</table>
-    </div>
-  </div>
+          <table id="product-list" class="display" cellspacing="0">
+            <thead>
+      				<tr>
+      				  <th th:text="#{bo.products.id}">Id</th>
+      				  <th th:text="#{bo.products.isin}">ISIN</th>
+      				  <th th:text="#{bo.products.label}">Label</th>
+                <th th:text="#{bo.products.bank.name}">Emetteur</th>
+                <th th:text="#{bo.products.base}">Sous-jacent</th>
+                <th th:text="#{bo.products.end.date}">Date de fin</th>
+      				  <th th:text="#{bo.products.update}">Mettre à jour</th>
+      				  <th th:text="#{bo.products.delete}">Supprimer</th>
+      				</tr>
+            </thead>
+            <tbody>
+      				<tr th:each="product : ${products}">
+      				  <td th:text="${product.id}">Id du produit</td>
+      				  <td th:text="${product.isin}">ISIN</td>
+      				  <td th:text="${product.label}">Label du produit</td>
+                <td th:text="${product.deliver}">Société Générale</td>
+      				  <td th:text="${product.prdSousJacent.label}">Label du sous-jacent</td>
+                <td th:text="${product.endDate}">dd/MM/yyyy</td>
+      				  <td>
+                  <form action="#" th:action="@{/admin/products/{id}/addDate(id=${product.id})}" method="GET">
+                    <input class="btn btn-secondary btn-sm" type="submit" th:value="#{bo.products.update}" value="update" />
+                  </form>
+                </td>
+                <td></td>
+      				</tr>
+            </tbody>
+    			</table>
+        </div>
+      </div>
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
