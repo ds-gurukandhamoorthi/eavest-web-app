@@ -113,17 +113,12 @@
 		</div>
 		<div class="col-md-12 product-body">
 			<div>
-				<h3><span th:text="${product.deliver}">société générale</span></h3>
+				<h3><span th:text="${product.deliver}" id="product-main-title">société générale</span></h3>
 			</div>
 			<div class="row product-row">
 				<div class="col-sm-2 col-md-2" id="img-product">
 					<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" id="accor-product"/>
 				</div>
-				<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
-					<button type="submit" class="btn">
-						<i class="fa fa-trash-o fa-2x" id="product-trash" aria-hidden="true"></i>
-					</button>
-				</span>
 
 				<div class="col-sm-3 col-md-3">
 					<ul class="list-unstyled">
@@ -193,9 +188,6 @@
 						<li class="light-blue" th:text="#{prd.obs.fqcy}">fréquence d'observation</li>
 						<li class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</li>
 					</ul>
-					<button type="submit" class="btn">
-						<i class="fa fa-trash-o fa-2x hidden-xs" id="product-trash" aria-hidden="true"></i>
-					</button>
 				</div>
 			</div>
 			<div class="col-md-7 term-sheet-list grey-uppercase">
