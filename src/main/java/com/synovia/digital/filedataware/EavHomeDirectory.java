@@ -4,7 +4,9 @@
 package com.synovia.digital.filedataware;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +28,13 @@ public class EavHomeDirectory {
 
 	public static final Long IMAGE_MAX_SIZE_BYTE = 1000L * 1024;
 
+	/** The path of the root directory of the file data warehouse. */
 	private String path;
+	/** The root directory of the file system that stores application's dynamic data. */
 	private File root;
+	/**
+	 * The folder that contains all products and their document. Default name is "PRD".
+	 */
 	private File productDir;
 
 	/**
@@ -126,5 +133,22 @@ public class EavHomeDirectory {
 
 		return result;
 
+	}
+
+	public boolean deleteDir(Long idPrdProduct) {
+		boolean deleted = true;
+
+		String relativePath = new StringBuilder(idPrdProduct.toString()).toString();
+		File dir = new File(productDir, relativePath);
+
+		try {
+			FileUtils.deleteDirectory(dir);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			deleted = false;
+		}
+
+		return deleted;
 	}
 }

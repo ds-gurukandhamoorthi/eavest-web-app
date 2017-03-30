@@ -150,7 +150,30 @@
                     <input class="btn btn-secondary btn-sm" type="submit" th:value="#{bo.products.update}" value="update" />
                   </form>
                 </td>
-                <td></td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deletePrd" th:attr="data-target='#deletePrd' + ${product.id}"><span th:value="#{bo.products.delete}">delete</span></button>
+                  <!-- Modal -->
+                  <div class="modal" id="deletePrd" th:id="'deletePrd' + ${product.id}" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close display-info" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title" th:text="#{bo.prd.delete.title}">Suppression de produit</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p><span th:text="#{bo.prd.delete.info}">Vous êtes sur le point de faire une méga connerie</span> : <span th:text="${product.label}"></span></p>
+                          <p><span th:text="#{bo.prd.delete.confirm}">Some text in the modal.</span></p>
+                        </div>
+                        <div class="modal-footer">
+                          <form action="#" th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="POST">
+                            <input class="btn btn-secondary btn-sm" type="submit" th:value="#{bo.products.delete}" value="delete" />
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
       				</tr>
             </tbody>
     			</table>

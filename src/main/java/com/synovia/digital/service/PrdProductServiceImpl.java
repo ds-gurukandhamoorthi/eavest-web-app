@@ -63,8 +63,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Autowired
 	protected PrdObservationDateService obsDateService;
 
-	//	@Autowired
-	//	protected PrdCouponDateService couponDateService;
+	@Autowired
+	protected PrdCouponDateService couponDateService;
 
 	@Autowired
 	protected PrdEarlierRepaymentDateService earlyRepayDateService;
@@ -846,9 +846,9 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Override
 	public void delete(PrdProduct product) {
 		// Delete all product date entities
-		//		for (PrdCouponDate e : product.getCouponPaymentDates()) {
-		//			couponDateService.delete(e);
-		//		}
+		for (PrdCouponDate e : product.getCouponPaymentDates()) {
+			couponDateService.delete(e);
+		}
 		for (PrdObservationDate d : product.getObservationDates()) {
 			obsDateService.delete(d);
 		}
@@ -860,6 +860,9 @@ public class PrdProductServiceImpl implements PrdProductService {
 		for (PrdUser u : product.getPrdUsers()) {
 			userService.removeProduct(u, product);
 		}
+
+		// Remove product documents
+		homeDir.deleteDir(product.getId());
 
 		repo.delete(product);
 	}

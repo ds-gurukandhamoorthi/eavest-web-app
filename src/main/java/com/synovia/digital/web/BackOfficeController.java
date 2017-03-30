@@ -77,6 +77,7 @@ public class BackOfficeController {
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
 	protected static final String REQUEST_MAPPING_CREATE_SSJACENT_VIEW = "/admin/createSsjacent";
 	protected static final String REQUEST_MAPPING_CREATE_PRODUCT_VIEW = "/admin/createProduct";
+	protected static final String REQUEST_MAPPING_TEST_CREATE_PRODUCT_VIEW = "/admin/tests";
 	protected static final String REQUEST_MAPPING_ADD_PRODUCT_DATES = "/admin/products/{id}/addDate";
 	protected static final String REQUEST_MAPPING_UPDATE_PRODUCT = "/admin/products/{id}/addDate";
 
@@ -420,6 +421,28 @@ public class BackOfficeController {
 		return view;
 	}
 
+	@PostMapping(value = "/products/{id}/delete")
+	public String deleteProduct(@PathVariable("id") Long id, RedirectAttributes attributes) {
+		attributes.addFlashAttribute(ATTR_PRODUCT_DTO, new PrdProductDto());
+		attributes.addFlashAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
+		attributes.addFlashAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+		String view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_TEST_CREATE_PRODUCT_VIEW);
+		try {
+			PrdProduct toDelete = productService.findById(id);
+			String label = toDelete.getLabel();
+			String isin = toDelete.getIsin();
+			productService.delete(toDelete);
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Product ").append(isin).append(" (")
+					.append(label).append(") has been successfully deleted.").toString());
+
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
 	@GetMapping(value = "/products/{id}/addDate")
 	public String showAddProductDate(@PathVariable("id") Long id, Model model) {
 		String view = VIEW_ADD_PRODUCT_DATE;
@@ -440,7 +463,7 @@ public class BackOfficeController {
 	}
 
 	@PostMapping(value = "/products/{id}/addObsDate")
-	public String addProductDate(@PathVariable("id") Long id,
+	public String addObservationDate(@PathVariable("id") Long id,
 			@Valid @ModelAttribute(ATTR_OBS_DATE_DTO) PrdProductDateDto obsDateDto, BindingResult result,
 			RedirectAttributes attributes, Model model) {
 		LOGGER.info(new StringBuilder("Call 'add date' for product id ").append(id).toString());
