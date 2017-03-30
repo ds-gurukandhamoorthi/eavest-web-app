@@ -123,4 +123,15 @@ public class PrdEarlierRepaymentDateServiceImpl implements PrdEarlierRepaymentDa
 		return found;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdEarlierRepaymentDateService#delete(com.synovia.
+	 * digital.model.PrdEarlierRepaymentDate)
+	 */
+	@Override
+	public void delete(PrdEarlierRepaymentDate date) {
+		repo.delete(date);
+	}
+
 }

@@ -248,4 +248,71 @@ public class EavUtilsTest {
 		Assert.assertThat(EavUtils.relativePathFromStaticResource(null), is(nullValue()));
 	}
 
+	//	@Test
+	public void testPaginate() {
+		// Test 1
+		int currentPg = 1;
+		int totalPageNb = 15;
+
+		paginate(currentPg, totalPageNb);
+
+		// Test 2
+		currentPg = 4;
+		paginate(currentPg, totalPageNb);
+
+		// Test 3
+		currentPg = 8;
+		paginate(currentPg, totalPageNb);
+
+		// Test 4
+		totalPageNb = 25;
+		currentPg = 17;
+		paginate(currentPg, totalPageNb);
+
+		// Test 5
+		totalPageNb = 25;
+		currentPg = 25;
+		paginate(currentPg, totalPageNb);
+	}
+
+	private void paginate(int currentPageNb, int totalPageNb) {
+		System.out.println("Pagination: current=" + currentPageNb + ", total=" + totalPageNb);
+		int sliceSize = 10;
+		int beginPageNb = Math.max(1, currentPageNb - sliceSize / 2);
+		int endPageNb = Math.min(beginPageNb + sliceSize, totalPageNb);
+
+		for (int i = 0; i < endPageNb - beginPageNb + 1; i++) {
+			int displayedNb = i + beginPageNb;
+			Puce puce = new Puce(i, displayedNb);
+
+			puce.active = (displayedNb == currentPageNb);
+			System.out.print(puce);
+		}
+
+		System.out.println(" | ");
+	}
+
+	private class Puce {
+		private boolean active;
+		private int displayedNumber;
+		private int pos;
+
+		/**
+		 * TODO Constructs ... based on ...
+		 *
+		 */
+		public Puce(int position, int dispalyedNumber) {
+			this.pos = position;
+			this.displayedNumber = dispalyedNumber;
+			this.active = false;
+		}
+
+		@Override
+		public String toString() {
+			String strActiveStart = active ? "( " : "";
+			String strActiveEnd = active ? " )" : "";
+			return new StringBuilder(" | ").append(strActiveStart).append(displayedNumber).append(strActiveEnd)
+					.toString();
+		}
+	}
 }

@@ -22,6 +22,8 @@ public interface PrdObservationDateService {
 
 	public void delete(Long id);
 
+	public void delete(PrdObservationDate date);
+
 	public PrdObservationDate findById(Long id);
 
 	public PrdObservationDate update(Long id, PrdProductDateDto dto) throws EavEntryNotFoundException;

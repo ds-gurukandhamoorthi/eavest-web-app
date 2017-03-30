@@ -130,7 +130,7 @@
 													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
 													<li class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
 													<li class="light-blue" th:text="#{prd.status}">statut</li>
-													<li class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</li>
+													<li class="grey-uppercase" th:text="#{${refund.prdStatus.description}}">en cours</li>
 												</ul>
 											</div>
 										</div>
@@ -188,7 +188,7 @@
 													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
 													<li class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
 													<li class="light-blue" th:text="#{prd.status}">statut</li>
-													<li class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</li>
+													<li class="grey-uppercase" th:text="#{${tocall.prdStatus.description}}">en cours</li>
 												</ul>
 											</div>
 										</div>

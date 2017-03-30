@@ -29,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdSousJacentValueRepository;
 
@@ -57,6 +58,9 @@ public class PrdSousJacentRestControllerTest {
 	private PrdSousJacentValueRepository valueRepo;
 
 	@Autowired
+	private PrdProductRepository productRepo;
+
+	@Autowired
 	private WebApplicationContext webApplicationContext;
 
 	private List<PrdSousJacent> sousJacentList = new ArrayList<>();
@@ -75,6 +79,7 @@ public class PrdSousJacentRestControllerTest {
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
 		this.valueRepo.deleteAll();
+		this.productRepo.deleteAll();
 		this.repo.deleteAllInBatch();
 
 		this.sousJacentList.add(repo.save(new PrdSousJacent("SS-JCT-TEST-1")));

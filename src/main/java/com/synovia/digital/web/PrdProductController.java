@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.service.PrdProductService;
+import com.synovia.digital.utils.EavControllerUtils;
 
 /**
  * This class defines TODO
@@ -37,14 +41,51 @@ public class PrdProductController {
 	public static final String VIEW_PRODUCTS = "products";
 
 	protected static final String ATTR_PRODUCT_LIST = "products";
+	protected static final String ATTR_PAGE_BEGIN_SLICE = "beginPageNb";
+	protected static final String ATTR_PAGE_END_SLICE = "endPageNb";
+	protected static final String ATTR_PAGE_CURRENT_SLICE = "currentPageNb";
+	protected static final String ATTR_PAGE_TOTAL_SLICES = "totalPageNb";
+	protected static final String ATTR_SLICE_ITERATOR = "sliceIndexes";
+
+	protected static final String PARAMETER_PAGE_NUMBER = "pageNumber";
+
+	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}";
+
+	private static final int SIZE_PRODUCTS_PAGE = 4;
+	/** Number of max displayed pages */
+	private static final int SLICE_SIZE = 3;
 
 	@Autowired
 	protected PrdProductService productService;
 
 	@GetMapping()
-	public String listProducts(Model model) {
-		System.out.println("PrdProductController.listProducts()");
-		model.addAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+	public String listProducts(RedirectAttributes attributes) {
+		// Redirect the page to the first page of products
+		Integer firstPageNumber = 1;
+		attributes.addAttribute(PARAMETER_PAGE_NUMBER, firstPageNumber);
+		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS_PAGE);
+	}
+
+	@GetMapping(value = "/pages/{pageNumber}")
+	public String showProductsPage(@PathVariable Integer pageNumber, Model model) {
+		Page<PrdProduct> page = productService.findAll(pageNumber - 1, SIZE_PRODUCTS_PAGE);
+
+		int total = page.getTotalPages();
+		int current = page.getNumber() + 1;
+		int begin = (int) Math.max(1, current - Math.floor(SLICE_SIZE / 2));
+		int end = Math.min(begin + SLICE_SIZE, total);
+
+		Integer[] iterator = new Integer[end - begin + 1];
+		for (int i = 0; i < iterator.length; i++) {
+			iterator[i] = i;
+		}
+
+		model.addAttribute(ATTR_SLICE_ITERATOR, iterator);
+		model.addAttribute(ATTR_PRODUCT_LIST, page);
+		model.addAttribute(ATTR_PAGE_BEGIN_SLICE, begin);
+		model.addAttribute(ATTR_PAGE_END_SLICE, end);
+		model.addAttribute(ATTR_PAGE_CURRENT_SLICE, current);
+		model.addAttribute(ATTR_PAGE_TOTAL_SLICES, total);
 		return VIEW_PRODUCTS;
 	}
 

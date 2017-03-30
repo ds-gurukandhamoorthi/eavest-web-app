@@ -19,7 +19,9 @@ public interface PrdCouponDateService {
 
 	public PrdCouponDate add(PrdProductDateDto dto) throws EavEntryNotFoundException;
 
-	public void delete(Long id);
+	public void delete(Long id) throws EavEntryNotFoundException;
+
+	public void delete(PrdCouponDate entity);
 
 	public PrdCouponDate findById(Long id);
 

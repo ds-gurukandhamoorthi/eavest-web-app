@@ -27,4 +27,5 @@ public interface PrdEarlierRepaymentDateService {
 
 	public List<PrdEarlierRepaymentDate> findByIdPrdProduct(Long idPrdProduct);
 
+	public void delete(PrdEarlierRepaymentDate date);
 }

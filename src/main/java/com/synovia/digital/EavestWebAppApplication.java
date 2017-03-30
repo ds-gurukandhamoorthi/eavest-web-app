@@ -7,12 +7,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,6 +31,8 @@ import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.EavArticle;
 import com.synovia.digital.model.EavParams;
 import com.synovia.digital.model.EavRole;
+import com.synovia.digital.model.PrdProduct;
+import com.synovia.digital.model.PrdRule;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdSousJacentValue;
 import com.synovia.digital.model.PrdStatus;
@@ -36,6 +40,7 @@ import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.EavAccountRepository;
 import com.synovia.digital.repository.EavParamsRepository;
 import com.synovia.digital.repository.EavRoleRepository;
+import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
 import com.synovia.digital.repository.PrdSousJacentValueRepository;
 import com.synovia.digital.repository.PrdStatusRepository;
@@ -73,7 +78,7 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 	@Bean
 	InitializingBean saveData(EavAccountRepository repo, PrdStatusRepository prdStatusRepo, EavRoleRepository roleRepo,
 			PrdSousJacentRepository prdSsjctRepo, EavParamsRepository eavParamsRepo, PrdUserRepository userRepo,
-			PrdSousJacentValueRepository ssjctValueRepo) {
+			PrdSousJacentValueRepository ssjctValueRepo, PrdProductRepository productRepo) {
 		return () -> {
 			// Initialize Eavest Parameters 
 			EavParams eavParams = new EavParams();
@@ -118,12 +123,12 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 			PrdUser user = new PrdUser(adminUser);
 			userRepo.save(user);
 
-			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.IDLE.toString(), "Initial state"));
-			prdStatusRepo
-					.save(new PrdStatus(PrdStatusEnum.SUBSCRIBABLE.toString(), "Users can subscribe to the product"));
-			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.ON_GOING.toString(), "On going"));
-			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.PREPAYED.toString(), "Prepayment"));
-			prdStatusRepo.save(new PrdStatus(PrdStatusEnum.REFUNDED.toString(), "Reimbursed"));
+			PrdStatus idle = new PrdStatus(PrdStatusEnum.IDLE.toString(), "prd.status.idle");
+			PrdStatus subscribable = new PrdStatus(PrdStatusEnum.SUBSCRIBABLE.toString(), "prd.status.subscribable");
+			PrdStatus onGoing = new PrdStatus(PrdStatusEnum.ON_GOING.toString(), "prd.status.ongoing");
+			PrdStatus prepayed = new PrdStatus(PrdStatusEnum.PREPAYED.toString(), "prd.status.prepayed");
+			PrdStatus refunded = new PrdStatus(PrdStatusEnum.REFUNDED.toString(), "prd.status.refunded");
+			prdStatusRepo.save(Arrays.asList(new PrdStatus[] { idle, subscribable, onGoing, prepayed, refunded }));
 
 			// Create the stock market indices
 			PrdSousJacent cac40 = new PrdSousJacent("CAC 40");
@@ -194,18 +199,28 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 
 			}
 
-			//			// Create default products
-			//			PrdProduct eavToCall = new PrdProduct();
-			//			eavToCall.setLabel("Autocall Hebdomadaire SX5E 5Y");
-			//			eavToCall.setIsin("FR0013238946");
-			//			eavToCall.setPrdSousJacent(eurostoxx50);
-			//			eavToCall.setLaunchDateAsString("12/12/2012");
-			//			eavToCall.setDueDateAsString("22/12/2022");
-			//			eavToCall.setDeliver("Natixis");
-			//			eavToCall.setIsEavest(true);
-			//			eavToCall.setDueDateAsString("20/03/2017");
-			//
-			//			productRepo.save(eavToCall);
+			// Create default products
+			int nbCreatedProducts = 20;
+			Date defaultLaunchDate = new SimpleDateFormat("dd/MM/yyyy").parse("12/12/2012");
+			Date defaultDueDate = new Date();
+			for (int i = 0; i < nbCreatedProducts; i++) {
+				PrdProduct basic = new PrdProduct();
+				basic.setLabel(new StringBuilder("Autocreated TCO default ").append(i).toString());
+				basic.setIsin(new StringBuilder("TCO00132-").append(i).toString());
+				basic.setPrdSousJacent(indices.get(i % 9));
+				basic.setLaunchDate(DateUtils.addDays(defaultLaunchDate, -i));
+				basic.setDueDate(DateUtils.addDays(defaultDueDate, 2 * i + 1));
+				basic.setDeliver("Natixis");
+				basic.setIsEavest(i % 3 == 0 ? true : false);
+				basic.setPrdRule(new PrdRule(77d + i - nbCreatedProducts, 88d + i - nbCreatedProducts,
+						100d + i - nbCreatedProducts));
+				basic.setObservationFrequency("une fois par an les années 1 à 8");
+				basic.setStrike(380.28 + i * 100);
+				basic.setCouponValue(5d + i);
+				basic.setPrdStatus(idle);
+
+				productRepo.save(basic);
+			}
 		};
 	}
 

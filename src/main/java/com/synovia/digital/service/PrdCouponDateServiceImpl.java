@@ -118,4 +118,17 @@ public class PrdCouponDateServiceImpl implements PrdCouponDateService {
 		return found;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdCouponDateService#delete(com.synovia.digital.model.
+	 * PrdCouponDate)
+	 */
+	@Override
+	public void delete(PrdCouponDate entity) {
+		repo.delete(entity);
+
+	}
+
 }

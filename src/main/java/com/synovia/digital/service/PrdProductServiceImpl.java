@@ -16,6 +16,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,10 +63,19 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Autowired
 	protected PrdObservationDateService obsDateService;
 
-	protected final EavHomeDirectory homeDir;
+	//	@Autowired
+	//	protected PrdCouponDateService couponDateService;
+
+	@Autowired
+	protected PrdEarlierRepaymentDateService earlyRepayDateService;
+
+	@Autowired
+	protected PrdUserService userService;
 
 	@Autowired
 	protected EavResource eavResource;
+
+	protected final EavHomeDirectory homeDir;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
 
@@ -762,4 +774,59 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 		return results;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#findAll(int, int)
+	 */
+	@Override
+	public Page<PrdProduct> findAll(int pageIdx, int nbMaxProducts) {
+		PageRequest pr = new PageRequest(pageIdx, nbMaxProducts, Sort.Direction.DESC, "launchDate");
+
+		return repo.findAll(pr);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#delete(java.lang.Long)
+	 */
+	@Override
+	public void delete(Long id) throws EavEntryNotFoundException {
+		// Find the corresponding entity
+		PrdProduct product = this.findById(id);
+
+		// TODO
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#delete(com.synovia.digital.model.
+	 * PrdProduct)
+	 */
+	@Override
+	public void delete(PrdProduct product) {
+		//		// Delete all product date entities
+		//		for (PrdCouponDate e : product.getCouponPaymentDates()) {
+		//			couponDateService.delete(e);
+		//		}
+		//		for (PrdObservationDate d : product.getObservationDates()) {
+		//			obsDateService.delete(d);
+		//		}
+		//		for (PrdEarlierRepaymentDate d : product.getEarlyRepaymentDates()) {
+		//			earlyRepayDateService.delete(d);
+		//		}
+		//
+		//		// Remove the product from user's wallet
+		//		for (PrdUser u : product.getPrdUsers()) {
+		//			userService.removeProduct(u, product);
+		//		}
+
+		repo.delete(product);
+	}
+
 }

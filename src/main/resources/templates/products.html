@@ -139,9 +139,10 @@
 					</ul>
 					<ul class="list-unstyled">
 						<li><span class="strong-blue" th:text="#{prd.status}">statut</span></li>
-						<li><span class="product-p" th:text="${product.prdStatus.description}">en cours</span></li>
+						<li><span class="product-p" th:text="#{${product.prdStatus.description}}">en cours</span></li>
 					</ul>
 				</div>
+				<!--
 				<div class="col-xs-12 col-md-12 term-sheet-product uppercase">
 					<span class="term-sheet" th:if="${product.hasTermSheet}">
 						<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
@@ -162,6 +163,7 @@
 						<span th:text="#{doc.fease}">fease</span>
 					</span>
 				</div>
+			-->
 			</div>
 		<!-- end container -->
 		</div>
@@ -169,14 +171,18 @@
 	<!-- PAGINATION -->
 	<div class="container" id="pagination-section">
   	<ul class="pagination">
-    	<li class="active"><a href="#">1</a></li>
-    	<li><a href="#">2</a></li>
-    	<li><a href="#">3</a></li>
-    	<li><a href="#">4</a></li>
-    	<li><a href="#">5</a></li>
+			<li><a th:if="${beginPageNb - 1} > 0" href="#" th:href="@{/products/pages/1}" th:text="#{page.first}">First</a></li>
+			<li><a th:if="${currentPageNb - 1}" href="#" th:href="@{/products/pages/{nb}(nb=${currentPageNb-1})}" th:text="#{page.previous}">Previous</a></li>
+			<li><a th:if="${beginPageNb - 1} > 0">...</a></li>
+    	<li th:each="iter : ${sliceIndexes}" th:with="displayedPageNb=(${iterStat.index + beginPageNb})" th:class="${displayedPageNb - currentPageNb}? '' : 'active'">
+				<a class="active" href="#" th:href="@{/products/pages/{nb}(nb=${displayedPageNb})}" th:text="${displayedPageNb}">1</a>
+			</li>
+			<li><a th:if="${totalPageNb - endPageNb} > 0" >...</a></li>
+			<li><a th:if="${currentPageNb - totalPageNb}" href="#" th:href="@{/products/pages/{nb}(nb=${currentPageNb+1})}" th:text="#{page.next}">Next</a></li>
+			<li><a th:if="${totalPageNb - endPageNb} > 0" href="#" th:href="@{/products/pages/{nb}(nb=${totalPageNb})}" th:text="#{page.last}">Last</a></li>
   	</ul>
 	</div>
-	
+
 	<!-- FOOTER -->
 	<footer id="footer">
 		<div class="container-fluid">

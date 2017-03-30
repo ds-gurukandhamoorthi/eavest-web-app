@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synovia.digital.dto.PrdProductDto;
@@ -27,6 +28,8 @@ public interface PrdProductService {
 	public PrdProduct findById(Long id) throws EavEntryNotFoundException;
 
 	public List<PrdProduct> findAll();
+
+	public Page<PrdProduct> findAll(int pageIdx, int nbMaxProducts);
 
 	public PrdProduct add(PrdProductDto dto) throws EavTechnicalException;
 
@@ -89,4 +92,8 @@ public interface PrdProductService {
 	public File getTermSheet(PrdProduct product);
 
 	public File getMarketingDoc(PrdProduct product);
+
+	public void delete(Long id) throws EavEntryNotFoundException;
+
+	public void delete(PrdProduct product);
 }
