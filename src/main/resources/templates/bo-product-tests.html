@@ -146,7 +146,7 @@
       				  <td th:text="${product.prdSousJacent.label}">Label du sous-jacent</td>
                 <td th:text="${product.endDate}">dd/MM/yyyy</td>
       				  <td>
-                  <form action="#" th:action="@{/admin/products/{id}/addDate(id=${product.id})}" method="GET">
+                  <form action="#" th:action="@{/admin/products/{id}/update(id=${product.id})}" method="GET">
                     <input class="btn btn-secondary btn-sm" type="submit" th:value="#{bo.products.update}" value="update" />
                   </form>
                 </td>

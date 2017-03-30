@@ -173,43 +173,50 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 	}
 
-	private void updateFromDto(PrdProduct entity, PrdProductDto dto) {
-		// TODO A status automatically sets the end date and vice versa
+	private void updateFromDto(PrdProduct entity, PrdProductDto dto) throws EavTechnicalException {
+		if (entity.getId() != null && dto.getId() != null && entity.getId() != dto.getId())
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
+
+		if (dto.getIsin() != null) {
+			entity.setIsin(dto.getIsin());
+		}
+
 		if (dto.getLabel() != null) {
 			entity.setLabel(dto.getLabel());
 		}
 
-		if (dto.getLaunchDate() != null) {
-			// Be sure that the new launch date is before the due date
-			Date dueDate = null;
-			try {
-				dueDate = dto.getDueDateObject();
-			} catch (ParseException e) {
-				dueDate = entity.getDueDate();
-			}
-		}
-	}
-
-	private PrdProduct convertToEntity(PrdProductDto dto) {
-		PrdProduct entity = new PrdProduct();
-
-		entity.setId(dto.getId() != null ? dto.getId() : null);
-		entity.setIsin(dto.getIsin() != null ? dto.getIsin() : null);
-		entity.setLabel(dto.getLabel() != null ? dto.getLabel() : null);
 		try {
-			entity.setLaunchDate(dto.getLaunchDate() != null ? dto.getLaunchDateObject() : null);
+			if (dto.getLaunchDate() != null) {
+				entity.setLaunchDate(dto.getLaunchDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [launchDate]");
 		}
 		try {
-			entity.setDueDate(dto.getDueDate() != null ? dto.getDueDateObject() : null);
+			if (dto.getDueDate() != null) {
+				entity.setDueDate(dto.getDueDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [dueDate]");
 		}
-		entity.setPrdSousJacent(
-				dto.getIdPrdSousJacent() != null ? sousJacentRepo.findOne(dto.getIdPrdSousJacent()) : null);
-		entity.setPrdRule(
-				new PrdRule(dto.getProtectionBarrier(), dto.getCouponBarrier(), dto.getReimbursementBarrier()));
+		if (dto.getIdPrdSousJacent() != null) {
+			entity.setPrdSousJacent(sousJacentRepo.findOne(dto.getIdPrdSousJacent()));
+		}
+
+		// Update product rules
+		PrdRule productRule = entity.getPrdRule() != null ? entity.getPrdRule() : new PrdRule();
+		if (dto.getProtectionBarrier() != null) {
+			productRule.setProtectionBarrier(dto.getProtectionBarrier());
+		}
+		if (dto.getCouponBarrier() != null) {
+			productRule.setCouponBarrier(dto.getCouponBarrier());
+		}
+		if (dto.getReimbursementBarrier() != null) {
+			productRule.setReimbursementBarrier(dto.getReimbursementBarrier());
+		}
+
+		entity.setPrdRule(productRule);
+
 		if (dto.getObservationDates() != null) {
 			Set<PrdObservationDate> obsDates = new HashSet<>();
 			try {
@@ -247,33 +254,48 @@ public class PrdProductServiceImpl implements PrdProductService {
 			entity.setCouponPaymentDates(dates);
 		}
 		try {
-			entity.setSubscriptionStartDate(
-					dto.getSubscriptionStartDate() != null ? dto.getSubscriptionStartDateObject() : null);
+			if (dto.getSubscriptionStartDate() != null) {
+				entity.setSubscriptionStartDate(dto.getSubscriptionStartDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [subscriptionStartDate]");
 		}
 		try {
-			entity.setSubscriptionEndDate(
-					dto.getSubscriptionEndDate() != null ? dto.getSubscriptionEndDateObject() : null);
+			if (dto.getSubscriptionEndDate() != null) {
+				entity.setSubscriptionEndDate(dto.getSubscriptionEndDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [subscriptionEndDate]");
 		}
-		entity.setCouponValue(dto.getCouponValue() != null ? dto.getCouponValue() : null);
-		entity.setNominalValue(dto.getNominalValue() != null ? dto.getNominalValue() : null);
-		entity.setCapitalGuaranteed(dto.getCapitalGuaranteed() != null ? dto.getCapitalGuaranteed() : null);
-		entity.setStartPrice(dto.getStartPrice() != null ? dto.getStartPrice() : null);
-		entity.setDeliver(dto.getDeliver() != null ? dto.getDeliver() : null);
-		entity.setGuarantor(dto.getGuarantor() != null ? dto.getGuarantor() : null);
-		try {
-			entity.setPrdStatus(dto.getStatusCode() != null
-					? statusRepo.findByCode(PrdStatusEnum.valueOf(dto.getStatusCode()).toString())
-					: statusRepo.findByCode(PrdStatusEnum.IDLE.toString()));
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.IDLE.toString()));
+		if (dto.getCouponValue() != null) {
+			entity.setCouponValue(dto.getCouponValue());
+		}
+		if (dto.getNominalValue() != null) {
+			entity.setNominalValue(dto.getNominalValue());
+		}
+		if (dto.getCapitalGuaranteed() != null) {
+			entity.setCapitalGuaranteed(dto.getCapitalGuaranteed());
+		}
+		if (dto.getStartPrice() != null) {
+			entity.setStartPrice(dto.getStartPrice());
+		}
+		if (dto.getDeliver() != null) {
+			entity.setDeliver(dto.getDeliver());
+		}
+		if (dto.getGuarantor() != null) {
+			entity.setGuarantor(dto.getGuarantor());
 		}
 		try {
-			entity.setEndDate(dto.getEndDate() != null ? dto.getEndDateObject() : null);
+			if (dto.getStatusCode() != null) {
+				entity.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.valueOf(dto.getStatusCode()).toString()));
+			}
+		} catch (Exception e) {
+			LOGGER.debug("Non-existent status: {}", dto.getStatusCode());
+		}
+		try {
+			if (dto.getEndDate() != null) {
+				entity.setEndDate(dto.getEndDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [endDate]");
 		}
@@ -283,9 +305,21 @@ public class PrdProductServiceImpl implements PrdProductService {
 		if (dto.getIsBestSeller() != null) {
 			entity.setIsBestSeller(dto.getIsBestSeller());
 		}
-		entity.setPath(dto.getPath() != null ? dto.getPath() : null);
-		entity.setStrike(dto.getStrike() != null ? dto.getStrike() : null);
-		entity.setObservationFrequency(dto.getObservationFrequency() != null ? dto.getObservationFrequency() : null);
+		if (dto.getPath() != null) {
+			entity.setPath(dto.getPath());
+		}
+		if (dto.getStrike() != null) {
+			entity.setStrike(dto.getStrike());
+		}
+		if (dto.getObservationFrequency() != null) {
+			entity.setObservationFrequency(dto.getObservationFrequency());
+		}
+	}
+
+	private PrdProduct convertToEntity(PrdProductDto dto) throws EavTechnicalException {
+		PrdProduct entity = new PrdProduct();
+
+		updateFromDto(entity, dto);
 
 		return entity;
 	}
@@ -797,7 +831,8 @@ public class PrdProductServiceImpl implements PrdProductService {
 		// Find the corresponding entity
 		PrdProduct product = this.findById(id);
 
-		// TODO
+		// Delete the product
+		this.delete(product);
 
 	}
 
@@ -810,23 +845,41 @@ public class PrdProductServiceImpl implements PrdProductService {
 	 */
 	@Override
 	public void delete(PrdProduct product) {
-		//		// Delete all product date entities
+		// Delete all product date entities
 		//		for (PrdCouponDate e : product.getCouponPaymentDates()) {
 		//			couponDateService.delete(e);
 		//		}
-		//		for (PrdObservationDate d : product.getObservationDates()) {
-		//			obsDateService.delete(d);
-		//		}
-		//		for (PrdEarlierRepaymentDate d : product.getEarlyRepaymentDates()) {
-		//			earlyRepayDateService.delete(d);
-		//		}
-		//
-		//		// Remove the product from user's wallet
-		//		for (PrdUser u : product.getPrdUsers()) {
-		//			userService.removeProduct(u, product);
-		//		}
+		for (PrdObservationDate d : product.getObservationDates()) {
+			obsDateService.delete(d);
+		}
+		for (PrdEarlierRepaymentDate d : product.getEarlyRepaymentDates()) {
+			earlyRepayDateService.delete(d);
+		}
+
+		// Remove the product from user's wallet
+		for (PrdUser u : product.getPrdUsers()) {
+			userService.removeProduct(u, product);
+		}
 
 		repo.delete(product);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#update(com.synovia.digital.model.
+	 * PrdProduct, com.synovia.digital.dto.PrdProductDto)
+	 */
+	@Override
+	public void update(PrdProduct product, PrdProductDto dto) throws EavTechnicalException {
+		updateFromDto(product, dto);
+
+		// Apply basic rule
+		postUpdate(product);
+
+		// Save the entity
+		repo.save(product);
 	}
 
 }

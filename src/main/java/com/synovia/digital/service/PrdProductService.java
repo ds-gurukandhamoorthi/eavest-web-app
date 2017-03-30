@@ -96,4 +96,6 @@ public interface PrdProductService {
 	public void delete(Long id) throws EavEntryNotFoundException;
 
 	public void delete(PrdProduct product);
+
+	public void update(PrdProduct product, PrdProductDto dto) throws EavTechnicalException;
 }

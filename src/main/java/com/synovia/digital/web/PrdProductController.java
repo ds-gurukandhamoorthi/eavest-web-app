@@ -51,9 +51,9 @@ public class PrdProductController {
 
 	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}";
 
-	private static final int SIZE_PRODUCTS_PAGE = 4;
+	private static final int SIZE_PRODUCTS_PAGE = 12;
 	/** Number of max displayed pages */
-	private static final int SLICE_SIZE = 3;
+	private static final int SLICE_SIZE = 10;
 
 	@Autowired
 	protected PrdProductService productService;
