@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head lang="fr">
+  	<meta charset="UTF-8" />
+	<title>EAVEST Back-Office - create product</title>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+	<link rel="stylesheet" href="/css/admin/back-office.css" type="text/css" media="all"/>
+</head>
+<body>
+	<section class="top-header-absolute">
+		<header class="main">
+      		<div class="left-block"></div>
+			<div class="wrapper">
+				<h1>
+					<img src="/img/eavest-logo.png" alt="Eavest" />
+				</h1>
+
+        <nav class="nav-menu">
+          <ul class="navbar list-inline list-unstyled">
+            <li id="menu-bo-home"><a href="http://localhost:8080/admin/">Home B-O</a></li>
+						<li id="menu-bo-sousjacent"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
+            <li id="menu-bo-product"><a href="http://localhost:8080/admin/createProduct">Produits</a></li>
+            <li id="menu-bo-user"><a href="http://localhost:8080/admin/accounts">Comptes utilisateur</a></li>
+            <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Tests</a></li>
+						<li id="menu-bo-other"><a href="#">Autre chose</a></li>
+    			</ul>
+				</nav>
+			</div>
+			<div class="language-switcher">
+		        <span class="global-linker">
+	    	      	<a href="/home">Home</a>
+		        </span>
+		    </div>
+
+		</header>
+
+		<div class="slider jquery" style="display: block;">
+			<div class="slider-container"></div>
+		</div>
+	</section>
+	<section class="content-main" role="main">
+    <div class="main-area">
+      <h1><span th:text="#{bo.products.update}">Ajouter les attributs du produits</span> : <span th:text="${product.isin}"></span> / <span th:text="${product.label}"></span></h1>
+      <p th:text="${responseMessage}"/>
+      <div class="main-form">
+        <form name="update-form" th:action="@{/admin/products/{id}/update(id=${product.id})}" th:object="${toUpdate}" action="/admin/createProduct" method="POST">
+          <label for="isin">Isin</label>
+          <input id="isin" type="text" name="isin" value="FR093456" th:field="*{isin}" required="required"/>
+
+          <label for="label">Libellé</label>
+          <input id="label" type="text" name="label" th:field="*{label}" />
+
+          <label for="sous-jacent">Sous-jacent</label>
+          <select th:field="*{idPrdSousJacent}">
+            <option th:each="ssjacent : ${ssjacents}"
+                th:value="${ssjacent.id}"
+                th:text="${ssjacent.label}">Underlying asset</option>
+          </select>
+
+          <label for="launch-date">Date d'émission</label>
+          <input id="launch-date" type="date" name="launch-date" th:field="*{launchDate}" />
+
+          <label for="due-date">Date d'échéance</label>
+          <input id="due-date" type="date" name="due-date" th:field="*{dueDate}" />
+
+          <label for="strike">Strike</label>
+          <input id="strike" type="number" name="strike" step="0.01" th:field="*{strike}" />
+
+          <label for="remb">Barrière de rappel (%)</label>
+          <input id="remb" type="number" name="remb" min="0" max="100" step="0.01" th:field="*{reimbursementBarrier}" />
+
+          <label for="protect">Barrière de protection (%)</label>
+          <input id="protect" type="number" name="protect" min="0" max="100" step="0.01" th:field="*{protectionBarrier}" />
+
+          <label for="coupon">Barrière de coupon (%)</label>
+          <input id="coupon" type="number" name="coupon" min="0" max="100" step="0.01" th:field="*{couponBarrier}" />
+
+          <label for="coupon">Valeur de coupon (%)</label>
+          <input id="coupon" type="number" name="coupon" min="0" max="100" step="0.01" th:field="*{couponValue}" />
+
+          <label for="frqcy">Fréquence d'observation</label>
+          <input id="frqcy" type="text" name="frqcy" th:field="*{observationFrequency}" />
+
+          <label for="nominal">Valeur nominale</label>
+          <input id="nominal" type="number" name="nominal" th:field="*{nominalValue}" />
+
+          <label for="start-price">Prix d'emission (%)</label>
+          <input id="start-price" type="number" name="start-price" th:field="*{startPrice}" />
+
+          <label for="subscription-start">Date de début de souscription</label>
+          <input id="subscription-start" type="date" name="subscription-start" th:field="*{subscriptionStartDate}" />
+
+          <label for="subscription-end">Date de fin de souscription</label>
+          <input id="subscription-end" type="date" name="subscription-end" th:field="*{subscriptionEndDate}" />
+
+          <label for="deliver">Emetteur</label>
+          <input id="deliver" type="text" name="deliver" th:field="*{deliver}" />
+
+          <label for="guarantor">Garant</label>
+          <input id="guarantor" type="text" name="guarantor" th:field="*{guarantor}" />
+
+          <label for="cb-eavest">Produit EAVEST</label>
+          <input id="cb-eavest" type="checkbox" name="cb-eavest" th:field="*{isEavest}" />
+
+          <label for="end-date">Date de fin</label>
+          <input id="end-date" type="date" name="end-date" th:field="*{endDate}" />
+
+          <input type="submit" value="Créer produit" th:value="#{bo.products.update}" class="btn btn-primary" />
+        </form>
+
+      </div>
+      <div>
+        <h1><span th:text="#{bo.prd.add.params}">Ajouter les attributs du produits</span> : <span th:text="${product.isin}"></span> / <span th:text="${product.label}"></span></h1>
+        <h2>Documents du produits</h2>
+        <table class="table table-bordered table-hover" id="tab_logic">
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateImage(id=${product.id})}" method="POST">
+              <td>Image du produit:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateTermSheet(id=${product.id})}" method="POST">
+              <td>Term sheet:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateMarketingDoc(id=${product.id})}" method="POST">
+              <td>Document marketing:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+          <tr>
+            <form action="#" enctype="multipart/form-data" th:action="@{/admin/products/{id}/updateFease(id=${product.id})}" method="POST">
+              <td>Fease:</td>
+              <td>
+                <input type="file" name='file'/>
+              </td>
+              <td><input type="submit" value="upload" /></td>
+            </form>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <span th:text="${imageFile}">Un fichier du produit</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2>Dates d'observation</h2>
+        <form action="#" th:object="${obsDate}" th:action="@{/admin/products/{id}/addObsDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='obsdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="observationDate : ${obsDates}">
+    				  <td th:text="${observationDate.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
+      </div>
+      <div>
+        <h2>Dates de paiement anticipé</h2>
+        <form action="#" th:object="${earlyPayDate}" th:action="@{/admin/products/{id}/addEarlyRepaymentDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='erdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="payDate : ${earlyPayDates}">
+    				  <td th:text="${payDate.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
+      </div>
+      <div>
+        <h2>Dates de remboursement de coupon</h2>
+        <form action="#" th:object="${couponDate}" th:action="@{/admin/products/{id}/addCouponDate(id=${product.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">#</th>
+                		<th class="text-center">Date</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>1</td>
+                    <td>
+                    <input type="date" name='coupdate' class="form-control" th:field="*{date}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="coupon : ${couponDates}">
+    				  <td th:text="${coupon.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
+      </div>
+    </div>
+
+	</section>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
