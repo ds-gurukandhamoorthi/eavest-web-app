@@ -194,7 +194,9 @@
 									</div>
 									<div class="row product-row">
 										<div class="col-sm-2 col-md-2" id="img-product">
-											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
+											<a href="#" th:href="@{/products/{id}(id=${product.id})}">
+												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
+											</a>
 										</div>
 										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
 											<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-trash-wallet" aria-hidden="true"></i></a>
@@ -337,7 +339,9 @@
 										</div>
 										<div class="row prod-accor-row">
 											<div class="col-xs-5 col-sm-4 col-md-3">
-												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" alt="produit" id="accor-product"/>
+												<a href="#" th:href="@{/products/{id}(id=${refund.id})}">
+													<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" alt="produit" id="accor-product"/>
+												</a>
 											</div>
 											<div class="col-xs-7 col-sm-7 col-md-9">
 												<ul class="list-unstyled">
@@ -383,7 +387,9 @@
 										</div>
 										<div class="row prod-accor-row">
 											<div class="col-xs-5 col-sm-4 col-md-3">
-												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" id="accor-product"/>
+												<a href="#" th:href="@{/products/{id}(id=${tocall.id})}">
+													<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" id="accor-product"/>
+												</a>
 											</div>
 											<div class="col-xs-7 col-sm-7 col-md-9">
 												<ul class="list-unstyled">

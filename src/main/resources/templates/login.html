@@ -50,20 +50,7 @@
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
 						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
-					<div class="zone-transit">
-						<span sec:authorize="isAuthenticated()">
-							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
-							</form>
-						</span>
-						<span sec:authorize="hasRole('ROLE_ADMIN')">
-							<form th:action="@{/admin}" method="get">
-								<input type="submit" value="Back Office" class="btn btn-default log" />
-							</form>
-						</span>
-					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">

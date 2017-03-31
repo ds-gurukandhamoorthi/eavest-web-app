@@ -107,7 +107,7 @@
 							<input type="text" class="text" name="base" id="filter_4" autocomplete="off" th:field="*{labelSousJacent}"/>
 						</div>
 						<div class="col-md-12 filter-search">
-							<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
+							<input type="submit" value="Rechercher" th:value="#{prd.find}" id="filter-search" class="btn btn-default log" />
 						</div>
 					</form>
 
@@ -135,7 +135,9 @@
 			<!-- product 1 -->
 			<div class="col-xs-12 col-sm-6 col-md-4 product-item" th:each="product : ${products}">
 				<div class="col-xs-6 col-sm-6 col-md-6">
-					<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
+					<a href="#" th:href="@{/products/{id}(id=${product.id})}">
+						<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
+					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<ul class="list-unstyled">

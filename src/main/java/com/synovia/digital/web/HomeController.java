@@ -15,10 +15,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.dto.PrdSearchDto;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
@@ -72,6 +75,8 @@ public class HomeController {
 
 	protected static final String REQUEST_MAPPING_HOME = "/home";
 
+	protected static final String REQUEST_MAPPING_PRODUCTS = "/products/pages/1/filter";
+
 	@Autowired
 	protected EavAccountService accountService;
 
@@ -102,6 +107,7 @@ public class HomeController {
 	@RequestMapping(value = "/home")
 	public ModelAndView home(ModelAndView modelAndView) {
 		modelAndView.setViewName(VIEW_HOME);
+		modelAndView.addObject("search", new PrdSearchDto());
 		// Display user info
 		String authentifiedUsername = "";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -200,4 +206,31 @@ public class HomeController {
 		return view;
 	}
 
+	@PostMapping(value = "/home/find")
+	public String findProduct(@ModelAttribute("search") PrdSearchDto desc, RedirectAttributes attributes) {
+		String[] request = desc.getText().split(",");
+
+		String deliver = "";
+		String isin = "";
+		String label = "";
+		String sjct = "";
+
+		LOGGER.info("Search request: {} - Parse attributes {}", desc, request);
+
+		if (request.length >= EavUtils.NB_SEARCH_PRODUCT_PARAMS) {
+			// Emetteur, Code ISIN, Nom du produit, Sous-jacent
+			deliver = request[0] != null ? request[0].trim() : "";
+			isin = request[1] != null ? request[1].trim() : "";
+			label = request[2] != null ? request[2].trim() : "";
+			sjct = request[3] != null ? request[3].trim() : "";
+
+		}
+		attributes.addAttribute(PrdProductController.ATTR_PRD_FILTER_BANK, deliver);
+		attributes.addAttribute(PrdProductController.ATTR_PRD_FILTER_ISIN, isin);
+		attributes.addAttribute(PrdProductController.ATTR_PRD_FILTER_NAME, label);
+		attributes.addAttribute(PrdProductController.ATTR_PRD_FILTER_BASE, sjct);
+		attributes.addAttribute(PrdProductController.ATTR_PRD_FILTER_EAVEST, "");
+
+		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS);
+	}
 }

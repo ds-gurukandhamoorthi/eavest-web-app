@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title>EAVEST, Produits structurés et alternatifs</title>
+	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -44,39 +44,26 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
 					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
-					<!-- <div class="zone-transit">
-						<span sec:authorize="isAuthenticated()">
-							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default log" />
-							</form>
-						</span>
-						<span sec:authorize="hasRole('ROLE_ADMIN')">
-							<form th:action="@{/admin}" method="get">
-								<input type="submit" value="Back Office" class="btn btn-default log" />
-							</form>
-						</span>
-					</div> -->
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet">Mon portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
-					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
-					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
-					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
-					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
-				</ul>
+        	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+          <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
+          <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
+          <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
+        </ul>
 				<div class="slider_jquery slider">
 					<div class="slider-container"></div>
 				</div>
@@ -86,24 +73,23 @@
 
 	<!-- MAIN CONTENT -->
 
-
   <section class="login-main-content">
     <div class="container" id="login-page">
 
       <div class="login-area col-md-offset-2 col-md-8">
-        <h1 class="login-main-title">Inscription</h1>
+        <h1 class="login-main-title" th:text="#{subscription.title}">Inscription</h1>
       </div>
 			<form name="form" th:action="@{/subscribe}" action="/subscribe" method="POST">
       <div class="form-area col-md-offset-2 col-md-8">
         <div class="form-area">
             <div class="row inline_block">
               <div  class="col-md-6">
-                <label class="label-title" for="lname">Nom</label>
+                <label class="label-title" for="lname" th:text="#{bo.account.last.name}">Nom</label>
                 <input class="input-line" id="lname" type="text" name="lastName" th:valuetype="${eavAccount.lastName}" />
                 <span class="block"></span><br/>
               </div>
               <span class="col-md-6">
-                <label class="label-title" for="fname">Prénom</label>
+                <label class="label-title" for="fname" th:text="#{bo.account.first.name}">Prénom</label>
                 <input class="input-line" id="fname" type="text" name="firstName" th:valuetype="${eavAccount.firstName}" />
                 <span class="block"></span><br/>
               </span>
@@ -114,13 +100,13 @@
         <div class="form-area">
             <div class="row inline_block">
               <div class="col-md-6">
-                <label class="label-title" for="company">Société</label>
+                <label class="label-title" for="company" th:text="#{bo.account.company}">Société</label>
                 <input class="input-line" id="company" type="text" name="company" th:valuetype="${eavAccount.company}" />
                 <span class="block"></span>
 								<br/>
               </div>
 							<div class="col-md-6">
-                <label class="label-title" for="usremail">E-mail</label>
+                <label class="label-title" for="usremail" th:text="#{bo.account.email}">E-mail</label>
                 <input id="usremail" type="email" name="email" th:valuetype="${eavAccount.email}" placeholder="" required="required" />
                 <span class="block"></span>
               </div>
@@ -131,18 +117,18 @@
         <div class="form-area">
             <div class="row inline_block">
               <span class="col-md-6">
-                <label class="label-title" for="pwrd">Mot de passe</label>
-                <input id="pwrd" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" th:valuetype="${eavAccount.password}" required="required" title="Le mot de passe doit comporter au moins 6 caractèrers (un chiffre, une lettre minuscule et une lettre majuscule)"/>
+                <label class="label-title" for="pwrd" th:text="#{connection.pwd}">Mot de passe</label>
+                <input id="pwrd" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" th:valuetype="${eavAccount.password}" required="required" th:attr="title=#{pwd.rule}" title="Le mot de passe doit comporter au moins 6 caractèrers (un chiffre, une lettre minuscule et une lettre majuscule)"/>
                 <span class="block"></span>
               </span>
               <span class="col-md-6">
-                <label class="label-title" for="confpwd">Confirmer le mot de passe</label>
-                <input id="confpwd" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="confpwd" required="required" title="Le mot de passe est différent de la 1ère saisie" />
+                <label class="label-title" for="confpwd" th:text="#{confirm.pwd}">Confirmer le mot de passe</label>
+                <input id="confpwd" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="confpwd" required="required" th:attr="title=#{conf.pwd.rule}" title="Le mot de passe est différent de la 1ère saisie" />
                 <span class="block"></span>
               </span>
             </div>
             <div class="col-md-offset-2 col-md-8" id="subs-submit">
-              <input type="submit" id="subscribe" value="Inscription" class="btn btn-default log" />
+              <input type="submit" id="subscribe" value="Inscription" th:value="#{subscribe.action}" class="btn btn-default log" />
             </div>
         </div>
       </div>

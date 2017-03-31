@@ -22,6 +22,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +38,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.synovia.digital.dto.PrdProductFilterDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
+import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.utils.EavControllerUtils;
@@ -53,8 +58,10 @@ public class PrdProductController {
 	private static Logger LOGGER = LoggerFactory.getLogger(PrdProductController.class);
 
 	public static final String VIEW_PRODUCTS = "products";
+	public static final String VIEW_ONE_PRODUCT = "product";
 
 	protected static final String ATTR_PRODUCT_LIST = "products";
+	protected static final String ATTR_PRODUCT = "product";
 	protected static final String ATTR_PAGE_BEGIN_SLICE = "beginPageNb";
 	protected static final String ATTR_PAGE_END_SLICE = "endPageNb";
 	protected static final String ATTR_PAGE_CURRENT_SLICE = "currentPageNb";
@@ -64,6 +71,12 @@ public class PrdProductController {
 	protected static final String ATTR_ISIN_LIST = "isinCodes";
 	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
 	protected static final String ATTR_SSJCT_NAME_LIST = "baseNames";
+	protected static final String ATTR_PRD_FILTER = "filter";
+	protected static final String ATTR_PRD_FILTER_NAME = "nm";
+	protected static final String ATTR_PRD_FILTER_ISIN = "is";
+	protected static final String ATTR_PRD_FILTER_BASE = "sj";
+	protected static final String ATTR_PRD_FILTER_EAVEST = "ev";
+	protected static final String ATTR_PRD_FILTER_BANK = "bk";
 
 	protected static final String PARAMETER_PAGE_NUMBER = "pageNumber";
 
@@ -79,16 +92,19 @@ public class PrdProductController {
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
 
+	@Autowired
+	protected EavAccountService accountService;
+
 	@GetMapping()
 	public String listProducts(RedirectAttributes attributes) {
 		// Redirect the page to the first page of products
 		Integer firstPageNumber = 1;
 		attributes.addAttribute(PARAMETER_PAGE_NUMBER, firstPageNumber);
-		attributes.addAttribute("nm", "");
-		attributes.addAttribute("is", "");
-		attributes.addAttribute("sj", "");
-		attributes.addAttribute("ev", "");
-		attributes.addAttribute("bk", "");
+		attributes.addAttribute(ATTR_PRD_FILTER_NAME, "");
+		attributes.addAttribute(ATTR_PRD_FILTER_ISIN, "");
+		attributes.addAttribute(ATTR_PRD_FILTER_BASE, "");
+		attributes.addAttribute(ATTR_PRD_FILTER_EAVEST, "");
+		attributes.addAttribute(ATTR_PRD_FILTER_BANK, "");
 		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS_PAGE);
 	}
 
@@ -98,11 +114,12 @@ public class PrdProductController {
 		// Redirect the page to the first page of products
 		Integer firstPageNumber = 1;
 		attributes.addAttribute(PARAMETER_PAGE_NUMBER, firstPageNumber);
-		attributes.addAttribute("nm", filterDto.getLabel());
-		attributes.addAttribute("is", filterDto.getIsin());
-		attributes.addAttribute("sj", filterDto.getLabelSousJacent());
-		attributes.addAttribute("ev", filterDto.getIsEavest() == null ? "" : filterDto.getIsEavest() == null);
-		attributes.addAttribute("bk", filterDto.getDeliver());
+		attributes.addAttribute(ATTR_PRD_FILTER_NAME, filterDto.getLabel());
+		attributes.addAttribute(ATTR_PRD_FILTER_ISIN, filterDto.getIsin());
+		attributes.addAttribute(ATTR_PRD_FILTER_BASE, filterDto.getLabelSousJacent());
+		attributes.addAttribute(ATTR_PRD_FILTER_EAVEST,
+				filterDto.getIsEavest() == null ? "" : filterDto.getIsEavest() == null);
+		attributes.addAttribute(ATTR_PRD_FILTER_BANK, filterDto.getDeliver());
 
 		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS_PAGE);
 	}
@@ -111,7 +128,19 @@ public class PrdProductController {
 	public String showFilterProductsPage(@PathVariable Integer pageNumber, @RequestParam("nm") String label,
 			@RequestParam("is") String isin, @RequestParam("sj") String base, @RequestParam("ev") Boolean isEavest,
 			@RequestParam("bk") String deliver, Model model) {
-		System.out.println("PrdProductController.showFilterProductsPage()");
+		// Display user info
+		String authentifiedUsername = "";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = auth.getPrincipal();
+		if (auth != null && principal instanceof User) {
+			User u = (User) principal;
+			String email = u.getUsername();
+
+			EavAccount account = accountService.findByEmail(email);
+			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
+		}
+		model.addAttribute(HomeController.ATTR_USERNAME_INFO, authentifiedUsername);
+
 		// Retrieve the list of existing values for the filters
 		Set<String> prdNames = new HashSet<>();
 		Set<String> prdDelivers = new HashSet<>();
@@ -161,7 +190,7 @@ public class PrdProductController {
 			iterator[i] = i;
 		}
 
-		model.addAttribute("filter", filterDto);
+		model.addAttribute(ATTR_PRD_FILTER, filterDto);
 		model.addAttribute(ATTR_SLICE_ITERATOR, iterator);
 		model.addAttribute(ATTR_PRODUCT_LIST, page);
 		model.addAttribute(ATTR_PAGE_BEGIN_SLICE, begin);
@@ -169,6 +198,30 @@ public class PrdProductController {
 		model.addAttribute(ATTR_PAGE_CURRENT_SLICE, current);
 		model.addAttribute(ATTR_PAGE_TOTAL_SLICES, total);
 		return VIEW_PRODUCTS;
+	}
+
+	@GetMapping(value = "/{id}")
+	public String showProduct(@PathVariable Long id, Model model) {
+		// Display user info
+		String authentifiedUsername = "";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = auth.getPrincipal();
+		if (auth != null && principal instanceof User) {
+			User u = (User) principal;
+			String email = u.getUsername();
+
+			EavAccount account = accountService.findByEmail(email);
+			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
+		}
+		model.addAttribute(HomeController.ATTR_USERNAME_INFO, authentifiedUsername);
+
+		try {
+			model.addAttribute(ATTR_PRODUCT, productService.findById(id));
+
+		} catch (EavEntryNotFoundException e) {
+			return "error";
+		}
+		return VIEW_ONE_PRODUCT;
 	}
 
 	@GetMapping(value = "/{id}/image")
