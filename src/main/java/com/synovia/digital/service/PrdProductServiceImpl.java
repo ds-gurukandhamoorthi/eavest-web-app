@@ -13,11 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +37,7 @@ import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdRule;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
@@ -883,6 +886,189 @@ public class PrdProductServiceImpl implements PrdProductService {
 
 		// Save the entity
 		repo.save(product);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterBy(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean)
+	 */
+	@Override
+	public List<PrdProduct> filterBy(String isinCode, String prdLabel, String bankName, PrdSousJacent sjct,
+			Boolean isEavest) {
+		String isin = StringUtils.isBlank(isinCode) ? null : isinCode;
+		String label = StringUtils.isBlank(prdLabel) ? null : prdLabel;
+		String deliver = StringUtils.isBlank(bankName) ? null : bankName;
+
+		List<PrdProduct> result = new ArrayList<>();
+		if (isin != null) {
+			result.add(repo.findByIsin(isin));
+			return result;
+		}
+
+		if (label == null && deliver == null && sjct == null && isEavest == null)
+			return repo.findAll();
+
+		if (label == null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByIsBestSeller(isEavest);
+
+		if (label == null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByPrdSousJacent(sjct);
+
+		if (label == null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByPrdSousJacentAndIsEavest(sjct, isEavest);
+
+		if (label == null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByDeliver(deliver);
+
+		if (label == null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByDeliverAndIsEavest(deliver, isEavest);
+
+		if (label == null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByDeliverAndPrdSousJacent(deliver, sjct);
+
+		if (label == null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByDeliverAndPrdSousJacentAndIsEavest(deliver, sjct, isEavest);
+
+		if (label != null && deliver == null && sjct == null && isEavest == null)
+			return repo.findByLabel(label);
+
+		if (label != null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByLabelAndIsEavest(label, isEavest);
+
+		if (label != null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByLabelAndPrdSousJacent(label, sjct);
+
+		if (label != null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByLabelAndPrdSousJacentAndIsEavest(label, sjct, isEavest);
+
+		if (label != null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByLabelAndDeliver(label, deliver);
+
+		if (label != null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByLabelAndDeliverAndIsEavest(label, deliver, isEavest);
+
+		if (label != null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByLabelAndDeliverAndPrdSousJacent(label, deliver, sjct);
+
+		if (label != null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByLabelAndDeliverAndPrdSousJacentAndIsEavest(label, deliver, sjct, isEavest);
+
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterBy(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent)
+	 */
+	@Override
+	public List<PrdProduct> filterBy(String isin, String label, String deliver, PrdSousJacent sjct) {
+		return filterBy(isin, label, deliver, sjct, null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterAndPage(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<PrdProduct> filterAndPage(String isinCode, String prdLabel, String bankName, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest) {
+		String isin = StringUtils.isBlank(isinCode) ? null : isinCode;
+		String label = StringUtils.isBlank(prdLabel) ? null : prdLabel;
+		String deliver = StringUtils.isBlank(bankName) ? null : bankName;
+
+		LOGGER.debug("Filter used: ISIN {} - Name {} - Deliver {} - Base {} - EAVEST {} - Page {} ", isin, label,
+				deliver, sjct, isEavest, pageRequest);
+
+		if (isin != null)
+			return repo.findByIsin(isin, pageRequest);
+
+		if (label == null && deliver == null && sjct == null && isEavest == null)
+			return repo.findAll(pageRequest);
+
+		if (label == null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByIsEavest(isEavest, pageRequest);
+
+		if (label == null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByPrdSousJacent(sjct, pageRequest);
+
+		if (label == null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByPrdSousJacentAndIsEavest(sjct, isEavest, pageRequest);
+
+		if (label == null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByDeliver(deliver, pageRequest);
+
+		if (label == null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByDeliverAndIsEavest(deliver, isEavest, pageRequest);
+
+		if (label == null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByDeliverAndPrdSousJacent(deliver, sjct, pageRequest);
+
+		if (label == null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByDeliverAndPrdSousJacentAndIsEavest(deliver, sjct, isEavest, pageRequest);
+
+		if (label != null && deliver == null && sjct == null && isEavest == null)
+			return repo.findByLabel(label, pageRequest);
+
+		if (label != null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByLabelAndIsEavest(label, isEavest, pageRequest);
+
+		if (label != null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByLabelAndPrdSousJacent(label, sjct, pageRequest);
+
+		if (label != null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByLabelAndPrdSousJacentAndIsEavest(label, sjct, isEavest, pageRequest);
+
+		if (label != null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByLabelAndDeliver(label, deliver, pageRequest);
+
+		if (label != null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByLabelAndDeliverAndIsEavest(label, deliver, isEavest, pageRequest);
+
+		if (label != null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByLabelAndDeliverAndPrdSousJacent(label, deliver, sjct, pageRequest);
+
+		if (label != null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByLabelAndDeliverAndPrdSousJacentAndIsEavest(label, deliver, sjct, isEavest, pageRequest);
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#filterLikeAndPage(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<PrdProduct> filterLikeAndPage(String isin, String label, String deliver, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest) {
+		if (isEavest == null && sjct == null)
+			// Filter on isin, label and deliver.
+			return repo.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCase(isin, label,
+					deliver, pageRequest);
+
+		if (isEavest == null && sjct != null)
+			return repo
+					.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndPrdSousJacent(
+							isin, label, deliver, sjct, pageRequest);
+
+		if (isEavest != null && sjct == null)
+			return repo.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndIsEavest(
+					isin, label, deliver, isEavest, pageRequest);
+
+		return repo
+				.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndPrdSousJacentAndIsEavest(
+						isin, label, deliver, sjct, isEavest, pageRequest);
 	}
 
 }

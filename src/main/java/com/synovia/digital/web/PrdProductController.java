@@ -5,11 +5,19 @@ package com.synovia.digital.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,14 +25,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.dto.PrdProductFilterDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.PrdProduct;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.service.PrdProductService;
+import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.utils.EavControllerUtils;
 
 /**
@@ -46,10 +60,14 @@ public class PrdProductController {
 	protected static final String ATTR_PAGE_CURRENT_SLICE = "currentPageNb";
 	protected static final String ATTR_PAGE_TOTAL_SLICES = "totalPageNb";
 	protected static final String ATTR_SLICE_ITERATOR = "sliceIndexes";
+	protected static final String ATTR_BANK_LIST = "bankNames";
+	protected static final String ATTR_ISIN_LIST = "isinCodes";
+	protected static final String ATTR_PRODUCT_NAME_LIST = "productNames";
+	protected static final String ATTR_SSJCT_NAME_LIST = "baseNames";
 
 	protected static final String PARAMETER_PAGE_NUMBER = "pageNumber";
 
-	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}";
+	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}/filter";
 
 	private static final int SIZE_PRODUCTS_PAGE = 12;
 	/** Number of max displayed pages */
@@ -58,17 +76,80 @@ public class PrdProductController {
 	@Autowired
 	protected PrdProductService productService;
 
+	@Autowired
+	protected PrdSousJacentService sousJacentService;
+
 	@GetMapping()
 	public String listProducts(RedirectAttributes attributes) {
 		// Redirect the page to the first page of products
 		Integer firstPageNumber = 1;
 		attributes.addAttribute(PARAMETER_PAGE_NUMBER, firstPageNumber);
+		attributes.addAttribute("nm", "");
+		attributes.addAttribute("is", "");
+		attributes.addAttribute("sj", "");
+		attributes.addAttribute("ev", "");
+		attributes.addAttribute("bk", "");
 		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS_PAGE);
 	}
 
-	@GetMapping(value = "/pages/{pageNumber}")
-	public String showProductsPage(@PathVariable Integer pageNumber, Model model) {
-		Page<PrdProduct> page = productService.findAll(pageNumber - 1, SIZE_PRODUCTS_PAGE);
+	@PostMapping(value = "/filter")
+	public String filterProductsPage(@ModelAttribute("filter") PrdProductFilterDto filterDto,
+			RedirectAttributes attributes) {
+		// Redirect the page to the first page of products
+		Integer firstPageNumber = 1;
+		attributes.addAttribute(PARAMETER_PAGE_NUMBER, firstPageNumber);
+		attributes.addAttribute("nm", filterDto.getLabel());
+		attributes.addAttribute("is", filterDto.getIsin());
+		attributes.addAttribute("sj", filterDto.getLabelSousJacent());
+		attributes.addAttribute("ev", filterDto.getIsEavest() == null ? "" : filterDto.getIsEavest() == null);
+		attributes.addAttribute("bk", filterDto.getDeliver());
+
+		return EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCTS_PAGE);
+	}
+
+	@GetMapping(value = "/pages/{pageNumber}/filter")
+	public String showFilterProductsPage(@PathVariable Integer pageNumber, @RequestParam("nm") String label,
+			@RequestParam("is") String isin, @RequestParam("sj") String base, @RequestParam("ev") Boolean isEavest,
+			@RequestParam("bk") String deliver, Model model) {
+		System.out.println("PrdProductController.showFilterProductsPage()");
+		// Retrieve the list of existing values for the filters
+		Set<String> prdNames = new HashSet<>();
+		Set<String> prdDelivers = new HashSet<>();
+		Set<String> prdIsinCodes = new HashSet<>();
+		for (PrdProduct p : productService.findAll()) {
+			prdNames.add(p.getLabel());
+			prdDelivers.add(p.getDeliver());
+			prdIsinCodes.add(p.getIsin());
+		}
+		model.addAttribute(ATTR_PRODUCT_NAME_LIST, prdNames);
+		model.addAttribute(ATTR_BANK_LIST, prdDelivers);
+		model.addAttribute(ATTR_ISIN_LIST, prdIsinCodes);
+
+		Set<String> ssjctLabels = new HashSet<>();
+		for (PrdSousJacent s : sousJacentService.findAll()) {
+			ssjctLabels.add(s.getLabel());
+		}
+		model.addAttribute(ATTR_SSJCT_NAME_LIST, ssjctLabels);
+
+		// Filter and page
+		Page<PrdProduct> page = null;
+		PrdProductFilterDto filterDto = new PrdProductFilterDto(isin, label, deliver, base, isEavest);
+
+		PrdSousJacent psj;
+		LOGGER.info("products: A filter has been set {}", filterDto);
+		Pageable pageRequest = new PageRequest(pageNumber - 1, SIZE_PRODUCTS_PAGE, Sort.Direction.DESC, "launchDate");
+		try {
+			psj = StringUtils.isNotBlank(filterDto.getLabelSousJacent())
+					? sousJacentService.findByLabel(filterDto.getLabelSousJacent()) : null;
+
+			page = productService.filterLikeAndPage(filterDto.getIsin(), filterDto.getLabel(), filterDto.getDeliver(),
+					psj, filterDto.getIsEavest(), pageRequest);
+
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
+			page = new PageImpl<PrdProduct>(new ArrayList<PrdProduct>());
+
+		}
 
 		int total = page.getTotalPages();
 		int current = page.getNumber() + 1;
@@ -80,6 +161,7 @@ public class PrdProductController {
 			iterator[i] = i;
 		}
 
+		model.addAttribute("filter", filterDto);
 		model.addAttribute(ATTR_SLICE_ITERATOR, iterator);
 		model.addAttribute(ATTR_PRODUCT_LIST, page);
 		model.addAttribute(ATTR_PAGE_BEGIN_SLICE, begin);
@@ -92,12 +174,10 @@ public class PrdProductController {
 	@GetMapping(value = "/{id}/image")
 	@ResponseBody
 	public byte[] getProductImage(@PathVariable Long id) {
-		LOGGER.info("Call getProductImage");
 		byte[] result = null;
 		File prdImage;
 		try {
 			prdImage = productService.getImage(productService.findById(id));
-			LOGGER.info("Reading image {}", prdImage);
 			result = org.apache.commons.io.FileUtils.readFileToByteArray(prdImage);
 			LOGGER.info("Image {} has been successfully read", prdImage);
 
@@ -115,9 +195,7 @@ public class PrdProductController {
 	@GetMapping(value = "/{id}/fease")
 	@ResponseBody
 	public ResponseEntity<byte[]> getProductFease(@PathVariable Long id) {
-		LOGGER.info("Call getProductFease");
 		ResponseEntity<byte[]> result = null;
-		// TODO
 		File prdFease;
 		try {
 			HttpHeaders headers = new HttpHeaders();
@@ -144,9 +222,7 @@ public class PrdProductController {
 	@GetMapping(value = "/{id}/market")
 	@ResponseBody
 	public ResponseEntity<byte[]> getProductMarketingDoc(@PathVariable Long id) {
-		LOGGER.info("Call getProductMarketingDoc");
 		ResponseEntity<byte[]> result = null;
-		// TODO
 		File prdMarket;
 		try {
 			HttpHeaders headers = new HttpHeaders();
@@ -172,9 +248,7 @@ public class PrdProductController {
 	@GetMapping(value = "/{id}/tsheet")
 	@ResponseBody
 	public ResponseEntity<byte[]> getProductTermSheet(@PathVariable Long id) {
-		LOGGER.info("Call getProductTermSheet");
 		ResponseEntity<byte[]> result = null;
-		// TODO
 		File prdTS;
 		try {
 			HttpHeaders headers = new HttpHeaders();

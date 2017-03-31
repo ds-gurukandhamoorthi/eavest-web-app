@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.PrdProduct;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdUser;
 
 /**
@@ -98,4 +100,15 @@ public interface PrdProductService {
 	public void delete(PrdProduct product);
 
 	public void update(PrdProduct product, PrdProductDto dto) throws EavTechnicalException;
+
+	public List<PrdProduct> filterBy(String isin, String label, String deliver, PrdSousJacent sjct, Boolean isEavest);
+
+	public List<PrdProduct> filterBy(String isin, String label, String deliver, PrdSousJacent sjct);
+
+	public Page<PrdProduct> filterAndPage(String isin, String label, String deliver, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest);
+
+	public Page<PrdProduct> filterLikeAndPage(String isin, String label, String deliver, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest);
+
 }
