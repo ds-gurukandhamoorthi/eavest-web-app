@@ -277,14 +277,6 @@ public class PrdProduct extends AbstractBean {
 		this.prdRule = idPrdRule;
 	}
 
-	public Set<PrdObservationDate> getWatchingDates() {
-		return observationDates;
-	}
-
-	public void setWatchingDates(Set<PrdObservationDate> watchingDates) {
-		this.observationDates = watchingDates;
-	}
-
 	public Set<PrdEarlierRepaymentDate> getEarlyRepaymentDates() {
 		return earlyRepaymentDates;
 	}

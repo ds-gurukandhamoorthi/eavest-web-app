@@ -18,6 +18,8 @@ public class EavUtils {
 
 	public static final int NB_DAYS_REFUND_PRODUCT_LIST = 30;
 
+	public static final int NB_SEARCH_PRODUCT_PARAMS = 4;
+
 	public static final String LONG_DATE_FORMAT_PATTERN = "EEEEE dd MMMMM yyyy";
 
 	public static final String MID_DATE_FORMAT_PATTERN = "dd MMMMM yyyy";

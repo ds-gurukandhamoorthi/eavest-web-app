@@ -176,6 +176,11 @@ input.btn.btn-default {
   border-bottom: 2px solid black;
 }
 
+
+.zone-transit .btn {
+  background-color: #FFFFFF;
+}
+
 .btn {
   text-decoration: none;
   background-color: #F2F2F2;

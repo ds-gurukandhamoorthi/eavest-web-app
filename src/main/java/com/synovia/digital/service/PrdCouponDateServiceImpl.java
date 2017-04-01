@@ -29,16 +29,17 @@ public class PrdCouponDateServiceImpl implements PrdCouponDateService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdCouponDateServiceImpl.class);
 	private final PrdCouponDateRepository repo;
-	private final PrdProductService productService;
+
+	@Autowired
+	private PrdProductService productService;
 
 	/**
 	 * TODO Constructs ... based on ...
 	 *
 	 */
 	@Autowired
-	public PrdCouponDateServiceImpl(PrdCouponDateRepository repo, PrdProductService service) {
+	public PrdCouponDateServiceImpl(PrdCouponDateRepository repo) {
 		this.repo = repo;
-		this.productService = service;
 	}
 
 	/*
@@ -116,6 +117,19 @@ public class PrdCouponDateServiceImpl implements PrdCouponDateService {
 		}
 
 		return found;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdCouponDateService#delete(com.synovia.digital.model.
+	 * PrdCouponDate)
+	 */
+	@Override
+	public void delete(PrdCouponDate entity) {
+		repo.delete(entity);
+
 	}
 
 }

@@ -3,8 +3,11 @@
  */
 package com.synovia.digital.dto;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -15,6 +18,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.synovia.digital.dto.utils.DtoDateFormat;
+import com.synovia.digital.model.PrdCouponDate;
+import com.synovia.digital.model.PrdEarlierRepaymentDate;
+import com.synovia.digital.model.PrdObservationDate;
+import com.synovia.digital.model.PrdProduct;
+import com.synovia.digital.model.PrdRule;
 
 /**
  * This class defines TODO
@@ -133,6 +141,54 @@ public class PrdProductDto {
 
 	public PrdProductDto() {
 
+	}
+
+	public PrdProductDto(PrdProduct entity) {
+		id = entity.getId();
+		isin = entity.getIsin();
+		label = entity.getLabel();
+		DateFormat formatter = DtoDateFormat.getFormat();
+		dueDate = entity.getDueDate() != null ? formatter.format(entity.getDueDate()) : null;
+		launchDate = entity.getLaunchDate() != null ? formatter.format(entity.getLaunchDate()) : null;
+		idPrdSousJacent = entity.getPrdSousJacent().getId();
+		List<String> dates = new ArrayList<>();
+		for (PrdObservationDate d : entity.getObservationDates()) {
+			dates.add(formatter.format(d.getDate()));
+		}
+		observationDates = dates.toArray(new String[0]);
+		dates = new ArrayList<>();
+		for (PrdEarlierRepaymentDate d : entity.getEarlyRepaymentDates()) {
+			dates.add(formatter.format(d.getDate()));
+		}
+		earlyRepaymentDates = dates.toArray(new String[0]);
+		dates = new ArrayList<>();
+		for (PrdCouponDate d : entity.getCouponPaymentDates()) {
+			dates.add(formatter.format(d.getDate()));
+		}
+		couponPaymentDates = dates.toArray(new String[0]);
+		subscriptionStartDate = entity.getSubscriptionStartDate() != null
+				? formatter.format(entity.getSubscriptionStartDate()) : null;
+		subscriptionEndDate = entity.getSubscriptionEndDate() != null
+				? formatter.format(entity.getSubscriptionEndDate()) : null;
+		couponValue = entity.getCouponValue();
+		nominalValue = entity.getNominalValue();
+		capitalGuaranteed = entity.getCapitalGuaranteed();
+		startPrice = entity.getStartPrice();
+		deliver = entity.getDeliver();
+		guarantor = entity.getGuarantor();
+		statusCode = entity.getPrdStatus().getCode();
+		endDate = entity.getEndDate() != null ? formatter.format(entity.getEndDate()) : null;
+		isEavest = entity.getIsEavest();
+		isBestSeller = entity.getIsBestSeller();
+		path = entity.getPath();
+		strike = entity.getStrike();
+		observationFrequency = entity.getObservationFrequency();
+		PrdRule rule = entity.getPrdRule();
+		if (rule != null) {
+			reimbursementBarrier = rule.getReimbursementBarrier();
+			protectionBarrier = rule.getProtectionBarrier();
+			couponBarrier = rule.getCouponBarrier();
+		}
 	}
 
 	public String getIsin() {

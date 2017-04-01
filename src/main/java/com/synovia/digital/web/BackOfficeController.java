@@ -36,6 +36,9 @@ import com.synovia.digital.exceptions.EavDuplicateEntryException;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.exceptions.EavTechnicalException;
 import com.synovia.digital.model.EavAccount;
+import com.synovia.digital.model.PrdCouponDate;
+import com.synovia.digital.model.PrdEarlierRepaymentDate;
+import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdUser;
@@ -68,12 +71,15 @@ public class BackOfficeController {
 	public static final String VIEW_TESTS_MENU = "bo-product-tests";
 	public static final String VIEW_ERROR = "error";
 	public static final String VIEW_USER_INFO = "bo-user-info";
+	public static final String VIEW_UPDATE_PRODUCT = "bo-update-product";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
 	protected static final String REQUEST_MAPPING_CREATE_SSJACENT_VIEW = "/admin/createSsjacent";
 	protected static final String REQUEST_MAPPING_CREATE_PRODUCT_VIEW = "/admin/createProduct";
+	protected static final String REQUEST_MAPPING_TEST_CREATE_PRODUCT_VIEW = "/admin/tests";
 	protected static final String REQUEST_MAPPING_ADD_PRODUCT_DATES = "/admin/products/{id}/addDate";
+	protected static final String REQUEST_MAPPING_UPDATE_PRODUCT = "/admin/products/{id}/addDate";
 
 	protected static final String FLASH_MESSAGE_KEY_FEEDBACK = "feedbackMessage";
 	protected static final String ATTR_MESSAGE_FEEDBACK = "responseMessage";
@@ -81,6 +87,8 @@ public class BackOfficeController {
 	protected static final String PARAMETER_PRODUCT_ID = "id";
 
 	protected static final String ATTR_PRODUCT_DTO = "product";
+	protected static final String ATTR_PRODUCT_TO_UPDATE_DTO = "toUpdate";
+	protected static final String ATTR_PRODUCT = "product";
 	protected static final String ATTR_PRODUCT_LIST = "products";
 	protected static final String ATTR_SOUS_JACENT_DTO = "ssjacent";
 	protected static final String ATTR_SOUS_JACENT_LIST = "ssjacents";
@@ -270,7 +278,7 @@ public class BackOfficeController {
 				attributes.addFlashAttribute(ATTR_PRODUCT_IMAGE_FILENAME, imageFile.getName());
 			}
 			// Redirect the view
-			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
 			view = VIEW_ERROR;
@@ -297,7 +305,7 @@ public class BackOfficeController {
 			attributes.addFlashAttribute("product", product);
 
 			// Redirect the view
-			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
 			view = VIEW_ERROR;
@@ -324,7 +332,7 @@ public class BackOfficeController {
 			attributes.addFlashAttribute("product", product);
 
 			// Redirect the view
-			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
 			view = VIEW_ERROR;
@@ -351,9 +359,84 @@ public class BackOfficeController {
 			attributes.addFlashAttribute("product", product);
 
 			// Redirect the view
-			view = EavControllerUtils.createRedirectViewPath("/admin/products/{id}/addDate");
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+
+		return view;
+	}
+
+	@GetMapping(value = "/products/{id}/update")
+	public String showUpdateProduct(@PathVariable("id") Long id, Model model) {
+		String view = VIEW_UPDATE_PRODUCT;
+		try {
+			model.addAttribute(ATTR_OBS_DATE_DTO, new PrdObservationDate());
+			model.addAttribute(ATTR_ER_DATE_DTO, new PrdEarlierRepaymentDate());
+			model.addAttribute(ATTR_COUPON_DATE_DTO, new PrdCouponDate());
+			model.addAttribute("prdFiles", new ArrayList<String>());
+
+			// Display existing attributes
+			PrdProduct product = productService.findById(id);
+			model.addAttribute(ATTR_PRODUCT, product);
+			model.addAttribute(ATTR_PRODUCT_TO_UPDATE_DTO, new PrdProductDto(product));
+			model.addAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
+			model.addAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			model.addAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			model.addAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+
+		} catch (EavEntryNotFoundException e) {
+			LOGGER.error("Product not found");
+			view = VIEW_ERROR;
+		}
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/update")
+	public String updateProduct(@PathVariable("id") Long id, @ModelAttribute("toUpdate") PrdProductDto toUpdate,
+			RedirectAttributes attributes) {
+		String view = VIEW_UPDATE_PRODUCT;
+		try {
+			PrdProduct product = productService.findById(id);
+			productService.update(product, toUpdate);
+
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Product has been updated!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_ER_DATE_LIST, earlyPayDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_COUPON_DATE_LIST, couponDateService.findByIdPrdProduct(id));
+			attributes.addFlashAttribute(ATTR_PRODUCT, product);
+			attributes.addFlashAttribute(ATTR_PRODUCT_TO_UPDATE_DTO, toUpdate);
+			attributes.addFlashAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
+
+			attributes.addAttribute(PARAMETER_PRODUCT_ID, id);
+
+			// Redirect the view
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
+
+		} catch (EavTechnicalException e) {
+			view = VIEW_ERROR;
+		}
+		return view;
+	}
+
+	@PostMapping(value = "/products/{id}/delete")
+	public String deleteProduct(@PathVariable("id") Long id, RedirectAttributes attributes) {
+		attributes.addFlashAttribute(ATTR_PRODUCT_DTO, new PrdProductDto());
+		attributes.addFlashAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
+		attributes.addFlashAttribute(ATTR_PRODUCT_LIST, productService.findAll());
+		String view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_TEST_CREATE_PRODUCT_VIEW);
+		try {
+			PrdProduct toDelete = productService.findById(id);
+			String label = toDelete.getLabel();
+			String isin = toDelete.getIsin();
+			productService.delete(toDelete);
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Product ").append(isin).append(" (")
+					.append(label).append(") has been successfully deleted.").toString());
+
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
 			view = VIEW_ERROR;
 		}
 
@@ -370,7 +453,7 @@ public class BackOfficeController {
 		PrdProduct product;
 		try {
 			product = productService.findById(id);
-			model.addAttribute("product", product);
+			model.addAttribute(ATTR_PRODUCT, product);
 
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
@@ -380,7 +463,7 @@ public class BackOfficeController {
 	}
 
 	@PostMapping(value = "/products/{id}/addObsDate")
-	public String addProductDate(@PathVariable("id") Long id,
+	public String addObservationDate(@PathVariable("id") Long id,
 			@Valid @ModelAttribute(ATTR_OBS_DATE_DTO) PrdProductDateDto obsDateDto, BindingResult result,
 			RedirectAttributes attributes, Model model) {
 		LOGGER.info(new StringBuilder("Call 'add date' for product id ").append(id).toString());

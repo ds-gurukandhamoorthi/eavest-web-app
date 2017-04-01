@@ -13,9 +13,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +37,7 @@ import com.synovia.digital.model.PrdEarlierRepaymentDate;
 import com.synovia.digital.model.PrdObservationDate;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdRule;
+import com.synovia.digital.model.PrdSousJacent;
 import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.repository.PrdProductRepository;
 import com.synovia.digital.repository.PrdSousJacentRepository;
@@ -60,10 +66,19 @@ public class PrdProductServiceImpl implements PrdProductService {
 	@Autowired
 	protected PrdObservationDateService obsDateService;
 
-	protected final EavHomeDirectory homeDir;
+	@Autowired
+	protected PrdCouponDateService couponDateService;
+
+	@Autowired
+	protected PrdEarlierRepaymentDateService earlyRepayDateService;
+
+	@Autowired
+	protected PrdUserService userService;
 
 	@Autowired
 	protected EavResource eavResource;
+
+	protected final EavHomeDirectory homeDir;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PrdProductServiceImpl.class);
 
@@ -161,43 +176,50 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 	}
 
-	private void updateFromDto(PrdProduct entity, PrdProductDto dto) {
-		// TODO A status automatically sets the end date and vice versa
+	private void updateFromDto(PrdProduct entity, PrdProductDto dto) throws EavTechnicalException {
+		if (entity.getId() != null && dto.getId() != null && entity.getId() != dto.getId())
+			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
+
+		if (dto.getIsin() != null) {
+			entity.setIsin(dto.getIsin());
+		}
+
 		if (dto.getLabel() != null) {
 			entity.setLabel(dto.getLabel());
 		}
 
-		if (dto.getLaunchDate() != null) {
-			// Be sure that the new launch date is before the due date
-			Date dueDate = null;
-			try {
-				dueDate = dto.getDueDateObject();
-			} catch (ParseException e) {
-				dueDate = entity.getDueDate();
-			}
-		}
-	}
-
-	private PrdProduct convertToEntity(PrdProductDto dto) {
-		PrdProduct entity = new PrdProduct();
-
-		entity.setId(dto.getId() != null ? dto.getId() : null);
-		entity.setIsin(dto.getIsin() != null ? dto.getIsin() : null);
-		entity.setLabel(dto.getLabel() != null ? dto.getLabel() : null);
 		try {
-			entity.setLaunchDate(dto.getLaunchDate() != null ? dto.getLaunchDateObject() : null);
+			if (dto.getLaunchDate() != null) {
+				entity.setLaunchDate(dto.getLaunchDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [launchDate]");
 		}
 		try {
-			entity.setDueDate(dto.getDueDate() != null ? dto.getDueDateObject() : null);
+			if (dto.getDueDate() != null) {
+				entity.setDueDate(dto.getDueDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [dueDate]");
 		}
-		entity.setPrdSousJacent(
-				dto.getIdPrdSousJacent() != null ? sousJacentRepo.findOne(dto.getIdPrdSousJacent()) : null);
-		entity.setPrdRule(
-				new PrdRule(dto.getProtectionBarrier(), dto.getCouponBarrier(), dto.getReimbursementBarrier()));
+		if (dto.getIdPrdSousJacent() != null) {
+			entity.setPrdSousJacent(sousJacentRepo.findOne(dto.getIdPrdSousJacent()));
+		}
+
+		// Update product rules
+		PrdRule productRule = entity.getPrdRule() != null ? entity.getPrdRule() : new PrdRule();
+		if (dto.getProtectionBarrier() != null) {
+			productRule.setProtectionBarrier(dto.getProtectionBarrier());
+		}
+		if (dto.getCouponBarrier() != null) {
+			productRule.setCouponBarrier(dto.getCouponBarrier());
+		}
+		if (dto.getReimbursementBarrier() != null) {
+			productRule.setReimbursementBarrier(dto.getReimbursementBarrier());
+		}
+
+		entity.setPrdRule(productRule);
+
 		if (dto.getObservationDates() != null) {
 			Set<PrdObservationDate> obsDates = new HashSet<>();
 			try {
@@ -235,33 +257,48 @@ public class PrdProductServiceImpl implements PrdProductService {
 			entity.setCouponPaymentDates(dates);
 		}
 		try {
-			entity.setSubscriptionStartDate(
-					dto.getSubscriptionStartDate() != null ? dto.getSubscriptionStartDateObject() : null);
+			if (dto.getSubscriptionStartDate() != null) {
+				entity.setSubscriptionStartDate(dto.getSubscriptionStartDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [subscriptionStartDate]");
 		}
 		try {
-			entity.setSubscriptionEndDate(
-					dto.getSubscriptionEndDate() != null ? dto.getSubscriptionEndDateObject() : null);
+			if (dto.getSubscriptionEndDate() != null) {
+				entity.setSubscriptionEndDate(dto.getSubscriptionEndDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [subscriptionEndDate]");
 		}
-		entity.setCouponValue(dto.getCouponValue() != null ? dto.getCouponValue() : null);
-		entity.setNominalValue(dto.getNominalValue() != null ? dto.getNominalValue() : null);
-		entity.setCapitalGuaranteed(dto.getCapitalGuaranteed() != null ? dto.getCapitalGuaranteed() : null);
-		entity.setStartPrice(dto.getStartPrice() != null ? dto.getStartPrice() : null);
-		entity.setDeliver(dto.getDeliver() != null ? dto.getDeliver() : null);
-		entity.setGuarantor(dto.getGuarantor() != null ? dto.getGuarantor() : null);
-		try {
-			entity.setPrdStatus(dto.getStatusCode() != null
-					? statusRepo.findByCode(PrdStatusEnum.valueOf(dto.getStatusCode()).toString())
-					: statusRepo.findByCode(PrdStatusEnum.IDLE.toString()));
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.IDLE.toString()));
+		if (dto.getCouponValue() != null) {
+			entity.setCouponValue(dto.getCouponValue());
+		}
+		if (dto.getNominalValue() != null) {
+			entity.setNominalValue(dto.getNominalValue());
+		}
+		if (dto.getCapitalGuaranteed() != null) {
+			entity.setCapitalGuaranteed(dto.getCapitalGuaranteed());
+		}
+		if (dto.getStartPrice() != null) {
+			entity.setStartPrice(dto.getStartPrice());
+		}
+		if (dto.getDeliver() != null) {
+			entity.setDeliver(dto.getDeliver());
+		}
+		if (dto.getGuarantor() != null) {
+			entity.setGuarantor(dto.getGuarantor());
 		}
 		try {
-			entity.setEndDate(dto.getEndDate() != null ? dto.getEndDateObject() : null);
+			if (dto.getStatusCode() != null) {
+				entity.setPrdStatus(statusRepo.findByCode(PrdStatusEnum.valueOf(dto.getStatusCode()).toString()));
+			}
+		} catch (Exception e) {
+			LOGGER.debug("Non-existent status: {}", dto.getStatusCode());
+		}
+		try {
+			if (dto.getEndDate() != null) {
+				entity.setEndDate(dto.getEndDateObject());
+			}
 		} catch (ParseException e) {
 			LOGGER.debug("Invalid date format for argument [endDate]");
 		}
@@ -271,9 +308,21 @@ public class PrdProductServiceImpl implements PrdProductService {
 		if (dto.getIsBestSeller() != null) {
 			entity.setIsBestSeller(dto.getIsBestSeller());
 		}
-		entity.setPath(dto.getPath() != null ? dto.getPath() : null);
-		entity.setStrike(dto.getStrike() != null ? dto.getStrike() : null);
-		entity.setObservationFrequency(dto.getObservationFrequency() != null ? dto.getObservationFrequency() : null);
+		if (dto.getPath() != null) {
+			entity.setPath(dto.getPath());
+		}
+		if (dto.getStrike() != null) {
+			entity.setStrike(dto.getStrike());
+		}
+		if (dto.getObservationFrequency() != null) {
+			entity.setObservationFrequency(dto.getObservationFrequency());
+		}
+	}
+
+	private PrdProduct convertToEntity(PrdProductDto dto) throws EavTechnicalException {
+		PrdProduct entity = new PrdProduct();
+
+		updateFromDto(entity, dto);
 
 		return entity;
 	}
@@ -762,4 +811,264 @@ public class PrdProductServiceImpl implements PrdProductService {
 		}
 		return results;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#findAll(int, int)
+	 */
+	@Override
+	public Page<PrdProduct> findAll(int pageIdx, int nbMaxProducts) {
+		PageRequest pr = new PageRequest(pageIdx, nbMaxProducts, Sort.Direction.DESC, "launchDate");
+
+		return repo.findAll(pr);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#delete(java.lang.Long)
+	 */
+	@Override
+	public void delete(Long id) throws EavEntryNotFoundException {
+		// Find the corresponding entity
+		PrdProduct product = this.findById(id);
+
+		// Delete the product
+		this.delete(product);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#delete(com.synovia.digital.model.
+	 * PrdProduct)
+	 */
+	@Override
+	public void delete(PrdProduct product) {
+		// Delete all product date entities
+		for (PrdCouponDate e : product.getCouponPaymentDates()) {
+			couponDateService.delete(e);
+		}
+		for (PrdObservationDate d : product.getObservationDates()) {
+			obsDateService.delete(d);
+		}
+		for (PrdEarlierRepaymentDate d : product.getEarlyRepaymentDates()) {
+			earlyRepayDateService.delete(d);
+		}
+
+		// Remove the product from user's wallet
+		for (PrdUser u : product.getPrdUsers()) {
+			userService.removeProduct(u, product);
+		}
+
+		// Remove product documents
+		homeDir.deleteDir(product.getId());
+
+		repo.delete(product);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#update(com.synovia.digital.model.
+	 * PrdProduct, com.synovia.digital.dto.PrdProductDto)
+	 */
+	@Override
+	public void update(PrdProduct product, PrdProductDto dto) throws EavTechnicalException {
+		updateFromDto(product, dto);
+
+		// Apply basic rule
+		postUpdate(product);
+
+		// Save the entity
+		repo.save(product);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterBy(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean)
+	 */
+	@Override
+	public List<PrdProduct> filterBy(String isinCode, String prdLabel, String bankName, PrdSousJacent sjct,
+			Boolean isEavest) {
+		String isin = StringUtils.isBlank(isinCode) ? null : isinCode;
+		String label = StringUtils.isBlank(prdLabel) ? null : prdLabel;
+		String deliver = StringUtils.isBlank(bankName) ? null : bankName;
+
+		List<PrdProduct> result = new ArrayList<>();
+		if (isin != null) {
+			result.add(repo.findByIsin(isin));
+			return result;
+		}
+
+		if (label == null && deliver == null && sjct == null && isEavest == null)
+			return repo.findAll();
+
+		if (label == null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByIsBestSeller(isEavest);
+
+		if (label == null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByPrdSousJacent(sjct);
+
+		if (label == null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByPrdSousJacentAndIsEavest(sjct, isEavest);
+
+		if (label == null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByDeliver(deliver);
+
+		if (label == null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByDeliverAndIsEavest(deliver, isEavest);
+
+		if (label == null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByDeliverAndPrdSousJacent(deliver, sjct);
+
+		if (label == null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByDeliverAndPrdSousJacentAndIsEavest(deliver, sjct, isEavest);
+
+		if (label != null && deliver == null && sjct == null && isEavest == null)
+			return repo.findByLabel(label);
+
+		if (label != null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByLabelAndIsEavest(label, isEavest);
+
+		if (label != null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByLabelAndPrdSousJacent(label, sjct);
+
+		if (label != null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByLabelAndPrdSousJacentAndIsEavest(label, sjct, isEavest);
+
+		if (label != null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByLabelAndDeliver(label, deliver);
+
+		if (label != null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByLabelAndDeliverAndIsEavest(label, deliver, isEavest);
+
+		if (label != null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByLabelAndDeliverAndPrdSousJacent(label, deliver, sjct);
+
+		if (label != null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByLabelAndDeliverAndPrdSousJacentAndIsEavest(label, deliver, sjct, isEavest);
+
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterBy(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent)
+	 */
+	@Override
+	public List<PrdProduct> filterBy(String isin, String label, String deliver, PrdSousJacent sjct) {
+		return filterBy(isin, label, deliver, sjct, null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdProductService#filterAndPage(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<PrdProduct> filterAndPage(String isinCode, String prdLabel, String bankName, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest) {
+		String isin = StringUtils.isBlank(isinCode) ? null : isinCode;
+		String label = StringUtils.isBlank(prdLabel) ? null : prdLabel;
+		String deliver = StringUtils.isBlank(bankName) ? null : bankName;
+
+		LOGGER.debug("Filter used: ISIN {} - Name {} - Deliver {} - Base {} - EAVEST {} - Page {} ", isin, label,
+				deliver, sjct, isEavest, pageRequest);
+
+		if (isin != null)
+			return repo.findByIsin(isin, pageRequest);
+
+		if (label == null && deliver == null && sjct == null && isEavest == null)
+			return repo.findAll(pageRequest);
+
+		if (label == null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByIsEavest(isEavest, pageRequest);
+
+		if (label == null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByPrdSousJacent(sjct, pageRequest);
+
+		if (label == null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByPrdSousJacentAndIsEavest(sjct, isEavest, pageRequest);
+
+		if (label == null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByDeliver(deliver, pageRequest);
+
+		if (label == null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByDeliverAndIsEavest(deliver, isEavest, pageRequest);
+
+		if (label == null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByDeliverAndPrdSousJacent(deliver, sjct, pageRequest);
+
+		if (label == null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByDeliverAndPrdSousJacentAndIsEavest(deliver, sjct, isEavest, pageRequest);
+
+		if (label != null && deliver == null && sjct == null && isEavest == null)
+			return repo.findByLabel(label, pageRequest);
+
+		if (label != null && deliver == null && sjct == null && isEavest != null)
+			return repo.findByLabelAndIsEavest(label, isEavest, pageRequest);
+
+		if (label != null && deliver == null && sjct != null && isEavest == null)
+			return repo.findByLabelAndPrdSousJacent(label, sjct, pageRequest);
+
+		if (label != null && deliver == null && sjct != null && isEavest != null)
+			return repo.findByLabelAndPrdSousJacentAndIsEavest(label, sjct, isEavest, pageRequest);
+
+		if (label != null && deliver != null && sjct == null && isEavest == null)
+			return repo.findByLabelAndDeliver(label, deliver, pageRequest);
+
+		if (label != null && deliver != null && sjct == null && isEavest != null)
+			return repo.findByLabelAndDeliverAndIsEavest(label, deliver, isEavest, pageRequest);
+
+		if (label != null && deliver != null && sjct != null && isEavest == null)
+			return repo.findByLabelAndDeliverAndPrdSousJacent(label, deliver, sjct, pageRequest);
+
+		if (label != null && deliver != null && sjct != null && isEavest != null)
+			return repo.findByLabelAndDeliverAndPrdSousJacentAndIsEavest(label, deliver, sjct, isEavest, pageRequest);
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdProductService#filterLikeAndPage(java.lang.String,
+	 * java.lang.String, java.lang.String, com.synovia.digital.model.PrdSousJacent,
+	 * java.lang.Boolean, org.springframework.data.domain.Pageable)
+	 */
+	@Override
+	public Page<PrdProduct> filterLikeAndPage(String isin, String label, String deliver, PrdSousJacent sjct,
+			Boolean isEavest, Pageable pageRequest) {
+		if (isEavest == null && sjct == null)
+			// Filter on isin, label and deliver.
+			return repo.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCase(isin, label,
+					deliver, pageRequest);
+
+		if (isEavest == null && sjct != null)
+			return repo
+					.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndPrdSousJacent(
+							isin, label, deliver, sjct, pageRequest);
+
+		if (isEavest != null && sjct == null)
+			return repo.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndIsEavest(
+					isin, label, deliver, isEavest, pageRequest);
+
+		return repo
+				.findByIsinContainsIgnoreCaseAndLabelContainsIgnoreCaseAndDeliverContainsIgnoreCaseAndPrdSousJacentAndIsEavest(
+						isin, label, deliver, sjct, isEavest, pageRequest);
+	}
+
 }

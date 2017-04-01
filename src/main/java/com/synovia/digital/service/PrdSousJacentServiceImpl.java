@@ -235,6 +235,9 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 */
 	@Override
 	public PrdSousJacent findById(Long id) throws EavEntryNotFoundException {
+		if (id == null)
+			return null;
+
 		PrdSousJacent toFind = repo.findOne(id);
 
 		if (toFind == null)
@@ -408,6 +411,23 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 			updatePerf(sj);
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.synovia.digital.service.PrdSousJacentService#findByLabel(java.lang.String)
+	 */
+	@Override
+	public PrdSousJacent findByLabel(String label) throws EavEntryNotFoundException {
+		if (label == null)
+			return null;
+
+		PrdSousJacent entity = repo.findByLabel(label);
+		if (entity == null)
+			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
+
+		return entity;
 	}
 
 }

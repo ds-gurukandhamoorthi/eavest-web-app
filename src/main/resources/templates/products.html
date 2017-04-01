@@ -89,31 +89,42 @@
 		<div class="container">
 			<div class="row filters black-line-products">
 				<div class="sous-container">
-					<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
-						<label for="filter_3">NOM DU PRODUIT</label>
-						<input type="text" class="text" name="product_name" id="filter_3" />
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3 filter-1">
-						<label for="filter_1">EMETTEUR</label>
-						<input type="text" class="text" name="bank_name" id="filter_1" />
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3 filter-2">
-						<label for="filter_2">CODE ISIN</label>
-						<input type="text" class="text" name="code_isin" id="filter_2" />
-					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3 filter-4">
-						<label for="filter_4">SOUS-JACENT</label>
-						<input type="text" class="text" name="base" id="filter_4" />
-					</div>
-					<div class="col-md-12 light-letter">
-						<span class="checkbox">
-								<input type="checkbox" value="les produits eavest" name="eav-prd"/>
-								<label for="eav-prd">les produits eavest</label>
-						</span>
-					</div>
-					<div class="col-md-12 filter-search">
-						<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
-					</div>
+					<form action="#" th:object="${filter}" th:action="@{/products/filter}" method="POST">
+						<div class="col-xs-12 col-sm-6 col-md-3 filter-1">
+							<label for="filter_1" th:text="#{prd.bank.name}">EMETTEUR</label>
+							<input type="text" class="text" name="bank_name" id="filter_1" autocomplete="off" th:field="*{deliver}"/>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3 filter-2">
+							<label for="filter_2" th:text="#{prd.isin.code}">CODE ISIN</label>
+							<input type="text" class="text" name="code_isin" id="filter_2" autocomplete="off" th:field="*{isin}"/>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
+							<label for="filter_3" th:text="#{prd.name}">NOM DU PRODUIT</label>
+							<input type="text" class="text" name="product_name" id="filter_3" autocomplete="off" th:field="*{label}"/>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3 filter-4">
+							<label for="filter_4" th:text="#{prd.undrl.asset}">SOUS-JACENT</label>
+							<input type="text" class="text" name="base" id="filter_4" autocomplete="off" th:field="*{labelSousJacent}"/>
+						</div>
+						<div class="col-md-12 filter-search">
+							<input type="submit" value="Rechercher" th:value="#{prd.find}" id="filter-search" class="btn btn-default log" />
+						</div>
+					</form>
+
+					<form class="eav-filter">
+						<div class="pull-right light-letter">
+							<span class="checkbox">
+								<!--<input type="checkbox" value="les produits eavest" name="eav-prd"/>
+								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>-->
+								<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+									<span th:if="${filter.isEavest}">x</span>
+									<span th:unless="${filter.isEavest}">o</span>
+									<span>   </span>
+									<span th:text="#{prd.eavest.filter}">les produits eavest</span>
+								</a>
+							</span>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -124,7 +135,9 @@
 			<!-- product 1 -->
 			<div class="col-xs-12 col-sm-6 col-md-4 product-item" th:each="product : ${products}">
 				<div class="col-xs-6 col-sm-6 col-md-6">
-					<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
+					<a href="#" th:href="@{/products/{id}(id=${product.id})}">
+						<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
+					</a>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 product-description">
 					<ul class="list-unstyled">
@@ -138,7 +151,7 @@
 					</ul>
 					<ul class="list-unstyled">
 						<li><span class="strong-blue" th:text="#{prd.status}">statut</span></li>
-						<li><span class="product-p" th:text="${product.prdStatus.description}">en cours</span></li>
+						<li><span class="product-p" th:text="#{${product.prdStatus.description}}">en cours</span></li>
 					</ul>
 				</div>
 				<!-- <div class="col-xs-12 col-md-12 term-sheet-product uppercase">
@@ -168,11 +181,15 @@
 	<!-- PAGINATION -->
 	<div class="container" id="pagination-section">
   	<ul class="pagination">
-    	<li class="active"><a href="#">1</a></li>
-    	<li><a href="#">2</a></li>
-    	<li><a href="#">3</a></li>
-    	<li><a href="#">4</a></li>
-    	<li><a href="#">5</a></li>
+			<li><a th:if="${beginPageNb - 1} > 0" href="#" th:href="@{/products/pages/1/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver})}" th:text="#{page.first}">First</a></li>
+			<li><a th:if="${currentPageNb - 1}" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb-1})}" th:text="#{page.previous}">Previous</a></li>
+			<li><a th:if="${beginPageNb - 1} > 0">...</a></li>
+    	<li th:each="iter : ${sliceIndexes}" th:with="displayedPageNb=(${iterStat.index + beginPageNb})" th:class="${displayedPageNb - currentPageNb}? '' : 'active'">
+				<a class="active" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${displayedPageNb})}" th:text="${displayedPageNb}">1</a>
+			</li>
+			<li><a th:if="${totalPageNb - endPageNb} > 0" >...</a></li>
+			<li><a th:if="${currentPageNb - totalPageNb}" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb+1})}" th:text="#{page.next}">Next</a></li>
+			<li><a th:if="${totalPageNb - endPageNb} > 0" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${totalPageNb})}" th:text="#{page.last}">Last</a></li>
   	</ul>
 	</div>
 
@@ -214,6 +231,31 @@
 	<script src="/js/extra.js"></script>
 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+
+	<script th:inline="javascript">
+ 	/*<![CDATA[*/
+ 	$(document).ready(function(){
+ 		// à décommenter KNA avant commit
+ 		var productNames = [[${productNames}]];
+		var bankNames = [[${bankNames}]];
+		var isinCodes = [[${isinCodes}]];
+		var bases = [[${baseNames}]];
+ 		/*console.log(productTags);*/
+ 		$('#filter_1').autocomplete({
+ 		source: bankNames
+ 		});
+		$('#filter_2').autocomplete({
+ 		source: isinCodes
+ 		});
+		$('#filter_3').autocomplete({
+ 		source: productNames
+ 		});
+		$('#filter_4').autocomplete({
+ 		source: bases
+ 		});
+ 	});
+ 	/*]]>*/
+ 	</script>
 
 	</body>
 

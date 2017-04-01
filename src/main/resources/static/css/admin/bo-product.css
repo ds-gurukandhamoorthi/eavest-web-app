@@ -102,6 +102,7 @@ h1 {
 .main-form label {
     font-weight: normal;
 }
+
 select, input[type=text], [type=password], [type=email], [type=number], [type=date], [type=button], [type=checkbox], [type=file] {
     width: 100%;
     padding: 12px 20px 6px 20px;
@@ -112,7 +113,11 @@ select, input[type=text], [type=password], [type=email], [type=number], [type=da
     box-sizing: border-box;
 }
 
-input[type=submit] {
+.display-info {
+  width: auto;
+}
+
+.main-area input[type=submit] {
     color: black;
     padding: 14px 20px;
     margin: 8px 0;

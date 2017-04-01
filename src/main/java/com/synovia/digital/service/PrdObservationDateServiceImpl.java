@@ -138,4 +138,16 @@ public class PrdObservationDateServiceImpl implements PrdObservationDateService 
 		Collections.sort(list, new UpcomingObservationDateComparator());
 		return list;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdObservationDateService#delete(com.synovia.digital.
+	 * model.PrdObservationDate)
+	 */
+	@Override
+	public void delete(PrdObservationDate date) {
+		repo.delete(date);
+	}
 }
