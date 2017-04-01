@@ -14,11 +14,6 @@
   padding-left: 0 !important;
 }
 
-.list-product-title:hover, a:hover {
-  background-color: #F2F2F2;
-}
-
-
 #product-trash {
   position: absolute;
   top: -33px;
@@ -87,19 +82,39 @@
   font-weight: 100;
 }
 
+.product-description a:hover{
+  background-color: #F2F2F2 !important;
+}
+
+input.btn.btn-default {
+  border-radius: 0;
+  border: 2px solid black;
+  margin: 5px 4px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  font-size: 14px;
+}
+
 .light-letter {
   text-transform: uppercase;
   font-weight: 400;
   color: black;
   text-decoration: none!important;
+  margin-left: 20px;
+  margin-top: 5px;
 }
 
 .my-product-header {
   padding: 35px 0;
 }
 
+.product-body h3{
+    padding-left: 12px;
+}
+
 .prod-list {
   margin: 25px 0;
+  background-color: white !important;
 }
 
 .product-list {
@@ -145,6 +160,12 @@
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
+  line-height: 12px;
+  margin-top: 4px;
+}
+
+.zone-transit .btn {
+  background-color: #FFFFFF;
 }
 
 .prod-black-separator {
@@ -154,9 +175,6 @@
   margin-top: 15px;
   border-bottom: 2px solid black;
 }
-.zone-transit .btn {
-  background-color: #FFFFFF;
-} 
 
 .btn {
   text-decoration: none;
@@ -248,6 +266,34 @@
   padding-bottom: 45px;
 }
 
+/*CHART PRODUCT PAGE*/
+
+#chartdiv {
+  height:400px;
+  width:700px;
+}
+
+section.chart {
+    text-align: -webkit-center;
+    padding: 15px 0 45px 15px;
+}
+
+.jqplot-title {
+  font-size: 16px;
+  text-transform: uppercase;
+  margin: 15px;
+}
+
+.jqplot-target {
+    color: black !important;
+    font-family: 'Open Sans' !important;
+    font-size: 1em;
+}
+
+.legend {
+  padding: 25px;
+}
+
 /*QUERIES*/
 
 @media only screen and (max-width:760px){
@@ -269,10 +315,6 @@
       width: 142px;
       height: 178px;
       margin-bottom: 7px;
-    }
-    .term-sheet-list {
-      float: none;
-      text-align: center;
     }
     .add-to-wallet {
       transform: translate(-6px, 33px);

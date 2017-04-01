@@ -6,8 +6,32 @@
   padding: 0;
 }
 
+#user-img {
+  border: 1px solid black;
+  background-color: #F2F2F2;
+  font-size: 16px;
+  font-size: 27px;
+  padding: 5px;
+  float: right;
+ }
+
 .panel-body {
   margin: 0;
+}
+
+.product-wallet-title {
+  padding: 0;
+}
+
+.modal-body input {
+  border: 2px solid blue;
+  border-radius: 0;
+ }
+
+ .form-group button, .modal-footer button  {
+   border-radius: 0;
+   background-color: white;
+   padding: 5px 15px;
 }
 
 .blue-uppercase {
@@ -52,10 +76,17 @@ img#document {
   font-style: italic;
 }
 
-#product-trash-wallet {
+#product-wallet-trash {
   position: absolute;
-  top: -33px;
+  top: -28px;
   right: 14px;
+  color: black;
+}
+
+#product-trash-xs {
+  position: absolute;
+  top: 48px;
+  right: 0px;
   color: black;
 }
 
@@ -64,29 +95,31 @@ img#document {
 }
 
 .term-sheet-list {
-    padding-left: 9px;
+  padding-left: 0px;
+  text-transform: uppercase;
 }
 
 @media only screen and (max-width:760px){
   .container {
     margin-top: 45px;
   }
-  #product-trash-wallet {
-    top: 53px;
-    right: 4px;
-  }
   .add-product {
     text-align: center;
+  }
+  .product-wallet-title {
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  #img-wallet-product {
+    text-align: center;
+  }
+  .term-sheet-list {
+    padding-left: 9px;
   }
 }
 
 
 @media only screen and (min-device-width : 767px) and (max-device-width : 990px){
-  #wallet-trash {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-  }
   #term-sheet {
     position: absolute;
     bottom: 82px;

@@ -14,9 +14,16 @@
 
 /*LOGIN*/
 
-/*#login-page {
-  margin-bottom: 25px;
-}*/
+
+input.btn.btn-default {
+  border-radius: 0;
+  border: 2px solid black;
+  margin: 5px 4px;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  font-size: 15px;
+}
+
 .login-main-content {
   text-align: center;
 }
@@ -80,7 +87,7 @@ input[type=text], [type=password], [type=email] {
 
 #submit {
   margin-top: 25px;
-  /*margin-bottom: 15px;*/
+  margin-bottom: 30px;
 }
 
 #login {
@@ -89,10 +96,18 @@ input[type=text], [type=password], [type=email] {
   padding: 3px 15px;
 }
 
+p#pwd-init-ok {
+    font-style: italic;
+}
+
+.login-page {
+    padding-bottom: 60px;
+}
+
 /*SUBSCRIBE PAGE*/
 
 #subscribe {
-  font-size: 14px;
+  font-size: 15px;
   padding: 3px 15px;
 }
 
@@ -105,6 +120,12 @@ input[type=text], [type=password], [type=email] {
 .padding_b {
   padding-bottom: 20px;
 }
+
+/*INFO PWD SEND*/
+.info-pwd-page {
+  padding-bottom: 150px;
+}
+
 
 /*REINIT ERROR*/
 .margin_b {
@@ -121,17 +142,10 @@ input[type=text], [type=password], [type=email] {
 
 /*FORGET PASSWORD*/
 #submit-forget-pwd {
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 
 /*footer*/
 .footer-main {
   padding: 18px 70px 32px 66px;
-}
-
-/*MEDIA QUERIES*/
-@media(min-width:790px){
-    .form-area {
-      padding-bottom: 0;
-    }
 }

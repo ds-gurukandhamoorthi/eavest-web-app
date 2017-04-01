@@ -84,7 +84,6 @@
 			</div>
 		</div>
 	</nav>
-
 	<!-- PERSONNAL AREA -->
 	<section>
 		<div class="container">
@@ -133,15 +132,15 @@
 											</div>
 									</div>
 							    <div class="form-group">
-							        <label class="col-xs-3 control-label" for="cemail">Email</label>
+							        <label class="col-xs-3 control-label" for="usremail">Email</label>
 							        <div class="col-xs-5">
-							            <input id="cemail" type="email" name="email" class="form-control" required="required" />
+							            <input id="usremail" type="email" name="email" class="form-control" required="required" />
 							        </div>
 							    </div>
 									<div class="form-group">
-											<label class="col-xs-3 control-label">Mot de passe</label>
+											<label class="col-xs-3 control-label" for="pwrd">Mot de passe</label>
 											<div class="col-xs-5">
-													<input type="text" class="form-control" name="password" />
+													<input id="pwrd" class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" th:valuetype="${eavAccount.password}" required="required" title="Le mot de passe doit comporter au moins 6 caractères (un chiffre, une lettre minuscule et une lettre majuscule)" />
 											</div>
 									</div>
 							    <div class="form-group">
@@ -155,12 +154,8 @@
 				       <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
 				     </div>
 				   </div>
-
-
-
 				  </div>
 				</div>
-
 			</div>
 		</div>
 	</section>
@@ -189,17 +184,17 @@
 							</div>
 							<div th:id="'collapseWallet' + ${productStat.index}" id="collapseWalletOne" class="panel-collapse collapse collapsed" role="tabpanel" aria-labelledby="headingWalletOne">
 								<div class="panel-body">
-									<div class="col-md-12 product-accor-title">
+									<div class="col-md-12 product-wallet-title">
 										<h3><span th:text="${product.deliver}">société générale</span></h3>
 									</div>
-									<div class="row product-row">
-										<div class="col-sm-2 col-md-2" id="img-product">
+									<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
+										<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-trash-xs" aria-hidden="true"></i></a>
+									</span>
+									<div class="row product-wallet-row">
+										<div class="col-xs-5 col-sm-2 col-md-2" id="img-wallet-product">
 											<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
 										</div>
-										<span class="col-xs-offset-3 hidden-lg hidden-md hidden-sm">
-											<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-trash-wallet" aria-hidden="true"></i></a>
-										</span>
-										<div class="col-sm-3 col-md-3">
+										<div class="col-xs-6 col-sm-3 col-md-3">
 											<ul class="list-unstyled">
 												<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
 												<li class="blue-uppercase" th:text="${product.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
@@ -213,7 +208,7 @@
 												<li class="grey-uppercase" th:text="${product.prdStatus.description}">en cours</li>
 											</ul>
 										</div>
-										<div class="col-sm-4 col-md-4">
+										<div class="col-xs-6 col-sm-4 col-md-4">
 											<ul class="list-unstyled">
 												<li class="light-blue" th:text="#{prd.strike}">strike</li>
 												<li class="blue-uppercase">
@@ -250,7 +245,7 @@
 												</li>
 											</ul>
 										</div>
-										<div class="col-sm-3 col-md-3">
+										<div class="hidden-xs col-sm-3 col-md-3">
 											<ul class="list-unstyled">
 												<li class="light-blue" th:text="#{prd.maturity}">maturité</li>
 												<li class="grey-uppercase" th:text="${product.dueDateAsLongFormatString}">20 septembre 2024</li>
@@ -266,10 +261,31 @@
 												<li class="light-blue" th:text="#{prd.obs.fqcy}">fréquence d'observation</li>
 												<li class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</li>
 											</ul>
-											<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x hidden-xs" id="product-trash" aria-hidden="true"></i></a>
+											<span class="col-md-offset-3 hidden-xs">
+												<a href="#" th:href="@{/user/{id}/removeProduct/?prd={idPrd}(id=${prdUser.id}, idPrd=${product.id})}"><i class="fa fa-trash-o fa-2x" id="product-wallet-trash" aria-hidden="true"></i></a>
+											</span>
 										</div>
+										<!-- RESPONSIVE XS VERSION FOR CENTER ALIGNMENT  -->
+										<div class="col-xs-offset-5 col-xs-6 hidden-sm hidden-md hidden-lg">
+											<ul class="list-unstyled">
+												<li class="light-blue" th:text="#{prd.maturity}">maturité</li>
+												<li class="grey-uppercase" th:text="${product.dueDateAsLongFormatString}">20 septembre 2024</li>
+											</ul>
+											<ul class="list-unstyled">
+												<li class="light-blue" th:text="#{prd.coupon}">coupon</li>
+												<li class="grey-uppercase">
+													<span th:text="${product.couponValue}">7.00
+													</span>%
+												</li>
+											</ul>
+											<ul class="list-unstyled">
+												<li class="light-blue" th:text="#{prd.obs.fqcy}">fréquence d'observation</li>
+												<li class="grey-uppercase" th:text="${product.observationFrequency}">annuelle les années 1 à 8</li>
+											</ul>
+										</div>
+										<!-- END XS VERSION -->
 									</div>
-									<div class="col-md-7 term-sheet-list grey-uppercase">
+									<div class="hidden-xs col-md-7 term-sheet-list">
 										<span class="term-sheet" th:if="${product.hasTermSheet}">
 											<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
 												<img src="/img/files.png" alt="document" id="document"/>
@@ -289,6 +305,28 @@
 											<span th:text="#{doc.fease}">fease</span>
 										</span>
 									</div>
+									<!-- REPONSIVE XS VERSION FOR CENTER ALIGNMENT -->
+									<div class="col-xs-offset-5 col-xs-6 hidden-sm hidden-md hidden-lg term-sheet-list">
+										<span class="term-sheet" th:if="${product.hasTermSheet}">
+											<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
+												<img src="/img/files.png" alt="document" id="document"/>
+											</a>
+											<span th:text="#{term.sheet}">term sheet</span>
+										</span>
+										<span class="term-sheet" th:if="${product.hasMarketingDoc}">
+											<a href="#" th:href="@{/products/{id}/market(id=${product.id})}" target="_blank">
+												<img src="/img/files.png" alt="document" id="document"/>
+											</a>
+											<span th:text="#{doc.market}">document marketing</span>
+										</span>
+										<span class="term-sheet" th:if="${product.hasFease}">
+											<a href="#" th:href="@{/products/{id}/fease(id=${product.id})}" target="_blank">
+												<img src="/img/files.png" alt="document" id="document"/>
+											</a>
+											<span th:text="#{doc.fease}">fease</span>
+										</span>
+									</div>
+									<!-- END RESPONSIVE VERSION -->
 								</div>
 							<!-- hover -->
 							<!-- <a class="more-product-2">
@@ -487,6 +525,7 @@
 -->
 	<!-- end container -->
 
+
 	<!-- FOOTER -->
 	<footer id="footer">
 		<div class="container-fluid">
@@ -494,12 +533,15 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
-			</small>
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
 			</div>
 		</div>
 	</footer>

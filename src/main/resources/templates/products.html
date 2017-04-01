@@ -89,6 +89,10 @@
 		<div class="container">
 			<div class="row filters black-line-products">
 				<div class="sous-container">
+					<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
+						<label for="filter_3">NOM DU PRODUIT</label>
+						<input type="text" class="text" name="product_name" id="filter_3" />
+					</div>
 					<div class="col-xs-12 col-sm-6 col-md-3 filter-1">
 						<label for="filter_1">EMETTEUR</label>
 						<input type="text" class="text" name="bank_name" id="filter_1" />
@@ -97,23 +101,18 @@
 						<label for="filter_2">CODE ISIN</label>
 						<input type="text" class="text" name="code_isin" id="filter_2" />
 					</div>
-					<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
-						<label for="filter_3">NOM DU PRODUIT</label>
-						<input type="text" class="text" name="product_name" id="filter_3" />
-					</div>
 					<div class="col-xs-12 col-sm-6 col-md-3 filter-4">
 						<label for="filter_4">SOUS-JACENT</label>
 						<input type="text" class="text" name="base" id="filter_4" />
 					</div>
-					<div class="col-md-12 filter-search">
-						<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
-					</div>
-
-					<div class="pull-right light-letter">
+					<div class="col-md-12 light-letter">
 						<span class="checkbox">
 								<input type="checkbox" value="les produits eavest" name="eav-prd"/>
 								<label for="eav-prd">les produits eavest</label>
 						</span>
+					</div>
+					<div class="col-md-12 filter-search">
+						<input type="submit" value="Rechercher" id="filter-search" class="btn btn-default log" />
 					</div>
 				</div>
 			</div>
@@ -127,10 +126,10 @@
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
 				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 product-description">
 					<ul class="list-unstyled">
 						<li><a href="#"><span class="list-product-title" th:text="${product.label}">Daystoxx may 2017</span></a></li>
-						<li><span class="list-list-product-title" th:text="${product.isin}">fr0013456789</span></li>
+						<li><span class="list-product-title" th:text="${product.isin}">fr0013456789</span></li>
 						<li><span class="product-brand" th:text="${product.deliver}">société générale</span></li>
 					</ul>
 					<ul class="list-unstyled">
@@ -142,7 +141,7 @@
 						<li><span class="product-p" th:text="${product.prdStatus.description}">en cours</span></li>
 					</ul>
 				</div>
-				<div class="col-xs-12 col-md-12 term-sheet-product uppercase">
+				<!-- <div class="col-xs-12 col-md-12 term-sheet-product uppercase">
 					<span class="term-sheet" th:if="${product.hasTermSheet}">
 						<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
 							<img src="/img/files-products.png" alt="document" class="term-sheet-img"/>
@@ -161,7 +160,7 @@
 						</a>
 						<span th:text="#{doc.fease}">fease</span>
 					</span>
-				</div>
+				</div> -->
 			</div>
 		<!-- end container -->
 		</div>
@@ -176,7 +175,7 @@
     	<li><a href="#">5</a></li>
   	</ul>
 	</div>
-	
+
 	<!-- FOOTER -->
 	<footer id="footer">
 		<div class="container-fluid">
@@ -184,12 +183,15 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
-			</small>
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
 			</div>
 		</div>
 	</footer>

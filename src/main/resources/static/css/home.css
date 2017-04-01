@@ -252,7 +252,7 @@ ul>li>a:hover {
 	padding-top: 15px;
 }
 
-input.btn.btn-default {
+.zone-transit input.btn.btn-default {
   border-radius: 0;
   border: 2px solid black;
   margin: 5px 4px;
@@ -352,6 +352,10 @@ a:active,
   color: #585858;
   font-weight: 100;
   text-decoration: none !important;
+}
+
+.panel.panel-default {
+  background-color: #F2F2F2;
 }
 
 a.panel-heading {
@@ -929,6 +933,7 @@ button#close {
   margin-top: 20px;
   width: auto;
   margin-right: 0;
+  cursor: pointer;
 }
 
 .resp-sm {
@@ -1091,6 +1096,7 @@ p#blog-1-p, p#blog-2-p {
   overflow: hidden;
   word-wrap: break-word;
   height: 118px;
+  text-align: justify;
 }
 
 .white-block-blog {
@@ -1108,7 +1114,7 @@ p#figure-p {
 }
 
 #figure-p {
-  overflow: hidden;
+  overflow: auto;
   word-wrap: break-word;
   height: 86px;
 }
