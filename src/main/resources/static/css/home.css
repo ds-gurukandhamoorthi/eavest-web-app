@@ -123,6 +123,11 @@ h5 {
   float: right;
 }
 
+.padding_top {
+  padding-top: 16px;
+  display: block;
+}
+
 .padding_right {
   padding-right: 4px !important;
   padding-left: 7px !important;

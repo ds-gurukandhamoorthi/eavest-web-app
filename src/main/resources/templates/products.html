@@ -84,6 +84,35 @@
 		</div>
 	</nav>
 
+	<!-- MODAL -->
+	<div class="container">
+		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#productsModal">Open product modal</button>
+  <!-- Modal -->
+  <div class="modal fade" id="productsModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">AVERTISSEMENT</h4>
+        </div>
+        <div class="modal-body">
+          <p><b>Les informations, les outils et les contenus du site sont présentés à titre purement indicatifs. Ils sont destinés à des clients professionnels qui possèdent l'expérience, les connaissances et la compétence nécessaires pour prendre leurs propres décisions d'investissement et évaluer correctement les risques encourus, au sens de l’article L. 533-16 du code monétaire et financier.</b></p>
+					<span class="padding_top"></span>
+					<p>La présentation des produits financiers qui se trouvent sur le site n’est pas exhaustive. Elle ne constitue en aucun cas un acte de commercialisation, de démarchage ou une recommandation d’achat ou de vente personnalisée d’instrument financier. Avant de souscrire ou d’acheter un instrument financier, le client potentiel doit prendre connaissance des documents réglementaires en cours de validité, visés par les autorités compétentes (prospectus, règlement, note d’information, statuts, rapports annuels, bulletins de souscription) qui incluent notamment l’ensemble des risques connus liés à l’investissement envisagé (cf facteurs de risque). Il est rappelé que la performance passée n'est pas une garantie de la performance future, et que la valeur d'un investissement en valeurs mobilières peut varier à la hausse comme à la baisse selon l'évolution des marchés financiers.</p>
+					<span class="padding_top"></span>
+					<p>L'accès aux produits et services présentés sur le Site peut faire l'objet de restrictions à l'égard de certains clients potentiels ou dans certains pays. Aucun des produits financiers ne sera conseillé par EAVEST à un client potentiel si la loi de son pays d'origine ou de tout autre pays qui le concernerait l'interdit. Cependant il appartient à tout client potentiel de vérifier préalablement auprès de ses conseils habituels que son statut juridique et fiscal lui permet de souscrire les produits financiers présentés sur le Site.</p>
+					<span class="padding_top"></span>
+					<p>EAVEST s’efforce de mettre à jour régulièrement les informations contenues sur le site web. Cependant la société ne saurait en aucun cas être tenue responsable d’erreurs dues à des modifications de dispositions légales, administratives ou jurisprudentielles pouvant survenir postérieurement à la publication sur le site. L’internaute est seul responsable de l'utilisation qu'il fait des informations récoltées.</p>
+        </div>
+        <div class="modal-footer">
+					<div><button class="btn-lg btn-primary center-block" id="agreed-btn">j'ai pris connaissance des informations ci-dessus</button>
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 	<!-- SECTION PRODUCTS-->
 	<section class="products-header">
 		<div class="container">
@@ -231,26 +260,26 @@
 
 	<script th:inline="javascript">
  	/*<![CDATA[*/
- 	$(document).ready(function(){
+ // 	$(document).ready(function(){
  		// à décommenter KNA avant commit
- 		var productNames = [[${productNames}]];
-		var bankNames = [[${bankNames}]];
-		var isinCodes = [[${isinCodes}]];
-		var bases = [[${baseNames}]];
- 		/*console.log(productTags);*/
- 		$('#filter_1').autocomplete({
- 		source: bankNames
- 		});
-		$('#filter_2').autocomplete({
- 		source: isinCodes
- 		});
-		$('#filter_3').autocomplete({
- 		source: productNames
- 		});
-		$('#filter_4').autocomplete({
- 		source: bases
- 		});
- 	});
+ // 		var productNames = [[${productNames}]];
+	// 	var bankNames = [[${bankNames}]];
+	// 	var isinCodes = [[${isinCodes}]];
+	// 	var bases = [[${baseNames}]];
+ // 		/*console.log(productTags);*/
+ // 		$('#filter_1').autocomplete({
+ // 		source: bankNames
+ // 		});
+	// 	$('#filter_2').autocomplete({
+ // 		source: isinCodes
+ // 		});
+	// 	$('#filter_3').autocomplete({
+ // 		source: productNames
+ // 		});
+	// 	$('#filter_4').autocomplete({
+ // 		source: bases
+ // 		});
+ // 	});
  	/*]]>*/
  	</script>
 
