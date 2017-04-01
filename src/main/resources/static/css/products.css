@@ -176,11 +176,6 @@ input.btn.btn-default {
   border-bottom: 2px solid black;
 }
 
-
-.zone-transit .btn {
-  background-color: #FFFFFF;
-}
-
 .btn {
   text-decoration: none;
   background-color: #F2F2F2;
@@ -297,6 +292,34 @@ section.chart {
 
 .legend {
   padding: 25px;
+  font-size: 11px;
+}
+
+#euroStoxx {
+  background-color: aqua;
+  color: aqua;
+  width: 25px;
+  height: 2px;
+  border: none;
+  margin-bottom: 3px;
+}
+
+#refund-level {
+  background-color: blueviolet;
+  color: blueviolet;
+  width: 25px;
+  height: 2px;
+  border: none;
+  margin-bottom: 3px;
+}
+
+#protection-level {
+  background-color: chartreuse;
+  color: chartreuse;
+  width: 25px;
+  height: 2px;
+  border: none;
+  margin-bottom: 3px;
 }
 
 /*QUERIES*/
