@@ -105,7 +105,7 @@
 					<p>EAVEST s’efforce de mettre à jour régulièrement les informations contenues sur le site web. Cependant la société ne saurait en aucun cas être tenue responsable d’erreurs dues à des modifications de dispositions légales, administratives ou jurisprudentielles pouvant survenir postérieurement à la publication sur le site. L’internaute est seul responsable de l'utilisation qu'il fait des informations récoltées.</p>
         </div>
         <div class="modal-footer">
-					<div><button class="btn-lg btn-primary center-block" id="agreed-btn">j'ai pris connaissance des informations ci-dessus</button>
+					<div><button class="btn-lg btn-primary center-block agreedBtn" id="agreedBtn">j'ai pris connaissance des informations ci-dessus</button>
 					</div>
         </div>
       </div>
@@ -249,38 +249,38 @@
 
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/js/script.js"></script>
 	<script src="/js/extra.js"></script>
 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
 
 	<script th:inline="javascript">
- 	/*<![CDATA[*/
- // 	$(document).ready(function(){
+ 	<![CDATA[
+  	$(document).ready(function(){
  		// à décommenter KNA avant commit
- // 		var productNames = [[${productNames}]];
-	// 	var bankNames = [[${bankNames}]];
-	// 	var isinCodes = [[${isinCodes}]];
-	// 	var bases = [[${baseNames}]];
- // 		/*console.log(productTags);*/
- // 		$('#filter_1').autocomplete({
- // 		source: bankNames
- // 		});
-	// 	$('#filter_2').autocomplete({
- // 		source: isinCodes
- // 		});
-	// 	$('#filter_3').autocomplete({
- // 		source: productNames
- // 		});
-	// 	$('#filter_4').autocomplete({
- // 		source: bases
- // 		});
- // 	});
- 	/*]]>*/
+  	var productNames = [[${productNames}]];
+	 	var bankNames = [[${bankNames}]];
+	 	var isinCodes = [[${isinCodes}]];
+	 	var bases = [[${baseNames}]];
+  		/*console.log(productTags);*/
+  		$('#filter_1').autocomplete({
+  		source: bankNames
+  		});
+	 		$('#filter_2').autocomplete({
+  		source: isinCodes
+  		});
+	 		$('#filter_3').autocomplete({
+  		source: productNames
+  		});
+	 		$('#filter_4').autocomplete({
+  		source: bases
+  		});
+  	});
+ 	]]>
  	</script>
 
 	</body>

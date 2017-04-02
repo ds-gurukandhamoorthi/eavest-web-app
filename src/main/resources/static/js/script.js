@@ -1,3 +1,7 @@
+// @author KatalinaNadasi
+// @since 1 avr. 2017
+
+
 $(function() {
 
 // navbar
@@ -122,6 +126,19 @@ $(function() {
         $quote.css("font-size", "40px");
     }
 });
+
+// PRODUCTS MODAL OPEN ON LOAD
+
+  $(document).ready(function(){
+    // Show the Modal on load
+    $("#productsModal").modal("show");
+
+    // Hide the Modal
+    $("#agreedBtn").click(function(){
+        $("#productsModal").modal("hide");
+    });
+});
+
 
 // PAGE PRODUCT CHART
 $(document).ready(function(){
