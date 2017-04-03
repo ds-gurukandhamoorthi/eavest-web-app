@@ -9,7 +9,7 @@
 	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
-	<link href="./favicon.ico" rel="icon" type="image/ico" />
+	<link href="/ico/favicon.ico" rel="icon" type="image/ico" />
 
 	<!-- SOURCES -->
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" /> -->
@@ -67,8 +67,8 @@
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-        	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+					<li id="menu-home" class="selected"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+					<li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
           <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
           <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
           <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
@@ -118,7 +118,9 @@
 										</div>
 										<div class="row prod-accor-row">
 											<div class="col-xs-5 col-sm-4 col-md-3">
-												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" th:alt="#{prd.image}" alt="produit" id="accor-product"/>
+												<a href="#" th:href="@{/products/{id}(id=${refund.id})}">
+												 <img src="/img/product.png" th:src="@{/products/{id}/image(id=${refund.id})}" th:alt="#{prd.image}" alt="produit" id="accor-product"/>
+												</a>
 											</div>
 											<div class="col-xs-7 col-sm-7 col-md-9">
 												<ul class="list-unstyled">
@@ -130,8 +132,7 @@
 													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
 													<li class="grey-uppercase" th:text="${refund.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
 													<li class="light-blue" th:text="#{prd.status}">statut</li>
-													<li class="grey-uppercase" th:text="${refund.prdStatus.description}">en cours</li>
-												</ul>
+													<li class="grey-uppercase" th:text="#{${refund.prdStatus.description}}">en cours</li>												</ul>
 											</div>
 										</div>
 									</div>
@@ -176,7 +177,9 @@
 										</div>
 										<div class="row prod-accor-row">
 											<div class="col-xs-5 col-sm-4 col-md-3">
-												<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
+												<a href="#" th:href="@{/products/{id}(id=${tocall.id})}">
+ -													<img src="/img/product.png" th:src="@{/products/{id}/image(id=${tocall.id})}" alt="produit" th:alt="#{prd.image}" id="accor-product"/>
+ -											</a>
 											</div>
 											<div class="col-xs-7 col-sm-7 col-md-9">
 												<ul class="list-unstyled">
@@ -188,7 +191,7 @@
 													<li class="light-blue" th:text="#{undrl.asset}">sous-jacent</li>
 													<li class="grey-uppercase" th:text="${tocall.prdSousJacent.label}">euro istoxx&reg; ewc 50</li>
 													<li class="light-blue" th:text="#{prd.status}">statut</li>
-													<li class="grey-uppercase" th:text="${tocall.prdStatus.description}">en cours</li>
+													<li class="grey-uppercase" th:text="#{${tocall.prdStatus.description}}">en cours</li>
 												</ul>
 											</div>
 										</div>
@@ -220,8 +223,8 @@
 						<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
 						<div class="search-bar">
 							<span>
-								<form>
-									<input type="search" id="find-product" autocomplete="off"/>
+								<form th:object="${search}" action="#" th:action="@{/home/find}" method="post">
+ -								<input type="search" id="find-product" autocomplete="off" th:field="*{text}"/>
 									<button type="submit"><i class="fa fa-2x fa-search"></i></button>
 								</form>
 							</span>
@@ -291,11 +294,11 @@
 						<div class="white-block">
 							<h2><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
 							<div class="month-product">
-								<a href="#"><img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/></a>
-								<a href="#"><img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}" /></a>
+								<img th:if="${bestSeller}" src="/img/month-product.jpg" th:src="@{/products/{id}/image(id=${bestSeller.id})}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}"/>
+ -							<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}" />
               </div>
               <div class="over-product">
-                <a>
+                <a th:if="${bestSeller}" href="#" th:href="@{/products/{id}(id=${bestSeller.id})}">
                   <span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
                 </a>
 							</div>
@@ -340,7 +343,7 @@
 					<img th:unless="${bestSeller}" class="img-responsive img-product" alt="produit du mois" th:alt="#{home.best.seller}" />
 				</div>
 				<div class="over-product">
-					<a>
+					<a th:if="${bestSeller}" href="#" th:href="@{/products/{id}(id=${bestSeller.id})}">
 						<span><img class="more-product-sm" src="/img/more-hover.png" alt="voir-plus" th:alt="#{get.more}" /></span>
 					</a>
 				</div>
