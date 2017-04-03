@@ -142,7 +142,7 @@
 					<div class="col-md-offset-9 col-md-3 light-letter eav-filter">
 						<span class="checkbox">
 							<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
-								<input type="checkbox" value="les produits eavest" name="eav-prd" checked th:if="${filter.isEavest}"/>
+								<input type="checkbox" value="les produits eavest" name="eav-prd" checked="true" th:if="${filter.isEavest}"/>
 								<input type="checkbox" value="les produits eavest" name="eav-prd" th:unless="${filter.isEavest}"/>
 								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
 							</a>
