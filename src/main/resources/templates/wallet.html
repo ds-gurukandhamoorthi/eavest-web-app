@@ -140,7 +140,7 @@
 									<div class="form-group">
 											<label class="col-xs-3 control-label" for="pwrd">Mot de passe</label>
 											<div class="col-xs-5">
-													<input id="pwrd" class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" th:valuetype="${eavAccount.password}" required="required" title="Le mot de passe doit comporter au moins 6 caractères (un chiffre, une lettre minuscule et une lettre majuscule)" />
+													<input id="pwrd" class="form-control" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" name="password" onchange="form.confpwd.pattern = this.value;" required="required" title="Le mot de passe doit comporter au moins 6 caractères (un chiffre, une lettre minuscule et une lettre majuscule)" />
 											</div>
 									</div>
 							    <div class="form-group">
@@ -287,7 +287,7 @@
 										</div>
 										<!-- END XS VERSION -->
 									</div>
-									<div class="hidden-xs col-md-7 term-sheet-list">
+									<div class="hidden-xs col-md-7 term-sheet-list grey-uppercase">
 										<span class="term-sheet" th:if="${product.hasTermSheet}">
 											<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
 												<img src="/img/files.png" alt="document" id="document"/>
