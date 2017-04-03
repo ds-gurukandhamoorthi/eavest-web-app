@@ -299,7 +299,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="add-product">
+				<div class="add-product" sec:authorize="hasRole('ROLE_ADMIN')">
 					<span class="big-blue-letters">
 						<a th:if="${prdUser}" href="/products" th:href="@{/admin/users/{id}(id=${prdUser.id})}">
 							<img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" />
