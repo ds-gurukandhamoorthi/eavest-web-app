@@ -86,9 +86,9 @@
 
 	<!-- MODAL -->
 	<div class="container">
-		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#productsModal">Open product modal</button>
+		<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#productsModal">Open product modal</button> -->
   <!-- Modal -->
-  <div class="modal fade" id="productsModal" role="dialog">
+  <div class="modal fade" id="productsModal" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -135,22 +135,25 @@
 							<label for="filter_4" th:text="#{prd.undrl.asset}">SOUS-JACENT</label>
 							<input type="text" class="text" name="base" id="filter_4" autocomplete="off" th:field="*{labelSousJacent}"/>
 						</div>
-						<div class="col-md-12 light-letter eav-filter">
-							<span class="checkbox">
-									<input type="checkbox" value="les produits eavest" name="eav-prd"/>
-									<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
-									<!-- <a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
-										<span th:if="${filter.isEavest}">x</span>
-										<span th:unless="${filter.isEavest}">o</span>
-										<span></span>
-										<span th:text="#{prd.eavest.filter}">les produits eavest</span>
-									</a> -->
-							</span>
-						</div>
 						<div class="col-md-12 filter-search">
 							<input type="submit" value="Rechercher" th:value="#{prd.find}" id="filter-search" class="btn btn-default log" />
 						</div>
 					</form>
+					<div class="col-md-offset-9 col-md-3 light-letter eav-filter">
+						<span class="checkbox">
+							<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+								<input type="checkbox" value="les produits eavest" name="eav-prd" checked th:if="${filter.isEavest}"/>
+								<input type="checkbox" value="les produits eavest" name="eav-prd" th:unless="${filter.isEavest}"/>
+								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
+							</a>
+							<!-- <a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+								<span th:if="${filter.isEavest}">x</span>
+								<span th:unless="${filter.isEavest}">o</span>
+								<span></span>
+								<span th:text="#{prd.eavest.filter}">les produits eavest</span>
+							</a> -->
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
