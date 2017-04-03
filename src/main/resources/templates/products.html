@@ -120,16 +120,16 @@
 				<div class="sous-container">
 					<form action="#" th:object="${filter}" th:action="@{/products/filter}" method="POST">
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-1">
-							<label for="filter_1" th:text="#{prd.name}">NOM DU PRODUIT</label>
-							<input type="text" class="text" name="product_name" id="filter_1" autocomplete="off" th:field="*{label}"/>
+							<label for="filter_1" th:text="#{prd.bank.name}">EMETTEUR</label>
+							<input type="text" class="text" name="bank_name" id="filter_1" autocomplete="off" th:field="*{deliver}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-2">
-							<label for="filter_2" th:text="#{prd.bank.name}">EMETTEUR</label>
-							<input type="text" class="text" name="bank_name" id="filter_2" autocomplete="off" th:field="*{deliver}"/>
+							<label for="filter_2" th:text="#{prd.isin.code}">CODE ISIN</label>
+							<input type="text" class="text" name="code_isin" id="filter_2" autocomplete="off" th:field="*{isin}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
-							<label for="filter_3" th:text="#{prd.isin.code}">CODE ISIN</label>
-							<input type="text" class="text" name="code_isin" id="filter_3" autocomplete="off" th:field="*{isin}"/>
+							<label for="filter_3" th:text="#{prd.name}">NOM DU PRODUIT</label>
+							<input type="text" class="text" name="product_name" id="filter_3" autocomplete="off" th:field="*{label}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-4">
 							<label for="filter_4" th:text="#{prd.undrl.asset}">SOUS-JACENT</label>
@@ -142,7 +142,7 @@
 					<div class="col-md-offset-9 col-md-3 light-letter eav-filter">
 						<span class="checkbox">
 							<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
-								<input type="checkbox" value="les produits eavest" name="eav-prd" checked th:if="${filter.isEavest}"/>
+								<input type="checkbox" value="les produits eavest" name="eav-prd" checked="true" th:if="${filter.isEavest}"/>
 								<input type="checkbox" value="les produits eavest" name="eav-prd" th:unless="${filter.isEavest}"/>
 								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
 							</a>
@@ -262,28 +262,28 @@
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
 
 	<script th:inline="javascript">
- 	<![CDATA[
-  	$(document).ready(function(){
+ 	/*<![CDATA[*/
+ 	$(document).ready(function(){
  		// à décommenter KNA avant commit
-  	var productNames = [[${productNames}]];
-	 	var bankNames = [[${bankNames}]];
-	 	var isinCodes = [[${isinCodes}]];
-	 	var bases = [[${baseNames}]];
-  		/*console.log(productTags);*/
-  		$('#filter_1').autocomplete({
-  		source: bankNames
-  		});
-	 		$('#filter_2').autocomplete({
-  		source: isinCodes
-  		});
-	 		$('#filter_3').autocomplete({
-  		source: productNames
-  		});
-	 		$('#filter_4').autocomplete({
-  		source: bases
-  		});
-  	});
- 	]]>
+ 		var productNames = [[${productNames}]];
+		var bankNames = [[${bankNames}]];
+		var isinCodes = [[${isinCodes}]];
+		var bases = [[${baseNames}]];
+ 		/*console.log(productTags);*/
+ 		$('#filter_1').autocomplete({
+ 		source: bankNames
+ 		});
+		$('#filter_2').autocomplete({
+ 		source: isinCodes
+ 		});
+		$('#filter_3').autocomplete({
+ 		source: productNames
+ 		});
+		$('#filter_4').autocomplete({
+ 		source: bases
+ 		});
+ 	});
+ 	/*]]>*/
  	</script>
 
 	</body>
