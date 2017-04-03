@@ -84,45 +84,71 @@
 		</div>
 	</nav>
 
-<!-- SECTION PRODUCTS-->
+	<!-- MODAL -->
+	<div class="container">
+		<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#productsModal">Open product modal</button>
+  <!-- Modal -->
+  <div class="modal fade" id="productsModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+          <h4 class="modal-title">AVERTISSEMENT</h4>
+        </div>
+        <div class="modal-body">
+          <p><b>Les informations, les outils et les contenus du site sont présentés à titre purement indicatifs. Ils sont destinés à des clients professionnels qui possèdent l'expérience, les connaissances et la compétence nécessaires pour prendre leurs propres décisions d'investissement et évaluer correctement les risques encourus, au sens de l’article L. 533-16 du code monétaire et financier.</b></p>
+					<span class="padding_top"></span>
+					<p>La présentation des produits financiers qui se trouvent sur le site n’est pas exhaustive. Elle ne constitue en aucun cas un acte de commercialisation, de démarchage ou une recommandation d’achat ou de vente personnalisée d’instrument financier. Avant de souscrire ou d’acheter un instrument financier, le client potentiel doit prendre connaissance des documents réglementaires en cours de validité, visés par les autorités compétentes (prospectus, règlement, note d’information, statuts, rapports annuels, bulletins de souscription) qui incluent notamment l’ensemble des risques connus liés à l’investissement envisagé (cf facteurs de risque). Il est rappelé que la performance passée n'est pas une garantie de la performance future, et que la valeur d'un investissement en valeurs mobilières peut varier à la hausse comme à la baisse selon l'évolution des marchés financiers.</p>
+					<span class="padding_top"></span>
+					<p>L'accès aux produits et services présentés sur le Site peut faire l'objet de restrictions à l'égard de certains clients potentiels ou dans certains pays. Aucun des produits financiers ne sera conseillé par EAVEST à un client potentiel si la loi de son pays d'origine ou de tout autre pays qui le concernerait l'interdit. Cependant il appartient à tout client potentiel de vérifier préalablement auprès de ses conseils habituels que son statut juridique et fiscal lui permet de souscrire les produits financiers présentés sur le Site.</p>
+					<span class="padding_top"></span>
+					<p>EAVEST s’efforce de mettre à jour régulièrement les informations contenues sur le site web. Cependant la société ne saurait en aucun cas être tenue responsable d’erreurs dues à des modifications de dispositions légales, administratives ou jurisprudentielles pouvant survenir postérieurement à la publication sur le site. L’internaute est seul responsable de l'utilisation qu'il fait des informations récoltées.</p>
+        </div>
+        <div class="modal-footer">
+					<div><button class="btn-lg btn-primary center-block agreedBtn" id="agreedBtn">j'ai pris connaissance des informations ci-dessus</button>
+					</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<!-- SECTION PRODUCTS-->
 	<section class="products-header">
 		<div class="container">
 			<div class="row filters black-line-products">
 				<div class="sous-container">
 					<form action="#" th:object="${filter}" th:action="@{/products/filter}" method="POST">
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-1">
-							<label for="filter_1" th:text="#{prd.bank.name}">EMETTEUR</label>
-							<input type="text" class="text" name="bank_name" id="filter_1" autocomplete="off" th:field="*{deliver}"/>
+							<label for="filter_1" th:text="#{prd.name}">NOM DU PRODUIT</label>
+							<input type="text" class="text" name="product_name" id="filter_1" autocomplete="off" th:field="*{label}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-2">
-							<label for="filter_2" th:text="#{prd.isin.code}">CODE ISIN</label>
-							<input type="text" class="text" name="code_isin" id="filter_2" autocomplete="off" th:field="*{isin}"/>
+							<label for="filter_2" th:text="#{prd.bank.name}">EMETTEUR</label>
+							<input type="text" class="text" name="bank_name" id="filter_2" autocomplete="off" th:field="*{deliver}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-3">
-							<label for="filter_3" th:text="#{prd.name}">NOM DU PRODUIT</label>
-							<input type="text" class="text" name="product_name" id="filter_3" autocomplete="off" th:field="*{label}"/>
+							<label for="filter_3" th:text="#{prd.isin.code}">CODE ISIN</label>
+							<input type="text" class="text" name="code_isin" id="filter_3" autocomplete="off" th:field="*{isin}"/>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-3 filter-4">
 							<label for="filter_4" th:text="#{prd.undrl.asset}">SOUS-JACENT</label>
 							<input type="text" class="text" name="base" id="filter_4" autocomplete="off" th:field="*{labelSousJacent}"/>
 						</div>
+						<div class="col-md-12 light-letter eav-filter">
+							<span class="checkbox">
+									<input type="checkbox" value="les produits eavest" name="eav-prd"/>
+									<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
+									<!-- <a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+										<span th:if="${filter.isEavest}">x</span>
+										<span th:unless="${filter.isEavest}">o</span>
+										<span></span>
+										<span th:text="#{prd.eavest.filter}">les produits eavest</span>
+									</a> -->
+							</span>
+						</div>
 						<div class="col-md-12 filter-search">
 							<input type="submit" value="Rechercher" th:value="#{prd.find}" id="filter-search" class="btn btn-default log" />
-						</div>
-					</form>
-
-					<form class="eav-filter">
-						<div class="pull-right light-letter">
-							<span class="checkbox">
-								<!--<input type="checkbox" value="les produits eavest" name="eav-prd"/>
-								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>-->
-								<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
-									<span th:if="${filter.isEavest}">x</span>
-									<span th:unless="${filter.isEavest}">o</span>
-									<span>   </span>
-									<span th:text="#{prd.eavest.filter}">les produits eavest</span>
-								</a>
-							</span>
 						</div>
 					</form>
 				</div>
@@ -139,10 +165,10 @@
 						<img src="/img/product.png" th:src="@{/products/{id}/image(id=${product.id})}" alt="produit" th:alt="#{prd.image}" class="product-img"/>
 					</a>
 				</div>
-				<div class="col-xs-6 col-sm-6 col-md-6">
+				<div class="col-xs-6 col-sm-6 col-md-6 product-description">
 					<ul class="list-unstyled">
 						<li><a href="#"><span class="list-product-title" th:text="${product.label}">Daystoxx may 2017</span></a></li>
-						<li><span class="list-list-product-title" th:text="${product.isin}">fr0013456789</span></li>
+						<li><span class="list-product-title" th:text="${product.isin}">fr0013456789</span></li>
 						<li><span class="product-brand" th:text="${product.deliver}">société générale</span></li>
 					</ul>
 					<ul class="list-unstyled">
@@ -154,8 +180,7 @@
 						<li><span class="product-p" th:text="#{${product.prdStatus.description}}">en cours</span></li>
 					</ul>
 				</div>
-				<!--
-				<div class="col-xs-12 col-md-12 term-sheet-product uppercase">
+				<!-- <div class="col-xs-12 col-md-12 term-sheet-product uppercase">
 					<span class="term-sheet" th:if="${product.hasTermSheet}">
 						<a href="#" th:href="@{/products/{id}/tsheet(id=${product.id})}" target="_blank">
 							<img src="/img/files-products.png" alt="document" class="term-sheet-img"/>
@@ -174,8 +199,7 @@
 						</a>
 						<span th:text="#{doc.fease}">fease</span>
 					</span>
-				</div>
-			-->
+				</div> -->
 			</div>
 		<!-- end container -->
 		</div>
@@ -202,12 +226,15 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
-			</small>
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
 			</div>
 		</div>
 	</footer>
@@ -222,38 +249,38 @@
 
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/js/script.js"></script>
 	<script src="/js/extra.js"></script>
 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
 
 	<script th:inline="javascript">
- 	/*<![CDATA[*/
- 	$(document).ready(function(){
+ 	<![CDATA[
+  	$(document).ready(function(){
  		// à décommenter KNA avant commit
- 		var productNames = [[${productNames}]];
-		var bankNames = [[${bankNames}]];
-		var isinCodes = [[${isinCodes}]];
-		var bases = [[${baseNames}]];
- 		/*console.log(productTags);*/
- 		$('#filter_1').autocomplete({
- 		source: bankNames
- 		});
-		$('#filter_2').autocomplete({
- 		source: isinCodes
- 		});
-		$('#filter_3').autocomplete({
- 		source: productNames
- 		});
-		$('#filter_4').autocomplete({
- 		source: bases
- 		});
- 	});
- 	/*]]>*/
+  	var productNames = [[${productNames}]];
+	 	var bankNames = [[${bankNames}]];
+	 	var isinCodes = [[${isinCodes}]];
+	 	var bases = [[${baseNames}]];
+  		/*console.log(productTags);*/
+  		$('#filter_1').autocomplete({
+  		source: bankNames
+  		});
+	 		$('#filter_2').autocomplete({
+  		source: isinCodes
+  		});
+	 		$('#filter_3').autocomplete({
+  		source: productNames
+  		});
+	 		$('#filter_4').autocomplete({
+  		source: bases
+  		});
+  	});
+ 	]]>
  	</script>
 
 	</body>

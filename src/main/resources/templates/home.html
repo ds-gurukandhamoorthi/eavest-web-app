@@ -418,7 +418,7 @@
 						<h1 class="padding_bottom" th:text="#{home.key.number}">chiffre du mois</h1>
 						<div class="figure-month" id="numberOfTheMonth" th:text="${newsOfMonth.numberOfTheMonth}">1%</div>
               <span></span>
-              <p class="grey-letters" id="figure-p" th:text="${newsOfMonth.textOfTheMonth}">des produits structurés blablablades produits structurés blablablades produits des produits structurés blablablades produits des produits structurés blablablades produits</p>
+              <p class="grey-letters" id="figure-p" data-simplebar th:text="${newsOfMonth.textOfTheMonth}">des produits structurés blablablades produits structurés blablablades produits des produits structurés blablablades produits des produits structurés blablablades produits</p>
 					</div>
 				</div>
 				<div class="col-xs-7 col-sm-6 col-md-3 grey-block-2">
@@ -627,6 +627,8 @@
  	<script src="/js/extra.js"></script>
  	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
  	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/simplebar@2.2.1/dist/simplebar.css" />
+	<script src="https://unpkg.com/simplebar@2.2.1/dist/simplebar.js"></script>
  	<!-- Script for autocompleting the filter text box for searching products -->
 
  	<script th:inline="javascript">

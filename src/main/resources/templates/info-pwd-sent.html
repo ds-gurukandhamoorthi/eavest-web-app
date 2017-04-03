@@ -75,7 +75,7 @@
 	<!-- MAIN CONTENT -->
 
   <section class="login-main-content">
-    <div class="container" id="login-page">
+    <div class="container info-pwd-page">
 
       <div class="login-area col-md-offset-2 col-md-8">
         <h1 class="padding_b" th:text="#{pwd.sent}">Mot de passe envoyé</h1>
@@ -93,8 +93,6 @@
     </div>
   </section>
 
-
-
 	<!-- FOOTER -->
 	<footer id="footer">
 		<div class="container-fluid">
@@ -102,12 +100,15 @@
 				<small class="always-left col-xs-12 col-sm-12 col-md-6">
 				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
 				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on">mentions légales</a></span><br /><br /><br />
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
 				<span class="block"></span>
 				</small>
 				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-				Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a><br />Conseiller en Investissements Financiers enregistré sous le n° E003753,<br />Membre de l’ANACOFI - Association agréée par l’AMF
-			</small>
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
 			</div>
 		</div>
 	</footer>
