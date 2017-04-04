@@ -39,6 +39,9 @@ $(document).ready(function(){
         showMarker: false,
         pointLabels: { show:false }
       },
+      grid: {
+       background: 'transparent'
+     },
       // axesDefaults: {
       // wether or not to show the tick labels,
         // showTicks: false,
