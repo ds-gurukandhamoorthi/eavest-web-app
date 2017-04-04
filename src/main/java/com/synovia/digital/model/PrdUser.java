@@ -46,7 +46,6 @@ public class PrdUser {
 	}
 
 	public PrdUser(EavAccount account) {
-		System.out.println("PrdUser.PrdUser()");
 		this.account = account;
 	}
 

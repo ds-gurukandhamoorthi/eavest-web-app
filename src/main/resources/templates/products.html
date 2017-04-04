@@ -44,8 +44,8 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
 						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
@@ -63,7 +63,6 @@
 						</span>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
@@ -85,33 +84,33 @@
 	</nav>
 
 	<!-- MODAL -->
-	<div class="container">
+	<div class="container" th:if="${session.displayWarning}">
 		<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#productsModal">Open product modal</button> -->
-  <!-- Modal -->
-  <div class="modal fade" id="productsModal" role="dialog" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
-          <h4 class="modal-title">AVERTISSEMENT</h4>
-        </div>
-        <div class="modal-body">
-          <p><b>Les informations, les outils et les contenus du site sont présentés à titre purement indicatifs. Ils sont destinés à des clients professionnels qui possèdent l'expérience, les connaissances et la compétence nécessaires pour prendre leurs propres décisions d'investissement et évaluer correctement les risques encourus, au sens de l’article L. 533-16 du code monétaire et financier.</b></p>
-					<span class="padding_top"></span>
-					<p>La présentation des produits financiers qui se trouvent sur le site n’est pas exhaustive. Elle ne constitue en aucun cas un acte de commercialisation, de démarchage ou une recommandation d’achat ou de vente personnalisée d’instrument financier. Avant de souscrire ou d’acheter un instrument financier, le client potentiel doit prendre connaissance des documents réglementaires en cours de validité, visés par les autorités compétentes (prospectus, règlement, note d’information, statuts, rapports annuels, bulletins de souscription) qui incluent notamment l’ensemble des risques connus liés à l’investissement envisagé (cf facteurs de risque). Il est rappelé que la performance passée n'est pas une garantie de la performance future, et que la valeur d'un investissement en valeurs mobilières peut varier à la hausse comme à la baisse selon l'évolution des marchés financiers.</p>
-					<span class="padding_top"></span>
-					<p>L'accès aux produits et services présentés sur le Site peut faire l'objet de restrictions à l'égard de certains clients potentiels ou dans certains pays. Aucun des produits financiers ne sera conseillé par EAVEST à un client potentiel si la loi de son pays d'origine ou de tout autre pays qui le concernerait l'interdit. Cependant il appartient à tout client potentiel de vérifier préalablement auprès de ses conseils habituels que son statut juridique et fiscal lui permet de souscrire les produits financiers présentés sur le Site.</p>
-					<span class="padding_top"></span>
-					<p>EAVEST s’efforce de mettre à jour régulièrement les informations contenues sur le site web. Cependant la société ne saurait en aucun cas être tenue responsable d’erreurs dues à des modifications de dispositions légales, administratives ou jurisprudentielles pouvant survenir postérieurement à la publication sur le site. L’internaute est seul responsable de l'utilisation qu'il fait des informations récoltées.</p>
-        </div>
-        <div class="modal-footer">
-					<div><button class="btn-lg btn-primary center-block agreedBtn" id="agreedBtn">j'ai pris connaissance des informations ci-dessus</button>
-					</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+		<!-- Modal -->
+	  <div class="modal fade" id="productsModal" role="dialog" data-backdrop="static" data-keyboard="false">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+	          <h4 class="modal-title">AVERTISSEMENT</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p><b>Les informations, les outils et les contenus du site sont présentés à titre purement indicatifs. Ils sont destinés à des clients professionnels qui possèdent l'expérience, les connaissances et la compétence nécessaires pour prendre leurs propres décisions d'investissement et évaluer correctement les risques encourus, au sens de l’article L. 533-16 du code monétaire et financier.</b></p>
+						<span class="padding_top"></span>
+						<p>La présentation des produits financiers qui se trouvent sur le site n’est pas exhaustive. Elle ne constitue en aucun cas un acte de commercialisation, de démarchage ou une recommandation d’achat ou de vente personnalisée d’instrument financier. Avant de souscrire ou d’acheter un instrument financier, le client potentiel doit prendre connaissance des documents réglementaires en cours de validité, visés par les autorités compétentes (prospectus, règlement, note d’information, statuts, rapports annuels, bulletins de souscription) qui incluent notamment l’ensemble des risques connus liés à l’investissement envisagé (cf facteurs de risque). Il est rappelé que la performance passée n'est pas une garantie de la performance future, et que la valeur d'un investissement en valeurs mobilières peut varier à la hausse comme à la baisse selon l'évolution des marchés financiers.</p>
+						<span class="padding_top"></span>
+						<p>L'accès aux produits et services présentés sur le Site peut faire l'objet de restrictions à l'égard de certains clients potentiels ou dans certains pays. Aucun des produits financiers ne sera conseillé par EAVEST à un client potentiel si la loi de son pays d'origine ou de tout autre pays qui le concernerait l'interdit. Cependant il appartient à tout client potentiel de vérifier préalablement auprès de ses conseils habituels que son statut juridique et fiscal lui permet de souscrire les produits financiers présentés sur le Site.</p>
+						<span class="padding_top"></span>
+						<p>EAVEST s’efforce de mettre à jour régulièrement les informations contenues sur le site web. Cependant la société ne saurait en aucun cas être tenue responsable d’erreurs dues à des modifications de dispositions légales, administratives ou jurisprudentielles pouvant survenir postérieurement à la publication sur le site. L’internaute est seul responsable de l'utilisation qu'il fait des informations récoltées.</p>
+	        </div>
+	        <div class="modal-footer">
+						<div><button class="btn-lg btn-primary center-block agreedBtn" id="agreedBtn">j'ai pris connaissance des informations ci-dessus</button>
+						</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<!-- SECTION PRODUCTS-->
 	<section class="products-header">
@@ -140,19 +139,19 @@
 						</div>
 					</form>
 					<div class="col-md-offset-9 col-md-3 light-letter eav-filter">
-						<span class="checkbox">
-							<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+						<a th:href="@{/products/pages/1/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver})}">
+							<span class="checkbox">
 								<input type="checkbox" value="les produits eavest" name="eav-prd" checked="true" th:if="${filter.isEavest}"/>
 								<input type="checkbox" value="les produits eavest" name="eav-prd" th:unless="${filter.isEavest}"/>
 								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
-							</a>
+							</span>
+						</a>
 							<!-- <a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
 								<span th:if="${filter.isEavest}">x</span>
 								<span th:unless="${filter.isEavest}">o</span>
 								<span></span>
 								<span th:text="#{prd.eavest.filter}">les produits eavest</span>
 							</a> -->
-						</span>
 					</div>
 				</div>
 			</div>

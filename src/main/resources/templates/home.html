@@ -43,8 +43,8 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
 						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
@@ -62,7 +62,6 @@
 						</span>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
@@ -617,16 +616,16 @@
 	</div>
 
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
- 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
- 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- 	<script src="/js/script.js"></script>
- 	<!-- <script src="js/overlay.js"></script> -->
- 	<script src="/js/extra.js"></script>
- 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
- 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/extra.js"></script>
+	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+	<script src="/js/simplebar.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/simplebar@2.2.1/dist/simplebar.css" />
 	<script src="https://unpkg.com/simplebar@2.2.1/dist/simplebar.js"></script>
  	<!-- Script for autocompleting the filter text box for searching products -->

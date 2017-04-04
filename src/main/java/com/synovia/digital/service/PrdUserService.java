@@ -27,6 +27,8 @@ public interface PrdUserService {
 
 	public PrdUser addProduct(Long idUser, PrdProduct product) throws EavEntryNotFoundException;
 
+	public PrdUser addProduct(PrdUser user, PrdProduct product);
+
 	public PrdUser updateProductList(Long id, Set<PrdProduct> products) throws EavEntryNotFoundException;
 
 	public PrdUser updateProductList(PrdUser user, Set<PrdProduct> products);

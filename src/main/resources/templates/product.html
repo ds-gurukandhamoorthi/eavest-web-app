@@ -44,16 +44,16 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default log" />
+								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
 							</form>
 						</span>
 						<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -63,7 +63,6 @@
 						</span>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
@@ -87,6 +86,7 @@
 <!-- SECTION PRODUCT-->
 <section class="my-product">
 	<div class="container">
+		<span th:text="${response}">Info d'ajout de produit</span>
 
 		<div class="row my-product-header">
 			<div class="col-md-6 my-product-title">
@@ -94,7 +94,9 @@
 			</div>
 			<div class="col-md-offset-2 col-md-4 add-to-wallet">
 				<span class="big-blue-letters">
-					<button class="btn"><img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" /></button>
+					<a href="/products" th:href="@{/products/{id}/add(id=${product.id})}">
+						<img id="add-product" src="/img/show-more.png" class="img-responsive" alt="voir-plus" th:alt="#{get.more}"/>
+					</a>
 					<span th:text="#{add.prd}">ajouter au portefeuille</span>
 				</span>
 			</div>
@@ -216,19 +218,28 @@
 		</div>
 	</div>
 	</section>
-	<section class="chart">
-		<div class="title">
-			<h3>Euro Stoxx Select Dividend 30 et les caractéristiques du produit</h3>
-		</div>
-		<div id="chartdiv"></div>
-		<div class="legend">
-			<ul class="list-inline list-unstyled">
-				<li><span>Euro Stoxx Select Dividend 30</span></li>
-				<li><span>Niveau de remboursement anticipé</span></li>
-				<li><span>Niveau de protection en capital</span></li>
-			</ul>
+	<div class="container">
+		<div class="col-md-12 padding_bottom">
+			<h1>Analyse du produit</h1>
 		</div>
 
+		<section class="chart">
+			<div class="title">
+				<h3>Euro Stoxx Select Dividend 30 et les caractéristiques du produit</h3>
+			</div>
+			<div id="chartdiv"></div>
+			<div class="legend">
+				<ul class="list-inline list-unstyled">
+					<li><hr id="euroStoxx"/></li>
+					<li><span>Euro Stoxx Select Dividend 30</span></li>
+					<li><hr id="refund-level"/></li>
+					<li><span>Niveau de remboursement anticipé</span></li>
+					<li><hr id="protection-level"/></li>
+					<li><span>Niveau de protection en capital</span></li>
+				</ul>
+			</div>
+			<button class="button-reset">reset</button>
+		</div>
 	</section>
 
 	<!-- FOOTER -->
@@ -261,16 +272,17 @@
 
 	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/js/script.js"></script>
 	<script src="/js/extra.js"></script>
 	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
 	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
 
 	<!-- chartContainer -->
+	<script type="text/javascript" src="/js/jqplotScript.js"></script>
 	<script type="text/javascript" src="/js/jquery.jqplot.js"></script>
 	<script type="text/javascript" src="/js/jqplot.pointLabels.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/jquery.jqplot.css" />
@@ -278,6 +290,12 @@
 	<script type="text/javascript" src="/js/jqplot.barRenderer.js"></script>
 	<script type="text/javascript" src="/js/jqplot.canvasOverlay.js"></script>
 	<script type="text/javascript" src="/js/jqplot.CanvasAxisLabelRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot.cursor.js"></script>
+	<script type="text/javascript" src="/js/jqplot.highlighter.js"></script>
+<!-- chart zoom -->
+	<script type="text/javascript" src="/js/jqplot.canvasAxisTickRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot.canvasTextRenderer.js"></script>
+	<script type="text/javascript" src="/js/jqplot.categoryAxisRenderer.js"></script>
 
 
 	</body>

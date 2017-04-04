@@ -3,12 +3,16 @@
  */
 package com.synovia.digital.web;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,14 +76,24 @@ public class PrdUserController {
 	protected PrdSousJacentService ssjctService;
 
 	@GetMapping(value = "/products")
-	public String userProducts(@RequestParam("account") EavAccount account, Model model) {
+	public String showUserProducts(@RequestParam("account") EavAccount account, Model model, Principal principal,
+			HttpSession session) {
 		String view = null;
 		try {
+			String email = principal.getName();
+			// Control the authenticated user
+			if (!StringUtils.equals(account.getEmail(), email))
+				return EavControllerUtils.createRedirectViewPath("/login");
+
+			// Display user info
+			if (session.getAttribute(HomeController.ATTR_USERNAME_INFO) == null) {
+				session.setAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			}
+
 			// Find the authenticated user and the corresponding PrdUser entity
 			PrdUser prdUser = userService.getPrdUser(account);
 			LOGGER.info("The current PrdUser is {}", prdUser);
 
-			model.addAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
 			model.addAttribute(HomeController.ATTR_ACCOUNT, account);
 			// Display the information of the current user
 			model.addAttribute(PrdUserController.ATTR_PRD_USER, prdUser);
@@ -122,8 +136,8 @@ public class PrdUserController {
 		return view;
 	}
 
-	@PostMapping(value = "/{id}/addProducts")
-	public String addProducts(@ModelAttribute("selectedProducts") PrdProductListDto productList, @PathVariable Long id,
+	@PostMapping(value = "/{id}/setProducts")
+	public String setProducts(@ModelAttribute("selectedProducts") PrdProductListDto productList, @PathVariable Long id,
 			Model model, RedirectAttributes attributes) {
 
 		LOGGER.info("Selected products: {}", productList.getProductList());
