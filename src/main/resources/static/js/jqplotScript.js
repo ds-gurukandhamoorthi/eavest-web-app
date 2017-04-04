@@ -40,7 +40,7 @@ $(document).ready(function(){
         pointLabels: { show:false }
       },
       grid: {
-       background: 'transparent'
+       background: 'transparent',
      },
       // axesDefaults: {
       // wether or not to show the tick labels,
