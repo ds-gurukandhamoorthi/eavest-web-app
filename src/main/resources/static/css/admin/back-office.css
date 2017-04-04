@@ -119,7 +119,7 @@ textarea {
   display: inline-block;
 }
 
-input[type=submit] {
+.main-area input[type=submit] {
     color: black;
     padding: 14px 20px;
     margin: 8px 0;

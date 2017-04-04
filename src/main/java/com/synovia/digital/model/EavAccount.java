@@ -68,25 +68,25 @@ public class EavAccount extends AbstractBean {
 	private Set<EavRole> eavRoles;
 
 	// ---- Personal information fields ----
-	@Column(name = "LAST_NAME", nullable = false)
+	@Column(name = "LAST_NAME", nullable = false, length = 50)
 	private String lastName;
 
-	@Column(name = "FIRST_NAME", nullable = false)
+	@Column(name = "FIRST_NAME", nullable = false, length = 50)
 	private String firstName;
 
-	@Column(name = "ALIAS_NAME")
+	@Column(name = "ALIAS_NAME", length = 50)
 	private String aliasName;
 
-	@Column(name = "COMPANY")
+	@Column(name = "COMPANY", length = 100)
 	private String company;
 
-	@Column(name = "COUNTRY")
+	@Column(name = "COUNTRY", length = 50)
 	private String country;
 
-	@Column(name = "MOBILE_PHONE")
+	@Column(name = "MOBILE_PHONE", length = 50)
 	private String mobilePhone;
 
-	@Column(name = "FIX_PHONE")
+	@Column(name = "FIX_PHONE", length = 50)
 	private String fixPhone;
 
 	@Column(name = "NEWSLETTER")

@@ -75,6 +75,7 @@ public class BackOfficeController {
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
+	protected static final String REQUEST_MAPPING_ACCOUNTS_VIEW = "/admin/accounts";
 	protected static final String REQUEST_MAPPING_CREATE_SSJACENT_VIEW = "/admin/createSsjacent";
 	protected static final String REQUEST_MAPPING_CREATE_PRODUCT_VIEW = "/admin/createProduct";
 	protected static final String REQUEST_MAPPING_TEST_CREATE_PRODUCT_VIEW = "/admin/tests";
@@ -191,6 +192,23 @@ public class BackOfficeController {
 	public String showEavAccounts(Model model) {
 		model.addAttribute(ATTR_ACCOUNT_LIST, accountService.findAll());
 		return VIEW_ACCOUNTS;
+	}
+
+	@PostMapping(value = "/accounts/{id}/activate")
+	public String activateUser(@PathVariable("id") Long id, @RequestParam("val") Boolean value,
+			RedirectAttributes attributes) {
+		String view = null;
+		try {
+			accountService.activate(id, value);
+			attributes.addFlashAttribute(ATTR_ACCOUNT_LIST, accountService.findAll());
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_ACCOUNTS_VIEW);
+
+		} catch (EavEntryNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			view = VIEW_ERROR;
+		}
+		return view;
 	}
 
 	@GetMapping(value = "/tests")

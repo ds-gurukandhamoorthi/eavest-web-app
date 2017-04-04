@@ -26,9 +26,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +89,8 @@ public class PrdProductController {
 	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}/filter";
 
 	protected static final String REQUEST_MAPPING_PRODUCT = "/products/{id}";
+
+	protected static final String REQUEST_MAPPING_LOGIN = "/login";
 
 	private static final int SIZE_PRODUCTS_PAGE = 12;
 	/** Number of max displayed pages */
@@ -222,10 +221,12 @@ public class PrdProductController {
 	public String showProduct(@PathVariable Long id, Model model, HttpSession session, Principal principal) {
 		// Display user info
 		if (session.getAttribute(HomeController.ATTR_USERNAME_INFO) == null) {
-			// Retrieve user info
-			String email = principal.getName();
-			EavAccount account = accountService.findByEmail(email);
-			session.setAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			if (principal != null) {
+				// Retrieve user info
+				String email = principal.getName();
+				EavAccount account = accountService.findByEmail(email);
+				session.setAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			}
 		}
 
 		try {
@@ -338,17 +339,11 @@ public class PrdProductController {
 	}
 
 	@RequestMapping(value = "/{id}/add")
-	public String addProduct(@PathVariable Long id, RedirectAttributes attributes) {
+	public String addProduct(@PathVariable Long id, RedirectAttributes attributes, Principal principal) {
 		String view = null;
 		try {
-			// TODO Verify that we are in the current logged in user session
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			Object principal = auth.getPrincipal();
-			if (auth != null && principal instanceof User) {
-				User u = (User) principal;
-				String email = u.getUsername();
-
-				EavAccount account = accountService.findByEmail(email);
+			if (principal != null) {
+				EavAccount account = accountService.findByEmail(principal.getName());
 				PrdUser user = account.getPrdUser();
 
 				PrdProduct product = productService.findById(id);
@@ -363,6 +358,8 @@ public class PrdProductController {
 
 				view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCT);
 
+			} else {
+				view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_LOGIN);
 			}
 
 		} catch (EavEntryNotFoundException e) {

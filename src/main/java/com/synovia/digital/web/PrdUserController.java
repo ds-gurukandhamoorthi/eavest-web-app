@@ -27,12 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.synovia.digital.dto.EavAccountDto;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdProductListDto;
 import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdUser;
+import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
 import com.synovia.digital.service.PrdUserService;
@@ -70,6 +72,9 @@ public class PrdUserController {
 	private PrdUserService userService;
 
 	@Autowired
+	private EavAccountService accountService;
+
+	@Autowired
 	private PrdProductService productService;
 
 	@Autowired
@@ -91,8 +96,7 @@ public class PrdUserController {
 			}
 
 			// Find the authenticated user and the corresponding PrdUser entity
-			PrdUser prdUser = userService.getPrdUser(account);
-			LOGGER.info("The current PrdUser is {}", prdUser);
+			PrdUser prdUser = account.getPrdUser();
 
 			model.addAttribute(HomeController.ATTR_ACCOUNT, account);
 			// Display the information of the current user
@@ -133,6 +137,27 @@ public class PrdUserController {
 
 		}
 
+		return view;
+	}
+
+	@PostMapping(value = "/{id}/updateInfo")
+	public String updateAccount(@PathVariable Long id, @ModelAttribute("account") EavAccountDto accountDto, Model model,
+			RedirectAttributes attributes) {
+		String view;
+		try {
+			PrdUser u = userService.findById(id);
+			LOGGER.info("Update info: {}", accountDto);
+			EavAccount account = u.getAccount();
+			accountService.update(account, accountDto);
+
+			attributes.addAttribute(HomeController.ATTR_ACCOUNT, account);
+			view = EavControllerUtils.createRedirectViewPath(HomeController.REQUEST_MAPPING_USER_PRODUCTS);
+
+		} catch (EavEntryNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			view = "error";
+		}
 		return view;
 	}
 
