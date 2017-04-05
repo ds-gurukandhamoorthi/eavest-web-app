@@ -95,3 +95,12 @@ $(document).ready(function(){
   });
   $('.button-reset').click(function() { plot1.resetZoom() });
 });
+
+$(document).ready(function(){
+    var plot1 = $.jqplot ('container', [[3,7,9,1,4,6,8,2,5]], {});
+
+    $(window).resize(function() {
+          plot1.replot( { resetAxes: true } );
+    });
+
+});

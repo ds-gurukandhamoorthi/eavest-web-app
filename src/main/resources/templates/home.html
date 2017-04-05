@@ -75,7 +75,7 @@
 					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
 					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
         </ul>
-				<div class="slider_jquery slider">
+				<div class="slider_jquery slider hidden-xs">
 					<div class="slider-container"></div>
 				</div>
 			</div>
@@ -215,7 +215,7 @@
 		<div class="container">
 			<div class="row">
 
-				<div class="hidden-sm col-md-3">
+				<div class="hidden-xs hidden-sm col-md-3">
 					<h2 class="black-block"><span th:text="#{prd.find}">cherchez un produit</span> <span class="new-line" th:text="#{prd.find.in}">parmis nos</span> <span th:text="${nbProducts}">2000</span> <span th:text="#{prd.ref}">références</span></h2>
 
 					<div class="search">
@@ -334,7 +334,7 @@
 	<div class="clear"></div>
 	</div>
 
-	<div class="col-xs-6 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
+	<div class="col-xs-12 col-sm-offset-1 col-sm-5 hidden-md hidden-lg" id="white-block">
 	<div class="sous-container">
 		<div class="white-block">
 			<h2 id="month-product-title"><span th:text="#{home.best.seller}">LE PRODUIT DU MOIS</span></h2>
@@ -361,16 +361,14 @@
 	<!-- SECTION PORTEFEUILLE -->
 	<section class="portefeuille">
 		<div class="container text-center wrap">
-			<div class="row">
-				<div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
-					<a href="/wallet"><img src="/img/wallet.png" id="wallet" alt="portefeuille" th:alt="#{wallet.title}"/></a>
-				</div>
-				<div class="col-sm-9 col-md-9 wallet-black-block">
-					<h2><span class="wallet-teaser" th:text="#{home.wallet.teaser}">investisseurs, cgp, composez et suivez au quotidien
-						votre portefeuille sur votre espace personnel</span>
-					</h2>
-					<a href="/wallet"><button type="button" class="btn btn-secondary wallet-button"><span th:text="#{home.create.wallet}">créer mon portefeuille</span></button></a>
-				</div>
+			<div class="hidden-xs col-sm-3 col-md-3 wallet-white-block">
+				<a href="/wallet"><img src="/img/wallet.png" id="wallet" alt="portefeuille" th:alt="#{wallet.title}"/></a>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-md-9 wallet-black-block">
+				<h2><span class="wallet-teaser" th:text="#{home.wallet.teaser}">investisseurs, cgp, composez et suivez au quotidien
+					votre portefeuille sur votre espace personnel</span>
+				</h2>
+				<a href="/wallet"><button type="button" class="btn btn-secondary wallet-button"><span th:text="#{home.create.wallet}">créer mon portefeuille</span></button></a>
 			</div>
 		</div>
 	</section>
@@ -394,7 +392,7 @@
 						<h3 class="blog-title-1" th:text="${highlightArticles.leftArticle.title}">étude UFF : que veulent les épargnants français ?</h3>
 					</div>
 					<div class="row">
-						<div class="col-xs-3 col-sm-4 col-md-3 blog-img">
+						<div class="hidden-xs col-sm-4 col-md-3 blog-img">
 							<img src="/img/question-mark.png" id="question-img" alt="question" class="img-responsive" />
 						</div>
 						<div class="col-md-8 article">
@@ -412,7 +410,7 @@
 						</a>
 					</div>
 				</div>
-				<div class="col-xs-4 col-sm-5 col-md-2 white-block-blog">
+				<div class="col-xs-12 col-sm-5 col-md-2 white-block-blog">
 					<div>
 						<h1 class="padding_bottom" th:text="#{home.key.number}">chiffre du mois</h1>
 						<div class="figure-month" id="numberOfTheMonth" th:text="${newsOfMonth.numberOfTheMonth}">1%</div>
@@ -420,7 +418,7 @@
               <p class="grey-letters simplebar" id="figure-p" th:text="${newsOfMonth.textOfTheMonth}">des produits structurés blablablades produits structurés blablablades produits des produits structurés blablablades produits des produits structurés blablablades produits</p>
 					</div>
 				</div>
-				<div class="col-xs-7 col-sm-6 col-md-3 grey-block-2">
+				<div class="col-xs-12 col-sm-6 col-md-3 grey-block-2">
 					<div>
 						<ul class="list-inline list-unstyled">
 							<li class="blue-feature-2"></li>
@@ -498,7 +496,7 @@
 	<section>
 		<div class="container">
 			<div class="row">
-				<div class="col-md-5 white-block-style">
+				<div class="col-xs-12 col-md-5 white-block-style">
 					<h4 th:text="#{home.values}">Nos valeurs</h4>
 					<div class="row values">
 						<ul class="list-inline list-unstyled grey-letters">
@@ -563,23 +561,23 @@
 			<div class="row list-inline list-unstyled col-md-12 team">
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
           <img src="/img/fondateur.png" alt="image" class="img-circle img-responsive" />
-          <span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.1}">Président Fondateur</span></span>
+          <span class="team-p grey-letters"><span>Franck Magne</span><br /><span th:text="#{home.team.role.1}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
           <img src="/img/fondateur2.png" alt="image" class="img-circle img-responsive" />
-					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.2}">Président Fondateur</span></span>
+					<span class="team-p grey-letters"><span>Franck Magne</span><br /><span th:text="#{home.team.role.2}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-4 col-sm-3 col-md-2 team-img">
           <img src="/img/fondateur3.png" alt="image" class="img-circle img-responsive" />
-					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.3}">Président Fondateur</span></span>
+					<span class="team-p grey-letters"><span>Franck Magne</span><br /><span th:text="#{home.team.role.3}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3 col-md-2 team-img">
           <img src="/img/fondateur4.png" alt="image" class="img-circle img-responsive" />
-					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.4}">Président Fondateur</span></span>
+					<span class="team-p grey-letters"><span>Franck Magne</span><br /><span th:text="#{home.team.role.4}">Président Fondateur</span></span>
         </div>
         <div class="col-xs-offset-1 col-xs-4 col-sm-offset-0 col-sm-3 col-md-2 team-img">
           <img src="/img/fondateur5.png" alt="image" class="img-circle img-responsive" />
-					<span class="team-p grey-letters"><span>Franck Magne</span> <br /><span th:text="#{home.team.role.5}">Président Fondateur</span></span>
+					<span class="team-p grey-letters"><span>Franck Magne</span><br /><span th:text="#{home.team.role.5}">Président Fondateur</span></span>
         </div>
       </div>
 			<a href="http://eavest.com/" class="over">
@@ -592,18 +590,21 @@
 	<footer id="footer">
 		<div class="container-fluid">
 			<div class="footer-main navbar fixed-bottom">
-				<small class="always-left col-xs-12 col-sm-12 col-md-6">
-				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
-				<span class="block"></span>
-				</small>
-				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
-					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
-					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
-				</small>
-				<span class="clear"></span>
+				<div class="row">
+					<small class="col-xs-12 col-sm-12 col-md-6 push-left">
+						<ul class="list-inline list-unstyled">
+							<li><a href="mailto:contact@eavest.com">contact@eavest.com</a></li>
+							<li><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></li>
+							<li><a href="http://eavest.com/mentions-legales/"><span th:text="#{eav.legal.mention}">mentions légales</span></a></li>
+						</ul>
+					</small>
+					<small class="col-xs-12 col-sm-12 col-md-5 always-right">
+							<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795</span>
+								<a href="http://www.orias.fr">(www.orias.fr)</a>
+							<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+							<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+					</small>
+				</div>
 			</div>
 		</div>
 	</footer>
@@ -635,7 +636,7 @@
  	$(document).ready(function(){
  		// à décommenter KNA avant commit
  		var productTags = [[${productNames}]];
- 	// 	var maListe = [];
+ 	// 	var maListe = ['tata'];
  		/*console.log(productTags);*/
  		$('#find-product').autocomplete({
  		// à décommenter KNA avant commit

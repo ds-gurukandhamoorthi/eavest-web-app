@@ -125,14 +125,14 @@
   background-color: #F2F2F2 !important;
 }
 
-input.btn.btn-default {
+/*input.btn.btn-default {
   border-radius: 0;
   border: 2px solid black;
   margin: 5px 4px;
   text-transform: uppercase;
   padding: 3px 7px;
   font-size: 14px;
-}
+}*/
 
 .light-letter {
   text-transform: uppercase;
@@ -144,6 +144,11 @@ input.btn.btn-default {
 
 .my-product-header {
   padding: 35px 0;
+}
+
+#one-product-title {
+  color: black;
+  font-weight: 800;
 }
 
 .product-body h3{
@@ -308,16 +313,12 @@ input.btn.btn-default {
 
 #chartdiv {
   height:400px;
-  width:700px;
-}
-
-.title {
-  padding: 56px 15px 15px 15px;
+  width:650px;
 }
 
 section.chart {
-    text-align: -webkit-center;
-    padding: 15px 0 45px 15px;
+  text-align: -webkit-center;
+  padding: 15px 0 45px 15px;
 }
 
 .jqplot-title {
@@ -330,6 +331,10 @@ section.chart {
     color: black !important;
     font-family: 'Open Sans' !important;
     font-size: 1em;
+}
+
+.jqplot-grid-canvas {
+  display: none;
 }
 
 .legend {
@@ -365,6 +370,23 @@ section.chart {
 }
 
 /*QUERIES*/
+
+@media(max-width: 760px){
+  #chartdiv {
+    height:200px;
+    width:350px;
+  }
+  section.chart {
+    text-align: -webkit-center;
+    padding: 0;
+  }
+  .padding_bottom {
+    padding-bottom: 0;
+  }
+  .title {
+    padding: 14px 15px 15px 15px;
+  }
+}
 
 @media only screen and (max-width:760px){
     #product-trash {
