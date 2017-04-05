@@ -127,9 +127,10 @@ $(function() {
     }
 });
 
+
 // PRODUCTS MODAL OPEN ON LOAD
 
-  $(document).ready(function(){
+  $(window).load(function(){
     // Show the Modal on load
     $("#productsModal").modal("show");
 
@@ -137,50 +138,4 @@ $(function() {
     $("#agreedBtn").click(function(){
         $("#productsModal").modal("hide");
     });
-});
-
-
-// PAGE PRODUCT CHART
-$(document).ready(function(){
-  var plot2 = $.jqplot ('chartdiv',
-          [ [ ["2015-12-21", 1850], ["2016-01-31", 1768], ["2016-02-29", 1830], ["2016-03-31", 1820], ["2016-04-30", 1850],
-              ["2016-05-31", 1900], ["2016-06-31", 1840], ["2016-07-31", 1810],["2016-08-31", 1720], ["2016-09-31", 1900], ["2016-10-31", 1700], ["2016-11-31", 1600],["2016-12-31", 1900] ]], {
-      // title:'Euro Stoxx Select Dividend 30 et les caractéristiques du produit',
-      axes : {
-        xaxis : {
-          renderer:$.jqplot.DateAxisRenderer,
-          pad: 0
-        },
-        yaxis: {
-                min:1200,
-                max:2000
-            }
-      },
-      canvasOverlay: {
-        show: true,
-        objects: [
-             {horizontalLine: {
-                 name: 'line2',
-                 y: 1800,
-                 lineWidth: 3,
-                 color: 'rgb(100, 55, 124)',
-                 shadow: false,
-              }},
-              {horizontalLine: {
-                  name: 'line3',
-                  y: 1255,
-                  lineWidth: 3,
-                  color: 'green',
-                  shadow: false,
-               }},
-               {verticalLine: {
-                 name: 'line4',
-                 x: new $.jsDate( '2016-12-31 16:10:00.000').getTime(),
-                 lineWidth: 3,
-                 color: 'pink',
-                 shadow: false,
-             }}
-        ],
-      }
-  });
 });

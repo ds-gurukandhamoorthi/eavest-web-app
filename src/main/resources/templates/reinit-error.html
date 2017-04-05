@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
+	<title>EAVEST, Produits structurés et alternatifs</title>
 
 	<!-- FAVICON -->
 	<link href="./favicon.ico" rel="icon" type="image/ico" />
@@ -44,27 +44,40 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
 					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
 					</span>
+					<!-- <div class="zone-transit">
+						<span sec:authorize="isAuthenticated()">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Sign Out" class="btn btn-default log" />
+							</form>
+						</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
+							<form th:action="@{/admin}" method="get">
+								<input type="submit" value="Back Office" class="btn btn-default log" />
+							</form>
+						</span>
+					</div> -->
 				</div>
+
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
 				<ul class="navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
-          <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
-          <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
-          <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
-					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
-					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
-					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
+					<li id="menu-home"><a href="/home">Home</a></li>
+					<li id="menu-wallet"><a href="/wallet">Mon portefeuille</a></li>
+					<li id="menu-method"><a href="http://eavest.com/methodologie-2/">Methodologie</a></li>
+					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/">sur-mesure</a></li>
+					<li id="menu-products"><a href="http://eavest.com/track-records/">Produits</a></li>
+					<li id="menu-blog"><a href="http://eavest.com/category/blog/">Le Blog</a></li>
+					<li id="menu-faq"><a href="http://eavest.com/f-a-q/">FAQ</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com">Contact</a></li>
 				</ul>
-				<div class="slider_jquery slider">
+				<div class="slider_jquery slider hidden-xs">
 					<div class="slider-container"></div>
 				</div>
 			</div>
@@ -77,8 +90,8 @@
     <div class="container login-page">
 
       <div class="col-md-offset-2 col-md-8 login-area  margin_b">
-        <h1 class="padding_b" th:text="#{reinit.pwd.title}">Réinitialisation du mot de passe</h1>
-        <p><em><span th:text="#{invalid.link}">Ce lien est invalide ou a expiré</span></em><span>.</span></p>
+        <h1 class="padding_b">Réinitialisation du mot de passe</h1>
+        <p><em>Ce lien est invalide ou a expiré.</em></p>
       </div>
     <!-- end container -->
     </div>
@@ -88,18 +101,21 @@
 	<footer id="footer">
 		<div class="container-fluid">
 			<div class="footer-main navbar fixed-bottom">
-				<small class="always-left col-xs-12 col-sm-12 col-md-6">
-				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
-				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
-				<span class="block"></span>
-				</small>
-				<small class="always-right col-xs-12 col-sm-12 col-md-5">
-					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
-					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
-					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
-				</small>
-				<span class="clear"></span>
+				<div class="row">
+					<small class="col-xs-12 col-sm-12 col-md-6 push-left">
+						<ul class="list-inline list-unstyled">
+							<li><a href="mailto:contact@eavest.com">contact@eavest.com</a></li>
+							<li><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></li>
+							<li><a href="http://eavest.com/mentions-legales/"><span th:text="#{eav.legal.mention}">mentions légales</span></a></li>
+						</ul>
+					</small>
+					<small class="col-xs-12 col-sm-12 col-md-5 always-right">
+							<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795</span>
+								<a href="http://www.orias.fr">(www.orias.fr)</a>
+							<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+							<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+					</small>
+				</div>
 			</div>
 		</div>
 	</footer>
