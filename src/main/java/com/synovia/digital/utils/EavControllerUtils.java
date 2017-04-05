@@ -15,6 +15,14 @@ public class EavControllerUtils {
 
 	public static final long DISPLAY_MODAL_TIMEOUT_MS = 2 * 60 * 1000;
 
+	public static final String VIEW_ERROR = "error";
+
+	public static final String ATTR_ERROR_RESPONSE = "errorMessage";
+
+	public static final String REQUEST_MAPPING_ERROR = "/error";
+
+	public static final String I18N_ERROR_CODE = "err.msg";
+
 	public static String createRedirectViewPath(String requestMapping) {
 		StringBuilder redirectViewPath = new StringBuilder();
 		redirectViewPath.append("redirect:");

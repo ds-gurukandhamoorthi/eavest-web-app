@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.synovia.digital.model.PrdSousJacent;
+
 /**
  * This class defines TODO
  * 
@@ -29,11 +31,21 @@ public class PrdSousjacentDto {
 	@Size(max = 25)
 	private String bloombergCode;
 
-	private Boolean isNew = true;
+	private Boolean isNew;
 
-	private Boolean isPerfReview = false;
+	private Boolean isPerfReview;
 
 	public PrdSousjacentDto() {
+
+	}
+
+	public PrdSousjacentDto(PrdSousJacent entity) {
+		this.id = entity.getId();
+		this.label = entity.getLabel();
+		this.isinCode = entity.getIsinCode();
+		this.bloombergCode = entity.getBloombergCode();
+		this.isNew = entity.getIsNew();
+		this.isPerfReview = entity.getIsPerfReview();
 
 	}
 

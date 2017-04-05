@@ -47,16 +47,12 @@ public class SubscriptionController {
 	@Autowired
 	EavRoleRepository roleRepo;
 
-	//	@Autowired
-	//	EavAccountRoleRepository accountRoleRepo;
-
 	private static final String VIEW_SUBSCRIBE = "subscribe";
 	private static final String VIEW_FORGET_PASSWORD = "forget-pwd";
 	private static final String VIEW_ACCOUNT_CREATED = "account-created";
 
 	@PostMapping(value = "/subscribe")
 	public String createAccountSubmit(@ModelAttribute EavAccount account) {
-		System.out.println("SubscriptionController.createAccountSubmit() - POST");
 		// Assign roles as ROLE_USER (considering this way of creating an account as the way of creating users only, no admin) 
 		Set<EavRole> roles = new HashSet<>();
 		roles.add(roleRepo.findByLabel("ROLE_USER"));
@@ -88,7 +84,6 @@ public class SubscriptionController {
 
 	@GetMapping(value = "/subscribe")
 	public String createAccountForm(Model model) {
-		System.out.println("SubscriptionController.createAccountForm() - GET");
 		model.addAttribute("eavAccount", new EavAccount());
 		return VIEW_SUBSCRIBE;
 
@@ -96,14 +91,12 @@ public class SubscriptionController {
 
 	@GetMapping(value = "/forgotPassword")
 	public String forgottenPassword(Model model) {
-		System.out.println("SubscriptionController.forgottenPassword()");
 		model.addAttribute("forgottenCredentialsUser", new EavAccount());
 		return VIEW_FORGET_PASSWORD;
 	}
 
 	@PostMapping(value = "/forgotPassword")
 	public String reinitPassword(@ModelAttribute EavAccount forgottenCredentialsUser, Model model) {
-		System.out.println("SubscriptionController.forgotPassword(POST)");
 		model.addAttribute("forgottenCredentialsUser", new EavAccount());
 		// Find existing account by e-mail
 		EavAccount account = accountRepo.findByEmail(forgottenCredentialsUser.getEmail());
