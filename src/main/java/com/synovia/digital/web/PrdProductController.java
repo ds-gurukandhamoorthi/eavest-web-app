@@ -5,9 +5,13 @@ package com.synovia.digital.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -22,9 +26,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,9 +42,11 @@ import com.synovia.digital.exceptions.EavEntryNotFoundException;
 import com.synovia.digital.model.EavAccount;
 import com.synovia.digital.model.PrdProduct;
 import com.synovia.digital.model.PrdSousJacent;
+import com.synovia.digital.model.PrdUser;
 import com.synovia.digital.service.EavAccountService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.service.PrdUserService;
 import com.synovia.digital.utils.EavControllerUtils;
 
 /**
@@ -77,10 +80,17 @@ public class PrdProductController {
 	protected static final String ATTR_PRD_FILTER_BASE = "sj";
 	protected static final String ATTR_PRD_FILTER_EAVEST = "ev";
 	protected static final String ATTR_PRD_FILTER_BANK = "bk";
+	protected static final String ATTR_RESPONSE_MESSAGE = "response";
+	protected static final String ATTR_DISPLAY_WARNING = "displayWarning";
 
 	protected static final String PARAMETER_PAGE_NUMBER = "pageNumber";
+	protected static final String PARAMETER_PRODUCT_ID = "id";
 
 	protected static final String REQUEST_MAPPING_PRODUCTS_PAGE = "/products/pages/{pageNumber}/filter";
+
+	protected static final String REQUEST_MAPPING_PRODUCT = "/products/{id}";
+
+	protected static final String REQUEST_MAPPING_LOGIN = "/login";
 
 	private static final int SIZE_PRODUCTS_PAGE = 12;
 	/** Number of max displayed pages */
@@ -94,6 +104,9 @@ public class PrdProductController {
 
 	@Autowired
 	protected EavAccountService accountService;
+
+	@Autowired
+	protected PrdUserService userService;
 
 	@GetMapping()
 	public String listProducts(RedirectAttributes attributes) {
@@ -127,19 +140,23 @@ public class PrdProductController {
 	@GetMapping(value = "/pages/{pageNumber}/filter")
 	public String showFilterProductsPage(@PathVariable Integer pageNumber, @RequestParam("nm") String label,
 			@RequestParam("is") String isin, @RequestParam("sj") String base, @RequestParam("ev") Boolean isEavest,
-			@RequestParam("bk") String deliver, Model model) {
-		// Display user info
-		String authentifiedUsername = "";
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Object principal = auth.getPrincipal();
-		if (auth != null && principal instanceof User) {
-			User u = (User) principal;
-			String email = u.getUsername();
+			@RequestParam("bk") String deliver, Model model, HttpSession session, Principal principal) {
+		// Display warning message
+		Long now = new Date().getTime();
+		Long lastAccess = session.getLastAccessedTime();
+		boolean display = session.getAttribute(ATTR_DISPLAY_WARNING) == null
+				|| now - lastAccess >= EavControllerUtils.DISPLAY_MODAL_TIMEOUT_MS;
+		session.setAttribute(ATTR_DISPLAY_WARNING, display);
 
-			EavAccount account = accountService.findByEmail(email);
-			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
+		// Display user info
+		if (session.getAttribute(HomeController.ATTR_USERNAME_INFO) == null) {
+			// Retrieve user info
+			if (principal != null) {
+				String email = principal.getName();
+				EavAccount account = accountService.findByEmail(email);
+				session.setAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			}
 		}
-		model.addAttribute(HomeController.ATTR_USERNAME_INFO, authentifiedUsername);
 
 		// Retrieve the list of existing values for the filters
 		Set<String> prdNames = new HashSet<>();
@@ -201,19 +218,16 @@ public class PrdProductController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public String showProduct(@PathVariable Long id, Model model) {
+	public String showProduct(@PathVariable Long id, Model model, HttpSession session, Principal principal) {
 		// Display user info
-		String authentifiedUsername = "";
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Object principal = auth.getPrincipal();
-		if (auth != null && principal instanceof User) {
-			User u = (User) principal;
-			String email = u.getUsername();
-
-			EavAccount account = accountService.findByEmail(email);
-			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
+		if (session.getAttribute(HomeController.ATTR_USERNAME_INFO) == null) {
+			if (principal != null) {
+				// Retrieve user info
+				String email = principal.getName();
+				EavAccount account = accountService.findByEmail(email);
+				session.setAttribute(HomeController.ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			}
 		}
-		model.addAttribute(HomeController.ATTR_USERNAME_INFO, authentifiedUsername);
 
 		try {
 			model.addAttribute(ATTR_PRODUCT, productService.findById(id));
@@ -323,4 +337,37 @@ public class PrdProductController {
 
 		return result;
 	}
+
+	@RequestMapping(value = "/{id}/add")
+	public String addProduct(@PathVariable Long id, RedirectAttributes attributes, Principal principal) {
+		String view = null;
+		try {
+			if (principal != null) {
+				EavAccount account = accountService.findByEmail(principal.getName());
+				PrdUser user = account.getPrdUser();
+
+				PrdProduct product = productService.findById(id);
+				// Get the product list
+				userService.addProduct(user, product);
+
+				attributes.addFlashAttribute(ATTR_RESPONSE_MESSAGE,
+						new StringBuilder("Product ").append(product.getIsin()).append(" added to the portofolio of ")
+								.append(account.getFirstName().toString()));
+
+				attributes.addAttribute(PARAMETER_PRODUCT_ID, id);
+
+				view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_PRODUCT);
+
+			} else {
+				view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_LOGIN);
+			}
+
+		} catch (EavEntryNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return view;
+	}
+
 }

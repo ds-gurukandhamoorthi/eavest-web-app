@@ -407,9 +407,7 @@ public class PrdProductServiceImpl implements PrdProductService {
 	public List<String> getPackedNameList(Collection<PrdProduct> products) {
 		List<String> l = new ArrayList<>();
 		for (PrdProduct p : products) {
-			String n;
-			l.add(n = generatePackedName(p));
-			System.out.println(n);
+			l.add(generatePackedName(p));
 		}
 		return l;
 	}
@@ -432,8 +430,18 @@ public class PrdProductServiceImpl implements PrdProductService {
 		if (p == null)
 			throw new EavEntryNotFoundException(PrdProduct.class.getTypeName());
 
-		// TODO Update the product
-		//updateFromDto(p, dto);
+		// Find the last best-seller and change its settings
+		try {
+			PrdProduct lastBestSeller = this.findBestSeller();
+			if (lastBestSeller != null) {
+				lastBestSeller.setIsBestSeller(false);
+				repo.save(lastBestSeller);
+			}
+
+		} catch (EavTechnicalException e) {
+		}
+
+		// Update the product
 		p.setIsBestSeller(true);
 
 		return repo.save(p);

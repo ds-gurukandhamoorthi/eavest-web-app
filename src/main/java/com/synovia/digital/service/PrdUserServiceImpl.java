@@ -81,11 +81,7 @@ public class PrdUserServiceImpl implements PrdUserService {
 	@Override
 	public PrdUser addProduct(Long idUser, PrdProduct product) throws EavEntryNotFoundException {
 		// Find the user entity
-		PrdUser user = findById(idUser);
-		// Add the product
-		user.getProducts().add(product);
-		// Update the entity
-		return repo.save(user);
+		return addProduct(findById(idUser), product);
 	}
 
 	/*
@@ -144,6 +140,20 @@ public class PrdUserServiceImpl implements PrdUserService {
 	public PrdUser removeProduct(PrdUser user, PrdProduct product) {
 		// Get the list of products and remove
 		user.getProducts().remove(product);
+		// Update the entity
+		return repo.save(user);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdUserService#addProduct(com.synovia.digital.model.
+	 * PrdUser, com.synovia.digital.model.PrdProduct)
+	 */
+	@Override
+	public PrdUser addProduct(PrdUser user, PrdProduct product) {
+		user.getProducts().add(product);
 		// Update the entity
 		return repo.save(user);
 	}

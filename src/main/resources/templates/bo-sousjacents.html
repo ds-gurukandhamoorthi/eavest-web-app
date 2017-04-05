@@ -8,10 +8,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-	<link rel="stylesheet" href="../css/admin/back-office.css" type="text/css" media="all"/>
-	<!--
-	<link rel="stylesheet" href="../css/login.css" type="text/css" media="all"/>
-	 -->
+  <link rel="stylesheet" href="/css/admin/bo-product.css" type="text/css" media="all"/>
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css" />
 </head>
 <body>
 	<section class="top-header-absolute">
@@ -49,6 +47,56 @@
 	    <div class="main-area">
 	      <h1>Liste des sous-jacents</h1>
 	      <div class="main-table">
+          <table id="product-list" class="display" cellspacing="0">
+            <thead>
+      				<tr>
+                <th th:text="#{ssjct.id}">Id</th>
+      				  <th th:text="#{ssjct.label}">Label</th>
+      				  <th th:text="#{ssjct.bloom}">Code Bloomberg</th>
+      				  <th th:text="#{ssjct.isin}">Code ISIN</th>
+      				  <th th:text="#{bo.products.update}">Mettre à jour</th>
+      				  <th th:text="#{bo.products.delete}">Supprimer</th>
+      				</tr>
+            </thead>
+            <tbody>
+              <tr th:each="ssjct : ${ssjacents}">
+                <td th:text="${ssjct.id}">Id du sous-jacent</th>
+      				  <td th:text="${ssjct.label}">Label du sous-jacent</th>
+      				  <td th:datetime="${ssjct.bloombergCode}">Bloomberg sous-jacent</th>
+      				  <td th:datetime="${ssjct.isinCode}">ISIN du sous-jacent</th>
+      				  <td>
+                  <form action="#" th:action="@{/admin/sjcts/{id}/update(id=${ssjct.id})}" method="GET">
+                    <input class="btn btn-secondary btn-sm" type="submit" th:value="#{update.action}" value="update" />
+                  </form>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteSjct" th:attr="data-target='#deleteSjct' + ${ssjct.id}"><span th:value="#{delete.action}">delete</span></button>
+                  <!-- Modal -->
+                  <div class="modal" id="deleteSjct" th:id="'deleteSjct' + ${ssjct.id}" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close display-info" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title" th:text="#{bo.sjct.delete.title}">Suppression de produit</h4>
+                        </div>
+                        <div class="modal-body">
+                          <p><span th:text="#{bo.sjct.delete.info}">Vous êtes sur le point de faire une méga connerie</span> : <span th:text="${ssjct.label}"></span></p>
+                          <p><span th:text="#{bo.sjct.delete.confirm}">Some text in the modal.</span></p>
+                        </div>
+                        <div class="modal-footer">
+                          <form action="#" th:action="@{/admin/sjcts/{id}/delete(id=${ssjct.id})}" method="POST">
+                            <input class="btn btn-secondary btn-sm" type="submit" th:value="#{delete.action}" value="delete" />
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+      				</tr>
+            </tbody>
+    			</table>
+
 			<table>
 				<tr>
 				  <th th:text="#{i18n.code.ssjct.id}">Id</th>
@@ -68,5 +116,7 @@
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+  <script src="/js/admin/data-table-example.js"></script>
 </body>
 </html>

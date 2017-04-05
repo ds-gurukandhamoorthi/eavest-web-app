@@ -3,9 +3,12 @@
  */
 package com.synovia.digital.web;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
@@ -105,21 +108,18 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/home")
-	public ModelAndView home(ModelAndView modelAndView) {
+	public ModelAndView home(ModelAndView modelAndView, Principal principal, HttpSession session) {
 		modelAndView.setViewName(VIEW_HOME);
 		modelAndView.addObject("search", new PrdSearchDto());
 		// Display user info
-		String authentifiedUsername = "";
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Object principal = auth.getPrincipal();
-		if (auth != null && principal instanceof User) {
-			User u = (User) principal;
-			String email = u.getUsername();
-
-			EavAccount account = accountService.findByEmail(email);
-			authentifiedUsername = EavControllerUtils.getIdentifiedName(account);
+		if (session.getAttribute(ATTR_USERNAME_INFO) == null) {
+			// Retrieve user info
+			if (principal != null) {
+				String email = principal.getName();
+				EavAccount account = accountService.findByEmail(email);
+				session.setAttribute(ATTR_USERNAME_INFO, EavControllerUtils.getIdentifiedName(account));
+			}
 		}
-		modelAndView.addObject(ATTR_USERNAME_INFO, authentifiedUsername);
 
 		// Retrieve the list of products
 		List<PrdProduct> allProducts = productService.findAll();

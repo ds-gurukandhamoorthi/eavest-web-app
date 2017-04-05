@@ -44,16 +44,16 @@
 					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
 				<div class="language-switcher navbar-right">
-					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" class="italicized grey-letters auth">Connexion</a>
-					<a href="#" th:text="${authUserName}" class="italicized auth">Nom de l'utilisateur</a>
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
 					<span id="socials">
 						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-						<a href="http://eavest.com/" class="language">fr</a>/<a href="http://eavest.com/en/" class="language">en</a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
 					</span>
 					<div class="zone-transit">
 						<span sec:authorize="isAuthenticated()">
 							<form th:action="@{/logout}" method="post">
-								<input type="submit" value="Sign Out" class="btn btn-default log" />
+								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
 							</form>
 						</span>
 						<span sec:authorize="hasRole('ROLE_ADMIN')">
@@ -63,7 +63,6 @@
 						</span>
 					</div>
 				</div>
-
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">

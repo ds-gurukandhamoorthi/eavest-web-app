@@ -13,6 +13,8 @@ import com.synovia.digital.model.EavAccount;
  */
 public class EavControllerUtils {
 
+	public static final long DISPLAY_MODAL_TIMEOUT_MS = 2 * 60 * 1000;
+
 	public static String createRedirectViewPath(String requestMapping) {
 		StringBuilder redirectViewPath = new StringBuilder();
 		redirectViewPath.append("redirect:");

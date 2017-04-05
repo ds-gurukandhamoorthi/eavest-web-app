@@ -47,7 +47,7 @@
     <div class="main-area">
       <h1>Ajouter des produits</h1>
       <div class="main-form">
-        <form name="form" th:action="@{/user/{id}/addProducts(id=${prdUser.id})}" th:object="${selectedProducts}" action="/user/products" method="POST">
+        <form name="form" th:action="@{/user/{id}/setProducts(id=${prdUser.id})}" th:object="${selectedProducts}" action="/user/products" method="POST">
           <label for="to-add">Sélectionner les produits à ajouter</label>
           <div>
             <table id="product-list" class="display" cellspacing="0">
