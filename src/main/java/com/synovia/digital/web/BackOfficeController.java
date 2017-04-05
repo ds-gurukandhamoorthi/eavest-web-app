@@ -30,6 +30,7 @@ import com.synovia.digital.dto.EavParamsDto;
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdProductListDto;
+import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
@@ -49,6 +50,7 @@ import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.service.PrdSousJacentValueService;
 import com.synovia.digital.service.PrdUserService;
 import com.synovia.digital.utils.EavControllerUtils;
 
@@ -111,6 +113,9 @@ public class BackOfficeController {
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
+
+	@Autowired
+	protected PrdSousJacentValueService sjctValueService;
 
 	@Autowired
 	protected PrdProductService productService;
@@ -472,6 +477,7 @@ public class BackOfficeController {
 	@GetMapping(value = "/sjcts/{id}/update")
 	public String showUpdateSousJacent(@PathVariable("id") Long id, Model model) {
 		String view = null;
+		model.addAttribute("dateValue", new PrdSousJacentValueDto());
 		try {
 			// Retrieve the underlying asset
 			PrdSousJacent sjct = sousJacentService.findById(id);
@@ -517,6 +523,40 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
 		}
 		return view;
+	}
+
+	@PostMapping(value = "/sjcts/{id}/addValue")
+	public String addSousJacentValue(@PathVariable("id") Long id,
+			@Valid @ModelAttribute("dateValue") PrdSousJacentValueDto sjctValueDto, BindingResult result,
+			RedirectAttributes attributes, Model model) {
+		String view = null;
+		try {
+			PrdSousJacent sjct = sousJacentService.findById(id);
+
+			if (result.hasErrors()) {
+				model.addAttribute(ATTR_SOUS_JACENT_DTO, sjct);
+				model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Cannot add the value. An error occurs!");
+
+			} else {
+				sjct = sousJacentService.addValue(id, sjctValueDto);
+
+				LOGGER.debug("The input value was added.");
+
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("Input value has been added!").toString());
+				attributes.addFlashAttribute(ATTR_SOUS_JACENT_DTO, sjct);
+				// Redirect the view
+				view = EavControllerUtils.createRedirectViewPath("/admin/sjcts/{id}/addValue");
+
+			}
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
+			attributes.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
+		}
+
+		return view;
+
 	}
 
 	@GetMapping(value = "/products/{id}/addDate")

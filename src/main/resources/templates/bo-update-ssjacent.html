@@ -24,9 +24,8 @@
           <ul class="navbar list-inline list-unstyled">
             <li id="menu-bo-home"><a href="http://localhost:8080/admin/">Home B-O</a></li>
 						<li id="menu-bo-sousjacent"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
-            <li id="menu-bo-product"><a href="http://localhost:8080/admin/createProduct">Produits</a></li>
+            <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Produits</a></li>
             <li id="menu-bo-user"><a href="http://localhost:8080/admin/accounts">Comptes utilisateur</a></li>
-            <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Tests</a></li>
 						<li id="menu-bo-other"><a href="#">Autre chose</a></li>
     			</ul>
 				</nav>
@@ -68,6 +67,44 @@
 
 	      </div>
 	    </div>
+      <div>
+        <h2>Valeurs de sous-jacent</h2>
+        <form action="#" th:object="${dateValue}" th:action="@{/admin/sjcts/{id}/addValue(id=${ssjacent.id})}" method="POST">
+          <div class="row clearfix">
+            <div class="col-md-12 column">
+              <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                	<tr >
+                		<th class="text-center">Date</th>
+                		<th class="text-center">Valeur</th>
+                	</tr>
+                </thead>
+        				<tbody>
+                  <tr id='addr0'>
+                    <td>
+                      <input type="date" name='date' th:field="*{date}"/>
+                    </td>
+                    <td>
+                      <input type="number" name='value' step="0.01" th:field="*{value}"/>
+                    </td>
+                  </tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+          <input type="submit" value="Ajouter" class="btn btn-primary" />
+        </form>
+        <div>
+          <table>
+    				<tr>
+    				  <th th:text="#{code.date}">Date</th>
+    				</tr>
+    				<tr th:each="observationDate : ${obsDates}">
+    				  <td th:text="${observationDate.date}">yyyy/MM/dd</td>
+    				</tr>
+    			</table>
+        </div>
+      </div>
 	</section>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
