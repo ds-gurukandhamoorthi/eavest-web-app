@@ -461,6 +461,13 @@ public class BackOfficeController {
 		return view;
 	}
 
+	@PostMapping(value = "/sjcts/{id}/update")
+	public String updateSousJacent(@PathVariable("id") Long id, @ModelAttribute("toUpdate") PrdSousjacentDto toUpdate,
+			RedirectAttributes attributes) {
+		// TODO
+		return null;
+	}
+
 	@GetMapping(value = "/products/{id}/addDate")
 	public String showAddProductDate(@PathVariable("id") Long id, Model model) {
 		String view = VIEW_ADD_PRODUCT_DATE;

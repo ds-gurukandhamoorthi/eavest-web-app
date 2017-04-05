@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head lang="fr">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<title th:text="#{eav.site.title}">EAVEST, Produits structurés et alternatifs</title>
+
+	<!-- FAVICON -->
+	<link href="./favicon.ico" rel="icon" type="image/ico" />
+
+	<!-- SOURCES -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" /> -->
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+	<link rel="stylesheet" type="text/css" href="/css/home.css" />
+	<link rel="stylesheet" type="text/css" href="/css/login.css" />
+
+
+	<!-- COMPATIBILITE IE8 -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+	<!-- META -->
+	<!-- All in One SEO Pack 2.3.9.1 by Michael Torbert of Semper Fi Web Design[513,671] -->
+	<!-- <meta name="description" itemprop="description" content="Cabinet de conseil spécialisé en produits structurés et alternatifs - Paris +33 (1) 42 80 21 99" /> -->
+</head>
+
+<body>
+
+	<!-- NAVBAR -->
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="nav">
+				<div class="col-md-12 center-block">
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
+				</div>
+				<div class="language-switcher navbar-right">
+					<span id="socials">
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+					</span>
+				</div>
+			</div>
+
+			<div class="col-md-12 container-fluid navbar">
+				<ul class="navbar list-inline list-unstyled">
+					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
+				</ul>
+				<div class="slider_jquery slider">
+					<div class="slider-container"></div>
+				</div>
+			</div>
+		</div>
+	</nav>
+
+	<!-- MAIN CONTENT -->
+
+  <section class="error-content">
+    <div class="container login-page">
+
+      <div class="error-area col-md-offset-2 col-md-8 margin_b">
+        <h1 class="padding_b" th:text="#{to.translate}">Compte utilisateur créé</h1>
+        <p>
+					<em>
+						<span th:text="#{to.translate}">Un email de vérification vous a été envoyé</span>
+					</em>
+				</p>
+				<!--
+        <p>
+  	    <p th:text="'id: ' + ${eavAccount.id}" />
+  	    <p th:text="'first name: ' + ${eavAccount.firstName}" />
+  	    <p th:text="'last name: ' + ${eavAccount.lastName}" />
+  	    <p th:text="'e-mail address: ' + ${eavAccount.email}" />
+  	    <p th:text="'company: ' + ${eavAccount.company}" />
+  	    <p th:text="'password: ' + ${eavAccount.password}" />
+        </p>
+			-->
+      </div>
+    <!-- end container -->
+    </div>
+  </section>
+
+
+
+	<!-- FOOTER -->
+	<footer id="footer">
+		<div class="container-fluid">
+			<div class="footer-main navbar fixed-bottom">
+				<small class="always-left col-xs-12 col-sm-12 col-md-6">
+				<span><a href="mailto:contact@eavest.com">contact@eavest.com</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
+				<span><a href="tel:+33142802199">+33 (1) 42 80 21 99</a></span><span class="block hidden-sm hidden-md hidden-lg"></span>
+				<span><a href="http://eavest.com/mentions-legales/" class="text-decoration-on"><span th:text="#{eav.legal.mention}">mentions légales</span></a></span>
+				<span class="block"></span>
+				</small>
+				<small class="always-right col-xs-12 col-sm-12 col-md-5">
+					<span th:text="#{eav.orias.number}">Immatriculé à l’Orias n° 14001795 <a href="http://www.orias.fr">(www.orias.fr)</a></span>
+					<span class="new-line"><span th:text="#{eav.company.number}">Conseiller en Investissements Financiers enregistré sous le n° E003753</span></span>
+					<span class="new-line"><span th:text="#{eav.anacofi}">Membre de l’ANACOFI</span> - <span th:text="#{eav.amf}">Association agréée par l’AMF</span></span>
+				</small>
+				<span class="clear"></span>
+			</div>
+		</div>
+	</footer>
+
+	<a class="footer-arrow" id="arrow-position">
+		<img src="/img/bottom-arrow-top.png" />
+	</a>
+	<div id="scroll-back-to-top">
+		<span class="scroll-back-to-top-inner"><i class="fa fa-2x fa-chevron-circle-up"></i></span>
+	</div>
+
+
+	<!-- Including Bootstrap JS (with its jQuery dependency) so that dynamic components work -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="/js/script.js"></script>
+	<script src="/js/extra.js"></script>
+	<script src="/js/libs/jquery-ui-slider-1.10.4.custom.min.js"></script>
+	<script src="/js/libs/jquery.mCustomScrollbar.min.js"></script>
+
+</body>
+
+</html>

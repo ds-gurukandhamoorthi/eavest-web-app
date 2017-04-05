@@ -139,19 +139,10 @@
 						</div>
 					</form>
 					<div class="col-md-offset-9 col-md-3 light-letter eav-filter">
-						<a th:href="@{/products/pages/1/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver})}">
-							<span class="checkbox">
-								<input type="checkbox" value="les produits eavest" name="eav-prd" checked="true" th:if="${filter.isEavest}"/>
-								<input type="checkbox" value="les produits eavest" name="eav-prd" th:unless="${filter.isEavest}"/>
-								<label for="eav-prd" th:text="#{prd.eavest.filter}">les produits eavest</label>
-							</span>
+						<a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
+							<span th:if="${filter.isEavest}" th:text="#{prd.remove.eavest.filter}">x les produits eavest</span>
+							<span th:unless="${filter.isEavest}" th:text="#{prd.eavest.filter}">o les produits eavest</span>
 						</a>
-							<!-- <a th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=!${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb})}">
-								<span th:if="${filter.isEavest}">x</span>
-								<span th:unless="${filter.isEavest}">o</span>
-								<span></span>
-								<span th:text="#{prd.eavest.filter}">les produits eavest</span>
-							</a> -->
 					</div>
 				</div>
 			</div>
@@ -216,7 +207,7 @@
 				<a class="active" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${displayedPageNb})}" th:text="${displayedPageNb}">1</a>
 			</li>
 			<li><a th:if="${totalPageNb - endPageNb} > 0" >...</a></li>
-			<li><a th:if="${currentPageNb - totalPageNb}" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb+1})}" th:text="#{page.next}">Next</a></li>
+			<li><a th:if="${currentPageNb - totalPageNb} lt 0" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${currentPageNb+1})}" th:text="#{page.next}">Next</a></li>
 			<li><a th:if="${totalPageNb - endPageNb} > 0" href="#" th:href="@{/products/pages/{nb}/filter(nm=${filter.label}, is=${filter.isin}, sj=${filter.labelSousJacent}, ev=${filter.isEavest}, bk=${filter.deliver}, nb=${totalPageNb})}" th:text="#{page.last}">Last</a></li>
   	</ul>
 	</div>
