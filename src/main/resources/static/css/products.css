@@ -350,12 +350,15 @@ section {
 /*CHART PRODUCT PAGE*/
 
 #chartdiv {
-  height: 400px;
-  width: 650px;
+  height: auto;
+  width: auto;
+}
+
+.chart-title {
+  padding-bottom: 15px;
 }
 
 section.chart {
-  text-align: -webkit-center;
   padding: 15px 0 45px 15px;
 }
 
@@ -378,6 +381,7 @@ section.chart {
 .legend {
   padding: 25px;
   font-size: 11px;
+  display: inline-block;
 }
 
 #euroStoxx {
@@ -417,8 +421,8 @@ section.chart {
 
 @media(max-width: 760px){
   #chartdiv {
-    height:200px;
-    width:350px;
+    height: auto;
+    width: auto;
   }
   section.chart {
     text-align: -webkit-center;
@@ -432,7 +436,7 @@ section.chart {
   }
 }
 
-@media only screen and (max-width:760px){
+@media only screen and (max-width:767px){
 	#product-trash {
 		position: absolute;
 		top: -4px;
@@ -456,6 +460,10 @@ section.chart {
 	#product-main-title h3 {
 		padding-left: 4px;
 	}
+  #chartdiv {
+    height: 350px;
+    width: 300px;
+  }
 }
 
 @media only screen and (min-device-width : 500px) and (max-device-width : 600px){
@@ -479,11 +487,14 @@ section.chart {
   .product-wrapper {
     padding-bottom: 15px;
   }
+  #chartdiv {
+    height: 400px;
+    width: 300px;
+  }
 }
 
 @media only screen and (max-width:990px){
     .blue-uppercase {
       font-size: 14px;
     }
-
 }

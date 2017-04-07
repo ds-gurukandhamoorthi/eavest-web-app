@@ -122,6 +122,22 @@ h5 {
   margin-top: 15px;
 }
 
+/*autocomplete */
+.ui-autocomplete-input {
+  font-weight: 100;
+  color: black !important;
+}
+
+.ui-autocomplete-input:hover {
+  font-weight: 100;
+  color: black !important;
+}
+
+.ui-autocomplete {
+  font-weight: bold;
+  color: black;
+}
+
 .grey-letters {
   color: #585858;
   font-weight: 100;
@@ -1370,27 +1386,14 @@ a.panel-heading {
 }
 
 .search-bar {
-  height: 48px;
-  border: solid 2px #0251FB;
-  margin-top: 15px;
+  height: 48px !important;
+  border: solid 2px #0251FB !important;
+  margin-top: 15px !important;
+  color: black !important;
 }
 
-input[type=search] {
-  border: solid 1px white;
-  border-right: none;
-  height: 37px;
-  margin-bottom: 15px;
-  margin-top: 15px;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 55%;
-  right: 70px;
-  -webkit-transform: translateY(2px);
-  -moz-transform: translateY(2px);
-  -ms-transform: translateY(2px);
-  -o-transform: translateY(2px);
-  transform: translateY(2px);
+.search-bar:hover {
+  color: white !important;
 }
 
 .search p {
@@ -1411,6 +1414,54 @@ input[type=search] {
   padding: 3px;
   position: absolute;
   right: 36px;
+}
+
+input[type=search] {
+  border: solid 1px white !important;
+  border-right: none !important;
+  height: 37px !important;
+  margin-bottom: 15px !important;
+  margin-top: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute !important;
+  width: 55% !important;
+  right: 70px !important;
+  -webkit-transform: translateY(2px) !important;
+  -moz-transform: translateY(2px) !important;
+  -ms-transform: translateY(2px) !important;
+  -o-transform: translateY(2px) !important;
+  transform: translateY(2px) !important;
+  color: black !important;
+}
+
+input {
+  color: black !important;
+}
+
+input[type="search" i]:focus {
+  background: transparent;
+  color: black !important;
+}
+
+.ui-menu .ui-menu-item a{
+    background: transparent;
+    height: auto;
+    border: black;
+    color: black !important;
+}
+
+.ui-autocomplete {
+    background: white;
+    border-radius: 0px;
+}
+
+.ui-autocomplete.source:hover {
+    background: transparent;
+}
+
+.ui-menu-item a{
+    color: black;
 }
 
 .numbers {

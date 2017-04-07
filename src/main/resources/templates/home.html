@@ -239,6 +239,7 @@
 						<p class="grey-letters"><span th:text="#{prd.name}">Nom du produit</span>, <span th:text="#{prd.undrl.asset}">Sous-jacent</span></p>
 						<div class="search-bar">
 							<span>
+
 								<form th:object="${search}" action="#" th:action="@{/home/find}" method="post">
 									<input type="search" id="find-product" autocomplete="off" th:field="*{text}"/>
 									<button type="submit"><i class="fa fa-2x fa-search"></i></button>
@@ -636,7 +637,6 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/js/script.js"></script>
 	<script src="/js/extra.js"></script>
@@ -645,19 +645,20 @@
 	<script src="/js/simplebar.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/simplebar@2.2.1/dist/simplebar.css" />
 	<script src="https://unpkg.com/simplebar@2.2.1/dist/simplebar.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
  	<!-- Script for autocompleting the filter text box for searching products -->
 
  	<script th:inline="javascript">
  	/*<![CDATA[*/
  	$(document).ready(function(){
  		// à décommenter KNA avant commit
- 		var productTags = [[${productNames}]];
- 	// 	var maListe = ['tata'];
+ 	// 	var productTags = [[${productNames}]];
+ 		var maListe = ['tata'];
  		/*console.log(productTags);*/
  		$('#find-product').autocomplete({
  		// à décommenter KNA avant commit
- 		source: productTags
- 	// 	source: maListe
+ 	// 	source: productTags
+ 		source: maListe
  		});
  	});
 

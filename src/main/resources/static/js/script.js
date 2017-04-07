@@ -139,3 +139,64 @@ $(function() {
         $("#productsModal").modal("hide");
     });
 });
+
+// autocomplete customization
+
+var wordlist = [
+          'toto', 'tata', 'coucou', 'comment', 'ca', 'va'
+      ];
+
+
+      wordlist.sort();
+
+
+      function monkeyPatchAutocomplete() {
+
+          var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+          $.ui.autocomplete.prototype._renderItem = function( ul, item) {
+              var re = new RegExp("^" + this.term, "i") ;
+              var t = item.label.replace(re,"<span style='font-weight:bold;color:Black;'>" + this.term + "</span>");
+              return $( "<li></li>" )
+                  .data( "item.autocomplete", item )
+                  .append( "<a>" + t + "</a>" )
+                  .appendTo( ul );
+          };
+      }
+
+
+      $(document).ready(function() {
+
+          monkeyPatchAutocomplete();
+
+          $("#find-product, #filter_1, #filter_2, #filter_3, #filter_4").autocomplete({
+              // The source option can be an array of terms.  In this case, if
+              // the typed characters appear in any position in a term, then the
+              // term is included in the autocomplete list.
+              // The source option can also be a function that performs the search,
+              // and calls a response function with the matched entries.
+              source: function(req, responseFn) {
+                  addMessage("search on: '" + req.term + "'<br/>");
+                  var re = $.ui.autocomplete.escapeRegex(req.term);
+                  var matcher = new RegExp( "^" + re, "i" );
+                  var a = $.grep( wordlist, function(item,index){
+                      //addMessage("&nbsp;&nbsp;sniffing: '" + item + "'<br/>");
+                      return matcher.test(item);
+                  });
+                  addMessage("Result: " + a.length + " items<br/>");
+                  responseFn( a );
+              },
+
+              select: function(value, data){
+                  if (typeof data == "undefined") {
+                      addMessage('You selected: ' + value + "<br/>");
+                  }else {
+                      addMessage('You selected: ' + data.item.value + "<br/>");
+                  }
+              }
+          });
+      });
+
+    function addMessage(msg){
+        $('#msgs').append(msg);
+    }
