@@ -1444,6 +1444,11 @@ input[type="search" i]:focus {
   color: black !important;
 }
 
+button[type="submit"]{
+  background: transparent;
+  border: none;
+}
+
 .ui-menu .ui-menu-item a{
     background: transparent;
     height: auto;
@@ -1454,6 +1459,12 @@ input[type="search" i]:focus {
 .ui-autocomplete {
     background: white;
     border-radius: 0px;
+    cursor: none;
+}
+
+.ui-autocomplete:hover {
+  background: white;
+  cursor: none;
 }
 
 .ui-autocomplete.source:hover {
