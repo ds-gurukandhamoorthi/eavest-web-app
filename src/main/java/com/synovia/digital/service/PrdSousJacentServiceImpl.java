@@ -155,10 +155,7 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 			throws EavEntryNotFoundException {
 		LOGGER.debug("Updating an existing PrdSousJacent entry (remove values) with information: {}", idSousJacent);
 		// Find the identified underlying asset.
-		PrdSousJacent toUpdate = repo.findOne(idSousJacent);
-
-		if (toUpdate == null)
-			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
+		PrdSousJacent toUpdate = findById(idSousJacent);
 
 		for (Long idValues : idSousJacentValues) {
 			sousJacentValueService.delete(idValues);
@@ -176,21 +173,35 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 	 * PrdSousjacentDto)
 	 */
 	@Override
-	public PrdSousJacent update(PrdSousjacentDto updatedSousJacentDto)
-			throws EavEntryNotFoundException, EavConstraintViolationEntry {
+	public PrdSousJacent update(PrdSousjacentDto updatedSousJacentDto) throws EavTechnicalException {
 		if (updatedSousJacentDto == null)
 			return null;
 		// Find the corresponding entity.
-		PrdSousJacent entity = repo.findOne(updatedSousJacentDto.getId());
-
-		if (entity == null)
-			throw new EavEntryNotFoundException(PrdSousJacent.class.getTypeName());
+		PrdSousJacent entity = findById(updatedSousJacentDto.getId());
 
 		// Update the entity.
-		updateFromDto(entity, updatedSousJacentDto);
+		return update(entity, updatedSousJacentDto);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.synovia.digital.service.PrdSousJacentService#update(com.synovia.digital.model.
+	 * PrdSousJacent, com.synovia.digital.dto.PrdSousjacentDto)
+	 */
+	@Override
+	public PrdSousJacent update(PrdSousJacent entity, PrdSousjacentDto dto) throws EavTechnicalException {
+		if (dto == null)
+			return null;
+
+		// Update the entity.
+		updateFromDto(entity, dto);
+
+		// Update perf.
+		updatePerf(entity);
 
 		return entity;
-
 	}
 
 	/**
@@ -215,6 +226,9 @@ public class PrdSousJacentServiceImpl implements PrdSousJacentService {
 		}
 		if (dto.getBloombergCode() != null) {
 			entity.setBloombergCode(dto.getBloombergCode());
+		}
+		if (dto.getIsPerfReview() != null) {
+			entity.setIsPerfReview(dto.getIsPerfReview());
 		}
 	}
 

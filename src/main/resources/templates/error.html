@@ -78,9 +78,8 @@
       <div class="error-area col-md-offset-2 col-md-8 margin_b">
         <h1 class="padding_b" th:text="#{to.translate}">Page non trouvée</h1>
         <p>
-					<em><span th:text="#{to.translate}">Retourner sur la page d'accueil ?</span></em>
+					<em><span th:text="#{${errorMessage}}">Retourner sur la page d'accueil ?</span></em>
 					<button class="btn btn-default" type="button" id="btn-home"><a href="/home" th:text="#{eav.menu.home}">Page d'accueil</a></button>
-
 				</p>
 				<!--
         <p>

@@ -131,9 +131,9 @@ public class PrdUserController {
 			String errorMsg = "An error occurs while accessing the wallet for account {}";
 			LOGGER.error(errorMsg, account);
 
-			// TODO Process the error better
 			e.printStackTrace();
-			view = "error";
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.VIEW_ERROR;
 
 		}
 
@@ -154,9 +154,9 @@ public class PrdUserController {
 			view = EavControllerUtils.createRedirectViewPath(HomeController.REQUEST_MAPPING_USER_PRODUCTS);
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			view = "error";
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 		return view;
 	}
@@ -182,8 +182,9 @@ public class PrdUserController {
 			view = EavControllerUtils.createRedirectViewPath(HomeController.REQUEST_MAPPING_USER_PRODUCTS);
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -203,8 +204,9 @@ public class PrdUserController {
 			view = EavControllerUtils.createRedirectViewPath(HomeController.REQUEST_MAPPING_USER_PRODUCTS);
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;

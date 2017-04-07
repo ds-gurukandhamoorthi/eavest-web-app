@@ -43,8 +43,9 @@ public interface PrdSousJacentService {
 	 * @param updatedSousJacentDto
 	 *            The DTO object.
 	 */
-	public PrdSousJacent update(PrdSousjacentDto updatedSousJacentDto)
-			throws EavEntryNotFoundException, EavConstraintViolationEntry;
+	public PrdSousJacent update(PrdSousjacentDto updatedSousJacentDto) throws EavTechnicalException;
+
+	public PrdSousJacent update(PrdSousJacent entity, PrdSousjacentDto dto) throws EavTechnicalException;
 
 	public List<PrdSousJacent> findAll();
 

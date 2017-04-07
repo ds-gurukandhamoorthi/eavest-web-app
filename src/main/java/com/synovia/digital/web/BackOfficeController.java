@@ -30,6 +30,7 @@ import com.synovia.digital.dto.EavParamsDto;
 import com.synovia.digital.dto.PrdProductDateDto;
 import com.synovia.digital.dto.PrdProductDto;
 import com.synovia.digital.dto.PrdProductListDto;
+import com.synovia.digital.dto.PrdSousJacentValueDto;
 import com.synovia.digital.dto.PrdSousjacentDto;
 import com.synovia.digital.exceptions.EavConstraintViolationEntry;
 import com.synovia.digital.exceptions.EavDuplicateEntryException;
@@ -49,6 +50,7 @@ import com.synovia.digital.service.PrdEarlierRepaymentDateService;
 import com.synovia.digital.service.PrdObservationDateService;
 import com.synovia.digital.service.PrdProductService;
 import com.synovia.digital.service.PrdSousJacentService;
+import com.synovia.digital.service.PrdSousJacentValueService;
 import com.synovia.digital.service.PrdUserService;
 import com.synovia.digital.utils.EavControllerUtils;
 
@@ -69,9 +71,9 @@ public class BackOfficeController {
 	public static final String VIEW_ADD_PRODUCT_DATE = "bo-product-date";
 	public static final String VIEW_ACCOUNTS = "bo-accounts";
 	public static final String VIEW_TESTS_MENU = "bo-product-tests";
-	public static final String VIEW_ERROR = "error";
 	public static final String VIEW_USER_INFO = "bo-user-info";
 	public static final String VIEW_UPDATE_PRODUCT = "bo-update-product";
+	public static final String VIEW_UPDATE_SSJACENT = "bo-update-ssjacent";
 
 	protected static final String REQUEST_MAPPING_SOUS_JACENT_VIEW = "/admin/sousjacents";
 	protected static final String REQUEST_MAPPING_PRODUCT_VIEW = "/admin/products/{id}";
@@ -111,6 +113,9 @@ public class BackOfficeController {
 
 	@Autowired
 	protected PrdSousJacentService sousJacentService;
+
+	@Autowired
+	protected PrdSousJacentValueService sjctValueService;
 
 	@Autowired
 	protected PrdProductService productService;
@@ -204,9 +209,9 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_ACCOUNTS_VIEW);
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 		return view;
 	}
@@ -267,7 +272,9 @@ public class BackOfficeController {
 				// Display the create product view.
 			} catch (Exception e) {
 				// TODO Display error page
-				return VIEW_ERROR;
+				attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE,
+						EavControllerUtils.I18N_ERROR_CODE);
+				view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 			}
 		}
 
@@ -299,7 +306,8 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -326,7 +334,8 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -353,7 +362,8 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -380,7 +390,8 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -406,7 +417,8 @@ public class BackOfficeController {
 
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = VIEW_ERROR;
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.VIEW_ERROR;
 		}
 		return view;
 	}
@@ -434,7 +446,8 @@ public class BackOfficeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_UPDATE_PRODUCT);
 
 		} catch (EavTechnicalException e) {
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 		return view;
 	}
@@ -454,18 +467,96 @@ public class BackOfficeController {
 					.append(label).append(") has been successfully deleted.").toString());
 
 		} catch (EavEntryNotFoundException e) {
-			e.printStackTrace();
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
 	}
 
+	@GetMapping(value = "/sjcts/{id}/update")
+	public String showUpdateSousJacent(@PathVariable("id") Long id, Model model) {
+		String view = null;
+		model.addAttribute("dateValue", new PrdSousJacentValueDto());
+		try {
+			// Retrieve the underlying asset
+			PrdSousJacent sjct = sousJacentService.findById(id);
+			// Create the attribute DTO
+			PrdSousjacentDto dto = new PrdSousjacentDto(sjct);
+			// Send the response DTO
+			model.addAttribute(ATTR_SOUS_JACENT_DTO, dto);
+			view = VIEW_UPDATE_SSJACENT;
+
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.VIEW_ERROR;
+		}
+		return view;
+	}
+
 	@PostMapping(value = "/sjcts/{id}/update")
-	public String updateSousJacent(@PathVariable("id") Long id, @ModelAttribute("toUpdate") PrdSousjacentDto toUpdate,
+	public String updateSousJacent(@PathVariable("id") Long id, @ModelAttribute("ssjacent") PrdSousjacentDto toUpdate,
 			RedirectAttributes attributes) {
-		// TODO
-		return null;
+		String view = null;
+		PrdSousJacent entity = null;
+		try {
+			entity = sousJacentService.findById(id);
+		} catch (EavEntryNotFoundException e1) {
+			e1.printStackTrace();
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
+		}
+		try {
+			sousJacentService.update(entity, toUpdate);
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Underlying asset ")
+					.append(entity.getLabel()).append(" has been updated!").toString());
+			attributes.addFlashAttribute(ATTR_OBS_DATE_LIST, obsDateService.findByIdPrdProduct(id));
+			attributes.addAttribute(PARAMETER_SOUS_JACENT_ID, id);
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+					new StringBuilder("Warning: Underlying asset has not been updated!").toString());
+			attributes.addAttribute(PARAMETER_SOUS_JACENT_ID, id);
+			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
+		}
+		return view;
+	}
+
+	@PostMapping(value = "/sjcts/{id}/addValue")
+	public String addSousJacentValue(@PathVariable("id") Long id,
+			@Valid @ModelAttribute("dateValue") PrdSousJacentValueDto sjctValueDto, BindingResult result,
+			RedirectAttributes attributes, Model model) {
+		String view = null;
+		try {
+			PrdSousJacent sjct = sousJacentService.findById(id);
+
+			if (result.hasErrors()) {
+				model.addAttribute(ATTR_SOUS_JACENT_DTO, sjct);
+				model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Cannot add the value. An error occurs!");
+
+			} else {
+				sjct = sousJacentService.addValue(id, sjctValueDto);
+
+				LOGGER.debug("The input value was added.");
+
+				attributes.addFlashAttribute(ATTR_MESSAGE_FEEDBACK,
+						new StringBuilder("Input value has been added!").toString());
+				attributes.addFlashAttribute(ATTR_SOUS_JACENT_DTO, sjct);
+				// Redirect the view
+				view = EavControllerUtils.createRedirectViewPath("/admin/sjcts/{id}/addValue");
+
+			}
+		} catch (EavEntryNotFoundException e) {
+			e.printStackTrace();
+			attributes.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
+		}
+
+		return view;
+
 	}
 
 	@GetMapping(value = "/products/{id}/addDate")
@@ -482,7 +573,8 @@ public class BackOfficeController {
 
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = VIEW_ERROR;
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.VIEW_ERROR;
 		}
 		return view;
 	}
@@ -521,7 +613,8 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -559,7 +652,8 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -597,7 +691,8 @@ public class BackOfficeController {
 			}
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.error("Product not found");
-			view = VIEW_ERROR;
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;
@@ -620,6 +715,8 @@ public class BackOfficeController {
 		List<PrdSousJacent> sousJacentList = sousJacentService.findAll();
 		model.addAttribute(ATTR_SOUS_JACENT_LIST, sousJacentList);
 		model.addAttribute(ATTR_SOUS_JACENT_DTO, new PrdSousjacentDto());
+		resultView = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
+
 		if (result.hasErrors()) {
 			LOGGER.error("The input entry violates constraints.");
 			model.addAttribute(ATTR_MESSAGE_FEEDBACK, "Underlying asset entry is incomplete!");
@@ -636,16 +733,17 @@ public class BackOfficeController {
 						.append(added.getLabel()).append("] was successfully created!").toString());
 				attributes.addFlashAttribute(ATTR_SOUS_JACENT_LIST, sousJacentService.findAll());
 
-				resultView = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_CREATE_SSJACENT_VIEW);
-
 			} catch (EavDuplicateEntryException e) {
 				LOGGER.debug("The input entry to create already exists.");
 				model.addAttribute(ATTR_MESSAGE_FEEDBACK, new StringBuilder("Underlying asset entry [")
 						.append(ssJacent.getLabel()).append("] already exists!").toString());
 
 			} catch (Exception e) {
-				// TODO Display error page
-				resultView = VIEW_ERROR;
+				// Display error page
+				e.printStackTrace();
+				attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE,
+						EavControllerUtils.I18N_ERROR_CODE);
+				resultView = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 			}
 		}
 
@@ -665,17 +763,11 @@ public class BackOfficeController {
 			model.addAttribute("selectedProducts", new PrdProductListDto());
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			resultView = VIEW_ERROR;
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			resultView = EavControllerUtils.VIEW_ERROR;
 		}
 
 		return resultView;
 	}
-
-	@PostMapping(value = "/users/{id}/addProducts")
-	public String addUserProducts(@PathVariable("id") Long id) {
-		return null;
-	}
-
 }

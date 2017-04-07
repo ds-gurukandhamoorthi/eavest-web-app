@@ -219,6 +219,7 @@ public class PrdProductController {
 
 	@GetMapping(value = "/{id}")
 	public String showProduct(@PathVariable Long id, Model model, HttpSession session, Principal principal) {
+		String view = null;
 		// Display user info
 		if (session.getAttribute(HomeController.ATTR_USERNAME_INFO) == null) {
 			if (principal != null) {
@@ -231,11 +232,13 @@ public class PrdProductController {
 
 		try {
 			model.addAttribute(ATTR_PRODUCT, productService.findById(id));
+			view = VIEW_ONE_PRODUCT;
 
 		} catch (EavEntryNotFoundException e) {
-			return "error";
+			model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.VIEW_ERROR;
 		}
-		return VIEW_ONE_PRODUCT;
+		return view;
 	}
 
 	@GetMapping(value = "/{id}/image")
@@ -246,7 +249,7 @@ public class PrdProductController {
 		try {
 			prdImage = productService.getImage(productService.findById(id));
 			result = org.apache.commons.io.FileUtils.readFileToByteArray(prdImage);
-			LOGGER.info("Image {} has been successfully read", prdImage);
+			LOGGER.debug("Image {} has been successfully read", prdImage);
 
 		} catch (EavEntryNotFoundException e) {
 			LOGGER.warn("Product not found {}", id);
@@ -268,7 +271,7 @@ public class PrdProductController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.parseMediaType("application/pdf"));
 			prdFease = productService.getFease(productService.findById(id));
-			LOGGER.info("Reading fease {}", prdFease);
+			LOGGER.debug("Reading fease {}", prdFease);
 			String filename = prdFease.getName();
 			headers.setContentDispositionFormData(filename, filename);
 			//			result = org.apache.commons.io.FileUtils.readFileToByteArray(prdFease);
@@ -295,7 +298,7 @@ public class PrdProductController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.parseMediaType("application/pdf"));
 			prdMarket = productService.getMarketingDoc(productService.findById(id));
-			LOGGER.info("Reading marketing document {}", prdMarket);
+			LOGGER.debug("Reading marketing document {}", prdMarket);
 			String filename = prdMarket.getName();
 			headers.setContentDispositionFormData(filename, filename);
 			result = new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(prdMarket), headers,
@@ -321,7 +324,7 @@ public class PrdProductController {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.parseMediaType("application/pdf"));
 			prdTS = productService.getTermSheet(productService.findById(id));
-			LOGGER.info("Reading term sheet {}", prdTS);
+			LOGGER.debug("Reading term sheet {}", prdTS);
 			String filename = prdTS.getName();
 			headers.setContentDispositionFormData(filename, filename);
 			result = new ResponseEntity<byte[]>(org.apache.commons.io.FileUtils.readFileToByteArray(prdTS), headers,
@@ -363,8 +366,9 @@ public class PrdProductController {
 			}
 
 		} catch (EavEntryNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 		}
 
 		return view;

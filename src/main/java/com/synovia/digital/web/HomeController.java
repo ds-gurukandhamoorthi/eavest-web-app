@@ -18,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +101,13 @@ public class HomeController {
 	public ModelAndView index(ModelAndView modelAndView, RedirectAttributes attributes) {
 		modelAndView.setViewName(EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_HOME));
 		return modelAndView;
+	}
+
+	@GetMapping(value = "/error")
+	public String showErrorPage(Model model) {
+		model.addAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+		return EavControllerUtils.VIEW_ERROR;
+
 	}
 
 	@RequestMapping(value = "/login")
@@ -197,9 +206,8 @@ public class HomeController {
 			view = EavControllerUtils.createRedirectViewPath(REQUEST_MAPPING_USER_PRODUCTS);
 
 		} catch (Exception e) {
-			// TODO
-			e.printStackTrace();
-			view = "error";
+			attributes.addFlashAttribute(EavControllerUtils.ATTR_ERROR_RESPONSE, EavControllerUtils.I18N_ERROR_CODE);
+			view = EavControllerUtils.createRedirectViewPath(EavControllerUtils.REQUEST_MAPPING_ERROR);
 
 		}
 
