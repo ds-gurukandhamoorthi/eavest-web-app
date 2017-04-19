@@ -653,14 +653,13 @@
  	<script th:inline="javascript">
  	/*<![CDATA[*/
  	$(document).ready(function(){
- 		// à décommenter KNA avant commit
- 	// 	var productTags = [[${productNames}]];
- 		var maListe = ['tata'];
+ 	 	var productTags = [[${productNames}]];
+ 		// var maListe = ['tata'];
  		/*console.log(productTags);*/
  		$('#find-product').autocomplete({
  		// à décommenter KNA avant commit
- 	// 	source: productTags
- 		source: maListe
+ 	 	source: productTags
+ 	//	source: maListe
  		});
  	});
 
