@@ -1462,17 +1462,22 @@ button[type="submit"]{
     cursor: none;
 }
 
+
 .ui-autocomplete:hover {
   background: white;
   cursor: none;
 }
 
 .ui-autocomplete.source:hover {
-    background: transparent;
+  background: transparent;
 }
 
 .ui-menu-item a{
-    color: black;
+  color: black;
+}
+
+.ui-menu-item a:hover{
+  background-color: transparent !important;
 }
 
 .numbers {
