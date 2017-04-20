@@ -65,11 +65,13 @@
 									</li>
 									<li class="btn-back">
 										<span sec:authorize="hasRole('ROLE_ADMIN')">
-										<form th:action="@{/admin}" method="get">
-											<input type="submit" value="Back Office" class="btn btn-default log" />
-										</form>
+											<form th:action="@{/admin}" method="get">
+												<input type="submit" value="Back Office" class="btn btn-default log" />
+											</form>
+										</span>
 									</li>
 								</ul>
+							</span>
 						</div>
 					</div>
 			<!-- end nav -->
@@ -276,8 +278,8 @@
 			<div class="col-sm-12 col-md-12 prod-black-separator"></div>
 			<!-- end container -->
 		</div>
-		</section>
 	</div>
+</section>
 
 <!-- SECTION CHART -->
 <section class="chart">

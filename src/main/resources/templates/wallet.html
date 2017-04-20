@@ -67,11 +67,13 @@
 									</li>
 									<li class="btn-back">
 										<span sec:authorize="hasRole('ROLE_ADMIN')">
-										<form th:action="@{/admin}" method="get">
-											<input type="submit" value="Back Office" class="btn btn-default log" />
-										</form>
+											<form th:action="@{/admin}" method="get">
+												<input type="submit" value="Back Office" class="btn btn-default log" />
+											</form>
+										</span>
 									</li>
 								</ul>
+							</span>
 						</div>
 					</div>
 			<!-- end nav -->
