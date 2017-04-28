@@ -209,13 +209,19 @@ public class EavestWebAppApplication extends WebMvcConfigurerAdapter {
 				basic.setIsin(new StringBuilder("TCO00132-").append(i).toString());
 				basic.setPrdSousJacent(indices.get(i % 9));
 				basic.setLaunchDate(DateUtils.addDays(defaultLaunchDate, -i));
-				basic.setDueDate(DateUtils.addDays(defaultDueDate, 2 * i + 1));
+				int daysToAdd = (int) Math.pow(-1, i);
+				Date dueDate = DateUtils.addDays(defaultDueDate, -i);
+				basic.setDueDate(dueDate);
+				if (daysToAdd < 0) {
+					basic.setEndDate(dueDate);
+				}
 				basic.setDeliver("Natixis");
 				basic.setIsEavest(i % 3 == 0 ? true : false);
-				basic.setPrdRule(new PrdRule(77d + i - nbCreatedProducts, 88d + i - nbCreatedProducts,
-						100d + i - nbCreatedProducts));
+				basic.setPrdRule(new PrdRule(77d + (i - nbCreatedProducts) / nbCreatedProducts,
+						88d + (i - nbCreatedProducts) / nbCreatedProducts,
+						100d + (i - nbCreatedProducts) / nbCreatedProducts));
 				basic.setObservationFrequency("une fois par an les années 1 à 8");
-				basic.setStrike(380.28 + i * 100);
+				basic.setStrike(380.28 + i);
 				basic.setCouponValue(5d + i);
 				basic.setPrdStatus(idle);
 
