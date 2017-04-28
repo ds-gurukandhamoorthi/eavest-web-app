@@ -17,6 +17,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800" rel="stylesheet" />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+	<!--
+	<link rel="stylesheet" href="/css/easy-autocomplete.min.css" />
+-->
 
 	<link rel="stylesheet" type="text/css" href="/css/home.css" />
 
@@ -229,6 +232,11 @@
 								</form>
 							</span>
 						</div>
+						<!--
+						<div class="search-bar">
+							<input type="search" id="countries" autocomplete="off" />
+						</div>
+					-->
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -629,6 +637,7 @@
 	<script src="/js/simplebar.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/simplebar@2.2.1/dist/simplebar.css" />
 	<script src="https://unpkg.com/simplebar@2.2.1/dist/simplebar.js"></script>
+	<script src="/js/jquery.easy-autocomplete.min.js"></script>
  	<!-- Script for autocompleting the filter text box for searching products -->
 
  	<script th:inline="javascript">
@@ -643,6 +652,26 @@
  		source: productTags
  	// 	source: maListe
  		});
+ 	});
+
+	$(document).ready(function(){
+ 		// à décommenter KNA avant commit
+ 		var productTags = {
+			data: [[${productNames}]],
+			list: {
+	        maxNumberOfElements: 4,
+	        match: {
+	            enabled: true
+	        },
+	        sort: {
+	            enabled: true
+	        }
+	    },
+			theme: "square"
+		};
+ 	// 	var maListe = ['tata'];
+ 		/*console.log(productTags);*/
+ 		$('#countries').easyAutocomplete(productTags);
  	});
 
  	// ACCORDION redirection selon nombre de produits

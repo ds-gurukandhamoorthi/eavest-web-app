@@ -26,7 +26,6 @@
 						<li id="menu-bo-sousjacent"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
             <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Produits</a></li>
             <li id="menu-bo-user"><a href="http://localhost:8080/admin/accounts">Comptes utilisateur</a></li>
-						<li id="menu-bo-other"><a href="#">Autre chose</a></li>
     			</ul>
 				</nav>
 			</div>
@@ -131,6 +130,8 @@
       				  <th th:text="#{bo.products.label}">Label</th>
                 <th th:text="#{bo.products.bank.name}">Emetteur</th>
                 <th th:text="#{bo.products.base}">Sous-jacent</th>
+                <th>Date d'emission</th>
+                <th>Date d'échéance</th>
                 <th th:text="#{bo.products.end.date}">Date de fin</th>
       				  <th th:text="#{bo.products.update}">Mettre à jour</th>
       				  <th th:text="#{bo.products.delete}">Supprimer</th>
@@ -143,6 +144,8 @@
       				  <td th:text="${product.label}">Label du produit</td>
                 <td th:text="${product.deliver}">Société Générale</td>
       				  <td th:text="${product.prdSousJacent.label}">Label du sous-jacent</td>
+                <td th:text="${product.launchDate}">dd/MM/yyyy</td>
+                <td th:text="${product.dueDate}">dd/MM/yyyy</td>
                 <td th:text="${product.endDate}">dd/MM/yyyy</td>
       				  <td>
                   <form action="#" th:action="@{/admin/products/{id}/update(id=${product.id})}" method="GET">

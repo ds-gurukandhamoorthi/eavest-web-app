@@ -121,7 +121,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+              <th>Date d'observation du produit:</th>
     				</tr>
     				<tr th:each="observationDate : ${obsDates}">
     				  <td th:text="${observationDate.date}">yyyy/MM/dd</td>
@@ -157,7 +157,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+              <th>Date de paiement anticipé du produit:</th>
     				</tr>
     				<tr th:each="payDate : ${earlyPayDates}">
     				  <td th:text="${payDate.date}">yyyy/MM/dd</td>
@@ -193,7 +193,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+              <th>Date de remboursement du produit:</th>
     				</tr>
     				<tr th:each="coupon : ${couponDates}">
     				  <td th:text="${coupon.date}">yyyy/MM/dd</td>

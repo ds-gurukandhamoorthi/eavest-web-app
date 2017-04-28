@@ -25,7 +25,6 @@
 						<li id="menu-bo-sousjacent"><a href="http://localhost:8080/admin/createSsjacent">Sous-jacents</a></li>
             <li id="menu-bo-tests"><a href="http://localhost:8080/admin/tests">Produits</a></li>
             <li id="menu-bo-user"><a href="http://localhost:8080/admin/accounts">Comptes utilisateur</a></li>
-						<li id="menu-bo-other"><a href="#">Autre chose</a></li>
     			</ul>
 				</nav>
 			</div>
@@ -155,11 +154,7 @@
         </table>
       </div>
       <div>
-        <ul>
-          <li>
-            <span th:text="${imageFile}">Un fichier du produit</span>
-          </li>
-        </ul>
+        <span th:text="${imageFile}">Un fichier du produit</span>
       </div>
       <div>
         <h2>Dates d'observation</h2>
@@ -189,7 +184,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+    				  <th>Date d'observation du produit:</th>
     				</tr>
     				<tr th:each="observationDate : ${obsDates}">
     				  <td th:text="${observationDate.date}">yyyy/MM/dd</td>
@@ -225,7 +220,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+    				  <th>Date de paiement anticipé du produit:</th>
     				</tr>
     				<tr th:each="payDate : ${earlyPayDates}">
     				  <td th:text="${payDate.date}">yyyy/MM/dd</td>
@@ -261,7 +256,7 @@
         <div>
           <table>
     				<tr>
-    				  <th th:text="#{code.date}">Date</th>
+    				  <th>Date de remboursement du produit:</th>
     				</tr>
     				<tr th:each="coupon : ${couponDates}">
     				  <td th:text="${coupon.date}">yyyy/MM/dd</td>
