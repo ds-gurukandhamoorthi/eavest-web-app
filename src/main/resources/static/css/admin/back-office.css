@@ -124,7 +124,7 @@ textarea {
     padding: 14px 20px;
     margin: 8px 0;
     border-color: #222222;
-    border-radius: 4px;
+    border-radius: 0px;
     cursor: pointer;
     background-color: #ffffff;
     text-transform: uppercase;
@@ -133,4 +133,10 @@ textarea {
 #create-ss-jacent {
 	top: 25px;
 	left: 15px;
+}
+
+.table input[type=submit], .table [type=date]{
+  padding: 2px 20px;
+  margin: 0;
+  border-radius: 0px;
 }

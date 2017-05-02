@@ -38,7 +38,6 @@ section {
   font-size: 15px;
   border: none;
   margin: 0 auto;
-  margin: 0 auto;
   padding: 11px 40px !important;
   margin-bottom: 25px;
   margin-top: 15px;
@@ -86,7 +85,6 @@ section {
   text-align: center;
   margin-top: 25px;
   margin-bottom: 7px;
-  text-transform: uppercase;
 }
 
 .filter-1 {
@@ -111,16 +109,16 @@ section {
 }
 
 #filter-search {
-  background-color: black !important;
+  background-color: black;
   color: white;
   margin-bottom: 15px;
   padding-left: 45px;
   padding-right: 45px;
+  border-radius: 0px;
   -webkit-border-radius: 0 !important;
   -moz-border-radius: 0 !important;
   -ms-border-radius: 0 !important;
   -o-border-radius: 0 !important;
-  border-radius: 0 !important;
   text-transform: uppercase;
 }
 
@@ -162,6 +160,10 @@ section {
 #one-product-title {
   color: black;
   font-weight: 800;
+}
+
+.product-body h3{
+    padding-left: 12px;
 }
 
 .prod-list {

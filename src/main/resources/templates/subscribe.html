@@ -37,37 +37,34 @@
 
 <body>
 
+	<!-- NAVBAR -->
+
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="nav">
-				<div class="col-xs-12 col-sm-8 col-md-7 logo-area">
-					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="img-responsive logo"/></h1>
+				<div class="col-md-12 center-block">
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
-				<div class="col-xs-12 col-sm-5 col-md-4 connexion-area">
-					<div class="col-md-12">
-						<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-					</div>
-					<div class="col-md-12">
-						<span>
-							<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-							<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
-						</span>
-					</div>
+				<div class="language-switcher navbar-right">
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span id="socials">
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+					</span>
 				</div>
-			<!-- end nav -->
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
-				<ul class="navbar navbar-list list-inline list-unstyled">
-					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-					<li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
-					<li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
+				<ul class="navbar list-inline list-unstyled">
+        	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+          <li id="menu-wallet"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+          <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
+          <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
+          <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
 					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
 					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
 					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
-				</ul>
+        </ul>
 				<div class="slider_jquery slider hidden-xs">
 					<div class="slider-container"></div>
 				</div>

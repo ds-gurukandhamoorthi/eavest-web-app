@@ -43,53 +43,42 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="nav">
-				<div class="col-xs-12 col-sm-8 col-md-7 logo-area">
-					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="img-responsive logo"/></h1>
+				<div class="col-md-12 center-block">
+					<h1><img src="/img/eavest-logo.png" alt="Eavest" class="center-block img-responsive logo"/></h1>
 				</div>
-				<div class="col-xs-12 col-sm-5 col-md-4 connexion-area">
-					<div class="col-md-12">
-						<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
-						<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
-					</div>
-					<div class="col-md-12">
-						<span>
-							<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
-							<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+				<div class="language-switcher navbar-right">
+					<a th:unless="${#authorization.expression('isAuthenticated()')}" href="http://localhost:8080/login" th:href="@{/login}" class="italicized grey-letters auth" th:text="#{eav.login}">Connexion</a>
+					<span th:if="${session.authUserName}" th:text="${session.authUserName}" class="italicized auth">Nom de l'utilisateur</span>
+					<span id="socials">
+						<a href="https://twitter.com/EAVEST_"><i class="fa fa-twitter"></i></a>
+						<a href="?lang=fr" class="language">fr</a>/<a href="?lang=en" class="language">en</a>
+					</span>
+					<div class="zone-transit">
+						<span sec:authorize="isAuthenticated()">
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
+							</form>
+						</span>
+						<span sec:authorize="hasRole('ROLE_ADMIN')">
+							<form th:action="@{/admin}" method="get">
+								<input type="submit" value="Back Office" class="btn btn-default log" />
+							</form>
 						</span>
 					</div>
-					<div class="col-md-12 zone-transit">
-							<span sec:authorize="isAuthenticated()">
-								<ul class="list-inline list-unstyled log-button">
-									<li class="btn-sign-out">
-										<form th:action="@{/logout}" method="post">
-											<input type="submit" value="Sign Out" th:value="#{eav.sign.out}" class="btn btn-default log" />
-										</form>
-									</li>
-									<li class="btn-back">
-										<span sec:authorize="hasRole('ROLE_ADMIN')">
-											<form th:action="@{/admin}" method="get">
-												<input type="submit" value="Back Office" class="btn btn-default log" />
-											</form>
-										</span>
-									</li>
-								</ul>
-							</span>
-						</div>
-					</div>
-			<!-- end nav -->
+				</div>
 			</div>
 
 			<div class="col-md-12 container-fluid navbar">
-				<ul class="navbar-list navbar list-inline list-unstyled">
-					<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
-					<li id="menu-wallet" class="selected"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
-					<li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
-					<li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
-					<li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
+				<ul class="navbar list-inline list-unstyled">
+        	<li id="menu-home"><a href="/home" th:text="#{eav.menu.home}">Home</a></li>
+          <li id="menu-wallet" class="selected"><a href="/wallet" th:text="#{eav.menu.wallet}">Mon Portefeuille</a></li>
+          <li id="menu-method"><a href="http://eavest.com/methodologie-2/" th:text="#{eav.menu.methodology}">Methodologie</a></li>
+          <li id="menu-mesure"><a href="http://eavest.com/sur-mesure/" th:text="#{eav.menu.handmade}">sur-mesure</a></li>
+          <li id="menu-products"><a href="/products" th:text="#{eav.menu.products}">Produits</a></li>
 					<li id="menu-blog"><a href="http://eavest.com/category/blog/" th:text="#{eav.menu.blog}">Le Blog</a></li>
 					<li id="menu-faq"><a href="http://eavest.com/f-a-q/" th:text="#{eav.menu.faq}">FAQ</a></li>
 					<li id="menu-contact"><a href="mailto:contact@eavest.com" th:text="#{eav.menu.contacts}">Contact</a></li>
-				</ul>
+        </ul>
 				<div class="slider_jquery slider hidden-xs">
 					<div class="slider-container"></div>
 				</div>
@@ -114,60 +103,60 @@
 				      <div class="modal-body">
 								<form id="userForm" method="post" class="form-horizontal" th:object="${account}" th:action="@{/user/{id}/updateInfo(id=${prdUser.id})}">
 									<div class="form-group">
-											<label class="col-xs-3 control-label" for="lname" th:text="#{bo.account.last.name}">Nom</label>
-											<div class="col-xs-5">
-												<input id="lname" type="text" name="lastName" class="form-control" th:field="*{lastName}"/>
-											</div>
+										<label class="col-xs-3 control-label" for="lname" th:text="#{bo.account.last.name}">Nom</label>
+										<div class="col-xs-5">
+											<input id="lname" type="text" name="lastName" class="form-control" th:field="*{lastName}"/>
+										</div>
 									</div>
 		    					<div class="form-group">
-		        				<label class="col-xs-3 control-label" for="fname" th:text="#{bo.account.first.name}">Prénom</label>
-		        					<div class="col-xs-5">
-		            				<input id="fname" type="text" name="firstName" class="form-control" th:field="*{firstName}"/>
-		        					</div>
+										<label class="col-xs-3 control-label" for="fname" th:text="#{bo.account.first.name}">Prénom</label>
+										<div class="col-xs-5">
+											<input id="fname" type="text" name="firstName" class="form-control" th:field="*{firstName}"/>
+										</div>
 		    					</div>
 									<div class="form-group">
 		        				<label class="col-xs-3 control-label" for="aname" th:text="#{bo.account.alias.name}">Alias</label>
-		        					<div class="col-xs-5">
-		            				<input id="aname" type="text" name="aliasName" class="form-control" th:field="*{aliasName}"/>
-		        					</div>
+										<div class="col-xs-5">
+											<input id="aname" type="text" name="aliasName" class="form-control" th:field="*{aliasName}"/>
+										</div>
 		    					</div>
 									<div class="form-group">
-											<label class="col-xs-3 control-label" for="company" th:text="#{bo.account.company}">Société</label>
-											<div class="col-xs-5">
-													<input id="company" type="text" name="company" class="form-control" th:field="*{company}"/>
-											</div>
+										<label class="col-xs-3 control-label" for="company" th:text="#{bo.account.company}">Société</label>
+										<div class="col-xs-5">
+												<input id="company" type="text" name="company" class="form-control" th:field="*{company}"/>
+										</div>
 									</div>
 									<div class="form-group">
 											<label class="col-xs-3 control-label" th:text="#{bo.account.country}">Pays</label>
 											<div class="col-xs-5">
-													<input type="text" class="form-control" name="country" th:field="*{country}"/>
+												<input type="text" class="form-control" name="country" th:field="*{country}"/>
 											</div>
 									</div>
 									<div class="form-group">
-											<label class="col-xs-3 control-label" th:text="#{bo.account.mobile}">Numéro de portable</label>
-											<div class="col-xs-5">
-													<input type="tel" class="form-control" name="phone" th:field="*{mobilePhone}"
-													pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
-													th:attr="title=#{conf.phone}" title="Le format d'un numéro de téléphone est attendu. Les espaces sont autorisés." />
-											</div>
+										<label class="col-xs-3 control-label" th:text="#{bo.account.mobile}">Numéro de portable</label>
+										<div class="col-xs-5">
+											<input type="tel" class="form-control" name="phone" th:field="*{mobilePhone}"
+											pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
+											th:attr="title=#{conf.phone}" title="Le format d'un numéro de téléphone est attendu. Les espaces sont autorisés." />
+										</div>
 									</div>
 									<div class="form-group">
-											<label class="col-xs-3 control-label" th:text="#{bo.account.fix}">Numéro de fixe</label>
-											<div class="col-xs-5">
-													<input type="tel" class="form-control" name="phone" th:field="*{fixPhone}"
-													pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
-													th:attr="title=#{conf.phone}" title="Le format d'un numéro de téléphone est attendu. Les espaces sont autorisés." />
-											</div>
+										<label class="col-xs-3 control-label" th:text="#{bo.account.fix}">Numéro de fixe</label>
+										<div class="col-xs-5">
+											<input type="tel" class="form-control" name="phone" th:field="*{fixPhone}"
+											pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$"
+											th:attr="title=#{conf.phone}" title="Le format d'un numéro de téléphone est attendu. Les espaces sont autorisés." />
+										</div>
 									</div>
 							    <div class="form-group">
-							        <div class="col-xs-5 col-xs-offset-3">
-							            <button type="submit" class="btn btn-default"><span th:text="#{usr.save}">Enregistrer les données</span></button>
-							        </div>
+										<div class="col-xs-5 col-xs-offset-3">
+											<button type="submit" class="btn btn-default"><span th:text="#{usr.save}">Enregistrer les données</span></button>
+										</div>
 							    </div>
-							</form>
-							<a class="form-group" th:href="@{/forgotPassword}">
- 				       <button type="button" class="btn btn-default"><span th:text="#{usr.change.pwd}">Modifier le mot de passe</span></button>
- 				     </a>
+								</form>
+								<a class="form-group" th:href="@{/forgotPassword}">
+								 <button type="button" class="btn btn-default"><span th:text="#{usr.change.pwd}">Modifier le mot de passe</span></button>
+							 </a>
 				     </div>
 				     <div class="modal-footer">
 				       <button type="button" class="btn btn-default" data-dismiss="modal" th:value="#{btn.close}">Fermer</button>
